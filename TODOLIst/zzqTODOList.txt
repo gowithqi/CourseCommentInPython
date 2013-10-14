@@ -1,0 +1,1 @@
+some inner function in the model's class
