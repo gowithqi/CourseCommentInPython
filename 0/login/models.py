@@ -16,6 +16,7 @@ class User(models.Model):
 class RegisteringUser(models.Model):
 	class Meta:
 		db_table = "registeringUser"
+		
 	name = models.CharField(max_length = 50, db_column = "name")
 	password = models.CharField(max_length = 50, db_column = "password")
 	status = models.CharField(max_length = 10, db_column = "status")

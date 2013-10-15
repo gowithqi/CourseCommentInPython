@@ -5,14 +5,10 @@ from django.shortcuts import render, get_object_or_404
 # from django.core.urlresolvers import reverse
 # from django.db.models import Avg
 
-from login.models import User, RegisteringUser
+from lecture.models import *
 
-def gossip(request):
-	if request.method != "GET":
-		raise Http404
-
+def lecture(request):
 	print "from hello"
-	return HttpResponse("Here is gossip")
+	return HttpResponse("Hello! this is lecture")
 
-def recordgossip(request): 
-	pass
+
