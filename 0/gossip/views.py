@@ -15,4 +15,5 @@ def gossip(request):
 	return HttpResponse("Here is gossip")
 
 def recordgossip(request): 
-	pass
+	# pass
+	return 

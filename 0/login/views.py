@@ -26,14 +26,14 @@ def userpage(request, username):
 
 def sign(request):
     return HttpResponse("this is sign")
-	if request.method == 'GET':
-		#there is something
-		pass
-	elif request.method == 'POST':
-		pass
-	else:
-		# return 404
-		raise Http404
+	# if request.method == 'GET':
+	# 	#there is something
+	# 	pass
+	# elif request.method == 'POST':
+	# 	pass
+	# else:
+	# 	# return 404
+	# 	raise Http404
 
 def changepassword(request):
 	if request.method != 'POST':
@@ -43,8 +43,8 @@ def changepassword(request):
 		user = User.objects.get(name = request.POST['username'])
 		# something
 	except User.DoesNotExist:
-		pass
-
+		# pass
+		return 
 
 
 
