@@ -9,7 +9,7 @@ from login.models import User, RegisteringUser
 
 def hello(request):
 	print "from hello"
-	return HttpResponse("Hello Moto!")
+	return HttpResponse("Hello Moto! lala")
 
 def userpage(request, username):
 	password = request.POST['password']
