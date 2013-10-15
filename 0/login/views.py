@@ -25,6 +25,7 @@ def userpage(request, username):
 	return HttpResponse(template.render(context))
 
 def sign(request):
+    return HttpResponse("this is sign")
 	if request.method == 'GET':
 		#there is something
 		pass
