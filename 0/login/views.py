@@ -160,7 +160,7 @@ def sign(request):
 		bcms = BaeBcms(const.ACCESS_KEY, const.SECRET_KEY)
 		ret = bcms.createQueue("emailQ")
 		real_qname = str(ret['response_params']['queue_name'])
-		ret = bcms.mail(real_qname, "lalala", ['gowithqi@126.com'], "sjtucourse@baidu.com", "Check You")
+		ret = bcms.mail(real_qname, "lalala", ['gowithqi@126.com'], "sjtucourse@duapp.com", "Check You")
 		ret = bcms.dropQueue(real_qname)
 		return HttpResponse('success in BAE')
 	else :
