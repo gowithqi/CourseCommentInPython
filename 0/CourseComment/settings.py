@@ -38,6 +38,14 @@ else :
         }
     }
 
+# Email Settings
+EMAIL_HOST = "smtp.gmail.com"
+EMAIL_POST = 587
+EMAIL_HOST_USER = "gowithqi@gmail.com"
+EMAIL_HOST_PASSWORD = "zzq_sjtu"
+EMAIL_USE_TLS = True
+EMAIL_SUBJECT_PREFIX = "[sjtucourse] "
+
 # Hosts/domain names that are valid for this site; required if DEBUG is False
 # See https://docs.djangoproject.com/en/1.5/ref/settings/#allowed-hosts
 ALLOWED_HOSTS = ['local.duapp.com', 'sjtucourse.duapp.com']

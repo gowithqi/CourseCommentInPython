@@ -9,6 +9,9 @@ class User(models.Model):
 	password = models.CharField(max_length = 50, db_column = "password")
 	join_time = models.DateField('data published', db_column = "join_time")
 	account = models.CharField(max_length = 50, db_column = "account")
+	check_code = models.BigIntegerField(default = 0, db_column = "check_code")
+	check_status =  models.BooleanField(default=True, db_column = "check_status")
+	formal = models.BooleanField(default = False, db_column = "formal")
 
 	def __unicode__(self):
 		return self.account
