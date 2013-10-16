@@ -1,5 +1,6 @@
 # Create your views here.
 import random
+import os
 import smtplib
 
 from django.http import HttpResponse, Http404, HttpResponseRedirect
@@ -68,11 +69,20 @@ def sendCheckToUser(user, resurl):
 	user.save()
 
 	check_URL = 'http://sjtucourse.duapp.com/'+ resurl + str(user.id) + '/' + str(check_code)
-	try:
-		send_mail('Check You', check_URL, 'gowithqi@gmail.com', [user_account], fail_silently=True)
-	except smtplib.SMTPException:
-		return False
-	return True
+	if 'SERVER_SOFTWARE' in os.environ:
+		from bae.core import const
+		from bae.api.bcms import BaeBcms	
+		bcms = BaeBcms(const.ACCESS_KEY, const.SECRET_KEY)
+		ret = bcms.createQueue("emailQ")
+		real_qname = str(ret['response_params']['queue_name'])
+		ret = bcms.mail(real_qname, check_URL, user_account, "support@baidu.com", "Check Your")
+		return True
+	else:
+		try:
+			send_mail('Check You', check_URL, 'gowithqi@gmail.com', [user_account], fail_silently=True)
+		except smtplib.SMTPException:
+			return False
+		return True
 
 def checkAccountName(request, key, content):
 	if request.method != 'GET':
@@ -143,11 +153,20 @@ def userpage(request, username):
 	return HttpResponse(template.render(context))
 
 def sign(request):
-	try:
-		send_mail('Check You', "lalal", 'gowithqi@gmail.com', ['gowithqi@126.com'], fail_silently=True)
-	except smtplib.SMTPException:
-		return HttpResponse('there is a exception')
-	return HttpResponse('success')
+	if 'SERVER_SOFTWARE' in os.environ:
+		from bae.core import const
+		from bae.api.bcms import BaeBcms	
+		bcms = BaeBcms(const.ACCESS_KEY, const.SECRET_KEY)
+		ret = bcms.createQueue("emailQ")
+		real_qname = str(ret['response_params']['queue_name'])
+		ret = bcms.mail(real_qname, check_URL, user_account, "support@baidu.com", "Check Your")
+		return HttpResponse('success in BAE')
+	else :
+		try:
+			send_mail('Check You', "lalal", 'gowithqi@gmail.com', ['gowithqi@126.com'], fail_silently=True)
+		except smtplib.SMTPSenderRefused:
+			return HttpResponse('there is a exception')
+		return HttpResponse('success')
 
 def changepassword(request):
 	if request.method != 'POST':
