@@ -94,7 +94,7 @@
       $("#account").blur(function(){
         $("#help1").html("");
         if ($(this).val()!=""){
-          $.get("/account/"+$("#account").val(),function(data){
+          $.get("/register/account/"+$("#account").val(),function(data){
             if (data=="no"){
               $("#ac_prompt").html("此邮箱已被注册！");
               $("#ac_prompt").attr("class","text-danger control-label");
@@ -109,7 +109,7 @@
       $("#name").blur(function(){
         $("#help2").html("");
         if ($(this).val()!=""){
-          $.get("/name/"+$("#name").val(),function(data){
+          $.get("/register/name/"+$("#name").val(),function(data){
             if (data=="no"){
               $("#nm_prompt").html("用户名已存在！");
               $("#nm_prompt").attr("class","text-danger control-label");
@@ -203,7 +203,7 @@
         return ($("#ac_prompt").html()+$("#nm_prompt").html()+$("#pw_prompt").html()+$("#cpw_prompt").html()=="");
       }
       function register_post(){
-        $.post("/confirm",
+        $.post("/register",
         {
           account:$("#account").val(),
           name:$("#name").val(),
