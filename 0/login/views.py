@@ -13,19 +13,23 @@ from django.db.models import Q
 from login.models import User, RegisteringUser
 
 def login(request):
-	return HttpResponse("Hi!")
+	# return HttpResponse("Hi!")
 	if request.method == "GET":
-		print "from hello"
-		return HttpResponse("Hello Moto! lala")
-		template = loader.get_template("login/index.html")      # zzq: html
+		# print "from hello"
+		# return HttpResponse("Hello Moto! lala")
+		template = loader.get_template("login/login.html")      # zzq: html
+		context = RequestContext(request, {
+			'u': '123'
+		})
+		return HttpResponse(template.render(context))
 	elif request.method == "POST":
 		try:
 			username = request.POST['username']
 			user = User.objects.get(Q(account=username) | Q(name=username))
 			if user.password != request.POST['password']:
 				return HttpResponse("password")
-			template = loader.get_template("login/userpage.html")      # zzq: html
-			return HttpResponse(template.render())
+			template = loader.get_template("lecture/index.html")      # zzq: html
+			return HttpResponse(template)
 		except User.DoesNotExist:
 			return HttpResponse("username")
 	else :
@@ -34,35 +38,41 @@ def login(request):
 def register(request):
 	if request.method == "GET":
 		template = loader.get_template("login/register.html")      #zzq: html
-		return HttpResponse(template.render())
+		return HttpResponse(template.render(RequestContext(request, {})))
 	elif request.method == "POST":
+		print "there is /register POST"
 		registering_user = User.objects.create(account=request.POST['account'],
 										name = request.POST['name'],
 										password = request.POST['password'])
 		sendCheckToUser(registering_user, 'register/checkuser/')
+		return HttpResponse()
 	else:
 		raise Http404
+
 
 def regCheckUser(request, user_id, check_code):
 	if request.method != 'GET':
 		raise Http404
 
 	user = User.objects.get(id = user_id)
+	check_code = long(check_code)
+	print "user.check_code", type(user.check_code), "check_code", type(check_code)
 	if user.check_code != check_code :
 		return HttpResponse("check code is wrong!")
 
 	user.check_status = False
 	user.formal = True
 	user.save()
-	template = loader.get_template("login/registerSuccess.html")      #zzq: html
-	context = RequestContext(requset, {
+	template = loader.get_template("login/register_success.html")      #zzq: html
+	context = RequestContext(request, {
 		'u': user
 		})
 	return HttpResponse(template.render(context))
 
 def sendCheckToUser(user, resurl):
 	#check user
-	check_code = random.getrandbits(64)	
+	check_code = random.getrandbits(60)	
+	print "check_code is " + str(check_code)
 	user_account = user.account
 	user.check_code = check_code
 	user.check_status = True

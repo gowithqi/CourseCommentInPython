@@ -84,7 +84,44 @@
     <script src="{% static 'js/jquery-1.10.2.min.js' %}"></script>
     <script src="{% static 'js/jquery-migrate-1.2.1.min.js' %}"></script>
     <script src="{% static 'js/bootstrap.min.js' %}"></script>
-    <script src="{% static 'js/myjquery.js' %}"></script>
+    <script >
+    jQuery(document).ajaxSend(function(event, xhr, settings) {  
+      function getCookie(name) {  
+          var cookieValue = null;  
+          if (document.cookie &&document.cookie != '') {  
+              var cookies= document.cookie.split(';');  
+              for (var i =0; i < cookies.length; i++) {  
+                 var cookie = jQuery.trim(cookies[i]);  
+                 // Does this cookie string begin with the name we want?  
+                 if (cookie.substring(0, name.length + 1) == (name + '=')) {  
+                     cookieValue = decodeURIComponent(cookie.substring(name.length + 1));  
+                     break;  
+                 }  
+              }  
+          }  
+          return cookieValue;  
+      }  
+      function sameOrigin(url) {  
+          // url could be relative or schemerelative or absolute  
+          var host = document.location.host;// host + port  
+          var protocol =document.location.protocol;  
+          var sr_origin = '//' + host;  
+          var origin = protocol + sr_origin;  
+          // Allow absolute or scheme relativeURLs to same origin  
+          return (url == origin ||url.slice(0, origin.length + 1) == origin + '/') ||  
+              (url ==sr_origin || url.slice(0, sr_origin.length + 1) == sr_origin + '/') ||  
+              // or anyother URL that isn't scheme relative or absolute i.e relative.  
+             !(/^(\/\/|http:|https:).*/.test(url));  
+      }  
+      function safeMethod(method) {  
+          return(/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));  
+      }  
+      if(!safeMethod(settings.type) && sameOrigin(settings.url)) {  
+         xhr.setRequestHeader("X-CSRFToken", getCookie('csrftoken'));  
+      }  
+     });  
+    </script>
+    <!-- <script src="{% static 'js/myjquery.js' %}"></script> -->
     <script>
       $("#account").focus(function(){
         $("#help1").html("即jaccount帐号");
@@ -201,10 +238,13 @@
           $("#cpw_prompt").html("请确认密码！");
           $("#cpw_prompt").attr("class","text-warning control-label");
         }
-        return ($("#ac_prompt").html()+$("#nm_prompt").html()+$("#pw_prompt").html()+$("#cpw_prompt").html()=="");
+        //return ($("#ac_prompt").html()+$("#nm_prompt").html()+$("#pw_prompt").html()+$("#cpw_prompt").html()=="");
+        // zzq
+        return true;
       }
       function register_post(){
-        $.post("/register",
+        alert("345");
+        $.post("/register/",
         {
           account:$("#account").val(),
           name:$("#name").val(),
@@ -214,7 +254,23 @@
           alert("我们已向您的邮箱发送验证信息，请登录邮箱完成注册！");
         });
       }
-      csrfsettings();
+      // function csrfsettings(){
+      // alert("csrf");
+      // var csrftoken = $.cookie('csrftoken');
+      // function csrfSafeMethod(method) {
+      //     // these HTTP methods do not require CSRF protection
+      //     return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
+      // }
+      // $.ajaxSetup({
+      //     crossDomain: false, // obviates need for sameOrigin test
+      //     beforeSend: function(xhr, settings) {
+      //         if (!csrfSafeMethod(settings.type)) {
+      //             xhr.setRequestHeader("X-CSRFToken", csrftoken);
+      //         }
+      //     }
+      // });
+      // }
+      // csrfsettings();
       $(".enter").keydown(function(e){
         if (e.keyCode==13){
           e.preventDefault();
@@ -224,6 +280,7 @@
         }
       });
       $("#submit").click(function(e){
+        //alert("123");
         e.preventDefault();
         if (check()){
           register_post();
