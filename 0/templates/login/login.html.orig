@@ -76,7 +76,10 @@
     <script src="{% static 'js/bootstrap.min.js' %}"></script>
     <script src="{% static 'js/myjquery.js' %}"></script>
     <script>
-      jQuery(document).ajaxSend(function(event, xhr, settings));
+<<<<<<< HEAD
+=======
+      // csrfsettings();
+>>>>>>> origin/master
       function login_post(){
         $.post("/login/",
         {
