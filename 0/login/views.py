@@ -13,6 +13,7 @@ from django.db.models import Q
 from login.models import User, RegisteringUser
 
 def login(request):
+	print request.method, type(request.method)
 	# return HttpResponse("Hi!")
 	if request.method == "GET":
 		# print "from hello"
@@ -23,13 +24,14 @@ def login(request):
 		})
 		return HttpResponse(template.render(context))
 	elif request.method == "POST":
+		print "login_POST"
 		try:
 			username = request.POST['username']
-			user = User.objects.get(Q(account=username) | Q(name=username))
+			user = User.objects.get((Q(account=username) | Q(name=username)) & (Q(formal=True)))
 			if user.password != request.POST['password']:
 				return HttpResponse("password")
 			template = loader.get_template("lecture/index.html")      # zzq: html
-			return HttpResponse(template)
+			return HttpResponse(template.render(RequestContext(request, {})))
 		except User.DoesNotExist:
 			return HttpResponse("username")
 	else :
