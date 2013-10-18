@@ -31,8 +31,8 @@
       <form class="form-horizontal" role="form">
         <div class="form-group">
           <label for="account" class="col-sm-2 control-label">邮箱<span id="help1" class="help-block"></span></label>
-          <div class="input-group enter col-sm-3">
-            <input type="text" class="form-control" id="account" placeholder="邮箱">
+          <div class="input-group col-sm-3">
+            <input type="text" class="form-control enter" id="account" placeholder="邮箱">
             <span class="input-group-addon">@sjtu.edu.cn</span>
           </div>
           <div class="col-sm-2">
@@ -88,29 +88,29 @@
     <script>
       $("#account").focus(function(){
         $("#help1").html("即jaccount帐号");
-      })
+      });
       $("#name").focus(function(){
         $("#help2").html("3-20位中英字符和数字 不区分大小写");
       })
       $("#account").blur(function(){
         $("#help1").html("");
         if ($(this).val()!=""){
-          $.get("/register/account/"+$("#account").val(),function(data){
+          $.get("/register/account/"+$("#account").val()+"/",function(data){
             if (data=="no"){
               $("#ac_prompt").html("此邮箱已被注册！");
               $("#ac_prompt").attr("class","text-danger control-label");
             }
             else{
-              $("#ac_prompt").html("");
+              $("#ac_prompt").html("正确");
               $("#ac_prompt").attr("class","text-success control-label");
             }
-          })
+          });
         }
-      })
+      });
       $("#name").blur(function(){
         $("#help2").html("");
         if ($(this).val()!=""){
-          $.get("/register/name/"+$("#name").val(),function(data){
+          $.get("/register/name/"+$("#name").val()+"/",function(data){
             if (data=="no"){
               $("#nm_prompt").html("用户名已存在！");
               $("#nm_prompt").attr("class","text-danger control-label");
@@ -119,12 +119,12 @@
               $("#nm_prompt").html("正确");
               $("#nm_prompt").attr("class","text-success control-label");
             }
-          })
+          });
         }
-      })
+      });
       $("#password").focus(function(){
         $("#help3").html("6-16位英文字符、数字和特殊符号，区分大小写");
-      })
+      });
       $("#password").blur(function(){
         $("#help3").html("");
         if ($(this).val()!="")
@@ -201,26 +201,36 @@
           $("#cpw_prompt").html("请确认密码！");
           $("#cpw_prompt").attr("class","text-warning control-label");
         }
-        return ($("#ac_prompt").html()+$("#nm_prompt").html()+$("#pw_prompt").html()+$("#cpw_prompt").html()=="");
+        return ($("#ac_prompt").html()+$("#nm_prompt").html()+$("#pw_prompt").html()+$("#cpw_prompt").html()=="正确正确正确正确");
       }
       function register_post(){
-        $.post("/register",
+        $.post("/register/",
         {
-          account:$("#account").val(),
+          account:$("#account").val()+"@sjtu.edu.cn",
           name:$("#name").val(),
-          password:$("#password").val()
+          password:hex_md5($("#password").val())
         },
         function(){
           alert("我们已向您的邮箱发送验证信息，请登录邮箱完成注册！");
         });
       }
-      csrfsettings();
+      var last=0;
       $(".enter").keydown(function(e){
-        if (e.keyCode==13){
-          e.preventDefault();
-          if (check()){
-            register_post();
+        if (e.keyCode==40||e.keyCode==38)
+          last=1;
+        else{
+          if (e.keyCode==13)
+          {
+            e.preventDefault();
+            if (last==0)
+            {            
+              e.preventDefault();
+              if (check()){
+                register_post();
+              }
+            }
           }
+          last=0;
         }
       });
       $("#submit").click(function(e){
