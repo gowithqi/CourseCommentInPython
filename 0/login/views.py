@@ -16,13 +16,9 @@ def login(request):
 	print request.method, type(request.method)
 	# return HttpResponse("Hi!")
 	if request.method == "GET":
-		# print "from hello"
-		# return HttpResponse("Hello Moto! lala")
-		template = loader.get_template("login/login.html")      # zzq: html
-		context = RequestContext(request, {
-			'u': '123'
-		})
-		return HttpResponse(template.render(context))
+		if not ('user_id' in request.session): 
+			template = loader.get_template("login/login.html")      # zzq: html
+			return HttpResponse(template.render(RequestContext(request, {})))
 	elif request.method == "POST":
 		print "login_POST"
 		try:
@@ -30,12 +26,27 @@ def login(request):
 			user = User.objects.get((Q(account=username) | Q(name=username)) & (Q(formal=True)))
 			if user.password != request.POST['password']:
 				return HttpResponse("password")
-			template = loader.get_template("lecture/index.html")      # zzq: html
-			return HttpResponse(template.render(RequestContext(request, {})))
+			request.session['user_id'] = user.id
 		except User.DoesNotExist:
 			return HttpResponse("username")
 	else :
 		raise Http404
+
+	template = loader.get_template("lecture/index.html")      # zzq: html
+	return HttpResponse(template.render(RequestContext(request, {})))
+
+def logout(request):
+	if request.method != 'GET': raise Http404
+	try:
+		del request.session['user_id']
+	except KeyError:
+		pass
+
+	return HttpResponse("logout")
+
+def checkUserLogin(request):
+	if 'user_id' in request.session: return True
+	raise Http404
 
 def register(request):
 	if request.method == "GET":
@@ -80,8 +91,9 @@ def sendCheckToUser(user, resurl):
 	user.check_status = True
 	user.save()
 
-	check_URL = 'http://sjtucourse.duapp.com/'+ resurl + str(user.id) + '/' + str(check_code)
+	check_URL = resurl + str(user.id) + '/' + str(check_code)
 	if 'SERVER_SOFTWARE' in os.environ:
+		check_URL = 'http://sjtucourse.duapp.com/' + check_URL
 		from bae.core import const
 		from bae.api.bcms import BaeBcms	
 		bcms = BaeBcms(const.ACCESS_KEY, const.SECRET_KEY)
@@ -91,6 +103,7 @@ def sendCheckToUser(user, resurl):
 		ret = bcms.dropQueue(real_qname)
 		return True
 	else:
+		check_URL = '127.0.0.1:8000/' +  check_URL
 		try:
 			send_mail('Check You', check_URL, 'gowithqi@gmail.com', [user_account], fail_silently=True)
 		except smtplib.SMTPException:

@@ -17,4 +17,7 @@ urlpatterns = patterns('',
     url(r'^', include('login.urls')),
     url(r'^gossip/', include('gossip.urls')),
     url(r'^lecture/', include('lecture.urls')),
+    url(r'^search/', include('search.urls')),
+    url(r'^userpage/', include('userpage.urls')),
+    url(r'^comment/', include('comment.urls')),
 )
