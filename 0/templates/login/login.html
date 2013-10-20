@@ -1,4 +1,5 @@
 {% load staticfiles %}
+{% csrf_token %}
 <!DOCTYPE html>
 <html lang="zh">
 	<head>
@@ -12,6 +13,8 @@
 
 		<!-- Bootstrap core CSS -->
 		<link href="{% static 'css/bootstrap.min.css' %}" type="text/css" rel="stylesheet">
+
+    <!-- <script src="https://raw.github.com/ebertti/js-csrf-django/master/csrf.js"></script> -->
 
     <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!--[if lt IE 9]>
@@ -27,8 +30,9 @@
         <h1>课程点评网</h1>
         <p class="lead">让选课更欢乐</p>
       </div>
-      {% csrf_token %}
+      
       <form class="form-horizontal" role="form">
+        
         <div class="form-group">
           <label for="username" class="col-sm-2 control-label">用户名/邮箱</label>
           <div class="col-sm-3 enter">
@@ -75,12 +79,18 @@
     <script src="{% static 'js/jquery-1.10.2.min.js' %}"></script>
     <script src="{% static 'js/jquery-migrate-1.2.1.min.js' %}"></script>
     <script src="{% static 'js/bootstrap.min.js' %}"></script>
-    <script src="{% static 'js/csrftoken.js' %}"></script>
     <!-- <script src="{% static 'js/myjquery.js' %}"></script> -->
+    <script src="{% static 'js/csrftoken.js' %}"></script>
     <script>
       $(document).ready(function(){
         $.csrftoken();
       });
+    </script>
+    
+    <script>
+      // $(document).ready(function(){
+      //   $.csrftoken();
+      // });
       function login_post(){
         $.post("/",
         {
