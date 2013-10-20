@@ -32,7 +32,7 @@ def login(request):
 	else :
 		raise Http404
 
-	template = loader.get_template("userpage/userpage.html")      # zzq: html
+	template = loader.get_template("lecture/index.html")      # zzq: html
 	return HttpResponse(template.render(RequestContext(request, {})))
 
 def logout(request):

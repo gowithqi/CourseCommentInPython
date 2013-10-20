@@ -111,6 +111,9 @@
             }
           });
         }
+        else
+          if ($("#ac_prompt").attr("class")!="text-warning control-label")
+            $("#ac_prompt").html("");
       });
       $("#name").blur(function(){
         $("#help2").html("");
@@ -126,6 +129,9 @@
             }
           });
         }
+        else
+          if ($("#nm_prompt").attr("class")!="text-warning control-label")
+            $("#nm_prompt").html("");
       });
       $("#password").focus(function(){
         $("#help3").html("6-16位英文字符、数字和特殊符号，区分大小写");
