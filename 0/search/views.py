@@ -16,7 +16,8 @@ def autoComplete(request):
 	content = request.POST['content']
 	courseList = Course.objects.filter(name__startswith=content)[:5]
 	res = ''
-	for c in courseList: res = c.name + '\n'
+	for c in courseList: 
+		res = res + c.name + '\n'
 	res = res[:-1]
 
 	return HttpResponse(res)
@@ -25,11 +26,13 @@ def searchLecture(request):
 	if request.method != 'POST': raise Http404
 
 	checkUserLogin(request)
-	course = Course.objects.filter(name=request.POST['content'])[0]
-	lectures = course.lecture_set.all()
-
-	template = loader.get_template("lecture/lecture.html")
-	context = RequestContext(request, {
-		'l': lectures,
-		})
-	return HttpResponse(template.render(context))
+	lecture_id = 0
+	try:
+		course = Course.objects.get(name=request.POST['content'])
+		lectures = course.lecture_set.all()
+		if len(lectures) > 0: lecture_id = lectures[0].id
+		else : lecture_id = -1
+	except Course.DoesNotExist:
+		lecture_id = -1
+	
+	return HttpResponse("/lecture/" + str(lecture_id) + "/")

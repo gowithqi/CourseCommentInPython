@@ -126,7 +126,7 @@ def checkAccountName(request, key, content):
 def setPassword(request):
 	if request.method == "GET":
 		template = loader.get_template("login/setpassword.html")     # zzq: html
-		return HttpResponse(template)
+		return HttpResponse(template.render(RequestContext(request, {})))
 	elif (request.method == "POST"):
 		account = request.POST['account']
 		name = request.POST['name']

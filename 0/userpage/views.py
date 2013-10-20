@@ -14,7 +14,7 @@ def changeLecture(request):
 	res = ''
 	for l in lectures:
 		lurl = '/lecture/' + str(l.id)
-		res = res + l.course.name + ':' + l.professor.name + ':' + str(l.level) + ':' + lurl + '\n'
+		res = res + l.course.name + ':' + l.professor.name + ':' + str(l.level) + ':' + lurl + '/\n'
 	res = res[:-1]
 
 	return HttpResponse(res)
