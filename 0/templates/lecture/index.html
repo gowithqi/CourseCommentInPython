@@ -1,5 +1,4 @@
 {% load staticfiles %}
-{% csrf_token %}
 <!DOCTYPE html>
 <html lang="zh">
 	<head>
@@ -24,6 +23,7 @@
 	</head>
 
 	<body>
+    {% csrf_token %}
     <div class="container">
       <nav class="navbar navbar-inverse" role="navigation">
         <!-- Brand and toggle get grouped for better mobile display -->
