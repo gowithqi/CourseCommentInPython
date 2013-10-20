@@ -11,8 +11,9 @@ from login.views import checkUserLogin
 
 def getLecture(request, lecture_id):
 	if request.method != 'GET': raise Http404
-
+	print "123"
 	checkUserLogin(request)
+	print lecture_id, type(lecture_id)
 	lecture_id = int(lecture_id)
 
 	try:
