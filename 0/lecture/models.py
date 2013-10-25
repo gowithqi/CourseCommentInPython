@@ -8,13 +8,16 @@ class Course(models.Model):
 
 	name = models.CharField(max_length = 50, db_column = "name")
 	number = models.CharField(max_length = 10, db_column = "number")
+	credit = models.FloatField(default = 0, db_column = "credit")
+	school = models.CharField(max_length = 50, db_column = "school")
 
 class Professor(models.Model):
 	class Meta:
 		db_table = "professor"
 
-	name = models.CharField(max_length = 10, db_column = "name")
+	name = models.CharField(max_length = 50, db_column = "name")
 	number = models.CharField(max_length = 20, db_column = "number")
+	title = models.CharField(max_length = 50, db_column = "title")
 
 class Lecture(models.Model):
 	class Meta:
