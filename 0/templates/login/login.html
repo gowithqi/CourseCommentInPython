@@ -106,7 +106,7 @@
               $("#un_prompt").html("用户名不存在！");
             }
           else{
-            document.write(data);
+            window.location.assign("/"+data+"/");
           }
         });
       }

@@ -7,13 +7,11 @@
 		<meta name="description" content="login">
     <meta name="author" content="lyw">
     <link href="{% static 'img/icon.png' %}" rel="icon">
-		<!-- <link href="../../static/img/icon.png" rel="icon"> -->
 
 		<title>课程点评网</title>
 
 		<!-- Bootstrap core CSS -->
     <link href="{% static 'css/bootstrap.min.css' %}" type="text/css" rel="stylesheet">
-		<!-- <link href="../../static/css/bootstrap.css" type="text/css" rel="stylesheet"> -->
 
     <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!--[if lt IE 9]>
@@ -68,38 +66,7 @@
         </div><!-- /.navbar-collapse -->
       </nav>
 
-      <table class="table table-striped">
-        <thead>
-          <tr>
-            <th></th>
-            <th>课程名</th>
-            <th>老师</th>
-            <th>评分</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td>1</td>
-            <td><a href="/lecture/1/">程序设计思想与方法</a></td>
-            <td>陆朝俊</td>
-            <td>5</td>
-          </tr>
-          <tr>
-            <td>2</td>
-            <td><a href="/lecture/2/">编译原理</a></td>
-            <td>吴帆</td>
-            <td>3</td>
-          </tr>
-          <tr>
-            <td>3</td>
-            <td><a href="/lecture/3/">软件工程</a></td>
-            <td>盛斌</td>
-            <td>0</td>
-          </tr>
-        </tbody>
-      </table>
-
-      <div class="col-sm-8">
+      <div class="col-sm-9">
         <div id="carousel-example-generic" class="carousel slide" data-ride="carousel">
           <!-- Indicators -->
           <ol class="carousel-indicators">
@@ -112,21 +79,24 @@
           
           <div class="carousel-inner">
             <div class="item active">
+              <img src="{% static 'img/slide0' %}">
               <div class="carousel-caption">
-                <h3><a href"#">课程名1</a></h3>
-                <p>老师</p>
+                <h3><a href="/lecture/1/">算法与复杂性</a></h3>
+                <p>陈翌佳</p>
               </div>
             </div>
             <div class="item">
+              <img src="{% static 'img/slide1' %}">
               <div class="carousel-caption">
-                <h3>课程名2</h3>
-                <p>老师</p>
+                <h3><a href="/lecture/2/">编译原理</a></h3>
+                <p>吴帆</p>
               </div>
             </div>
             <div class="item">
+              <img src="{% static 'img/slide2' %}">
               <div class="carousel-caption">
-                <h3>课程名3</h3>
-                <p>老师</p>
+                <h3><a href="/lecture/3/">软件工程</a></h3>
+                <p>盛斌</p>
               </div>
             </div>
           </div>
@@ -136,15 +106,104 @@
           <a class="right carousel-control" href="#carousel-example-generic" data-slide="next">&gt;</a>
         </div><!-- carousel -->
       </div>
+      
+      <div class="col-sm-6">
+        <div class="panel panel-primary">
+          <div class="panel-heading">必修课排行</div>
+          <table class="table">
+            <thead>
+              <tr>
+                <th></th> <th>课程名</th> <th>老师</th> <th>评分</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>1</td> <td><a href="/lecture/1/">算法与复杂性</a></td> <td>陈翌佳</td> <td>5</td>
+              </tr>
+              <tr>
+                <td>2</td> <td><a href="/lecture/2/">编译原理</a></td> <td>吴帆</td> <td>3</td>
+              </tr>
+              <tr>
+                <td>3</td> <td><a href="/lecture/3/">软件工程</a></td> <td>盛斌</td> <td>0</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <div class="col-sm-6">
+        <div class="panel panel-primary">
+          <div class="panel-heading">必修课排行</div>
+          <table class="table">
+            <thead>
+              <tr>
+                <th></th> <th>课程名</th> <th>老师</th> <th>评分</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>1</td> <td><a href="/lecture/1/">算法与复杂性</a></td> <td>陈翌佳</td> <td>5</td>
+              </tr>
+              <tr>
+                <td>2</td> <td><a href="/lecture/2/">编译原理</a></td> <td>吴帆</td> <td>3</td>
+              </tr>
+              <tr>
+                <td>3</td> <td><a href="/lecture/3/">软件工程</a></td> <td>盛斌</td> <td>0</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <div class="col-sm-6">
+        <div class="panel panel-primary">
+          <div class="panel-heading">必修课排行</div>
+          <table class="table">
+            <thead>
+              <tr>
+                <th></th> <th>课程名</th> <th>老师</th> <th>评分</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>1</td> <td><a href="/lecture/1/">算法与复杂性</a></td> <td>陈翌佳</td> <td>5</td>
+              </tr>
+              <tr>
+                <td>2</td> <td><a href="/lecture/2/">编译原理</a></td> <td>吴帆</td> <td>3</td>
+              </tr>
+              <tr>
+                <td>3</td> <td><a href="/lecture/3/">软件工程</a></td> <td>盛斌</td> <td>0</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <div class="col-sm-6">
+        <div class="panel panel-primary">
+          <div class="panel-heading">必修课排行</div>
+          <table class="table">
+            <thead>
+              <tr>
+                <th></th> <th>课程名</th> <th>老师</th> <th>评分</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>1</td> <td><a href="/lecture/1/">算法与复杂性</a></td> <td>陈翌佳</td> <td>5</td>
+              </tr>
+              <tr>
+                <td>2</td> <td><a href="/lecture/2/">编译原理</a></td> <td>吴帆</td> <td>3</td>
+              </tr>
+              <tr>
+                <td>3</td> <td><a href="/lecture/3/">软件工程</a></td> <td>盛斌</td> <td>0</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
     </div><!-- container -->
 
     <!-- Bootstrap core JavaScript
     ================================================== -->
     <!-- Placed at the end of the document so the pages load faster -->
-    <!-- <script src="../../static/js/jquery-1.10.2.min.js"></script>
-    <script src="../../static/js/jquery-migrate-1.2.1.min.js"></script>
-    <script src="../../static/js/bootstrap.min.js"></script>
-    <script src="../../static/js/csrftoken.js"></script> -->
     <script src="{% static 'js/jquery-1.10.2.min.js' %}"></script>
     <script src="{% static 'js/jquery-migrate-1.2.1.min.js' %}"></script>
     <script src="{% static 'js/bootstrap.min.js' %}"></script>
@@ -154,39 +213,59 @@
         $.csrftoken();
       });
       var curSlide=0;
-      function change_slides(){
-        var nextSlide=curSlide+1;
-        if (nextSlide==3)
-          nextSlide=0;
-        var indicator=$(".carousel-indicators").children();
-        var curInn=$(".carousel-inner").children().eq(curSlide),
-            nextInn=$(".carousel-inner").children().eq(nextSlide);
-        indicator.eq(curSlide).attr("class","");
-        curInn.attr("class","item active left");
-        nextInn.attr("class","item next left");
-        setTimeout("",1000);
-        indicator.eq(nextSlide).attr("class","active");
-        curInn.attr("class","item");
-        nextInn.attr("class","item active");
-        curSlide=nextSlide;
-        setTimeout("change_slides",3000);
+      // function change_slides(){
+      //   var nextSlide=curSlide+1;
+      //   if (nextSlide==3)
+      //     nextSlide=0;
+      //   var indicator=$(".carousel-indicators").children();
+      //   var curInn=$(".carousel-inner").children().eq(curSlide),
+      //       nextInn=$(".carousel-inner").children().eq(nextSlide);
+      //   indicator.eq(curSlide).attr("class","");
+      //   curInn.attr("class","item active left");
+      //   nextInn.attr("class","item next left");
+      //   setTimeout("",1000);
+      //   indicator.eq(nextSlide).attr("class","active");
+      //   curInn.attr("class","item");
+      //   nextInn.attr("class","item active");
+      //   curSlide=nextSlide;
+      //   setTimeout("change_slides",3000);
+      // }
+      // function clear(clr){
+      //   $("#search").blur(function(){
+      //     alert("Good Job");
+      //     clearInterval(clr);
+      //   });
+      // }
+      var laststr="";
+
+      setInterval("auto_complete()",1000);
+      function auto_complete(){
+        if ($("#search").val()!=""&&laststr!=$("#search").val()){
+          laststr=$("#search").val();
+          // alert($("#search").val());
+          $.post("/search/lecture/autocomplete/",
+            {
+              content:$("#search").val()
+            },
+            function(data){
+              var s=data.split("\n");
+              $("#complete").html(function(){
+                var list="";
+                for (var i=0;i<s.length;i++)
+                  list=list+"<li><a href='#' id='li"+i+"' onclick='$(\"#search\").val(\""+s[i]+"\")'>"+s[i]+"</a></li>";
+                return list;
+              });
+            }
+          );
+        }
       }
-      $("#search").change(function(){
-        $.post("/search/lecture/autocomplete/",
-          {
-            content:$(this).val()
-          },
-          function(data){
-            var s=data.split("\n");
-            $("#complete").html(function(){
-              var list="";
-              for (var i=0;i<s.length;i++)
-                list=list+"<li><a href='#' id='li"+i+"' onclick='$(\"#search\").val(\""+s[i]+"\")'>"+s[i]+"</a></li>";
-              return list;
-            });
-          }
-        );
-      });
+      // $("#search").keydown(function(e){
+        // alert(this.focus());
+        
+        // auto_complete();
+        //var clr=setInterval("auto_complete()",1000);
+        //clear(clr);
+      // });
       $("#submit").click(function(){
         $.post("/search/lecture/",
           {
@@ -203,7 +282,7 @@
           for (var i=0;i<3;i++){
 
           }
-        })
+        });
       }
     </script>
 	</body>
