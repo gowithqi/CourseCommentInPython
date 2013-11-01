@@ -71,5 +71,11 @@ def commentLecture(request):
 	# get a comment
 	lecture_comment = LectureComment.objects.create()
 
+def test(request, lecture_id):
+	lecture = get_object_or_404(Lecture, id=lecture_id)
 
+	lectures = lecture.course.lecture_set.all()
+	for lecture in lectures:
+		print lecture.course.name, lecture.professor.name
 
+	return HttpResponse()

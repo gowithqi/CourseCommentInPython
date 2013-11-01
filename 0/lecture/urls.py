@@ -6,4 +6,5 @@ urlpatterns = patterns('',
 	url(r'^(?P<lecture_id>\d+)/$', views.getLecture, name='lecture'),
 	url(r'^recordscore/(?P<lecture_id>\d+)/$', views.recordStudentScore),
 	url(r'^recordlevel/(?P<lecture_id>\d+)/$', views.recordLevel),
+	url(r'^test/(?P<lecture_id>\d+)/$', views.test),
 )

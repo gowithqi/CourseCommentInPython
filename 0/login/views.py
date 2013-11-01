@@ -7,6 +7,7 @@ from django.http import HttpResponse, Http404, HttpResponseRedirect
 from django.template import RequestContext, loader
 from django.shortcuts import render, get_object_or_404
 from django.core.mail import send_mail
+from django.views.decorators.http import require_http_methods
 # from django.core.urlresolvers import reverse
 from django.db.models import Q
 
@@ -27,13 +28,14 @@ def login(request):
 			if user.password != request.POST['password']:
 				return HttpResponse("password")
 			request.session['user_id'] = user.id
+			return HttpResponse(user.id)
 		except User.DoesNotExist:
 			return HttpResponse("username")
 	else :
 		raise Http404
 
-	template = loader.get_template("userpage/userpage.html")      # zzq: html
-	return HttpResponse(template.render(RequestContext(request, {})))
+	# template = loader.get_template("userpage/userpage.html")      # zzq: html
+	# return HttpResponse(template.render(RequestContext(request, {})))
 
 def logout(request):
 	if request.method != 'GET': raise Http404
@@ -53,15 +55,16 @@ def register(request):
 		template = loader.get_template("login/register.html")      #zzq: html
 		return HttpResponse(template.render(RequestContext(request, {})))
 	elif request.method == "POST":
-		print "there is /register POST"
-		registering_user = User.objects.create(account=request.POST['account'],
-										name = request.POST['name'],
-										password = request.POST['password'])
-		sendCheckToUser(registering_user, 'register/checkuser/')
+		if not ('have_register' in request.session):									
+			request.session['have_register'] = True
+			print "there is /register POST"
+			registering_user = User.objects.create(account=request.POST['account'],
+											name = request.POST['name'],
+											password = request.POST['password'])
+			sendCheckToUser(registering_user, 'register/checkuser/')
 		return HttpResponse()
 	else:
 		raise Http404
-
 
 def regCheckUser(request, user_id, check_code):
 	if request.method != 'GET':
@@ -165,14 +168,11 @@ def setNewPassword(request):
 
 	return HttpResponse("yes")
 
-def userpage(request, username):
-	password = request.POST['password']
-	try:
-		user = User.objects.get(name=username)
-	except User.DoesNotExist:
-		raise Http404
-
-	template = loader.get_template("*.html")
+@require_http_methods(['GET'])
+def userpage(request, user_id):
+	if not ('user_id' in request.session): raise Http404
+	user = get_object_or_404(User, id=user_id)
+	template = loader.get_template("userpage/userpage.html")
 	context = RequestContext(request, {
 		'u': user,
 		})
