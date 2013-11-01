@@ -76,6 +76,10 @@ def test(request, lecture_id):
 
 	lectures = lecture.course.lecture_set.all()
 	for lecture in lectures:
+		aa = lecture.lecturecomment_set.all()
+		for a  in aa:
+			print a.content
 		print lecture.course.name, lecture.professor.name
+		print
 
 	return HttpResponse()
