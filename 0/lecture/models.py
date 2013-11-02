@@ -44,7 +44,7 @@ class LectureCommentSuperRecord(models.Model):
 	class Meta:
 		db_table = "lectureCommentSuperRecord"
 
-	lectureComment = models.ForeignKey(LectureComment, db_column = "lectureComment_id")
+	lecture_comment = models.ForeignKey(LectureComment, db_column = "lectureComment_id")
 	user = models.ForeignKey(User, db_column = "user_id")
 	time = models.DateTimeField("data published", db_column = "time")
 
