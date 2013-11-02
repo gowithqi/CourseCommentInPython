@@ -13,6 +13,7 @@ def super(request, comment_id):
 
 	checkUserLogin(request)
 	user = get_object_or_404(User, id=request.session['user_id'])
+	user.influence_factor = user.influence_factor+1 			#influence factor caculation need to be discussed
 	comment_id = int(comment_id)
 	comment = get_object_or_404(LectureComment, id=comment_id)
 	LectureCommentSuperRecord.objects.create(lecture_comment=comment, user=user)
@@ -20,11 +21,11 @@ def super(request, comment_id):
 	comment.save()
 
 	try:
-		message = MessageOfCommentSuper.objects.get(user=user, lecture_comment=comment)
+		message = MessageOfCommentSuper.objects.get(user=comment.user, lecture_comment=comment)
 		message.super_added = message.super_added+1
 		message.save()
 	except MessageOfCommentSuper.DoesNotExist:
-		message = MessageOfCommentSuper.objects.create(user=user, lecture_comment=comment)
+		message = MessageOfCommentSuper.objects.create(user=comment.user, lecture_comment=comment)
 
 	return HttpResponse()
 
@@ -33,6 +34,7 @@ def deSuper(request, comment_id):
 
 	checkUserLogin(request)
 	user = get_object_or_404(User, id=request.session['user_id'])
+	user.influence_factor = user.influence_factor-1				#influence factor
 	comment_id = int(comment_id)
 	comment = get_object_or_404(LectureComment, id=comment_id)
 	try:
@@ -44,12 +46,12 @@ def deSuper(request, comment_id):
 	comment.save()
 
 	try:
-		message = MessageOfCommentSuper.objects.get(user=user, lecture_comment=comment)
+		message = MessageOfCommentSuper.objects.get(user=comment.user, lecture_comment=comment)
 		message.super_added = message.super_added-1
 		message.save()
 	except MessageOfCommentSuper.DoesNotExist:
 		raise Http404
-		
+
 	return HttpResponse()
 
 def commentLecture(request, lecture_id):

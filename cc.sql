@@ -265,7 +265,7 @@ CREATE TABLE `django_session` (
 
 LOCK TABLES `django_session` WRITE;
 /*!40000 ALTER TABLE `django_session` DISABLE KEYS */;
-INSERT INTO `django_session` VALUES ('8s2dff6pbz5rxu9m6ylxu5q01wzsa5ro','Mjg2NTkyYjcyMTcwZGMyZTJhM2Q5MzA4MDI0M2FiN2EzOTEwNDU4YjqAAn1xAS4=','2013-11-03 08:27:37'),('hyfizxov6bgjdmdt22rbcoaa4g05hn37','MDFlMDRkYTIyNDY5MjI3ODkzM2Q4MGVjMWM2NWNlYTM4ODUxZjdkYzqAAn1xAVUHdXNlcl9pZHECigEJcy4=','2013-11-03 04:32:49'),('kyzgljublapy2c224fylnp9zdi9nuwsx','Mjg2NTkyYjcyMTcwZGMyZTJhM2Q5MzA4MDI0M2FiN2EzOTEwNDU4YjqAAn1xAS4=','2013-11-03 08:40:14'),('nd0nltwttqk7gx6ei8r0i726ftgvstd6','MDFlMDRkYTIyNDY5MjI3ODkzM2Q4MGVjMWM2NWNlYTM4ODUxZjdkYzqAAn1xAVUHdXNlcl9pZHECigEJcy4=','2013-11-03 08:36:35'),('oi6torspcnicirz5yvcfwisq95iq9rxn','MDFlMDRkYTIyNDY5MjI3ODkzM2Q4MGVjMWM2NWNlYTM4ODUxZjdkYzqAAn1xAVUHdXNlcl9pZHECigEJcy4=','2013-11-03 09:34:39'),('re5jtfjshsko1cesdgqojc0vfbq596pu','Mjg2NTkyYjcyMTcwZGMyZTJhM2Q5MzA4MDI0M2FiN2EzOTEwNDU4YjqAAn1xAS4=','2013-11-03 08:42:36'),('szdee21a76rf6jmt2m0firrq34rsfz0c','Mjg2NTkyYjcyMTcwZGMyZTJhM2Q5MzA4MDI0M2FiN2EzOTEwNDU4YjqAAn1xAS4=','2013-11-03 07:57:55'),('xyxzm5eazzqw9b27qbhqo6x6ut9lbhkz','MjJlN2M4NWZkMTMzMWFkMWNiY2UxNWZiNmFjNjZjMjczZTRhOWNmNzqAAn1xAVUHdXNlcl9pZHECigEIcy4=','2013-11-02 13:32:07');
+INSERT INTO `django_session` VALUES ('8s2dff6pbz5rxu9m6ylxu5q01wzsa5ro','Mjg2NTkyYjcyMTcwZGMyZTJhM2Q5MzA4MDI0M2FiN2EzOTEwNDU4YjqAAn1xAS4=','2013-11-03 08:27:37'),('a216rrohj71zrslkcos23deafgdngaqg','OGVmNWMwNDc5ZWZjNDZlZTNjYjIxZWQxZmVlZThiOGU5ZjY3YjRmNDqAAn1xAVUNaGF2ZV9yZWdpc3RlcnECiHMu','2013-11-16 01:30:54'),('hyfizxov6bgjdmdt22rbcoaa4g05hn37','MDFlMDRkYTIyNDY5MjI3ODkzM2Q4MGVjMWM2NWNlYTM4ODUxZjdkYzqAAn1xAVUHdXNlcl9pZHECigEJcy4=','2013-11-03 04:32:49'),('kyzgljublapy2c224fylnp9zdi9nuwsx','Mjg2NTkyYjcyMTcwZGMyZTJhM2Q5MzA4MDI0M2FiN2EzOTEwNDU4YjqAAn1xAS4=','2013-11-03 08:40:14'),('nd0nltwttqk7gx6ei8r0i726ftgvstd6','MDFlMDRkYTIyNDY5MjI3ODkzM2Q4MGVjMWM2NWNlYTM4ODUxZjdkYzqAAn1xAVUHdXNlcl9pZHECigEJcy4=','2013-11-03 08:36:35'),('oi6torspcnicirz5yvcfwisq95iq9rxn','MDFlMDRkYTIyNDY5MjI3ODkzM2Q4MGVjMWM2NWNlYTM4ODUxZjdkYzqAAn1xAVUHdXNlcl9pZHECigEJcy4=','2013-11-03 09:34:39'),('re5jtfjshsko1cesdgqojc0vfbq596pu','Mjg2NTkyYjcyMTcwZGMyZTJhM2Q5MzA4MDI0M2FiN2EzOTEwNDU4YjqAAn1xAS4=','2013-11-03 08:42:36'),('szdee21a76rf6jmt2m0firrq34rsfz0c','Mjg2NTkyYjcyMTcwZGMyZTJhM2Q5MzA4MDI0M2FiN2EzOTEwNDU4YjqAAn1xAS4=','2013-11-03 07:57:55'),('vulvn3e9h2dlbahhp78izov9jfbhsed8','MDFlMDRkYTIyNDY5MjI3ODkzM2Q4MGVjMWM2NWNlYTM4ODUxZjdkYzqAAn1xAVUHdXNlcl9pZHECigEJcy4=','2013-11-15 07:09:04'),('xyxzm5eazzqw9b27qbhqo6x6ut9lbhkz','MjJlN2M4NWZkMTMzMWFkMWNiY2UxNWZiNmFjNjZjMjczZTRhOWNmNzqAAn1xAVUHdXNlcl9pZHECigEIcy4=','2013-11-02 13:32:07');
 /*!40000 ALTER TABLE `django_session` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -389,7 +389,7 @@ CREATE TABLE `lectureComment` (
   `super_number` int(11) NOT NULL,
   `time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -398,7 +398,7 @@ CREATE TABLE `lectureComment` (
 
 LOCK TABLES `lectureComment` WRITE;
 /*!40000 ALTER TABLE `lectureComment` DISABLE KEYS */;
-INSERT INTO `lectureComment` VALUES (1,1,1,'太傻逼',100,'2013-10-08 14:09:13'),(2,1,9,'吴帆太傻逼了',1,'2013-10-19 05:18:35'),(3,1,9,'吴帆是傻逼！',1,'2013-10-16 17:29:40');
+INSERT INTO `lectureComment` VALUES (1,1,1,'太傻逼',100,'2013-10-08 14:09:13'),(2,1,9,'吴帆太傻逼了',1,'2013-10-19 05:18:35'),(3,1,9,'吴帆是傻逼！',1,'2013-10-16 17:29:40'),(4,2530,9,'啦啦啦',0,'2013-11-01 12:04:25');
 /*!40000 ALTER TABLE `lectureComment` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -483,6 +483,31 @@ INSERT INTO `lectureStudentScoreRecord` VALUES (1,9,1,20,'2013-10-20 09:26:42');
 UNLOCK TABLES;
 
 --
+-- Table structure for table `messageOfCommentSuper`
+--
+
+DROP TABLE IF EXISTS `messageOfCommentSuper`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `messageOfCommentSuper` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `user_id` int(11) NOT NULL,
+  `lecture_comment_id` int(11) NOT NULL,
+  `super_added` int(11) NOT NULL DEFAULT '1',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `messageOfCommentSuper`
+--
+
+LOCK TABLES `messageOfCommentSuper` WRITE;
+/*!40000 ALTER TABLE `messageOfCommentSuper` DISABLE KEYS */;
+/*!40000 ALTER TABLE `messageOfCommentSuper` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `professor`
 --
 
@@ -550,8 +575,9 @@ CREATE TABLE `user` (
   `check_code` bigint(20) DEFAULT NULL,
   `check_status` tinyint(1) DEFAULT NULL,
   `formal` tinyint(1) DEFAULT NULL,
+  `influence_factor` int(11) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -560,7 +586,7 @@ CREATE TABLE `user` (
 
 LOCK TABLES `user` WRITE;
 /*!40000 ALTER TABLE `user` DISABLE KEYS */;
-INSERT INTO `user` VALUES (6,'lin5316','123456','2013-10-17 16:00:00','lin5316@sjtu.edu.cn',372296268282668500,0,1),(9,'zzq','123456','2013-10-18 16:00:00','gowithqi@sjtu.edu.cn',257933205642466194,0,1),(11,'dfcx','123456','2013-10-20 08:43:07','dsfas@sjtu.edu.cn',398922071108186887,1,0),(12,'dfs','123456','2013-10-20 08:44:26','cxzc@sjtu.edu.cn',846068789378207957,1,0);
+INSERT INTO `user` VALUES (6,'lin5316','123456','2013-10-17 16:00:00','lin5316@sjtu.edu.cn',372296268282668500,0,1,0),(11,'dfcx','123456','2013-10-20 08:43:07','dsfas@sjtu.edu.cn',398922071108186887,1,0,0),(12,'dfs','123456','2013-10-20 08:44:26','cxzc@sjtu.edu.cn',846068789378207957,1,0,0),(13,'zzq','123456','2013-11-01 16:00:00','gowithqi@sjtu.edu.cn',1021987738334390005,0,1,0);
 /*!40000 ALTER TABLE `user` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -573,4 +599,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2013-10-25 21:23:44
+-- Dump completed on 2013-11-02 10:27:02
