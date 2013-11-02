@@ -8,7 +8,7 @@ from django.template import RequestContext, loader
 from django.shortcuts import render, get_object_or_404
 from django.core.mail import send_mail
 from django.views.decorators.http import require_http_methods
-# from django.core.urlresolvers import reverse
+from django.core.urlresolvers import reverse
 from django.db.models import Q
 
 from login.models import User, RegisteringUser
@@ -20,6 +20,7 @@ def login(request):
 		if not ('user_id' in request.session): 
 			template = loader.get_template("login/login.html")      # zzq: html
 			return HttpResponse(template.render(RequestContext(request, {})))
+		else: return HttpResponseRedirect(reverse('userpage', args=(request.session['user_id'], )))
 	elif request.method == "POST":
 		print "login_POST"
 		try:
