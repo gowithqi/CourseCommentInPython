@@ -45,7 +45,7 @@ def logout(request):
 	except KeyError:
 		pass
 
-	return HttpResponse("logout")
+	return HttpResponseRedirect(reverse('login'))
 
 def checkUserLogin(request):
 	if 'user_id' in request.session: return True
