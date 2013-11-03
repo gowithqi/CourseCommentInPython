@@ -65,12 +65,6 @@ def recordLevel(request, lecture_id):
 
 	return HttpResponse("yes")	
 
-def commentLecture(request):
-	# get a user
-	# get a lecture
-	# get a comment
-	lecture_comment = LectureComment.objects.create()
-
 def test(request, lecture_id):
 	lecture = get_object_or_404(Lecture, id=lecture_id)
 
