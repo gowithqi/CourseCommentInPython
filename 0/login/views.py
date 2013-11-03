@@ -172,6 +172,8 @@ def setNewPassword(request):
 	user.password = request.POST['password']
 	user.save()
 
+	if 'user_id' in request.session: del request.session['user_id']
+
 	return HttpResponse("yes")
 
 @require_http_methods(['GET'])
