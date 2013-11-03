@@ -157,7 +157,7 @@ def setPwdCheckUser(request, user_id, check_code):
 	if (user.check_code != check_code) or (not user.check_status):
 		return HttpResponse("check code is wrong!")
 	user.save()
-	
+
 	template = loader.get_template("login/newpassword.html")      #zzq: html
 	context = RequestContext(request, {
 		'u': user
@@ -168,9 +168,9 @@ def setNewPassword(request):
 	if request.method != 'POST':
 		raise Http404
 
-	user.check_status = False
-	del request.session['have_set_password']
+	if 'have_set_password' in request.session: del request.session['have_set_password']
 	user = User.objects.get(id = request.POST['user_id'])
+	user.check_status = False
 	user.password = request.POST['password']
 	user.save()
 
