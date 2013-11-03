@@ -132,18 +132,17 @@ def setPassword(request):
 		template = loader.get_template("login/setpassword.html")     # zzq: html
 		return HttpResponse(template.render(RequestContext(request, {})))
 	elif (request.method == "POST"):
-		if request.POST['again'] == 'False':
-			if "have_set_password" in request.session: return HttpResponse("havePOST")
-		
-		request.session['have_set_password'] = True
-		account = request.POST['account']
-		if (account == ''): raise Http404
 		try:
+			account = request.POST['account']
 			user = User.objects.get(account = account)
-			sendCheckToUser(user, 'setpassword/checkuser/')
-			return HttpResponse("yes")
 		except User.DoesNotExist:
 			return HttpResponse("no")
+
+		if request.POST['again'] == "False":
+			if user.check_status == True: return HttpResponse("havePOST")
+
+		sendCheckToUser(user, 'setpassword/checkuser/')
+		return HttpResponse("yes")
 	else: raise Http404
 
 def setPwdCheckUser(request, user_id, check_code):
@@ -155,7 +154,7 @@ def setPwdCheckUser(request, user_id, check_code):
 	user = User.objects.get(id = user_id)
 	print user.check_code, type(user.check_code)
 	if (user.check_code != check_code) or (not user.check_status):
-		return HttpResponse("check code is wrong!")
+		return HttpResponse("check code is wrong or not in a right check_status!")
 	user.save()
 
 	template = loader.get_template("login/newpassword.html")      #zzq: html
@@ -168,7 +167,6 @@ def setNewPassword(request):
 	if request.method != 'POST':
 		raise Http404
 
-	if 'have_set_password' in request.session: del request.session['have_set_password']
 	user = User.objects.get(id = request.POST['user_id'])
 	user.check_status = False
 	user.password = request.POST['password']
