@@ -138,7 +138,7 @@ def setPassword(request):
 		try:
 			if (account == ''): user = User.objects.get(name = name)
 			else: user = User.objects.get(account = account)
-			sendCheckToUser(user, 'setpassword/chechuser/')
+			sendCheckToUser(user, 'setpassword/checkuser/')
 			return HttpResponse("yes")
 		except User.DoesNotExist:
 			return HttpResponse("no")
@@ -148,14 +148,17 @@ def setPwdCheckUser(request, user_id, check_code):
 	if request.method != 'GET':
 		raise Http404
 
+	check_code = long(check_code)
+	print check_code, type(check_code)
 	user = User.objects.get(id = user_id)
+	print user.check_code, type(user.check_code)
 	if user.check_code != check_code :
 		return HttpResponse("check code is wrong!")
 
 	user.check_status = False
 	user.save()
-	template = loader.get_template("login/setnewpassword.html")      #zzq: html
-	context = RequestContext(requset, {
+	template = loader.get_template("login/newpassword.html")      #zzq: html
+	context = RequestContext(request, {
 		'u': user
 		})
 	return HttpResponse(template.render(context))
