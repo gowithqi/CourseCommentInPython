@@ -132,6 +132,8 @@ def setPassword(request):
 		template = loader.get_template("login/setpassword.html")     # zzq: html
 		return HttpResponse(template.render(RequestContext(request, {})))
 	elif (request.method == "POST"):
+		if "have_set_password" in request.session: return HttpResponse("havePOST")
+		request.session['have_set_password'] = True
 		account = request.POST['account']
 		name = request.POST['name']
 		if (account == '') and (name == ''): raise Http404
@@ -152,7 +154,7 @@ def setPwdCheckUser(request, user_id, check_code):
 	print check_code, type(check_code)
 	user = User.objects.get(id = user_id)
 	print user.check_code, type(user.check_code)
-	if user.check_code != check_code :
+	if (user.check_code != check_code) or (not user.check_status):
 		return HttpResponse("check code is wrong!")
 
 	user.check_status = False
@@ -167,10 +169,11 @@ def setNewPassword(request):
 	if request.method != 'POST':
 		raise Http404
 
+	del request.session['have_set_password']
 	user = User.objects.get(id = request.POST['user_id'])
 	user.password = request.POST['password']
 	user.save()
-	
+
 	return HttpResponse("yes")
 
 @require_http_methods(['GET'])
