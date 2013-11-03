@@ -169,7 +169,8 @@ def setNewPassword(request):
 
 	user = User.objects.get(id = request.POST['user_id'])
 	user.password = request.POST['password']
-
+	user.save()
+	
 	return HttpResponse("yes")
 
 @require_http_methods(['GET'])
