@@ -39,6 +39,7 @@
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
           <ul class="nav navbar-nav">
             <li class="active"><a href="#">课程排行</a></li>
+            <li><a href="#">课程交易</a></li>
             <li class="dropdown">
               <a href="#" class="dropdown-toggle" data-toggle="dropdown">课程分类 <b class="caret"></b></a>
               <ul class="dropdown-menu">
@@ -53,13 +54,16 @@
             </li>
           </ul>
           <form class="navbar-form navbar-left" role="search">
-            <div class="form-group dropdown">
-              <input type="text" class="form-control" id="search" data-toggle="dropdown" placeholder="来这里找课！">
-              <ul class="dropdown-menu" id="complete"></ul>
-            </div>
+            <input type="text" class="form-control" id="search" data-toggle="dropdown" placeholder="来这里找课！">
+            <table>
+              <tbody id="complete">
+
+              </tbody>
+            </table>       
             <button type="submit" id="submit" class="btn btn-default">搜索</button>
           </form>
           <ul class="nav navbar-nav navbar-right">
+            <li><a>{{ u.name }}</a></li>
             <li><a href="/setpassword/">修改密码</a></li>
             <li><a href="/logout/">退出</a></li>
           </ul>
@@ -207,11 +211,45 @@
     <script src="{% static 'js/jquery-1.10.2.min.js' %}"></script>
     <script src="{% static 'js/jquery-migrate-1.2.1.min.js' %}"></script>
     <script src="{% static 'js/bootstrap.min.js' %}"></script>
-    <script src="{% static 'js/csrftoken.js' %}"></script>
+    <script src="{% static 'js/myjquery.js' %}"></script>
     <script>
       $(document).ready(function(){
         $.csrftoken();
       });
+      function auto_complete_post(){
+        $.post("/search/lecture/autocomplete/",
+          {
+            content:$("#search").val()
+          },
+          function(data){
+            var s=data.split("\n");
+            $("#complete").html(function(){
+              var list="";
+              for (var i=0;i<s.length;i++)
+                list=list+"<tr><td class='list-group-item' onclick='$(\"#search\").val(\""+s[i]+"\")'>"+s[i]+"</td></tr>";
+              return list;
+            });
+          }
+        );
+      }
+      function search_post(){
+        $.post("/search/lecture/",
+          {
+            content:$("#search").val()
+          },
+          function(data){
+            window.location.assign(data);
+          }
+        );
+      }
+      function change_course_get(){
+        $.get("/userpage/change/",function(data){
+          var s=data.split("\n");
+          for (var i=0;i<3;i++){
+
+          }
+        });
+      }
       var curSlide=0;
       // function change_slides(){
       //   var nextSlide=curSlide+1;
@@ -243,20 +281,7 @@
         if ($("#search").val()!=""&&laststr!=$("#search").val()){
           laststr=$("#search").val();
           // alert($("#search").val());
-          $.post("/search/lecture/autocomplete/",
-            {
-              content:$("#search").val()
-            },
-            function(data){
-              var s=data.split("\n");
-              $("#complete").html(function(){
-                var list="";
-                for (var i=0;i<s.length;i++)
-                  list=list+"<li><a href='#' id='li"+i+"' onclick='$(\"#search\").val(\""+s[i]+"\")'>"+s[i]+"</a></li>";
-                return list;
-              });
-            }
-          );
+          auto_complete_post();
         }
       }
       // $("#search").keydown(function(e){
@@ -267,23 +292,8 @@
         //clear(clr);
       // });
       $("#submit").click(function(){
-        $.post("/search/lecture/",
-          {
-            content:$("#search").val()
-          },
-          function(data){
-            window.location.assign(data);
-          }
-        );
+        search_post();
       });
-      function change_course(){
-        $.get("/userpage/change/",function(data){
-          var s=data.split("\n");
-          for (var i=0;i<3;i++){
-
-          }
-        });
-      }
     </script>
 	</body>
 </html>
