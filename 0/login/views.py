@@ -12,6 +12,10 @@ from django.core.urlresolvers import reverse
 from django.db.models import Q
 
 from login.models import User, RegisteringUser
+from lecture.models import Lecture
+
+LEASTCOMMITNUMBER = 3
+RANKSIZE = 10
 
 def login(request):
 	print request.method, type(request.method)
@@ -180,9 +184,15 @@ def setNewPassword(request):
 def userpage(request, user_id):
 	if not ('user_id' in request.session): raise Http404
 	user = get_object_or_404(User, id=user_id)
+	lecture_rank_level = Lecture.objects.filter(level_number__gte=LEASTCOMMITNUMBER).order_by("-level")[:RANKSIZE]
+	lecture_rank_student_score = Lecture.objects.filter(student_score_number__gte=LEASTCOMMITNUMBER).order_by("-student_score")[:RANKSIZE]
+	for l in lecture_rank_level: print "level %30s %10.3f" % (l.course.name, l.level)
+	for l in lecture_rank_student_score: print "student score %30s %10.3f" % ( l.course.name, l.student_score)
 	template = loader.get_template("userpage/userpage.html")
 	context = RequestContext(request, {
 		'u': user,
+		'llevel': lecture_rank_level,
+		'lstudentscore': lecture_rank_student_score,
 		})
 	return HttpResponse(template.render(context))
 
@@ -214,7 +224,20 @@ def changepassword(request):
 		# pass
 		return 
 
+def test(request):
+	import random
+	lectures = Lecture.objects.order_by("?")[:RANKSIZE]
+	for l in lectures:
+		l.level = random.random()*5
+		l.level_number = LEASTCOMMITNUMBER
+		l.save()
 
+	lectures = Lecture.objects.order_by("?")[:RANKSIZE]
+	for l in lectures:
+		l.student_score = random.random()*100
+		l.student_score_number = LEASTCOMMITNUMBER
+		l.save()
 
+	return HttpResponse("success")
 
 	

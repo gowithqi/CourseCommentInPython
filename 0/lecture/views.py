@@ -66,14 +66,10 @@ def recordLevel(request, lecture_id):
 	return HttpResponse("yes")	
 
 def test(request, lecture_id):
+	user = get_object_or_404(User, id=14)
+	lecture_id = int(lecture_id)
 	lecture = get_object_or_404(Lecture, id=lecture_id)
-
-	lectures = lecture.course.lecture_set.all()
-	for lecture in lectures:
-		aa = lecture.lecturecomment_set.all()
-		for a  in aa:
-			print a.content
-		print lecture.course.name, lecture.professor.name
-		print
+	content = "fuck SJTU"
+	lectureComment = LectureComment.objects.create(lecture=lecture, user=user, content=content)
 
 	return HttpResponse()

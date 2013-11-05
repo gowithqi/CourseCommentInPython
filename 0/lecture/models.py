@@ -38,7 +38,8 @@ class LectureComment(models.Model):
 	user = models.ForeignKey(User, db_column = "user_id")
 	content = models.TextField(db_column = "content")
 	super_number = models.IntegerField(default = 0, db_column = "super_number")
-	time = models.DateTimeField("data published", db_column = "time")
+	rank_score = models.IntegerField(default = 0, db_column = "rank_score")
+	time = models.DateTimeField(auto_now_add = True, db_column = "time")
 
 class LectureCommentSuperRecord(models.Model):
 	class Meta:
