@@ -66,10 +66,28 @@ def recordLevel(request, lecture_id):
 	return HttpResponse("yes")	
 
 def test(request, lecture_id):
-	user = get_object_or_404(User, id=14)
-	lecture_id = int(lecture_id)
-	lecture = get_object_or_404(Lecture, id=lecture_id)
-	content = "fuck SJTU"
-	lectureComment = LectureComment.objects.create(lecture=lecture, user=user, content=content)
+	# user = get_object_or_404(User, id=14)
+	# lecture_id = int(lecture_id)
+	# lecture = get_object_or_404(Lecture, id=lecture_id)
+	# content = "fuck SJTU"
+	# lectureComment = LectureComment.objects.create(lecture=lecture, user=user, content=content)
 
-	return HttpResponse()
+	# return HttpResponse()
+
+	if request.method != 'GET': raise Http404
+	print "123"
+	print lecture_id, type(lecture_id)
+	lecture_id = int(lecture_id)
+
+	try:
+		lecture = Lecture.objects.get(id=lecture_id)
+	except Lecture.DoesNotExist:
+		raise Http500
+
+	lectures = lecture.course.lecture_set.all()
+
+	template = loader.get_template('lecture/test.html')
+	context = RequestContext(request, {
+		'l' : lectures,
+		})
+	return HttpResponse(template.render(context))
