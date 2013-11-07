@@ -99,13 +99,13 @@ def test(request, lecture_id):
 		raise Http500
 
 	lectures = lecture.course.lecture_set.all()
-	if 'SERVER_SOFTWARE' in os.environ:
-		from bae.api import logging
-		logging.debug("111")
 	template = loader.get_template('lecture/test.html')
 	context = RequestContext(request, {
 		'course': lecture.course,
 		'lectures' : lectures,
 		'focus_lecture_id': lecture_id,
 		})
+	if 'SERVER_SOFTWARE' in os.environ:
+		from bae.api import logging
+		logging.debug("111")
 	return HttpResponse(template.render(context))
