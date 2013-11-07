@@ -13,7 +13,6 @@ from login.views import checkUserLogin
 import os
 
 def getLecture(request, lecture_id):
-	db.close_connection()
 	if request.method != 'GET': raise Http404
 	print "123"
 	user_id = checkUserLogin(request)				
@@ -104,12 +103,14 @@ def test(request, lecture_id):
 	if 'SERVER_SOFTWARE' in os.environ:
 		from bae.api import logging
 		logging.debug("before for")
+	db.close_connection()
 	lec = []
 	for l in lectures: 
 		tmp = {}
 		tmp['lecture'] = l
 		tmp['comments'] = LectureComment.objects.filter(lecture=l)
 		lec.append(tmp)
+		db.close_connection()
 	print lec	
 
 	template = loader.get_template('lecture/test.html')
