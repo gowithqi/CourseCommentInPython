@@ -109,14 +109,17 @@ def test(request, lecture_id):
 			from bae.api import logging
 			logging.debug("before filter")
 		tmp['comments'] = LectureComment.objects.filter(lecture=l)
+		print tmp['comments']
 		if 'SERVER_SOFTWARE' in os.environ:
 			from bae.api import logging
 			logging.debug("after filter")
 		lec.append(tmp)
 		db.close_connection()
-	print lec	
 
 	template = loader.get_template('lecture/test.html')
+	if 'SERVER_SOFTWARE' in os.environ:
+		from bae.api import logging
+		logging.debug("before context")
 	context = RequestContext(request, {
 		'course': lecture.course,
 		'lectures': lectures,
