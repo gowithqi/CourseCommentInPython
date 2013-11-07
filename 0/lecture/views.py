@@ -12,9 +12,10 @@ from login.views import checkUserLogin
 def getLecture(request, lecture_id):
 	if request.method != 'GET': raise Http404
 	print "123"
-	checkUserLogin(request)
+	user_id = checkUserLogin(request)				
 	print lecture_id, type(lecture_id)
 	lecture_id = int(lecture_id)
+	user =  get_object_or_404(User, id=user_id)
 
 	try:
 		lecture = Lecture.objects.get(id=lecture_id)
@@ -23,17 +24,20 @@ def getLecture(request, lecture_id):
 
 	lectures = lecture.course.lecture_set.all()
 
-	template = loader.get_template('lecture/lecture.html')
+	template = loader.get_template('lecture/l.html')
 	context = RequestContext(request, {
-		'l' : lectures,
+		'course': lecture.course,
+		'lectures' : lectures,
+		'u': user,
+		'focus_lecture_id': lecture_id,
 		})
 	return HttpResponse(template.render(context))
 
 def recordStudentScore(request, lecture_id):
 	if request.method != "POST": raise Http404
 
-	checkUserLogin(request)
-	user = get_object_or_404(User, id=request.session['user_id'])
+	user_id = checkUserLogin(request)
+	user = get_object_or_404(User, id=user_id)
 	lecture_id = int(lecture_id)
 	lecture = get_object_or_404(Lecture, id=lecture_id)
 	lss = lecture.student_score         
@@ -50,8 +54,8 @@ def recordStudentScore(request, lecture_id):
 def recordLevel(request, lecture_id):
 	if request.method != "POST": raise Http404
 
-	checkUserLogin(request)
-	user = get_object_or_404(User, id=request.session['user_id'])
+	user_id = checkUserLogin(request)
+	user = get_object_or_404(User, id=user_id)
 	lecture_id = int(lecture_id)
 	lecture = get_object_or_404(Lecture, id=lecture_id)
 	ll = lecture.level         
@@ -88,6 +92,8 @@ def test(request, lecture_id):
 
 	template = loader.get_template('lecture/test.html')
 	context = RequestContext(request, {
-		'l' : lectures,
+		'course': lecture.course,
+		'lectures' : lectures,
+		'focus_lecture_id': lecture_id,
 		})
 	return HttpResponse(template.render(context))

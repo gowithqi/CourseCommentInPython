@@ -52,7 +52,7 @@ def logout(request):
 	return HttpResponseRedirect(reverse('login'))
 
 def checkUserLogin(request):
-	if 'user_id' in request.session: return True
+	if 'user_id' in request.session: return request.session['user_id']
 	raise Http404
 
 def register(request):
