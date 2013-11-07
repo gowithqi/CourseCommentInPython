@@ -4,6 +4,7 @@ from django.template import RequestContext, loader
 from django.shortcuts import render, get_object_or_404
 # from django.core.urlresolvers import reverse
 # from django.db.models import Avg
+from django import db
 
 from lecture.models import Course, Lecture, LectureComment, LectureCommentSuperRecord, LectureLevelRecord, LectureStudentScoreRecord
 from login.models import User
@@ -12,6 +13,7 @@ from login.views import checkUserLogin
 import os
 
 def getLecture(request, lecture_id):
+	db.close_connection()
 	if request.method != 'GET': raise Http404
 	print "123"
 	user_id = checkUserLogin(request)				
