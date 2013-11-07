@@ -8,6 +8,10 @@
 	{{ lecture.course.name }} <br/>
 	{{ lecture.professor.name}} <br/>
 	{% with commens=lecture.lecturecomment_set.all %}
+	{% for c in comments %}
+		123<br/>
+	{% endfor %}
 	{% endwith %}
+	<br/>
 {% endfor %}
 
