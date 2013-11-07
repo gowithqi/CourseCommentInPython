@@ -7,11 +7,12 @@
 	{% endif %}
 	{{ lecture.course.name }} <br/>
 	{{ lecture.professor.name}} <br/>
-	{% with comments=lecture.lecturecomment_set.all %}
-	{% for c in comments %}
-		{{ c.content }}<br/>
-	{% endfor %}
-	{% endwith %}
 	<br/>
 {% endfor %}
-
+<br/>
+{% for cs in comments %}
+	{% for c in cs %}
+		{{ c.content }}<br/>
+	{% endfor %}
+	<br/>
+{% endfor %}
