@@ -6,15 +6,4 @@
 	{% endif %}
 	{{ lecture.course.name }} <br/>
 	{{ lecture.professor.name}} <br/>
-	{% with comments=lecture.lecturecomment_set.all.order_by %}
-	{% if comments|length == 0 %}
-		there is no comments in this lecture <br/>
-	{% else %}
-		comments:  <br/>
-		{% for comment in comments %}
-			{{ comment.content }}__{{ comment.time|date:"Y-m-d H:i:s" }}__ {{ comment.user.name }} <br/>
-		{% endfor %}
-	{% endif %}
-	<br/>
-{% endwith %}
 {% endfor %}

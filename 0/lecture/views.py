@@ -107,5 +107,5 @@ def test(request, lecture_id):
 		})
 	if 'SERVER_SOFTWARE' in os.environ:
 		from bae.api import logging
-		logging.debug("111")
+		logging.debug("before return")
 	return HttpResponse(template.render(context))
