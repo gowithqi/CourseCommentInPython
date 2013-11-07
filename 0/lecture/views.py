@@ -101,6 +101,9 @@ def test(request, lecture_id):
 		raise Http500
 
 	lectures = lecture.course.lecture_set.all()
+	if 'SERVER_SOFTWARE' in os.environ:
+		from bae.api import logging
+		logging.debug("before for")
 	lec = []
 	for l in lectures: 
 		tmp = {}
