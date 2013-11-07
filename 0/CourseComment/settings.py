@@ -22,7 +22,6 @@ if 'SERVER_SOFTWARE' in os.environ:
             'PASSWORD': const.MYSQL_PASS,
             'HOST': const.MYSQL_HOST,                      # Empty for localhost through domain sockets or '127.0.0.1' for localhost through TCP.
             'PORT': const.MYSQL_PORT,                      # Set to empty string for default.
-            'CONN_MAX_AGE': 5,
         }
     }
 else :
@@ -36,10 +35,10 @@ else :
             'PASSWORD': 'zzq_sjtu',
             'HOST': '127.0.0.1',                      # Empty for localhost through domain sockets or '127.0.0.1' for localhost through TCP.
             'PORT': '3306',                      # Set to empty string for default.
-            'CONN_MAX_AGE': 5,
         }
     }
 
+CONN_MAX_AGE = 5
 # Email Settings
 EMAIL_HOST = "smtp.gmail.com"
 EMAIL_POST = 587
