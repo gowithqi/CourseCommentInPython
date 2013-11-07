@@ -99,11 +99,14 @@ def test(request, lecture_id):
 		raise Http500
 
 	lectures = lecture.course.lecture_set.all()
+	comments = []
+	for l in lectures: comments.append(l.lecturecomment_set.all())
 	template = loader.get_template('lecture/test.html')
 	context = RequestContext(request, {
 		'course': lecture.course,
 		'lectures' : lectures,
 		'focus_lecture_id': lecture_id,
+		'comments': comments,
 		})
 	if 'SERVER_SOFTWARE' in os.environ:
 		from bae.api import logging
