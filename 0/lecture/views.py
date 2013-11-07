@@ -101,20 +101,20 @@ def test(request, lecture_id):
 		raise Http500
 
 	lectures = lecture.course.lecture_set.all()
-	# l = []
-	# for lecture in lectures: 
-	# 	lecture['professor_id'] = Professor.objects.get(id =lecture['professor_id']).name
-	# 	tmp = {}
-	# 	tmp['lecture'] = lecture
-	# 	tmp['comments'] = [c for c in LectureComment.objects.filter(lecture=lecture['id']).values()]
-	# 	l.append(tmp)
-	# print l	
+	lec = []
+	for l in lectures: 
+		tmp = {}
+		tmp['lecture'] = l
+		tmp['comments'] = LectureComment.objects.filter(lecture=l)
+		lec.append(tmp)
+	print lec	
 
 	template = loader.get_template('lecture/test.html')
 	context = RequestContext(request, {
 		'course': lecture.course,
 		'lectures': lectures,
 		'focus_lecture_id': lecture_id,
+		'lec': lec,
 		})
 	if 'SERVER_SOFTWARE' in os.environ:
 		from bae.api import logging

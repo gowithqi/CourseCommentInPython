@@ -12,3 +12,25 @@
 	<br/>
 {% endfor %}
 <br/>
+<br/>
+<br/>
+<br/>
+{% for l in lec %}
+	{% with Lecture=l|getkey:'lecture'  Comments=l|getkey:'comments' %}
+	{% if Lecture.id == focus_lecture_id %}
+	this is focus <br/>
+	{% endif %}
+
+	{{ Lecture.course.name }}<br/>
+	{{ Lecture.professor.name }}<br/>
+
+	{% for c in Comments %}
+		{{ c.content }}<br/>
+	{% empty %}
+		there are no comments<br/>
+	{% endfor %}
+	{% endwith %}
+	<br/>
+{% endfor %}
+
+
