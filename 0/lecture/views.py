@@ -9,6 +9,8 @@ from lecture.models import Course, Lecture, LectureComment, LectureCommentSuperR
 from login.models import User
 from login.views import checkUserLogin
 
+import os
+
 def getLecture(request, lecture_id):
 	if request.method != 'GET': raise Http404
 	print "123"
@@ -40,6 +42,10 @@ def recordStudentScore(request, lecture_id):
 	user = get_object_or_404(User, id=user_id)
 	lecture_id = int(lecture_id)
 	lecture = get_object_or_404(Lecture, id=lecture_id)
+	try:
+		LectureStudentScoreRecord.objects.filter(lecture=lecture, user=user)
+		return HttpResponse("have recorded student score")
+	except LectureStudentScoreRecord.DoesNotExist: pass
 	lss = lecture.student_score         
 	lssn = lecture.student_score_number
 	newscore = float(lss*lssn + float(request.POST['score'])) / (lssn+1)
@@ -58,6 +64,10 @@ def recordLevel(request, lecture_id):
 	user = get_object_or_404(User, id=user_id)
 	lecture_id = int(lecture_id)
 	lecture = get_object_or_404(Lecture, id=lecture_id)
+	try:
+		LectureLevelRecord.objects.filter(lecture=lecture, user=user)
+		return HttpResponse("have recorded student score")
+	except LectureLevelRecord.DoesNotExist: pass
 	ll = lecture.level         
 	lln = lecture.level_number
 	newlevel = float(ll*lln + float(request.POST['level'])) / (lln+1)
@@ -89,7 +99,9 @@ def test(request, lecture_id):
 		raise Http500
 
 	lectures = lecture.course.lecture_set.all()
-
+	if 'SERVER_SOFTWARE' in os.environ:
+		from bae.api import logging
+		logging.debug("111")
 	template = loader.get_template('lecture/test.html')
 	context = RequestContext(request, {
 		'course': lecture.course,
