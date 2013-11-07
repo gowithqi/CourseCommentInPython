@@ -1,10 +1,13 @@
 {{ course.name }}
-
+<br/>
+<br/>
 {% for lecture in lectures %}
 	{% if lecture.id == focus_lecture_id %}
-	this is focus
+	this is focus<br/>
 	{% endif %}
 	{{ lecture.course.name }} <br/>
 	{{ lecture.professor.name}} <br/>
+	{% with commens = lecture.lecturecomment_set.all %}
+	{% endwith %}
 {% endfor %}
 
