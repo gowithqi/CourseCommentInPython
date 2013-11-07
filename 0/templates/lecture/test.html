@@ -7,7 +7,7 @@
 	{% endif %}
 	{{ lecture.course.name }} <br/>
 	{{ lecture.professor.name}} <br/>
-	{% with commens = lecture.lecturecomment_set.all %}
+	{% with commens=lecture.lecturecomment_set.all %}
 	{% endwith %}
 {% endfor %}
 
