@@ -100,15 +100,18 @@ def test(request, lecture_id):
 		raise Http500
 
 	lectures = lecture.course.lecture_set.all()
-	if 'SERVER_SOFTWARE' in os.environ:
-		from bae.api import logging
-		logging.debug("before for")
 	db.close_connection()
 	lec = []
 	for l in lectures: 
 		tmp = {}
 		tmp['lecture'] = l
+		if 'SERVER_SOFTWARE' in os.environ:
+			from bae.api import logging
+			logging.debug("before filter")
 		tmp['comments'] = LectureComment.objects.filter(lecture=l)
+		if 'SERVER_SOFTWARE' in os.environ:
+			from bae.api import logging
+			logging.debug("after filter")
 		lec.append(tmp)
 		db.close_connection()
 	print lec	
