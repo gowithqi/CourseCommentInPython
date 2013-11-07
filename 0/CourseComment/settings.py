@@ -38,7 +38,7 @@ else :
         }
     }
 
-CONN_MAX_AGE = 5
+CONN_MAX_AGE = 0
 # Email Settings
 EMAIL_HOST = "smtp.gmail.com"
 EMAIL_POST = 587

@@ -1,3 +1,5 @@
+{% load lecture_extras %}
+<br/>
 {{ course.name }}
 <br/>
 <br/>
@@ -6,13 +8,8 @@
 	this is focus<br/>
 	{% endif %}
 	{{ lecture.course.name }} <br/>
-	{{ lecture.professor.name}} <br/>
+	{{ lecture.professor.name }} <br/>
+	{{ lecture.comment_set.all }} <br/>
 	<br/>
 {% endfor %}
 <br/>
-{% for cs in comments %}
-	{% for c in cs %}
-		{{ c.content }}<br/>
-	{% endfor %}
-	<br/>
-{% endfor %}
