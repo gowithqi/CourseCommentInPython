@@ -107,8 +107,8 @@ def test(request, lecture_id):
 		tmp['lecture'] = l
 		if 'SERVER_SOFTWARE' in os.environ:
 			from bae.api import logging
-			logging.debug("before filter")
-		tmp['comments'] = LectureComment.objects.filter(lecture=l)
+			logging.debug("before filter", l.course.name)
+		tmp['comments'] = l.lecturecomment_set.all()
 		print tmp['comments']
 		if 'SERVER_SOFTWARE' in os.environ:
 			from bae.api import logging
