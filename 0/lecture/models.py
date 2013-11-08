@@ -33,7 +33,7 @@ class Lecture(models.Model):
 class LectureComment(models.Model):
 	class Meta:
 		db_table = "lectureComment"
-		ordering = ["-super_number"]
+		ordering = ["-rank_score"]
 
 	lecture = models.ForeignKey(Lecture, db_column = "lecture_id")
 	user = models.ForeignKey(User, db_column = "user_id")

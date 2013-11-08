@@ -153,6 +153,9 @@ INSTALLED_APPS = (
     'gossip',
     'lecture',
     'login',
+    'comment',
+    'search',
+    'userpage',
     # Uncomment the next line to enable the admin:
     'django.contrib.admin',
     # Uncomment the next line to enable admin documentation:

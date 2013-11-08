@@ -1,3 +1,5 @@
+from datetime import datetime
+
 from django.http import HttpResponse, Http404, HttpResponseRedirect
 from django.template import RequestContext, loader
 from django.shortcuts import render, get_object_or_404
@@ -7,6 +9,8 @@ from login.models import User
 from comment.models import MessageOfCommentSuper
 from login.views import checkUserLogin
 
+START_TIME = datetime(year=2013, month=11, day=1)
+SUPER_VALUE = 10		# One SUPER equal how many days
 
 def super(request, comment_id):
 	if request.method != 'GET': raise Http404
@@ -24,6 +28,7 @@ def super(request, comment_id):
 
 	LectureCommentSuperRecord.objects.create(lecture_comment=comment, user=user)
 	comment.super_number = comment.super_number + 1
+	comment.rank_score = comment.rank_score + SUPER_VALUE
 	comment.save()
 
 	try:
@@ -49,6 +54,7 @@ def deSuper(request, comment_id):
 	except LectureCommentSuperRecord.DoesNotExist:
 		raise Http404
 	comment.super_number = comment.super_number - 1
+	comment.rank_score = comment.rank_score - SUPER_VALUE
 	comment.save()
 
 	try:
@@ -68,7 +74,12 @@ def commentLecture(request, lecture_id):
 	
 	lecture_id = int(lecture_id)
 	lecture = get_object_or_404(Lecture, id=lecture_id)
-	lectureComment = LectureComment.objects.create(lecture=lecture, user=user, content=request.POST['content'])
+	now = datetime.now()
+	delta_t = now - START_TIME
+	lectureComment = LectureComment.objects.create(lecture=lecture, 
+		user=user, 
+		content=request.POST['content'], 
+		rank_score=int(delta_t.total_seconds()/86400))
 
 	return HttpResponse("yes")
 
