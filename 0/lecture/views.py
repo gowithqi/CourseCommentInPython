@@ -44,7 +44,7 @@ def recordStudentScore(request, lecture_id):
 	lecture_id = int(lecture_id)
 	lecture = get_object_or_404(Lecture, id=lecture_id)
 	try:
-		LectureStudentScoreRecord.objects.filter(lecture=lecture, user=user)
+		LectureStudentScoreRecord.objects.get(lecture=lecture, user=user)
 		return HttpResponse("have recorded student score")
 	except LectureStudentScoreRecord.DoesNotExist: pass
 	lss = lecture.student_score         
@@ -66,7 +66,7 @@ def recordLevel(request, lecture_id):
 	lecture_id = int(lecture_id)
 	lecture = get_object_or_404(Lecture, id=lecture_id)
 	try:
-		LectureLevelRecord.objects.filter(lecture=lecture, user=user)
+		LectureLevelRecord.objects.get(lecture=lecture, user=user)
 		return HttpResponse("have recorded student score")
 	except LectureLevelRecord.DoesNotExist: pass
 	ll = lecture.level         
