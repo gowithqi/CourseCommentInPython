@@ -26,16 +26,21 @@
 						{% for comment in comments %}
 						<tr>
 							<th>
-								{{ comment.user.name }}
+								{{ comment.user.name }}<br/>
+								{{ comment.lecture.course.name }}<br/>
+								{{ comment.lecture.professor.name }}
 							</th>
 							<th>
 								<p>{{ comment.content }}</p>
 								<ul class="breadcrumb">
-									<li style="margin-right:50%;">
+									<li style="margin-right:40%;">
 										{{ comment.time|date:"Y-m-d H:i:s" }}
 									</li>
 									<li>
 										{{ comment.super_number }} SUPERs
+									</li>
+									<li>
+										rank_score: {{ comment.super_number }}
 									</li>
 								</ul>
 								<p><br/></p>
