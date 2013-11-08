@@ -496,6 +496,9 @@
 					    	  		$("#confirm_ok").attr("class","btn btn-primary");
 							  		$('#confirm').modal('toggle');
 							  	}
+							  	else {
+							  		alert(status);
+							  	}
 							  });
 							  //test
 							  // $('#confirm_content').html("Your recordscore " + x.val() + " is received.");
@@ -550,6 +553,7 @@
 					    content:x.val()
 					  },
 					  function(status){
+					  	alert(status);
 					  });
 				  }
 				  else {
