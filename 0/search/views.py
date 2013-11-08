@@ -14,10 +14,17 @@ def autoComplete(request):
 	if request.method != "POST": raise Http404
 
 	content = request.POST['content']
-	courseList = Course.objects.filter(name__startswith=content).order_by("name").distinct("name")[:5]
+	courseList = Course.objects.filter(name__startswith=content).order_by("name")
 	res = ''
-	for c in courseList: 
-		res = res + c.name + '\n'
+	i = 1
+	tmpc = courseList[0]
+	res = res = res + tmpc.name + '\n'
+	for c in courseList[1:]: 
+		if c.name != tmpc.name:	
+			res = res + c.name + '\n'
+			i = i + 1
+		tmpc = c
+		if i == 5: break
 	res = res[:-1]
 
 	return HttpResponse(res)

@@ -89,7 +89,7 @@ def getTodayComments(request, check_code):
 	today = date.today()
 	safe_code = today.strftime("%Y%m%d") +"sjtucourse"
 	print safe_code
-	if (str(check_code) != safe_code) or not(request.session['user_id'] in [14]): raise Http404
+	if (str(check_code) != safe_code) or not(request.session['user_id'] in [6, 14, 15]): raise Http404
 
 	today = datetime(year=today.year, month=today.month, day=today.day)
 	comments = LectureComment.objects.filter(time__gte=today)
