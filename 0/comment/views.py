@@ -83,5 +83,21 @@ def commentLecture(request, lecture_id):
 
 	return HttpResponse("yes")
 
+def getTodayComments(request, check_code):
+	print check_code
+	from datetime import date
+	today = date.today()
+	safe_code = today.strftime("%Y%m%d") +"sjtucourse"
+	print safe_code
+	if (str(check_code) != safe_code) or not(request.session['user_id'] in [14]): raise Http404
 
+	today = datetime(year=today.year, month=today.month, day=today.day)
+	comments = LectureComment.objects.filter(time__gte=today)
+
+	template = loader.get_template("comment/todaycomments.html")
+	context = RequestContext(request, {
+		'comments': comments,
+		})
+
+	return HttpResponse(template.render(context))
 

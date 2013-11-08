@@ -14,7 +14,7 @@ def autoComplete(request):
 	if request.method != "POST": raise Http404
 
 	content = request.POST['content']
-	courseList = Course.objects.filter(name__startswith=content)[:5]
+	courseList = Course.objects.filter(name__startswith=content).order_by("name").distinct("name")[:5]
 	res = ''
 	for c in courseList: 
 		res = res + c.name + '\n'
