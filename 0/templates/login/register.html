@@ -42,9 +42,9 @@
         </div>
 
         <div class="form-group">
-          <label for="name" class="col-sm-2 control-label">帐号<span id="help2" class="help-block"></span></label>
+          <label for="name" class="col-sm-2 control-label">昵称<span id="help2" class="help-block"></span></label>
           <div class="enter col-sm-3">
-            <input type="text" class="form-control" id="name" placeholder="帐号">
+            <input type="text" class="form-control" id="name" placeholder="昵称">
           </div>
           <div class="col-sm-2">
             <label for="name" id="nm_prompt"></label>
@@ -122,7 +122,7 @@
         function(){
           $(".modal-title").html("还差一步！");
           $(".modal-body").html("<h5><b>我们已向您的邮箱发送验证邮件</b></h5>");
-          $(".modal-body").append("<h5><b>请登录<a href='http://mail.sjtu.edu.cn' onclick='window.location.assign(\"http://mail.sjtu.edu.cn\")'> mail.sjtu.edu.cn </a>查询</b></h5>");
+          $(".modal-body").append("<h5><b>请登录<a href='http://mail.sjtu.edu.cn'> mail.sjtu.edu.cn </a>查询</b></h5>");
         });
       }
       function account_get(){
@@ -140,7 +140,7 @@
       function name_get(){
         $.get("/register/name/"+$("#name").val()+"/",function(data){
           if (data=="no"){
-            $("#nm_prompt").html("帐号已存在！");
+            $("#nm_prompt").html("昵称已存在！");
             $("#nm_prompt").attr("class","text-danger control-label");
           }
           else{
@@ -150,7 +150,7 @@
         });
       }
       $("#account").focus(function(){
-        $("#help1").html("即jaccount帐号");
+        $("#help1").html("即jaccount昵称");
       });
       $("#name").focus(function(){
         $("#help2").html("3-20位中英字符和数字 不区分大小写");
@@ -239,7 +239,7 @@
           $("#ac_prompt").attr("class","text-warning control-label");
         }
         if ($("#name").val()==""){
-          $("#nm_prompt").html("请填写帐号！");
+          $("#nm_prompt").html("请填写昵称！");
           $("#nm_prompt").attr("class","text-warning control-label");
         }
         if ($("#password").val()==""){
@@ -262,7 +262,7 @@
             e.preventDefault();
             if (check()){
               $(".modal-body").html("<h5><b>邮箱 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"+$("#account").val()+"@sjtu.edu.cn</b></h5>");
-              $(".modal-body").append("<h5><b>帐号 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"+$("#name").val()+"</b></h5>");
+              $(".modal-body").append("<h5><b>昵称 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"+$("#name").val()+"</b></h5>");
               $("#regInfo").modal("show");
               $("#confirm").click(function(){
                 $(".modal-title").html("请稍侯");
@@ -281,7 +281,7 @@
         e.preventDefault();
         if (check()){
           $(".modal-body").html("<h5><b>邮箱 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"+$("#account").val()+"@sjtu.edu.cn</b></h5>");
-          $(".modal-body").append("<h5><b>帐号 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"+$("#name").val()+"</b></h5>");
+          $(".modal-body").append("<h5><b>昵称 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"+$("#name").val()+"</b></h5>");
           $("#regInfo").modal("show");
           $("#confirm").click(function(){
             $(".modal-title").html("请稍侯");

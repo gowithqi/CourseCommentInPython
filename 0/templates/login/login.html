@@ -32,9 +32,9 @@
       <form class="form-horizontal" role="form">
         
         <div class="form-group">
-          <label for="username" class="col-sm-2 control-label">帐号/邮箱</label>
+          <label for="username" class="col-sm-2 control-label">昵称/邮箱</label>
           <div class="col-sm-3 enter">
-            <input type="text" class="form-control" id="username" placeholder="帐号/邮箱">
+            <input type="text" class="form-control" id="username" placeholder="昵称/邮箱">
           </div>
           <div class="col-sm-2">
             <label for="username" id="un_prompt"></label>
@@ -96,7 +96,7 @@
           }
           else
             if (data=='username'){
-              $("#un_prompt").html("帐号或邮箱不存在！");
+              $("#un_prompt").html("昵称或邮箱不存在！");
               $("#un_prompt").attr("class","text-danger control-label");
               $("#pw_prompt").html("");
             }
@@ -115,7 +115,7 @@
       function check(){
         var blank=0;
         if ($("#username").val()==""){
-          $("#un_prompt").html("请填写帐号或邮箱！");
+          $("#un_prompt").html("请填写昵称或邮箱！");
           $("#un_prompt").attr("class","text-warning control-label");
           blank=1;
         }
