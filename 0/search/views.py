@@ -15,7 +15,8 @@ def autoComplete(request):
 
 	content = request.POST['content']
 	tmp = True
-	for k in content: tmp = tmp and (k.isdigit or k.isalpha)
+	for k in content: 
+		tmp = tmp and (k.isdigit() or isLetter(k))
 	if tmp: courseList = Course.objects.filter(number__startswith=content.upper())
 	else: 	courseList = Course.objects.filter(name__startswith=content).order_by("name")
 	res = ''
@@ -23,7 +24,7 @@ def autoComplete(request):
 	if len(courseList) > 0:
 		tmpc = courseList[0]
 		if tmp: res = res + tmpc.number + ": "
-		res = res = res + tmpc.name + '\n'
+		res = res + tmpc.name + '\n'
 		for c in courseList[1:]: 
 			if c.name != tmpc.name:	
 				if tmp: res = res + c.number + ": "
@@ -54,5 +55,8 @@ def searchLecture(request):
 
 def isCourseNumber(keyword):
 	res = True
-	for k in keyword[:5]: res = res and (k.isdigit or k.isalpha)
+	for k in keyword[:5]: res = res and (k.isdigit() or isLetter(k))
 	return res
+
+def isLetter(k):
+	return ((k >= u'\u0041' and k<=u'\u005a') or (k >= u'\u0061' and k<=u'\u007a'))
