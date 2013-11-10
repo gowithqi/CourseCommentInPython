@@ -85,7 +85,7 @@
       function login_post(){
         $.post("/",
         {
-          username:$("#username").val(),
+          username:$("#username").val().toLowerCase(),
           password:hex_md5($("#password").val())
         },
         function(data){

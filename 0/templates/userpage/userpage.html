@@ -109,94 +109,46 @@
         </div><!-- carousel -->
       </div>
       
-      <div class="col-sm-6">
+      <div class="col-sm-5">
         <div class="panel panel-primary">
-          <div class="panel-heading">必修课排行</div>
+          <div class="panel-heading" style="text-align:center;">评分TOP10</div>
           <table class="table">
             <thead>
               <tr>
-                <th></th> <th>课程名</th> <th>老师</th> <th>评分</th>
+                <th>排名</th> <th>课程名</th> <th>老师</th> <th>评分</th>
               </tr>
             </thead>
-            <tbody>
+            <tbody id="rank1">
+              {% for l in llevel %}
               <tr>
-                <td>1</td> <td><a href="/lecture/1/">算法与复杂性</a></td> <td>陈翌佳</td> <td>5</td>
+                <td></td>
+                <td><a href="/lecture/{{ l.id }}/">{{ l.course.name }}</a></td>
+                <td>{{ l.professor.name }}</td>
+                <td>{{ l.level }}</td>
               </tr>
-              <tr>
-                <td>2</td> <td><a href="/lecture/2/">编译原理</a></td> <td>吴帆</td> <td>3</td>
-              </tr>
-              <tr>
-                <td>3</td> <td><a href="/lecture/3/">软件工程</a></td> <td>盛斌</td> <td>0</td>
-              </tr>
+              {% endfor %}
             </tbody>
           </table>
         </div>
       </div>
-      <div class="col-sm-6">
+      <div class="col-sm-5 col-sm-offset-2">
         <div class="panel panel-primary">
-          <div class="panel-heading">必修课排行</div>
+          <div class="panel-heading" style="text-align:center;">得分TOP10</div>
           <table class="table">
             <thead>
               <tr>
-                <th></th> <th>课程名</th> <th>老师</th> <th>评分</th>
+                <th>排名</th> <th>课程名</th> <th>老师</th> <th>评分</th>
               </tr>
             </thead>
-            <tbody>
+            <tbody id="rank2">
+              {% for l in lstudentscore %}
               <tr>
-                <td>1</td> <td><a href="/lecture/1/">算法与复杂性</a></td> <td>陈翌佳</td> <td>5</td>
+                <td></td>
+                <td><a href="/lecture/{{ l.id }}/">{{ l.course.name }}</a></td>
+                <td>{{ l.professor.name }}</td>
+                <td>{{ l.student_score }}</td>
               </tr>
-              <tr>
-                <td>2</td> <td><a href="/lecture/2/">编译原理</a></td> <td>吴帆</td> <td>3</td>
-              </tr>
-              <tr>
-                <td>3</td> <td><a href="/lecture/3/">软件工程</a></td> <td>盛斌</td> <td>0</td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-      </div>
-      <div class="col-sm-6">
-        <div class="panel panel-primary">
-          <div class="panel-heading">必修课排行</div>
-          <table class="table">
-            <thead>
-              <tr>
-                <th></th> <th>课程名</th> <th>老师</th> <th>评分</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td>1</td> <td><a href="/lecture/1/">算法与复杂性</a></td> <td>陈翌佳</td> <td>5</td>
-              </tr>
-              <tr>
-                <td>2</td> <td><a href="/lecture/2/">编译原理</a></td> <td>吴帆</td> <td>3</td>
-              </tr>
-              <tr>
-                <td>3</td> <td><a href="/lecture/3/">软件工程</a></td> <td>盛斌</td> <td>0</td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-      </div>
-      <div class="col-sm-6">
-        <div class="panel panel-primary">
-          <div class="panel-heading">必修课排行</div>
-          <table class="table">
-            <thead>
-              <tr>
-                <th></th> <th>课程名</th> <th>老师</th> <th>评分</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td>1</td> <td><a href="/lecture/1/">算法与复杂性</a></td> <td>陈翌佳</td> <td>5</td>
-              </tr>
-              <tr>
-                <td>2</td> <td><a href="/lecture/2/">编译原理</a></td> <td>吴帆</td> <td>3</td>
-              </tr>
-              <tr>
-                <td>3</td> <td><a href="/lecture/3/">软件工程</a></td> <td>盛斌</td> <td>0</td>
-              </tr>
+              {% endfor %}
             </tbody>
           </table>
         </div>
@@ -211,10 +163,16 @@
     <script src="{% static 'js/bootstrap.min.js' %}"></script>
     <script src="{% static 'js/myjquery.js' %}"></script>
     <script>
+      var clr=0,cur=0,hid=0,len=0,laststr="",origin_val="";
       $(document).ready(function(){
+        var trs1=$("#rank1").children(),
+            trs2=$("#rank2").children();
+        for (var i=0;i<10;i++){
+          trs1.eq(i).children().eq(0).html(i+1);
+          trs2.eq(i).children().eq(0).html(i+1);
+        }
         $.csrftoken();
       });
-      var len=0;
       function auto_complete_post(){
         $.post("/search/lecture/autocomplete/",
           {
@@ -279,6 +237,18 @@
           }
         });
       }
+      function auto_complete(){
+        if ($("#search").val()==""){
+          $("#complete").hide();
+          hid=1;
+          laststr="";
+        }
+        else
+        if (laststr!=$("#search").val()){
+          laststr=$("#search").val();
+          auto_complete_post();
+        }
+      }
       var curSlide=0;
       // function change_slides(){
       //   var nextSlide=curSlide+1;
@@ -297,7 +267,6 @@
       //   curSlide=nextSlide;
       //   setTimeout("change_slides",3000);
       // }
-      var clr=0,laststr="",origin_val="",cur=0,hid=0;
       $("#search").focus(function(){
         clr=setInterval("auto_complete()",500);
       });
@@ -347,18 +316,6 @@
           }
         }
       });
-      function auto_complete(){
-        if ($("#search").val()==""){
-          $("#complete").hide();
-          hid=1;
-          laststr="";
-        }
-        else
-        if (laststr!=$("#search").val()){
-          laststr=$("#search").val();
-          auto_complete_post();
-        }
-      }
       $("#submit").click(function(e){
         e.preventDefault();
         search_post();

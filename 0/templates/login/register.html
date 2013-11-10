@@ -46,7 +46,7 @@
           <div class="enter col-sm-3">
             <input type="text" class="form-control" id="name" placeholder="昵称">
           </div>
-          <div class="col-sm-2">
+          <div class="col-sm-4">
             <label for="name" id="nm_prompt"></label>
           </div>
         </div>
@@ -56,7 +56,7 @@
           <div class="col-sm-3 enter">
             <input type="password" class="form-control" id="password" placeholder="密码">
           </div>
-          <div class="col-sm-2">
+          <div class="col-sm-4">
             <label for="password" id="pw_prompt"></label>
           </div>
         </div>
@@ -137,8 +137,8 @@
           }
         });
       }
-      function name_get(){
-        $.get("/register/name/"+$("#name").val()+"/",function(data){
+      function name_get(str){
+        $.get("/register/name/"+$("#name").val().toLowerCase()+"/",function(data){
           if (data=="no"){
             $("#nm_prompt").html("昵称已存在！");
             $("#nm_prompt").attr("class","text-danger control-label");
@@ -150,10 +150,10 @@
         });
       }
       $("#account").focus(function(){
-        $("#help1").html("即jaccount昵称");
+        $("#help1").html("即jaccount帐号");
       });
       $("#name").focus(function(){
-        $("#help2").html("3-20位中英字符和数字 不区分大小写");
+        $("#help2").html("3-15位中英字符和数字 不区分大小写");
       })
       $("#account").blur(function(){
         $("#help1").html("");
@@ -166,28 +166,70 @@
       $("#name").blur(function(){
         $("#help2").html("");
         if ($(this).val()!="")
-          name_get();
+          if ($(this).val().length<3){
+            $("#nm_prompt").html("昵称名太短！");
+            $("#nm_prompt").attr("class","text-danger control-label");
+          }
+          else if ($(this).val().length>15){
+            $("#nm_prompt").html("昵称名太长！");
+            $("#nm_prompt").attr("class","text-danger control-label");
+          }
+          else{
+            var s=$(this).val(),ok=1;
+            for (var i=0;i<s.length;i++){
+              if (/.*[\u4e00-\u9fa5]+.*$/.test(s[i]))
+                continue;
+              if (s[i]>='a'&&s[i]<='z')
+                continue;
+              if (s[i]>='0'&&s[i]<='9')
+                continue;
+              if (s[i]>='A'&&s[i]<='Z'){
+                continue;
+              }
+              ok=0;
+              break;
+            }
+            if (ok==1)
+              name_get();
+            else{
+              $("#nm_prompt").html("昵称不能含有中英字符和数字以外的字符！");
+              $("#nm_prompt").attr("class","text-danger control-label");
+            }
+          }
         else
           if ($("#nm_prompt").attr("class")!="text-warning control-label")
             $("#nm_prompt").html("");
       });
       $("#password").focus(function(){
-        $("#help3").html("6-16位英文字符、数字和特殊符号，区分大小写");
+        $("#help3").html("6-20位英文字符、数字和特殊符号，区分大小写");
       });
       $("#password").blur(function(){
         $("#help3").html("");
         if ($(this).val()!="")
           if ($(this).val().length<6){
-            if ($("#pw_prompt").attr("class")!="text-warning control-label")
-              $("#pw_prompt").html("");
             $("#pw_prompt").html("密码长度不足！");
             $("#pw_prompt").attr("class","text-danger control-label");
           }
           else
-            if ($(this).val().length>16){
-              if ($("#pw_prompt").attr("class")!="text-warning control-label")
-                $("#pw_prompt").html("");
-              $("#pw_prompt").html("密码长度超过限制！");
+          if ($(this).val().length>20){
+            $("#pw_prompt").html("密码长度超过限制！");
+            $("#pw_prompt").attr("class","text-danger control-label");
+          }
+          else
+          if (/.*[\u4e00-\u9fa5]+.*$/.test($(this).val())){
+            $("#pw_prompt").html("密码不能包含中文！");
+            $("#pw_prompt").attr("class","text-danger control-label");
+          }
+          else{
+            var s=$(this).val(),ok=1;
+            for (var i=0;i<s.length;i++){
+              if (/[a-zA-Z0-9_:!@#$%^&*]/.test(s[i]))
+                continue;
+              ok=0;
+              break;
+            }
+            if (ok==0){
+              $("#pw_prompt").html("密码不能含有 _:!@#$%^&* 以外的特殊符号！");
               $("#pw_prompt").attr("class","text-danger control-label");
             }
             else{
@@ -203,6 +245,7 @@
                   $("#cpw_prompt").attr("class","text-danger control-label");
                 }
             }
+          }
         else
           if ($("#pw_prompt").attr("class")!="text-warning control-label")
             $("#pw_prompt").html("");
