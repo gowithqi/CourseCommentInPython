@@ -38,20 +38,19 @@ def main() :
 	count = 0
 	for (key, values) in res.items():
 		for value in values:
-			count = count + 1
 			if count%10 == 0 : print count
 			# course
 			# name, number, credit, school
 			course = [value['kcmc'].strip(), value['kcbm'][17:22], float(value['xqxf']), value['yxmc'].strip()]
-			s_sql = "select id from course where name=%s and number=%s"
-			c = cursor.execute(s_sql, (course[0], course[1]))
+			s_sql = "select id from course where number=%s and school=%s"
+			c = cursor.execute(s_sql, (course[1], course[3]))
 			c_id = 0
-			if (c != 0): c_id = cursor.fetchall()[0][0]
+			if (c > 0L): c_id = cursor.fetchall()[0][0]
 			else: 
 				i_sql = "insert into course (name, number, credit, school) values(%s, %s, %s, %s)"
 				if cursor.execute(i_sql, (course[0], course[1], course[2], course[3])) == 0L: print "insert Course failed!"
 				conn.commit()
-				c = cursor.execute(s_sql, (course[0], course[1]))
+				c = cursor.execute(s_sql, (course[1], course[3]))
 				c_id = cursor.fetchall()[0][0]
 
 			# professor
@@ -65,7 +64,7 @@ def main() :
 			s_sql = "select id from professor where name=%s"
 			p = cursor.execute(s_sql, (professor[0]))
 			p_id = 0
-			if (p != 0): p_id = cursor.fetchall()[0][0]
+			if (p > 0L): p_id = cursor.fetchall()[0][0]
 			else:
 				i_sql = "insert into professor (name, title) values(%s, %s)"
 				if cursor.execute(i_sql, (professor[0].encode("UTF-8"), professor[1])) == 0L: print "insert Professor failed"
@@ -91,6 +90,7 @@ def main() :
 				i_sql = "insert into lecture (course_id, professor_id) values(%s, %s)"
 				cursor.execute(i_sql, (c_id, p_id))
 				conn.commit()
+				count = count + 1
 			
 	print count-1
 	cursor.close()
