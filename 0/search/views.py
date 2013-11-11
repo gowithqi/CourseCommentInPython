@@ -10,6 +10,8 @@ from django.db.models import Q
 from lecture.models import Lecture, Course
 from login.views import checkUserLogin
 
+AUTO_COMPLETE_LIST_LENGTH = 5
+
 def autoComplete(request):
 	if request.method != "POST": raise Http404
 
@@ -17,8 +19,8 @@ def autoComplete(request):
 	tmp = True
 	for k in content: 
 		tmp = tmp and (k.isdigit() or isLetter(k))
-	if tmp: courseList = Course.objects.filter(number__startswith=content.upper())
-	else: 	courseList = Course.objects.filter(name__startswith=content).order_by("name")
+	if tmp: courseList = Course.objects.filter(number__startswith=content.upper()).order_by("-view_time")
+	else: 	courseList = Course.objects.filter(name__startswith=content).order_by("-view_time", "name")
 	res = ''
 	i = 1
 	print "len: ", len(courseList)
@@ -32,7 +34,7 @@ def autoComplete(request):
 				res = res + c.name + '\n'
 				i = i + 1
 			tmpc = c
-			if i == 5: break
+			if i == AUTO_COMPLETE_LIST_LENGTH: break
 		res = res[:-1]
 
 	return HttpResponse(res)

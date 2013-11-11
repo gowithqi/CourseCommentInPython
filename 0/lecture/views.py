@@ -25,6 +25,9 @@ def getLecture(request, lecture_id):
 	except Lecture.DoesNotExist:
 		raise Http500
 
+	course = lecture.course
+	course.view_time = course.view_time + 1
+	course.save()
 	lectures = lecture.course.lecture_set.all()
 
 	template = loader.get_template('lecture/l.html')
