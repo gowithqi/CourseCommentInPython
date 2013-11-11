@@ -17,7 +17,6 @@ def super(request, comment_id):
 
 	user_id = checkUserLogin(request)
 	user = get_object_or_404(User, id=user_id)
-	user.influence_factor = user.influence_factor+1 			#influence factor caculation need to be discussed
 	comment_id = int(comment_id)
 	comment = get_object_or_404(LectureComment, id=comment_id)
 	try:
@@ -26,6 +25,8 @@ def super(request, comment_id):
 	except LectureCommentSuperRecord.DoesNotExist:
 		pass
 
+	user.influence_factor = user.influence_factor+1 			#influence factor caculation need to be discussed
+	user.save()
 	LectureCommentSuperRecord.objects.create(lecture_comment=comment, user=user)
 	comment.super_number = comment.super_number + 1
 	comment.rank_score = comment.rank_score + SUPER_VALUE
@@ -45,7 +46,6 @@ def deSuper(request, comment_id):
 
 	user_id = checkUserLogin(request)
 	user = get_object_or_404(User, id=user_id)
-	user.influence_factor = user.influence_factor-1				#influence factor
 	comment_id = int(comment_id)
 	comment = get_object_or_404(LectureComment, id=comment_id)
 	try:
@@ -53,6 +53,9 @@ def deSuper(request, comment_id):
 		victim.delete()
 	except LectureCommentSuperRecord.DoesNotExist:
 		raise Http404
+
+	user.influence_factor = user.influence_factor-1				#influence factor
+	user.save()
 	comment.super_number = comment.super_number - 1
 	comment.rank_score = comment.rank_score - SUPER_VALUE
 	comment.save()

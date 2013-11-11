@@ -21,6 +21,7 @@ def autoComplete(request):
 	else: 	courseList = Course.objects.filter(name__startswith=content).order_by("name")
 	res = ''
 	i = 1
+	print "len: ", len(courseList)
 	if len(courseList) > 0:
 		tmpc = courseList[0]
 		if tmp: res = res + tmpc.number + ": "
