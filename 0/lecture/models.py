@@ -69,5 +69,11 @@ class LectureStudentScoreRecord(models.Model):
 	score = models.SmallIntegerField(db_column = "score")
 	time = models.DateTimeField("data published", db_column = "time")
 
+class UserLectureCollection(models.Model):
+	class Meta:
+		db_table = "userLectureCollection"
+
+	user = models.ForeignKey(User, db_column = "user_id")
+	lecture = models.ForeignKey(Lecture, db_column = "lecture_id")
 
 

@@ -1,8 +1,9 @@
 from django.http import HttpResponse, Http404, HttpResponseRedirect
 from django.template import RequestContext, loader
 from django.shortcuts import render, get_object_or_404
+from django.views.decorators.http import require_http_methods
 
-from lecture.models import Course, Lecture, LectureComment, LectureCommentSuperRecord, LectureLevelRecord
+from lecture.models import Course, Lecture, LectureComment, LectureCommentSuperRecord, LectureLevelRecord, UserLectureCollection
 from login.models import User
 from login.views import checkUserLogin
 
@@ -19,4 +20,17 @@ def changeLecture(request):
 
 	return HttpResponse(res)
 
+@require_http_methods(['GET'])
+def collectLecture(request, collect_act, lecture_id):
+	user_id = checkUserLogin(request)
+	user = get_object_or_404(User, id=user_id)
+	lecture = get_object_or_404(Lecture, id=int(lecture_id))
+
+	if str(collect_act) == "collect":
+		UserLectureCollection.objects.create(user=user, lecture=lecture)
+	else:
+		user_lecture_collection = get_object_or_404(UserLectureCollection, user=user, lecture=lecture)
+		user_lecture_collection.delete()
+
+	return HttpResponse("yes")
 

@@ -90,46 +90,4 @@ def test(request, lecture_id):
 	# content = "fuck SJTU"
 	# lectureComment = LectureComment.objects.create(lecture=lecture, user=user, content=content)
 
-	# return HttpResponse()
-
-	if request.method != 'GET': raise Http404
-	print "123"
-	print lecture_id, type(lecture_id)
-	lecture_id = int(lecture_id)
-
-	try:
-		lecture = Lecture.objects.get(id=lecture_id)
-	except Lecture.DoesNotExist:
-		raise Http500
-
-	lectures = lecture.course.lecture_set.all()
-	db.close_connection()
-	lec = []
-	for l in lectures: 
-		tmp = {}
-		tmp['lecture'] = l
-		if 'SERVER_SOFTWARE' in os.environ:
-			from bae.api import logging
-			logging.debug("before filter"+str (l.course.name))
-		tmp['comments'] = l.lecturecomment_set.all()
-		print tmp['comments']
-		if 'SERVER_SOFTWARE' in os.environ:
-			from bae.api import logging
-			logging.debug("after filter")
-		lec.append(tmp)
-		db.close_connection()
-
-	template = loader.get_template('lecture/test.html')
-	if 'SERVER_SOFTWARE' in os.environ:
-		from bae.api import logging
-		logging.debug("before context")
-	context = RequestContext(request, {
-		'course': lecture.course,
-		'lectures': lectures,
-		'focus_lecture_id': lecture_id,
-		'lec': lec,
-		})
-	if 'SERVER_SOFTWARE' in os.environ:
-		from bae.api import logging
-		logging.debug("before return")
-	return HttpResponse(template.render(context))
+	return HttpResponse()

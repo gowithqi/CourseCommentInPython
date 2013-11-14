@@ -1,36 +1,10 @@
-{% load lecture_extras %}
 <br/>
-{{ course.name }}
+lecture collection<br/>
 <br/>
-<br/>
-{% for lecture in lectures %}
-	{% if lecture.id == focus_lecture_id %}
-	this is focus<br/>
-	{% endif %}
-	{{ lecture.course.name }} <br/>
-	{{ lecture.professor.name }} <br/>
+{{ u.name }}<br/>
+{{ u.id }}<br/>
+{% for l in u.userlecturecollection_set.all %}
+	{{ l.lecture.course.name }}_<br/>
+	{{ l.lecture.id }}_<br/>
 	<br/>
 {% endfor %}
-<br/>
-<br/>
-<br/>
-<br/>
-{% for l in lec %}
-	{% with Lecture=l|getkey:'lecture'  Comments=l|getkey:'comments' %}
-	{% if Lecture.id == focus_lecture_id %}
-	this is focus <br/>
-	{% endif %}
-
-	{{ Lecture.course.name }}<br/>
-	{{ Lecture.professor.name }}<br/>
-
-	{% for c in Comments %}
-		{{ c.content }}<br/>
-	{% empty %}
-		there are no comments<br/>
-	{% endfor %}
-	{% endwith %}
-	<br/>
-{% endfor %}
-
-

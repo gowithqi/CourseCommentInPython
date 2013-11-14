@@ -1,4 +1,5 @@
 from datetime import datetime
+import os
 
 from django.http import HttpResponse, Http404, HttpResponseRedirect
 from django.template import RequestContext, loader
@@ -11,6 +12,7 @@ from login.views import checkUserLogin
 
 START_TIME = datetime(year=2013, month=11, day=1)
 SUPER_VALUE = 10		# One SUPER equal how many days
+MAX_COMMENTS_PER_USER = 3		# One user can comment a lecture at most ** times.
 
 def super(request, comment_id):
 	if request.method != 'GET': raise Http404
@@ -39,6 +41,7 @@ def super(request, comment_id):
 	except MessageOfCommentSuper.DoesNotExist:
 		message = MessageOfCommentSuper.objects.create(user=comment.user, lecture_comment=comment)
 
+	increaseSysAchievement()
 	return HttpResponse("yes")
 
 def deSuper(request, comment_id):
@@ -69,12 +72,21 @@ def deSuper(request, comment_id):
 
 	return HttpResponse("yes")
 
+def increaseSysAchievement():
+	if 'SERVER_SOFTWARE' in os.environ:
+		from bae.api.counter import BaeCounter
+		cr = BaeCounter()
+		cr.increase('achievement')
+	return
+
 def commentLecture(request, lecture_id):
 	if request.method != "POST": raise Http404
 
 	user_id = checkUserLogin(request)
 	user = get_object_or_404(User, id=user_id)
-	
+	if user.lecturecomment_set.all().count() >= MAX_COMMENTS_PER_USER:
+		return HttpResponse("You have comment too mant times")
+
 	lecture_id = int(lecture_id)
 	lecture = get_object_or_404(Lecture, id=lecture_id)
 	now = datetime.now()
