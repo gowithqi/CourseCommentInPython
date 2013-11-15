@@ -4,6 +4,8 @@ from gossip import views
 
 urlpatterns = patterns('',
 	url(r'^$', views.gossip, name='gossip'),
+	url(r'^record/$', views.recordGossip),
+	url(r'^(?P<super_action>super|desuper)/(?P<gossip_id>\d+)/', views.superGossip),
 	# url(r'^(?P<user_id>\d+)/$', views.userpage, name='userpage'),
 	# url(r'^sign/$', views.sign, name='sign'),
 	# url(r'^changepassword/$', views.changepassword),
