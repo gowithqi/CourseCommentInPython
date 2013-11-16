@@ -230,7 +230,7 @@ def test(request):
 		rlist = r.getList()
 		res = []
 		for u in rlist:
-			user = get_object_or_404(User, id=u[0])
+			user = get_object_or_404(User, id=long(u[0]))
 			tmp = (user.name, u[1])
 			res.append(tmp)
 		template = loader.get_template("lecture/test.html")

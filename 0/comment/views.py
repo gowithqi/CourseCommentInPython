@@ -84,7 +84,7 @@ def updateUserInfluence(user, delta):
 		from bae.api.rank import BaeRank
 		from bae.api import logging
 		r = BaeRank("UserInfluence")
-		user_key = user.id
+		user_key = str(user.id)
 		user_influence = int(user.influence_factor)
 		user_dict = {user_key: user_influence}
 		logging.debug(str(user_dict))
