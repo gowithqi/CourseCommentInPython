@@ -28,6 +28,7 @@ def super(request, comment_id):
 		pass
 
 	user.influence_factor = user.influence_factor+1 			#influence factor caculation need to be discussed
+	updateUserInfluence(user)
 	user.save()
 	LectureCommentSuperRecord.objects.create(lecture_comment=comment, user=user)
 	comment.super_number = comment.super_number + 1
@@ -58,6 +59,7 @@ def deSuper(request, comment_id):
 		raise Http404
 
 	user.influence_factor = user.influence_factor-1				#influence factor
+	updateUserInfluence(user)
 	user.save()
 	comment.super_number = comment.super_number - 1
 	comment.rank_score = comment.rank_score - SUPER_VALUE
@@ -78,6 +80,20 @@ def increaseSysAchievement():
 		cr = BaeCounter()
 		cr.increase('achievement')
 	return
+
+def updateUserInfluence(user):
+	if 'SERVER_SOFTWARE' in os.environ:
+		from bae.api.rank import BaeRank
+		from bae.api import logging
+		r = BaeRank("UserInfluence")
+		user_key = "user_" + str(user.id)
+		user_influence = user.influence_factor
+		user_dict = {user_key: user_influence}
+		logging.debug(str(user_dict))
+		r.set(**user_dict)
+
+	return
+
 
 def commentLecture(request, lecture_id):
 	if request.method != "POST": raise Http404
