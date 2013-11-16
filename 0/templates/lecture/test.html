@@ -1,3 +1,6 @@
 {% for r in res %}
-	{{ r }}<br/>
+	{% for i in r %}
+		{{ i }}___
+	{% endfor %}
+	<br/>
 {% endfor %}
