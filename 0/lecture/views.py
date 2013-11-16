@@ -9,6 +9,7 @@ from django import db
 from lecture.models import Course, Lecture, LectureComment, LectureCommentSuperRecord, LectureLevelRecord, LectureStudentScoreRecord
 from login.models import User
 from login.views import checkUserLogin
+from comment.views import increaseSysAchievement
 
 import os
 
@@ -37,6 +38,7 @@ def getLecture(request, lecture_id):
 		'u': user,
 		'focus_lecture_id': lecture_id,
 		})
+	increaseSysAchievement()
 	return HttpResponse(template.render(context))
 
 def recordStudentScore(request, lecture_id):

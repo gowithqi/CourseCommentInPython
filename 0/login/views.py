@@ -13,6 +13,7 @@ from django.db.models import Q
 
 from login.models import User, RegisteringUser
 from lecture.models import Lecture
+from comment.views import updateUserInfluence
 
 LEASTCOMMITNUMBER = 3
 RANKSIZE = 10
@@ -84,6 +85,7 @@ def regCheckUser(request, user_id, check_code):
 	user.check_status = False
 	user.formal = True
 	user.save()
+	updateUserInfluence(user, 0)
 	template = loader.get_template("login/register_success.html")      #zzq: html
 	context = RequestContext(request, {
 		'u': user
@@ -186,6 +188,7 @@ def userpage(request, user_id):
 	user = get_object_or_404(User, id=user_id)
 	lecture_rank_level = Lecture.objects.filter(level_number__gte=LEASTCOMMITNUMBER).order_by("-level")[:RANKSIZE]
 	lecture_rank_student_score = Lecture.objects.filter(student_score_number__gte=LEASTCOMMITNUMBER).order_by("-student_score")[:RANKSIZE]
+	(user_influence_factor, user_rank) = getUserInfluenceInfo(user)
 	template = loader.get_template("userpage/userpage.html")
 	context = RequestContext(request, {
 		'u': user,
@@ -193,6 +196,17 @@ def userpage(request, user_id):
 		'lstudentscore': lecture_rank_student_score,
 		})
 	return HttpResponse(template.render(context))
+
+def getUserInfluenceInfo(user):
+	res = (10, 1)
+	if 'SERVER_SOFTWARE' in os.environ:
+		from bae.api.rank import BaeRank
+		from bae.api import logging
+		r = BaeRank("UserInfluence")
+		keyword = str(user.id)
+		info = r.get(keyword)
+		res = (info['response_params']['value'], info['response_params']['rank']+1)
+	return res
 
 def sign(request):
 	if 'SERVER_SOFTWARE' in os.environ:
