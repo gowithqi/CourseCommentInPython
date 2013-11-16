@@ -26,10 +26,8 @@ def super(request, comment_id):
 		return HttpResponse("have supered")
 	except LectureCommentSuperRecord.DoesNotExist:
 		pass
-
-	user.influence_factor = user.influence_factor+1 			#influence factor caculation need to be discussed
-	updateUserInfluence(user)
-	user.save()
+	
+	updateUserInfluence(comment.user, 1)
 	LectureCommentSuperRecord.objects.create(lecture_comment=comment, user=user)
 	comment.super_number = comment.super_number + 1
 	comment.rank_score = comment.rank_score + SUPER_VALUE
@@ -58,9 +56,7 @@ def deSuper(request, comment_id):
 	except LectureCommentSuperRecord.DoesNotExist:
 		raise Http404
 
-	user.influence_factor = user.influence_factor-1				#influence factor
-	updateUserInfluence(user)
-	user.save()
+	updateUserInfluence(comment.user, -1)
 	comment.super_number = comment.super_number - 1
 	comment.rank_score = comment.rank_score - SUPER_VALUE
 	comment.save()
@@ -81,7 +77,9 @@ def increaseSysAchievement():
 		cr.increase('achievement')
 	return
 
-def updateUserInfluence(user):
+def updateUserInfluence(user, delta):
+	user.influence_factor = user.influence_factor + delta
+	user.save()
 	if 'SERVER_SOFTWARE' in os.environ:
 		from bae.api.rank import BaeRank
 		from bae.api import logging

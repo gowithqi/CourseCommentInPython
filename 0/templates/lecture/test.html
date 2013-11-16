@@ -1,10 +1,1 @@
-<br/>
-lecture collection<br/>
-<br/>
-{{ u.name }}<br/>
-{{ u.id }}<br/>
-{% for l in u.userlecturecollection_set.all %}
-	{{ l.lecture.course.name }}_<br/>
-	{{ l.lecture.id }}_<br/>
-	<br/>
-{% endfor %}
+{{ res }}

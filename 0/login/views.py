@@ -223,19 +223,17 @@ def changepassword(request):
 		return 
 
 def test(request):
-	import random
-	lectures = Lecture.objects.order_by("?")[:RANKSIZE]
-	for l in lectures:
-		l.level = random.random()*5
-		l.level_number = LEASTCOMMITNUMBER
-		l.save()
+	if 'SERVER_SOFTWARE' in os.environ:
+		from bae.api.rank import BaeRank
+		from bae.api import logging
+		r = BaeRank("UserInfluence")
+		res = r.query()
+		template = loader.get_template("lecture/test.html")
+		context = RequestContext(request, {
+			'res': res,
+			})
+		return HttpResponse(template.render(context))
 
-	lectures = Lecture.objects.order_by("?")[:RANKSIZE]
-	for l in lectures:
-		l.student_score = random.random()*100
-		l.student_score_number = LEASTCOMMITNUMBER
-		l.save()
-
-	return HttpResponse("success")
+	return HttpResponse("")
 
 	
