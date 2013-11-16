@@ -13,7 +13,7 @@ from django.db.models import Q
 
 from login.models import User, RegisteringUser
 from lecture.models import Lecture
-from comment.views import updateUserInfluence
+from comment.influence import updateUserInfluence
 
 LEASTCOMMITNUMBER = 3
 RANKSIZE = 10

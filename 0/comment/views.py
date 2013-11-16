@@ -9,6 +9,7 @@ from lecture.models import Course, Lecture, LectureComment, LectureCommentSuperR
 from login.models import User
 from comment.models import MessageOfCommentSuper
 from login.views import checkUserLogin
+from comment.influence import increaseSysAchievement, updateUserInfluence
 
 START_TIME = datetime(year=2013, month=11, day=1)
 SUPER_VALUE = 10		# One SUPER equal how many days
@@ -69,29 +70,6 @@ def deSuper(request, comment_id):
 		raise Http404
 
 	return HttpResponse("yes")
-
-def increaseSysAchievement():
-	if 'SERVER_SOFTWARE' in os.environ:
-		from bae.api.counter import BaeCounter
-		cr = BaeCounter()
-		cr.increase('achievement')
-	return
-
-def updateUserInfluence(user, delta):
-	user.influence_factor = user.influence_factor + delta
-	user.save()
-	if 'SERVER_SOFTWARE' in os.environ:
-		from bae.api.rank import BaeRank
-		from bae.api import logging
-		r = BaeRank("UserInfluence")
-		user_key = str(user.id)
-		user_influence = int(user.influence_factor)
-		user_dict = {user_key: user_influence}
-		logging.debug(str(user_dict))
-		r.set(**user_dict)
-
-	return
-
 
 def commentLecture(request, lecture_id):
 	if request.method != "POST": raise Http404
