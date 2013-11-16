@@ -227,7 +227,7 @@ def test(request):
 		from bae.api.rank import BaeRank
 		from bae.api import logging
 		r = BaeRank("UserInfluence")
-		res = r.query()
+		res = r.getList()
 		template = loader.get_template("lecture/test.html")
 		context = RequestContext(request, {
 			'res': res,
