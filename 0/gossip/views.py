@@ -26,7 +26,7 @@ def gossip(request):
 def recordGossip(request): 
 	user_id = 0 
 	if 'user_id' in request.session: user_id = request.session['user_id']
-	if !checkGossipContent(request.POST['content']): return HttpResponse("wrong")
+	if not checkGossipContent(request.POST['content']): return HttpResponse("wrong")
 
 	now = datetime.now()
 	delta_t = now - START_TIME

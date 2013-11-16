@@ -11,6 +11,7 @@ class Course(models.Model):
 	credit = models.FloatField(default = 0, db_column = "credit")
 	school = models.CharField(max_length = 50, db_column = "school")
 	view_time = models.IntegerField(default = 0, db_column = "view_time")
+	name_pinyin = models.CharField(max_length = 50, db_column = "name_pinyin")
 
 class Professor(models.Model):
 	class Meta:
