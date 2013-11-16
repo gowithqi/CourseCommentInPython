@@ -227,6 +227,8 @@ def test(request):
 		from bae.api.rank import BaeRank
 		from bae.api import logging
 		r = BaeRank("UserInfluence")
+		logging.debug(str(r.get("14")))
+
 		rlist = r.getList()
 		res = []
 		for u in rlist:
