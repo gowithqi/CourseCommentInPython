@@ -13,7 +13,7 @@ from django.db.models import Q
 
 from login.models import User, RegisteringUser
 from lecture.models import Lecture
-from comment.influence import updateUserInfluence
+from comment.influence import updateUserInfluence, getSysAchievement
 
 LEASTCOMMITNUMBER = 3
 RANKSIZE = 10
@@ -185,15 +185,23 @@ def setNewPassword(request):
 @require_http_methods(['GET'])
 def userpage(request, user_id):
 	if not ('user_id' in request.session): raise Http404
+
 	user = get_object_or_404(User, id=user_id)
 	lecture_rank_level = Lecture.objects.filter(level_number__gte=LEASTCOMMITNUMBER).order_by("-level")[:RANKSIZE]
 	lecture_rank_student_score = Lecture.objects.filter(student_score_number__gte=LEASTCOMMITNUMBER).order_by("-student_score")[:RANKSIZE]
 	(user_influence_factor, user_rank) = getUserInfluenceInfo(user)
+	sys_achievement = getSysAchievement()
+	lectures = Lecture.objects.order_by('?')[:3]
+
 	template = loader.get_template("userpage/userpage.html")
 	context = RequestContext(request, {
 		'u': user,
 		'llevel': lecture_rank_level,
 		'lstudentscore': lecture_rank_student_score,
+		'user_influence_factor': user_influence_factor,
+		'user_rank': user_rank,
+		'sys_achievement': sys_achievement,
+		'lectures': lectures,
 		})
 	return HttpResponse(template.render(context))
 
@@ -206,6 +214,8 @@ def getUserInfluenceInfo(user):
 		keyword = str(user.id)
 		info = r.get(keyword)
 		res = (info['response_params']['value'], info['response_params']['rank']+1)
+	else:
+		res = (user.influence_factor, User.objects.filter(influence_factor__gt=user.influence_factor).count()+1)
 	return res
 
 def sign(request):
@@ -237,24 +247,41 @@ def changepassword(request):
 		return 
 
 def test(request):
-	if 'SERVER_SOFTWARE' in os.environ:
-		from bae.api.rank import BaeRank
-		from bae.api import logging
-		r = BaeRank("UserInfluence")
-		logging.debug(str(r.get("14")))
+	if not ('user_id' in request.session): raise Http404
 
-		rlist = r.getList()
-		res = []
-		for u in rlist:
-			user = get_object_or_404(User, id=long(u[0]))
-			tmp = (user.name, u[1])
-			res.append(tmp)
-		template = loader.get_template("lecture/test.html")
-		context = RequestContext(request, {
-			'res': res,
-			})
-		return HttpResponse(template.render(context))
+	user_id = checkUserLogin(request)
+	user = get_object_or_404(User, id=user_id)
+	(user_influence_factor, user_rank) = getUserInfluenceInfo(user)
+	sys_achievement = getSysAchievement()
+	lectures = Lecture.objects.order_by('?')[:3]
 
-	return HttpResponse("")
+	template = loader.get_template("lecture/test.html")
+	context = RequestContext(request, {
+		'u': user,
+		'user_influence_factor': user_influence_factor,
+		'user_rank': user_rank,
+		'sys_achievement': sys_achievement,
+		'lectures': lectures,
+		})
+	return HttpResponse(template.render(context))
+	# if 'SERVER_SOFTWARE' in os.environ:
+	# 	from bae.api.rank import BaeRank
+	# 	from bae.api import logging
+	# 	r = BaeRank("UserInfluence")
+	# 	logging.debug(str(r.get("14")))
+
+	# 	rlist = r.getList()
+	# 	res = []
+	# 	for u in rlist:
+	# 		user = get_object_or_404(User, id=long(u[0]))
+	# 		tmp = (user.name, u[1])
+	# 		res.append(tmp)
+	# 	template = loader.get_template("lecture/test.html")
+	# 	context = RequestContext(request, {
+	# 		'res': res,
+	# 		})
+	# 	return HttpResponse(template.render(context))
+
+	# return HttpResponse("")
 
 	

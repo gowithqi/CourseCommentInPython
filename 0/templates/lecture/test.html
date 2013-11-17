@@ -1,6 +1,101 @@
-{% for r in res %}
-	{% for i in r %}
-		{{ i }}___
+{% load staticfiles %}
+<html lang="en-CN">
+<head>
+	<meta charset="utf-8">
+	<meta name="author" content="jt">	
+
+	<title>课程点评网</title>
+
+	<script type="text/javascript" src="{% static 'js/jquery-1.10.2.min.js' %}"></script>
+
+	<link href="{% static 'css/bootstrap.css' %}" rel="stylesheet">
+	<link href="{% static 'css/bootstrap-theme.css' %}" rel="stylesheet">
+	  
+	<script type="text/javascript" src="{% static 'js/bootstrap.min.js' %}"></script>
+</head>
+
+<body>
+User influence: <br/>
+user name: {{ u.name }}<br/>
+user influence factor: {{ user_influence_factor }}<br/>
+user rank: {{ user_rank }}<br/>
+<br/>
+<br/>
+
+Your message: <br/>
+{% for message in u.messageofcommentsuper_set.all %}
+	{{ message.lecture_comment.lecture.course.name }}__
+	{{ message.lecture_comment.lecture.professor.name }}__
+	{{ message.lecture_comment.content }}__
+	add {{ message.super_added }} SUPERS<br/>
+{% endfor %}
+<br/>
+<br/>
+
+System Achievement: {{ sys_achievement }}<br/>
+<br/>
+<br/>
+
+Your comment: <br/>
+total {{ u.lecturecomment_set.all.count }} comments<br/>
+list 3 of them <br/>
+<table class="table table-striped">
+	<thead></thead>
+	<tbody>
+		{% for comment in u.lecturecomment_set.all|slice:":3" %}
+		<tr>
+			<th>
+				{{ comment.user.name }}<br/>
+				{{ comment.lecture.course.name }}<br/>
+				{{ comment.lecture.professor.name }}
+			</th>
+			<th>
+				<p>{{ comment.content }}</p>
+				<ul class="breadcrumb">
+					<li style="margin-right:40%;">
+						{{ comment.time|date:"Y-m-d H:i:s" }}
+					</li>
+					<li>
+						{{ comment.super_number }} SUPERs
+					</li>
+					<li>
+						rank_score: {{ comment.rank_score }}
+					</li>
+				</ul>
+				<p><br/></p>
+			</th>
+		</tr>
+		{% empty %}
+		<p>You haven't make a comment</p>
+		{% endfor %}
+	</tbody>
+</table>
+<br/>
+<br/>
+
+Change Lecture: <br/>
+{% for l in lectures %}
+	{{ l.course.name }}__
+	{{ l.professor.name }}__
+	{{ l.level }}__
+	/lecture/{{ l.id }}<br/>
+{% endfor %}
+<br/>
+<br/>
+Your lecture collection: <br/>
+{% for collectionrecord in u.userlecturecollection_set.all|slice:":3" %}
+	{{ collectionrecord.lecture.course.name }}__
+	{{ collectionrecord.lecture.professor.name }}__
+	{{ collectionrecord.lecture.id }}<br/>
+	{% for c in collectionrecord.lecture.lecturecomment_set.all|slice:":1" %}
+		_________most popular comment: {{ c.user.name }}__{{ c.content }}__super number: {{ c.super_number }}<br/>
+	{% empty %}
+		there are no comment in this lecture.<br/>
 	{% endfor %}
 	<br/>
+{% empty %}
+	Your haven't collected any lecture<br/>
 {% endfor %}
+
+
+</body>

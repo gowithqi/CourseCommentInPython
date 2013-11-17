@@ -27,7 +27,11 @@ def collectLecture(request, collect_act, lecture_id):
 	lecture = get_object_or_404(Lecture, id=int(lecture_id))
 
 	if str(collect_act) == "collect":
-		UserLectureCollection.objects.create(user=user, lecture=lecture)
+		try: 
+			UserLectureCollection.objects.get(user=user, lecture=lecture)
+			return HttpResponse("You have collected")
+		except UserLectureCollection.DoesNotExist:
+			UserLectureCollection.objects.create(user=user, lecture=lecture)
 	else:
 		user_lecture_collection = get_object_or_404(UserLectureCollection, user=user, lecture=lecture)
 		user_lecture_collection.delete()
