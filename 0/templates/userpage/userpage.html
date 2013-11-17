@@ -61,7 +61,7 @@
             <button type="submit" id="submit" class="btn btn-default">搜索</button>
           </form>
           <ul class="nav navbar-nav navbar-right">
-            <li><a>{{ u.name }}</a></li>
+            <li><a>{{ u.name }} <span class="label label-danger">2</span></a></li>
             <li><a href="/setpassword/">修改密码</a></li>
             <li><a href="/logout/">退出</a></li>
           </ul>
@@ -182,14 +182,20 @@
             var s=data.split("\n");
             $("#complete").html(function(){
               var list="",l=$("#search").val().length;
-              for (var i=0;i<s.length;i++){
-                list=list+"<li><a href='#' style='padding-left:13px;'>";
-                for (var j=0;j<l;j++)
-                  list=list+s[i][j];
-                list=list+"<b>";
-                for (var j=l;j<s[i].length;j++)
-                  list=list+s[i][j];
-                list=list+"</b></a></li>";
+              if (/[a-zA-Z]/.test($("#search").val())){
+                for (var i=0;i<s.length;i++)
+                  list=list+"<li><a href='#' style='padding-left:13px;'>"+s[i]+"</a></li>";
+              }
+              else{
+                for (var i=0;i<s.length;i++){
+                  list=list+"<li><a href='#' style='padding-left:13px;'>";
+                  for (var j=0;j<l;j++)
+                    list=list+s[i][j];
+                  list=list+"<b>";
+                  for (var j=l;j<s[i].length;j++)
+                    list=list+s[i][j];
+                  list=list+"</b></a></li>";
+                }
               }
               return list;
             });
