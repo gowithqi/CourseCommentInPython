@@ -87,6 +87,12 @@ Your lecture collection: <br/>
 	{{ collectionrecord.lecture.course.name }}__
 	{{ collectionrecord.lecture.professor.name }}__
 	{{ collectionrecord.lecture.id }}<br/>
+	{% for c in collectionrecord.lecture.lecturecomment_set.all|slice:":1" %}
+		_________most popular comment: {{ c.user.name }}__{{ c.content }}__super number: {{ c.super_number }}<br/>
+	{% empty %}
+		there are no comment in this lecture.<br/>
+	{% endfor %}
+	<br/>
 {% empty %}
 	Your haven't collected any lecture<br/>
 {% endfor %}
