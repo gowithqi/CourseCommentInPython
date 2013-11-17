@@ -185,15 +185,23 @@ def setNewPassword(request):
 @require_http_methods(['GET'])
 def userpage(request, user_id):
 	if not ('user_id' in request.session): raise Http404
+
 	user = get_object_or_404(User, id=user_id)
 	lecture_rank_level = Lecture.objects.filter(level_number__gte=LEASTCOMMITNUMBER).order_by("-level")[:RANKSIZE]
 	lecture_rank_student_score = Lecture.objects.filter(student_score_number__gte=LEASTCOMMITNUMBER).order_by("-student_score")[:RANKSIZE]
 	(user_influence_factor, user_rank) = getUserInfluenceInfo(user)
+	sys_achievement = getSysAchievement()
+	lectures = Lecture.objects.order_by('?')[:3]
+
 	template = loader.get_template("userpage/userpage.html")
 	context = RequestContext(request, {
 		'u': user,
 		'llevel': lecture_rank_level,
 		'lstudentscore': lecture_rank_student_score,
+		'user_influence_factor': user_influence_factor,
+		'user_rank': user_rank,
+		'sys_achievement': sys_achievement,
+		'lectures': lectures,
 		})
 	return HttpResponse(template.render(context))
 

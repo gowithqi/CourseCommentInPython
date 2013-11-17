@@ -30,4 +30,5 @@ def getSysAchievement():
 		from bae.api.counter import BaeCounter
 		cr = BaeCounter()
 		res = cr.get('achievement')
+		res = res['response_params']['achievement']
 	return	res
