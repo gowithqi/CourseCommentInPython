@@ -153,6 +153,21 @@
           </table>
         </div>
       </div>
+
+      <!-- Modal -->
+      <div class="modal fade" id="eSearch" tabindex="-1">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h4 class="modal-title"></h4>
+            </div>
+            <div class="modal-body"></div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-primary" data-dismiss="modal" id="eSubmit">确定</button>
+            </div>
+          </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+      </div><!-- /.modal -->
     </div><!-- container -->
 
     <!-- Bootstrap core JavaScript
@@ -226,14 +241,46 @@
         );
       }
       function search_post(){
-        $.post("/search/lecture/",
-          {
-            content:$("#search").val()
-          },
-          function(data){
-            window.location.assign(data);
-          }
-        );
+        if ($("#search").val()!="")
+          $.post("/search/lecture/",
+            {
+              content:$("#search").val()
+            },
+            function(data){
+              if (data[0]=="/")
+                if (/[-]/.test(data)){
+                  $("#search").trigger("blur");
+                  $("#eSearch").find("h4").html("无法找到该课程");
+                  $("#eSearch").find(".modal-body").html('<h5><b>抱歉，没有找到名为《'+$("#search").val()+'》的课程。</b></h5>');
+                  $("#eSearch").find(".modal-body").append('<h5><b>请检查课程名是否正确。</b></h5>');
+                  $("#eSearch").modal("show");
+                }
+                else
+                  window.location.assign(data);
+              else{
+                var s=data.split("\n");
+                $("#search").trigger("blur");
+                $("#eSearch").find("h4").html("确认院系");
+                var mb=$("#eSearch").find(".modal-body");
+                mb.html("");
+                mb.attr("data-length",s.length-1);
+                for (var i=0;i<s.length-1;i++){
+                  var cou=s[i].split(":");
+                  mb.append('<div class="radio"><label id="lb'+i+'"><input type="radio" name="optionsRadios" data-number="'+cou[0]+'" id="radio'+i+'">'+cou[4]+'</label></div>');
+                }
+                $("#eSearch").modal("show");
+                document.getElementById("radio0").checked=true;
+              }
+            }
+          );
+      }
+      function search_get(){
+        for (var i=0;i<$("#eSearch").find(".modal-body").attr("data-length");i++)
+          if (document.getElementById("radio"+i).checked)
+            break;
+        $.get("/search/lecture/courseid/"+$("#radio"+i).attr("data-number")+"/",function(data){
+          window.location.assign(data);
+        });
       }
       function change_course_get(){
         $.get("/userpage/change/",function(data){
@@ -325,6 +372,18 @@
       $("#submit").click(function(e){
         e.preventDefault();
         search_post();
+      });
+      $("#eSearch").keydown(function(e){
+        if (e.keyCode==13){
+          $(this).modal("hide");
+          if ($(this).find(".modal-title").html()=="确认院系")
+            search_get();
+        }
+      });
+      $("#eSubmit").click(function(e){
+        e.preventDefault();
+        if ($("#eSearch").find(".modal-title").html()=="确认院系")
+          search_get();
       });
     </script>
 	</body>
