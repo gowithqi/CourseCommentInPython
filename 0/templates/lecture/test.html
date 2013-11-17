@@ -22,6 +22,16 @@ user rank: {{ user_rank }}<br/>
 <br/>
 <br/>
 
+Your message: <br/>
+{% for message in u.messageofcommentsuper_set.all %}
+	{{ message.lecture_comment.lecture.course.name }}__
+	{{ message.lecture_comment.lecture.professor.name }}__
+	{{ message.lecture_comment.content }}__
+	add {{ message.super_added }} SUPERS<br/>
+{% endfor %}
+<br/>
+<br/>
+
 System Achievement: {{ sys_achievement }}<br/>
 <br/>
 <br/>

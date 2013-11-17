@@ -64,8 +64,10 @@ def deSuper(request, comment_id):
 
 	try:
 		message = MessageOfCommentSuper.objects.get(user=comment.user, lecture_comment=comment)
-		message.super_added = message.super_added-1
-		message.save()
+		if message.super_added == 1: message.delete()
+		else: 
+			message.super_added = message.super_added-1
+			message.save()
 	except MessageOfCommentSuper.DoesNotExist:
 		raise Http404
 
