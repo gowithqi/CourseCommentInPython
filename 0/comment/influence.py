@@ -23,3 +23,11 @@ def updateUserInfluence(user, delta):
 		r.set(**user_dict)
 
 	return
+
+def getSysAchievement():
+	res = 0
+	if 'SERVER_SOFTWARE' in os.environ:
+		from bae.api.counter import BaeCounter
+		cr = BaeCounter()
+		res = cr.get('achievement')
+	return	res
