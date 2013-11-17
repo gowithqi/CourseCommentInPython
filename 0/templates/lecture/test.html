@@ -36,11 +36,13 @@ System Achievement: {{ sys_achievement }}<br/>
 <br/>
 <br/>
 
-Your comment:<br/>
+Your comment: <br/>
+total {{ u.lecturecomment_set.all.count }} comments<br/>
+list 3 of them <br/>
 <table class="table table-striped">
 	<thead></thead>
 	<tbody>
-		{% for comment in u.lecturecomment_set.all %}
+		{% for comment in u.lecturecomment_set.all|slice:":3" %}
 		<tr>
 			<th>
 				{{ comment.user.name }}<br/>
@@ -81,7 +83,7 @@ Change Lecture: <br/>
 <br/>
 <br/>
 Your lecture collection: <br/>
-{% for collectionrecord in u.userlecturecollection_set.all %}
+{% for collectionrecord in u.userlecturecollection_set.all|slice:":3" %}
 	{{ collectionrecord.lecture.course.name }}__
 	{{ collectionrecord.lecture.professor.name }}__
 	{{ collectionrecord.lecture.id }}<br/>

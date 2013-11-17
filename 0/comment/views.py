@@ -78,11 +78,12 @@ def commentLecture(request, lecture_id):
 
 	user_id = checkUserLogin(request)
 	user = get_object_or_404(User, id=user_id)
-	if user.lecturecomment_set.all().count() >= MAX_COMMENTS_PER_USER:
-		return HttpResponse("You have comment too mant times")
-
 	lecture_id = int(lecture_id)
 	lecture = get_object_or_404(Lecture, id=lecture_id)
+
+	if LectureComment.objects.filter(user=user, lecture=lecture).count() >= MAX_COMMENTS_PER_USER:
+		return HttpResponse("You have comment too mant times")
+
 	now = datetime.now()
 	delta_t = now - START_TIME
 	lectureComment = LectureComment.objects.create(lecture=lecture, 
