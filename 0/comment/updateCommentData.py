@@ -1,3 +1,5 @@
+import os
+
 from django.http import HttpResponse, Http404, HttpResponseRedirect
 
 from lecture.models import Course, Lecture, LectureComment, LectureCommentSuperRecord, LectureLevelRecord
@@ -12,6 +14,7 @@ import jieba
 def updateCommentData(request):
 	user_id = checkUserLogin(request)
 	if user_id != 14: return Http404
+	garbage_info = getGarbageInfo()
 
 	ret = ""
 	for comment in LectureComment.objects.all():
@@ -22,8 +25,6 @@ def updateCommentData(request):
 		
 		# get lecture infomation
 		lecture_info = getLectureInfo(comment.lecture)
-		# get garbage infomation
-		garbage_info = getGarbageInfo()
 
 		# eliminate the same word
 		word_list = eliminateSameWord(word_list)
@@ -31,7 +32,7 @@ def updateCommentData(request):
 		# eliminate known infomation
 		res = []
 		for w in word_list:
-			if not(w in lecture_info or w in garbage_info) : res.append(w)
+			if not((w in lecture_info) or (w in garbage_info)) : res.append(w)
 
 		ret = ret + "len: " + str(len(res)) + "_"
 		for r in res: ret = ret + r + "_"
@@ -40,7 +41,11 @@ def updateCommentData(request):
 	return HttpResponse(ret)
 
 def getGarbageInfo():
-	return []
+	ret = []
+	f = open(os.path.join(os.path.dirname(__file__), 'garbagedist.txt'), "rb")
+	for line in f.read().rstrip().decode('utf-8').split('\n'):
+		if len(line) > 0: ret.append(line)
+	return ret
 
 def eliminateSameWord(word_list):
 	word_list.sort()
