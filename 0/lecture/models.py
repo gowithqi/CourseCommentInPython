@@ -40,8 +40,9 @@ class LectureComment(models.Model):
 	lecture = models.ForeignKey(Lecture, db_column = "lecture_id")
 	user = models.ForeignKey(User, db_column = "user_id")
 	content = models.TextField(db_column = "content")
+	super_weight = models.FloatField(default = 0.0, db_column = "super_weight")
 	super_number = models.IntegerField(default = 0, db_column = "super_number")
-	rank_score = models.IntegerField(default = 0, db_column = "rank_score")
+	rank_score = models.FloatField(default = 0.0, db_column = "rank_score")
 	time = models.DateTimeField(auto_now_add = True, db_column = "time")
 
 class LectureCommentSuperRecord(models.Model):

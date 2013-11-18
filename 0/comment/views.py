@@ -14,6 +14,7 @@ from comment.influence import increaseSysAchievement, updateUserInfluence
 START_TIME = datetime(year=2013, month=11, day=1)
 SUPER_VALUE = 10		# One SUPER equal how many days
 MAX_COMMENTS_PER_USER = 3		# One user can comment a lecture at most ** times.
+NUMBER_OF_WORDS = 100
 
 def super(request, comment_id):
 	if request.method != 'GET': raise Http404
@@ -31,7 +32,7 @@ def super(request, comment_id):
 	updateUserInfluence(comment.user, 1)
 	LectureCommentSuperRecord.objects.create(lecture_comment=comment, user=user)
 	comment.super_number = comment.super_number + 1
-	comment.rank_score = comment.rank_score + SUPER_VALUE
+	comment.rank_score = comment.rank_score + SUPER_VALUE*comment.super_weight
 	comment.save()
 
 	try:
@@ -59,7 +60,7 @@ def deSuper(request, comment_id):
 
 	updateUserInfluence(comment.user, -1)
 	comment.super_number = comment.super_number - 1
-	comment.rank_score = comment.rank_score - SUPER_VALUE
+	comment.rank_score = comment.rank_score - SUPER_VALUE*content.super_weight
 	comment.save()
 
 	try:
@@ -84,14 +85,40 @@ def commentLecture(request, lecture_id):
 	if LectureComment.objects.filter(user=user, lecture=lecture).count() >= MAX_COMMENTS_PER_USER:
 		return HttpResponse("You have comment too mant times")
 
-	now = datetime.now()
-	delta_t = now - START_TIME
+	super_weight = getSuperWeight(request.POST['content'])
+
 	lectureComment = LectureComment.objects.create(lecture=lecture, 
 		user=user, 
 		content=request.POST['content'], 
-		rank_score=int(delta_t.total_seconds()/86400))
+		rank_score=getRankScore(super_weight),
+		super_weight=super_weight)
 
 	return HttpResponse("yes")
+
+def getRankScore(super_weight):
+	now = datetime.now()
+	delta_t = now - START_TIME
+	time_factor = int(delta_t.total_seconds()/86400)
+
+	return time_factor+SUPER_VALUE*super_weight
+
+def getSuperWeight(content):
+	if len(content) == 0: return 0
+	import math
+	return (0.9/math.pow(NUMBER_OF_WORDS, 1.0/3))*math.pow(getLength(content), 1.0/3)
+
+# compute the number of effective word in the content
+# eliminate the sucessive same word
+def getLength(content):
+	ret = 1
+	tmpc = content[1]
+	for c in content[1:]:
+		if c != tmpc: 
+			ret = ret + 1
+			tmpc = c
+	print "ret: ", ret
+	return ret
+
 
 def getTodayComments(request, check_code):
 	print check_code
