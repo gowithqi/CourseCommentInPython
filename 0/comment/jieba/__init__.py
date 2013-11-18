@@ -75,10 +75,14 @@ def initialize(*args):
         abs_path = os.path.join(_curpath,dictionary)
         logger.debug("Building Trie..., from %s" % abs_path)
         t1 = time.time()
+        if 'SERVER_SOFTWARE' in os.environ:
+            from bae.core import const
+            tempdir = const.APP_TMPDIR    
+        else: tempdir = tempfile.gettempdir()
         if abs_path == os.path.join(_curpath,"dict.txt"): #defautl dictionary
-            cache_file = os.path.join(tempfile.gettempdir(),"jieba.cache")
+            cache_file = os.path.join(tempdir,"jieba.cache")
         else: #customer dictionary
-            cache_file = os.path.join(tempfile.gettempdir(),"jieba.user."+str(hash(abs_path))+".cache")
+            cache_file = os.path.join(tempdir,"jieba.user."+str(hash(abs_path))+".cache")
 
         load_from_cache_fail = True
         if os.path.exists(cache_file) and os.path.getmtime(cache_file)>os.path.getmtime(abs_path):
