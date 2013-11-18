@@ -119,7 +119,6 @@ def getLength(content):
 	print "ret: ", ret
 	return ret
 
-
 def getTodayComments(request, check_code):
 	print check_code
 	from datetime import date
