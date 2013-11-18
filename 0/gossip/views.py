@@ -33,7 +33,8 @@ def recordGossip(request):
 
 	if 'lecture_id' in request.POST: lecture_id = int(request.POST['lecture_id'])
 	else: lecture_id = 0
-
+	if 'user_id' in request.POST: user_id = 0
+	
 	now = datetime.now()
 	delta_t = now - START_TIME
 	Gossip.objects.create(user_id=user_id, 
