@@ -10,6 +10,7 @@ from comment.influence import increaseSysAchievement, updateUserInfluence
 from comment.views import START_TIME, SUPER_VALUE
 
 import jieba
+NUMBER_OF_WORDS = 40
 
 def updateCommentData(request):
 	user_id = checkUserLogin(request)
@@ -34,11 +35,17 @@ def updateCommentData(request):
 		for w in word_list:
 			if not((w in lecture_info) or (w in garbage_info)) : res.append(w)
 
-		ret = ret + "len: " + str(len(res)) + "_"
+		super_weight = getSuperWeight(len(res))
+
+		ret = ret + "len: " + str(len(res)) + "_super weight: " + str(super_weight) + "_"
 		for r in res: ret = ret + r + "_"
 		ret = ret + "<br/>"
 
 	return HttpResponse(ret)
+
+def getSuperWeight(x):
+	import math
+	return (0.9/math.pow(NUMBER_OF_WORDS, 1.0/3))*math.pow(x, 1.0/3)
 
 def getGarbageInfo():
 	ret = []
@@ -51,7 +58,8 @@ def eliminateSameWord(word_list):
 	word_list.sort()
 
 	tmpw = word_list[0]
-	ret = [tmpw]
+	if tmpw != " ": ret = [tmpw]
+	else: ret = []
 	for w in word_list[1:]:
 		if w != tmpw:
 			ret.append(w)
