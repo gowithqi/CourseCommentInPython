@@ -9,6 +9,7 @@ from login.models import User
 from gossip.models import Gossip, GossipSuperRecord
 
 GOSSIPS_NUMBER = 50
+GOSSIP_MAX_LENGTH = 300
 START_TIME = datetime(year=2013, month=11, day=11)
 SUPER_VALUE = 10
 
@@ -22,23 +23,29 @@ def gossip(request):
 	
 	return HttpResponse(template.render(context))
 
+# a gossip with its author hidden, the user id will be 0.
+# a gossip that isn't for a specific lecture, the lecture id will 0
 @require_http_methods(['POST'])
-def recordGossip(request): 
-	user_id = 0 
+def recordGossip(request):
+	user_id = 0
 	if 'user_id' in request.session: user_id = request.session['user_id']
 	if not checkGossipContent(request.POST['content']): return HttpResponse("wrong")
+
+	if 'lecture_id' in request.POST: lecture_id = int(request.POST['lecture_id'])
+	else: lecture_id = 0
 
 	now = datetime.now()
 	delta_t = now - START_TIME
 	Gossip.objects.create(user_id=user_id, 
+		lecture_id=lecture_id,
 		content=request.POST['content'],
-		rank_score=int(delta_t.total_seconds()/60))
+		rank_score=int(delta_t.total_seconds()/1800))
 
 	return HttpResponse("yes")
 
 def checkGossipContent(content):
 	# length
-	if len(content) > 300: return False
+	if len(content) > GOSSIP_MAX_LENGTH: return False
 	return True
 	
 @require_http_methods(['GET'])
