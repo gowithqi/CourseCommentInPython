@@ -60,7 +60,7 @@ def deSuper(request, comment_id):
 
 	updateUserInfluence(comment.user, -1)
 	comment.super_number = comment.super_number - 1
-	comment.rank_score = comment.rank_score - SUPER_VALUE*content.super_weight
+	comment.rank_score = comment.rank_score - SUPER_VALUE*comment.super_weight
 	comment.save()
 
 	try:
