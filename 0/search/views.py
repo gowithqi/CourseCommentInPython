@@ -17,24 +17,19 @@ def autoComplete(request):
 	if request.method != "POST": raise Http404
 
 	content = request.POST['content']
-	if isPinyin(content): courseList = Course.objects.filter(name_pinyin__startswith=content).order_by("-view_time", "name")
-	else: 				  courseList = Course.objects.filter(name__startswith=content).order_by("-view_time", "name")
+	if isPinyin(content): courseList = Course.objects.filter(name_pinyin__startswith=content).order_by("-view_time", "name")[:(AUTO_COMPLETE_LIST_LENGTH+10)]
+	else: 				  courseList = Course.objects.filter(name__startswith=content).order_by("-view_time", "name")[:(AUTO_COMPLETE_LIST_LENGTH+10)]
 
-	res = ''
-	i = 1
-	print "len: ", len(courseList)
-	if len(courseList) > 0:
-		tmpc = courseList[0]
-		res = res + tmpc.name + '\n'
-		for c in courseList[1:]: 
-			if c.name != tmpc.name:	
-				res = res + c.name + '\n'
-				i = i + 1
-			tmpc = c
-			if i == AUTO_COMPLETE_LIST_LENGTH: break
-		res = res[:-1]
+	course_name_list = getCourseNameList(courseList)
+	return HttpResponse("\n".join(course_name_list))
 
-	return HttpResponse(res)
+def getCourseNameList(courseList):
+	ret = []
+	for c in courseList:
+		if c.name in ret: pass
+		else: ret.append(c.name)
+		if len(ret) == AUTO_COMPLETE_LIST_LENGTH: break
+	return ret
 
 def searchLecture(request):
 	if request.method != 'POST': raise Http404
