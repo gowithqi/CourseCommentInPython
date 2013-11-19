@@ -7,6 +7,7 @@ from django.shortcuts import render, get_object_or_404
 from django import db
 
 from lecture.models import Course, Lecture, LectureComment, LectureCommentSuperRecord, LectureLevelRecord, LectureStudentScoreRecord
+from gossip.models import Gossip, GossipSuperRecord
 from login.models import User
 from login.views import checkUserLogin
 from comment.views import increaseSysAchievement
@@ -31,15 +32,41 @@ def getLecture(request, lecture_id):
 	course.save()
 	lectures = lecture.course.lecture_set.all()
 
+	comment_super_list = getSuperList(lecture, user, "comment")
+	gossip_super_list = getSuperList(lecture, user, "gossip")
+	print comment_super_list
+	print gossip_super_list
+
 	template = loader.get_template('lecture/l.html')
 	context = RequestContext(request, {
 		'course': lecture.course,
 		'lectures' : lectures,
 		'u': user,
 		'focus_lecture_id': lecture_id,
+		'comment_super_list': comment_super_list,
+		'gossip_super_list': gossip_super_list,
 		})
 	increaseSysAchievement()
 	return HttpResponse(template.render(context))
+
+def getSuperList(lecture, user, table):
+	res = []
+	if table == "comment": 
+		comments = LectureComment.objects.filter(lecture=lecture)
+		for comment in comments:
+			try:
+				LectureCommentSuperRecord.objects.get(lecture_comment=comment, user=user)
+				res.append(int(comment.id))
+			except LectureCommentSuperRecord.DoesNotExist: pass
+	elif table == "gossip":
+		gossips = Gossip.objects.filter(lecture=lecture)
+		for gossip in gossips:
+			try:
+				GossipSuperRecord.objects.get(gossip=gossip, user=user)
+				res.append(int(gossip.id))
+			except GossipSuperRecord.DoesNotExist: pass
+
+	return res
 
 def recordStudentScore(request, lecture_id):
 	if request.method != "POST": raise Http404
