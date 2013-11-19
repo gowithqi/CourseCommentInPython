@@ -524,19 +524,25 @@
 					var y = $(id).parent().children("input.comment_id");
 					if (x == "Good")
 					{
-						x = "Cancel";
-						id.innerHTML = x;
 						$.get("/comment/super/"+y.val()+"/",function(status){
 							alert(status);
+							if (status == "yes")
+							{
+								x = "Cancel";
+								id.innerHTML = x;
+							}
 						});
 
 					}
 					else
 					{
-						x = "Good";
-						id.innerHTML = x;
 						$.get("/comment/desuper/"+y.val()+"/",function(status){
 							alert(status);
+							if (status == "yes")
+							{
+								x = "Good";
+								id.innerHTML = x;
+							}
 						});
 					}
 				}
