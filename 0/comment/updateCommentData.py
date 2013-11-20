@@ -1,4 +1,5 @@
 import os
+from datetime import datetime
 
 from django.http import HttpResponse, Http404, HttpResponseRedirect
 
@@ -12,13 +13,19 @@ from comment.views import START_TIME, SUPER_VALUE
 import jieba
 NUMBER_OF_WORDS = 40
 
-def updateCommentData(request):
+def updateCommentData(request, mode):
 	user_id = checkUserLogin(request)
 	if user_id != 14: return Http404
+	if str(mode) == "force": force_recompute = True
+	elif str(mode) == "unforce": force_recompute = False
+	else: raise Http500
+
 	garbage_info = getGarbageInfo()
 
 	ret = ""
 	for comment in LectureComment.objects.all():
+		if not (comment.need_recompute or force_recompute): continue
+
 		print comment.lecture.course.name, comment.content
 		# get content word list
 		word_list = jieba.cut(comment.content, cut_all=False)
@@ -36,7 +43,14 @@ def updateCommentData(request):
 			if not((w in lecture_info) or (w in garbage_info)) : res.append(w)
 
 		super_weight = getSuperWeight(len(res))
+		comment_time = comment.time
+		delta_t = comment_time - START_TIME
+		time_factor = int(delta_t.total_seconds()/86400)
 
+		comment.rank_score = time_factor+SUPER_VALUE*super_weight*(comment.super_number+1)
+		comment.super_weight = comment.super_weight
+		comment.need_recompute = False
+		comment.save()
 		ret = ret + "len: " + str(len(res)) + "_super weight: " + str(super_weight) + "_"
 		for r in res: ret = ret + r + "_"
 		ret = ret + "<br/>"

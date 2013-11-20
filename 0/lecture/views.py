@@ -84,6 +84,7 @@ def recordStudentScore(request, lecture_id):
 	newscore = float(lss*lssn + float(request.POST['score'])) / (lssn+1)
 	lecture.student_score_number = lssn+1
 	lecture.student_score = newscore
+
 	lecture.save()
 
 	LectureStudentScoreRecord.objects.create(lecture=lecture, user=user, score=float(request.POST['score']))
@@ -99,11 +100,20 @@ def recordLevel(request, lecture_id):
 	lecture = get_object_or_404(Lecture, id=lecture_id)
 	try:
 		LectureLevelRecord.objects.get(lecture=lecture, user=user)
-		return HttpResponse("have recorded student score")
+		return HttpResponse("have recorded level")
 	except LectureLevelRecord.DoesNotExist: pass
+
+	level = int(request.POST['level'])
+	if level == 1: lecture.level_1_number = lecture.level_1_number + 1
+	elif level == 2: lecture.level_2_number = lecture.level_2_number + 1
+	elif level == 3: lecture.level_3_number = lecture.level_3_number + 1
+	elif level == 4: lecture.level_4_number = lecture.level_4_number + 1
+	elif level == 5: lecture.level_5_number = lecture.level_5_number + 1
+	else: raise Http500
+
 	ll = lecture.level         
 	lln = lecture.level_number
-	newlevel = float(ll*lln + float(request.POST['level'])) / (lln+1)
+	newlevel = float(ll*lln + float(level)) / (lln+1)
 	lecture.level_number = lln+1
 	lecture.level = newlevel
 	lecture.save()

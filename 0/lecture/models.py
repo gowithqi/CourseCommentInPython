@@ -31,6 +31,11 @@ class Lecture(models.Model):
 	level = models.FloatField(default = 0, db_column = "level")
 	student_score_number = models.IntegerField(default = 0, db_column = "student_score_number")
 	level_number = models.IntegerField(default = 0, db_column = "level_number")
+	level_1_number = models.IntegerField(default = 0, db_column = "level_1_number")
+	level_2_number = models.IntegerField(default = 0, db_column = "level_2_number")
+	level_3_number = models.IntegerField(default = 0, db_column = "level_3_number")
+	level_4_number = models.IntegerField(default = 0, db_column = "level_4_number")
+	level_5_number = models.IntegerField(default = 0, db_column = "level_5_number")
 
 class LectureComment(models.Model):
 	class Meta:
@@ -43,6 +48,7 @@ class LectureComment(models.Model):
 	super_weight = models.FloatField(default = 0.0, db_column = "super_weight")
 	super_number = models.IntegerField(default = 0, db_column = "super_number")
 	rank_score = models.FloatField(default = 0.0, db_column = "rank_score")
+	need_recompute = models.BooleanField(default=True, db_column = "need_recompute")
 	time = models.DateTimeField(auto_now_add = True, db_column = "time")
 
 class LectureCommentSuperRecord(models.Model):

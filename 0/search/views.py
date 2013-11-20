@@ -12,6 +12,7 @@ from lecture.models import Lecture, Course
 from login.views import checkUserLogin
 
 AUTO_COMPLETE_LIST_LENGTH = 5
+MAX_ALTERNATE_NUMBER = 7
 
 def autoComplete(request):
 	if request.method != "POST": raise Http404
@@ -38,16 +39,20 @@ def searchLecture(request):
 	lecture_id = 0
 	keyword = request.POST['content']
 
-	courses = Course.objects.filter(name = keyword)
+	courses = Course.objects.filter(name=keyword)
+	print len(courses)
 	if len(courses) == 1: 
 		course = courses[0]
 		lectures = course.lecture_set.all()
 		if len(lectures) > 0: lecture_id = lectures[0].id
 		else: lecture_id = -1
-	elif len(courses) > 1: 
+	elif (len(courses) > 1): 
 		res = ""
+		i = 0
 		for c in courses:
 			res = res + str(c.id) + ':' + c.name + ':' + c.number + ':' + str(c.credit) + ':' + c.school + '\n'
+			i = i + 1
+			if i == MAX_ALTERNATE_NUMBER: break
 		print res
 		return HttpResponse(res)
 	else: lecture_id = -1
