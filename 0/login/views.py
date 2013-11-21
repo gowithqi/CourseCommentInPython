@@ -115,14 +115,14 @@ def sendCheckToUser(user, resurl):
 		bcms = BaeBcms(const.ACCESS_KEY, const.SECRET_KEY)
 		ret = bcms.createQueue("emailQ")
 		real_qname = str(ret['response_params']['queue_name'])
-		ret = bcms.mail(real_qname, content, [user_account], "support@baidu.com", "Check Your")
+		ret = bcms.mail(real_qname, content, [user_account], "support@baidu.com", CHECK_EMAIL_SUBJECT)
 		ret = bcms.dropQueue(real_qname)
 		return True
 	else:
 		check_URL = '127.0.0.1:8000/' +  check_URL
 		content = CHECK_EMAIL_CONTENT % check_URL
 		try:
-			send_mail('Check You', content, 'gowithqi@gmail.com', [user_account], fail_silently=True)
+			send_mail(CHECK_EMAIL_SUBJECT, content, 'gowithqi@gmail.com', [user_account], fail_silently=True)
 		except smtplib.SMTPException:
 			return False
 		return True

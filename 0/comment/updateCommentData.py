@@ -47,6 +47,7 @@ def updateCommentData(request, mode):
 		delta_t = comment_time - START_TIME
 		time_factor = int(delta_t.total_seconds()/86400)
 
+		if force_recompute: comment.super_number = comment.lecturecommentsuperrecord_set.all().count()
 		comment.rank_score = time_factor+SUPER_VALUE*super_weight*(comment.super_number+1)
 		comment.super_weight = comment.super_weight
 		comment.need_recompute = False
