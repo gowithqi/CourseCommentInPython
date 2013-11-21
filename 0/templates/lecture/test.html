@@ -24,6 +24,7 @@ user rank: {{ user_rank }}<br/>
 
 Your message: <br/>
 {% for message in u.messageofcommentsuper_set.all %}
+	{{ message.id}}__
 	{{ message.lecture_comment.lecture.course.name }}__
 	{{ message.lecture_comment.lecture.professor.name }}__
 	{{ message.lecture_comment.content }}__

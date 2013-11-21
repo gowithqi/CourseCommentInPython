@@ -2,10 +2,12 @@ from django.http import HttpResponse, Http404, HttpResponseRedirect
 from django.template import RequestContext, loader
 from django.shortcuts import render, get_object_or_404
 from django.views.decorators.http import require_http_methods
+from django.core.urlresolvers import reverse
 
 from lecture.models import Course, Lecture, LectureComment, LectureCommentSuperRecord, LectureLevelRecord, UserLectureCollection
 from login.models import User
 from login.views import checkUserLogin
+from comment.models import MessageOfCommentSuper
 
 def changeLecture(request):
 	if request.method != 'GET': raise Http404
@@ -38,3 +40,15 @@ def collectLecture(request, collect_act, lecture_id):
 
 	return HttpResponse("yes")
 
+@require_http_methods(['GET'])
+def checkSuperMessage(request, message_id):
+	user_id = checkUserLogin(request)
+	user = get_object_or_404(User, id=user_id)
+	message_id = int(message_id)
+	print message_id
+	message = get_object_or_404(MessageOfCommentSuper, id=message_id)
+	lecture_id = message.lecture_comment.lecture.id
+	print lecture_id
+	message.delete()
+
+	return HttpResponseRedirect(reverse("lecture", args=(lecture_id, )))

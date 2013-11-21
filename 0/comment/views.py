@@ -26,7 +26,7 @@ def super(request, comment_id):
 	comment = get_object_or_404(LectureComment, id=comment_id)
 	try:
 		victim = LectureCommentSuperRecord.objects.get(lecture_comment=comment, user=user)
-		res = {"result": "您已经点过赞了"}
+		res = {"result": "您已经点过赞了", "comment": [1,2,3]}
 		import json
 		return HttpResponse(json.dumps(res, ensure_ascii=False))
 	except LectureCommentSuperRecord.DoesNotExist:
