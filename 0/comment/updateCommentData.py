@@ -49,7 +49,7 @@ def updateCommentData(request, mode):
 
 		if force_recompute: comment.super_number = comment.lecturecommentsuperrecord_set.all().count()
 		comment.rank_score = time_factor+SUPER_VALUE*super_weight*(comment.super_number+1)
-		comment.super_weight = comment.super_weight
+		comment.super_weight = super_weight
 		comment.need_recompute = False
 		comment.save()
 		ret = ret + "len: " + str(len(res)) + "_super weight: " + str(super_weight) + "_"
