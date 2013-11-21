@@ -1,4 +1,4 @@
-# Create your views here.
+# -*- coding: utf-8 -*-
 import random
 import os
 import smtplib
@@ -17,6 +17,11 @@ from comment.influence import updateUserInfluence, getSysAchievement
 
 LEASTCOMMITNUMBER = 3
 RANKSIZE = 10
+
+CHECK_EMAIL_CONTENT = """您好，这里SJTU Course，我们在通过交大邮箱验证您的身份信息，请您访问以下链接来确认信息。
+		%s
+SJTU Course感谢您一如既往的支持，谢谢您的使用！"""
+CHECK_EMAIL_SUBJECT = "SJTU Course身份验证"
 
 def login(request):
 	print request.method, type(request.method)
@@ -104,18 +109,20 @@ def sendCheckToUser(user, resurl):
 	check_URL = resurl + str(user.id) + '/' + str(check_code)
 	if 'SERVER_SOFTWARE' in os.environ:
 		check_URL = 'http://sjtucourse.duapp.com/' + check_URL
+		content = CHECK_EMAIL_CONTENT % check_URL
 		from bae.core import const
 		from bae.api.bcms import BaeBcms	
 		bcms = BaeBcms(const.ACCESS_KEY, const.SECRET_KEY)
 		ret = bcms.createQueue("emailQ")
 		real_qname = str(ret['response_params']['queue_name'])
-		ret = bcms.mail(real_qname, check_URL, [user_account], "support@baidu.com", "Check Your")
+		ret = bcms.mail(real_qname, content, [user_account], "support@baidu.com", "Check Your")
 		ret = bcms.dropQueue(real_qname)
 		return True
 	else:
 		check_URL = '127.0.0.1:8000/' +  check_URL
+		content = CHECK_EMAIL_CONTENT % check_URL
 		try:
-			send_mail('Check You', check_URL, 'gowithqi@gmail.com', [user_account], fail_silently=True)
+			send_mail('Check You', content, 'gowithqi@gmail.com', [user_account], fail_silently=True)
 		except smtplib.SMTPException:
 			return False
 		return True

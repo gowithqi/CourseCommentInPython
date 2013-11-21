@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 from datetime import datetime
 import os
 
@@ -25,7 +26,9 @@ def super(request, comment_id):
 	comment = get_object_or_404(LectureComment, id=comment_id)
 	try:
 		victim = LectureCommentSuperRecord.objects.get(lecture_comment=comment, user=user)
-		return HttpResponse("have supered")
+		res = {"result": "您已经点过赞了"}
+		import json
+		return HttpResponse(json.dumps(res, ensure_ascii=False))
 	except LectureCommentSuperRecord.DoesNotExist:
 		pass
 	
