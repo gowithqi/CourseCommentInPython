@@ -122,7 +122,7 @@
         function(){
           $(".modal-title").html("还差一步！");
           $(".modal-body").html("<h5><b>我们已向您的邮箱发送验证邮件</b></h5>");
-          $(".modal-body").append("<h5><b>请登录<a href='http://mail.sjtu.edu.cn'> mail.sjtu.edu.cn </a>查询</b></h5>");
+          $(".modal-body").append("<h5><b>请登录<a href='http://mail.sjtu.edu.cn'> mail.sjtu.edu.cn </a>查询（可能在垃圾邮箱T_T）</b></h5>");
         });
       }
       function account_get(){
@@ -302,6 +302,7 @@
         else{
           if (e.keyCode==13&&last==0)
           {
+
             e.preventDefault();
             if (check()){
               $(".modal-body").html("<h5><b>邮箱 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"+$("#account").val()+"@sjtu.edu.cn</b></h5>");

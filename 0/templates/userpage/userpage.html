@@ -23,22 +23,21 @@
 	<body>
     {% csrf_token %}
     <div class="container">
-      <nav class="navbar navbar-inverse" role="navigation">
+      <nav class="navbar" style="background-color:#DDDDDD;">
         <!-- Brand and toggle get grouped for better mobile display -->
         <div class="navbar-header">
-          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
-            <span class="sr-only">Toggle navigation</span>
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navcol">
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand">课程点评网</a>
+          <a class="navbar-brand" href="/">课程点评网</a>
         </div>
 
         <!-- Collect the nav links, forms, and other content for toggling -->
-        <div class="collapse navbar-collapse">
+        <div class="collapse navbar-collapse" id="navcol">
           <ul class="nav navbar-nav">
-            <li class="active"><a href="#">课程排行</a></li>
+            <li><a href="#">课程排行</a></li>
             <li><a href="#">课程交易</a></li>
             <li class="dropdown">
               <a href="#" class="dropdown-toggle" data-toggle="dropdown">课程分类 <b class="caret"></b></a>
@@ -53,108 +52,38 @@
               </ul>
             </li>
           </ul>
-          <form class="navbar-form navbar-left">
-            <div class="form-group dropdown" style="width:300px;">
-              <input type="text" class="form-control" id="search" autocomplete="off" placeholder="来这里找课！">
-              <ul class="dropdown-menu" id="complete" style="width:100%;border-radius:0px;margin-top:-1px;"></ul>
-            </div>
-            <button type="submit" id="submit" class="btn btn-default">搜索</button>
-          </form>
           <ul class="nav navbar-nav navbar-right">
-            <li><a>{{ u.name }} <span class="label label-danger">2</span></a></li>
+            <li class="dropdown">
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown">{{ u.name }} <span class="badge" style="background-color:#FF7744 ;">{% if u.messageofcommentsuper_set.all.count %}{{ u.messageofcommentsuper_set.all.count }}{% endif %}</span></a>
+              {% if u.messageofcommentsuper_set.all.count %}
+              <ul class="dropdown-menu">
+                {% for message in u.messageofcommentsuper_set.all %}
+                <li style="text-align:right;"><a href="/userpage/checksupermessage/{{ message.id }}/">{{ message.lecture_comment.lecture.course.name }}__{{ message.lecture_comment.lecture.professor.name }}<br/>
+                {{ message.lecture_comment.content }}<br/>
+                +{{ message.super_added }}赞</a></li>
+                <li class="divider"></li>
+                {% endfor %}
+                <li style="text-align:center;">共{{u.messageofcommentsuper_set.all.count}}条</li>
+              </ul>
+              {% endif %}
+            </li>
             <li><a href="/setpassword/">修改密码</a></li>
             <li><a href="/logout/">退出</a></li>
           </ul>
         </div><!-- /.navbar-collapse -->
       </nav>
 
-      <div class="col-sm-9">
-        <div id="carousel-example-generic" class="carousel slide" data-ride="carousel">
-          <!-- Indicators -->
-          <ol class="carousel-indicators">
-            <li data-target="#carousel-example-generic" data-slide-to="0" class="active"></li>
-            <li data-target="#carousel-example-generic" data-slide-to="1"></li>
-            <li data-target="#carousel-example-generic" data-slide-to="2"></li>
-          </ol>
-
-          <!-- Wrapper for slides -->
-          
-          <div class="carousel-inner">
-            <div class="item active">
-              <img src="{% static 'img/slide0' %}">
-              <div class="carousel-caption">
-                <h3><a href="/lecture/1/">算法与复杂性</a></h3>
-                <p>陈翌佳</p>
-              </div>
-            </div>
-            <div class="item">
-              <img src="{% static 'img/slide1' %}">
-              <div class="carousel-caption">
-                <h3><a href="/lecture/2/">编译原理</a></h3>
-                <p>吴帆</p>
-              </div>
-            </div>
-            <div class="item">
-              <img src="{% static 'img/slide2' %}">
-              <div class="carousel-caption">
-                <h3><a href="/lecture/3/">软件工程</a></h3>
-                <p>盛斌</p>
-              </div>
-            </div>
+      <div class="row">
+        <form class="col-sm-offset-4">
+          <div class="form-group dropdown col-sm-5">
+            <input type="text" class="form-control" id="search" autocomplete="off" placeholder="来这里找课！">
+            <ul class="dropdown-menu" id="complete" style="width:90.7%;border-radius:0px;margin-top:-1px;margin-left:15px"></ul>
           </div>
+          <button type="submit" id="submit" class="btn btn-default">搜索</button>
+        </form>
+      </div><!-- search form -->
 
-          <!-- Controls -->
-          <a class="left carousel-control" href="#carousel-example-generic" data-slide="prev">&lt;</a>
-          <a class="right carousel-control" href="#carousel-example-generic" data-slide="next">&gt;</a>
-        </div><!-- carousel -->
-      </div>
-      
-      <div class="col-sm-5">
-        <div class="panel panel-primary">
-          <div class="panel-heading" style="text-align:center;">评分TOP10</div>
-          <table class="table">
-            <thead>
-              <tr>
-                <th>排名</th> <th>课程名</th> <th>老师</th> <th>评分</th>
-              </tr>
-            </thead>
-            <tbody id="rank1">
-              {% for l in llevel %}
-              <tr>
-                <td></td>
-                <td><a href="/lecture/{{ l.id }}/">{{ l.course.name }}</a></td>
-                <td>{{ l.professor.name }}</td>
-                <td>{{ l.level }}</td>
-              </tr>
-              {% endfor %}
-            </tbody>
-          </table>
-        </div>
-      </div>
-      <div class="col-sm-5 col-sm-offset-2">
-        <div class="panel panel-primary">
-          <div class="panel-heading" style="text-align:center;">得分TOP10</div>
-          <table class="table">
-            <thead>
-              <tr>
-                <th>排名</th> <th>课程名</th> <th>老师</th> <th>评分</th>
-              </tr>
-            </thead>
-            <tbody id="rank2">
-              {% for l in lstudentscore %}
-              <tr>
-                <td></td>
-                <td><a href="/lecture/{{ l.id }}/">{{ l.course.name }}</a></td>
-                <td>{{ l.professor.name }}</td>
-                <td>{{ l.student_score }}</td>
-              </tr>
-              {% endfor %}
-            </tbody>
-          </table>
-        </div>
-      </div>
-
-      <!-- Modal -->
+      <!-- extra search -->
       <div class="modal fade" id="eSearch" tabindex="-1">
         <div class="modal-dialog">
           <div class="modal-content">
@@ -163,11 +92,146 @@
             </div>
             <div class="modal-body"></div>
             <div class="modal-footer">
-              <button type="button" class="btn btn-primary" data-dismiss="modal" id="eSubmit">确定</button>
+              <button type="button" class="btn btn-primary" data-dismiss="modal">确定</button>
             </div>
           </div><!-- /.modal-content -->
         </div><!-- /.modal-dialog -->
       </div><!-- /.modal -->
+
+      <div class="row">
+        <div class="col-sm-9">
+          <div id="carousel-example-generic" class="carousel slide" data-ride="carousel">
+            <!-- Indicators -->
+            <ol class="carousel-indicators">
+              <li data-target="#carousel-example-generic" data-slide-to="0" class="active"></li>
+              <li data-target="#carousel-example-generic" data-slide-to="1"></li>
+              <li data-target="#carousel-example-generic" data-slide-to="2"></li>
+            </ol>
+
+            <!-- Wrapper for slides -->
+            <div class="carousel-inner">
+              {% for l in lectures %}
+              <div class="item active">
+                <img src="{% static 'img/slide0' %}">
+                <div class="carousel-caption">
+                  <h3><a href="/lecture/{{ l.id }}/">{{ l.course.name }}</a></h3>
+                  <p>{{ l.professor.name }}</p>
+                  <p>{{ l.level }}</p>
+                </div>
+              </div>
+              {% endfor %}
+            </div>
+
+            <!-- Controls -->
+            <a class="left carousel-control" href="#carousel-example-generic" data-slide="prev">&lt;</a>
+            <a class="right carousel-control" href="#carousel-example-generic" data-slide="next">&gt;</a>
+          </div><!-- carousel -->
+        </div>
+      </div>
+{{ u.name }}<br/>
+{{ user_influence_factor }}<br/>
+{{ user_rank }}<br/>
+{{ sys_achievement }}<br/>
+
+
+Your comment: <br/>
+total {{ u.lecturecomment_set.all.count }} comments<br/>
+list 3 of them <br/>
+<table class="table table-striped">
+  <thead></thead>
+  <tbody>
+    {% for comment in u.lecturecomment_set.all|slice:":3" %}
+    <tr>
+      <th>
+        {{ comment.user.name }}<br/>
+        {{ comment.lecture.course.name }}<br/>
+        {{ comment.lecture.professor.name }}
+      </th>
+      <th>
+        <p>{{ comment.content }}</p>
+        <ul class="breadcrumb">
+          <li style="margin-right:40%;">
+            {{ comment.time|date:"Y-m-d H:i:s" }}
+          </li>
+          <li>
+            {{ comment.super_number }} SUPERs
+          </li>
+          <li>
+            rank_score: {{ comment.rank_score }}
+          </li>
+        </ul>
+        <p><br/></p>
+      </th>
+    </tr>
+    {% empty %}
+    <p>You haven't make a comment</p>
+    {% endfor %}
+  </tbody>
+</table>
+<br/>
+<br/>
+Your lecture collection: <br/>
+{% for collectionrecord in u.userlecturecollection_set.all|slice:":3" %}
+  {{ collectionrecord.lecture.course.name }}__
+  {{ collectionrecord.lecture.professor.name }}__
+  {{ collectionrecord.lecture.id }}<br/>
+  {% for c in collectionrecord.lecture.lecturecomment_set.all|slice:":1" %}
+    _________most popular comment: {{ c.user.name }}__{{ c.content }}__super number: {{ c.super_number }}<br/>
+  {% empty %}
+    there are no comment in this lecture.<br/>
+  {% endfor %}
+  <br/>
+{% empty %}
+  Your haven't collected any lecture<br/>
+{% endfor %}
+      <!--
+      <div class="row">
+        <div class="col-sm-5">
+          <div class="panel panel-primary">
+            <div class="panel-heading" style="text-align:center;">评分TOP10</div>
+            <table class="table">
+              <thead>
+                <tr>
+                  <th>排名</th> <th>课程名</th> <th>老师</th> <th>评分</th>
+                </tr>
+              </thead>
+              <tbody id="rank1">
+                {% for l in llevel %}
+                <tr>
+                  <td></td>
+                  <td><a href="/lecture/{{ l.id }}/">{{ l.course.name }}</a></td>
+                  <td>{{ l.professor.name }}</td>
+                  <td>{{ l.level }}</td>
+                </tr>
+                {% endfor %}
+              </tbody>
+            </table>
+          </div>
+        </div>
+        <div class="col-sm-5 col-sm-offset-2">
+          <div class="panel panel-primary">
+            <div class="panel-heading" style="text-align:center;">得分TOP10</div>
+            <table class="table">
+              <thead>
+                <tr>
+                  <th>排名</th> <th>课程名</th> <th>老师</th> <th>评分</th>
+                </tr>
+              </thead>
+              <tbody id="rank2">
+                {% for l in lstudentscore %}
+                <tr>
+                  <td></td>
+                  <td><a href="/lecture/{{ l.id }}/">{{ l.course.name }}</a></td>
+                  <td>{{ l.professor.name }}</td>
+                  <td>{{ l.student_score }}</td>
+                </tr>
+                {% endfor %}
+              </tbody>
+          </table>
+          </div>
+        </div>
+      </div>
+      -->
     </div><!-- container -->
 
     <!-- Bootstrap core JavaScript
@@ -177,214 +241,6 @@
     <script src="{% static 'js/jquery-migrate-1.2.1.min.js' %}"></script>
     <script src="{% static 'js/bootstrap.min.js' %}"></script>
     <script src="{% static 'js/myjquery.js' %}"></script>
-    <script>
-      var clr=0,cur=0,hid=0,len=0,laststr="",origin_val="";
-      $(document).ready(function(){
-        var trs1=$("#rank1").children(),
-            trs2=$("#rank2").children();
-        for (var i=0;i<10;i++){
-          trs1.eq(i).children().eq(0).html(i+1);
-          trs2.eq(i).children().eq(0).html(i+1);
-        }
-        $.csrftoken();
-      });
-      function auto_complete_post(){
-        $.post("/search/lecture/autocomplete/",
-          {
-            content:$("#search").val()
-          },
-          function(data){
-            var s=data.split("\n");
-            $("#complete").html(function(){
-              var list="",l=$("#search").val().length;
-              if (/[a-zA-Z]/.test($("#search").val())){
-                for (var i=0;i<s.length;i++)
-                  list=list+"<li><a href='#' style='padding-left:13px;'>"+s[i]+"</a></li>";
-              }
-              else{
-                for (var i=0;i<s.length;i++){
-                  list=list+"<li><a href='#' style='padding-left:13px;'>";
-                  for (var j=0;j<l;j++)
-                    list=list+s[i][j];
-                  list=list+"<b>";
-                  for (var j=l;j<s[i].length;j++)
-                    list=list+s[i][j];
-                  list=list+"</b></a></li>";
-                }
-              }
-              return list;
-            });
-            $("#complete").find("a").mousedown(function(){
-              $("#search").val($(this).html().replace("<b>","").replace("</b>",""));
-              $("#complete").hide();
-              hid=1;
-              search_post();
-            });
-            $("#complete").children().mouseenter(function(){
-              $(this).parent().children().eq(cur).find("a").attr("style","padding-left:13px;color:#333333;background-color:#ffffff;");
-              $(this).find("a").attr("style","padding-left:13px;color:#333333;background-color:#ebebeb;");
-              cur=$(this).index();
-            });
-            if (s[0]==""||(s.length==1&&s[0]==$("#search").val())){
-              len=0;
-              $("#complete").hide();
-              hid=1;
-            }
-            else{
-              len=s.length;
-              cur=-1;
-              origin_val=$("#search").val();
-              $("#complete").show();
-              hid=0;
-            }
-          }
-        );
-      }
-      function search_post(){
-        if ($("#search").val()!="")
-          $.post("/search/lecture/",
-            {
-              content:$("#search").val()
-            },
-            function(data){
-              if (data[0]=="/")
-                if (/[-]/.test(data)){
-                  $("#search").trigger("blur");
-                  $("#eSearch").find("h4").html("无法找到该课程");
-                  $("#eSearch").find(".modal-body").html('<h5><b>抱歉，没有找到名为《'+$("#search").val()+'》的课程。</b></h5>');
-                  $("#eSearch").find(".modal-body").append('<h5><b>请检查课程名是否正确。</b></h5>');
-                  $("#eSearch").modal("show");
-                }
-                else
-                  window.location.assign(data);
-              else{
-                var s=data.split("\n");
-                $("#search").trigger("blur");
-                $("#eSearch").find("h4").html("确认院系");
-                var mb=$("#eSearch").find(".modal-body");
-                mb.html("");
-                mb.attr("data-length",s.length-1);
-                for (var i=0;i<s.length-1;i++){
-                  var cou=s[i].split(":");
-                  mb.append('<div class="radio"><label id="lb'+i+'"><input type="radio" name="optionsRadios" data-number="'+cou[0]+'" id="radio'+i+'">'+cou[4]+'</label></div>');
-                }
-                $("#eSearch").modal("show");
-                document.getElementById("radio0").checked=true;
-              }
-            }
-          );
-      }
-      function search_get(){
-        for (var i=0;i<$("#eSearch").find(".modal-body").attr("data-length");i++)
-          if (document.getElementById("radio"+i).checked)
-            break;
-        $.get("/search/lecture/courseid/"+$("#radio"+i).attr("data-number")+"/",function(data){
-          window.location.assign(data);
-        });
-      }
-      function change_course_get(){
-        $.get("/userpage/change/",function(data){
-          var s=data.split("\n");
-          for (var i=0;i<3;i++){
-
-          }
-        });
-      }
-      function auto_complete(){
-        if ($("#search").val()==""){
-          $("#complete").hide();
-          hid=1;
-          laststr="";
-        }
-        else
-        if (laststr!=$("#search").val()){
-          laststr=$("#search").val();
-          auto_complete_post();
-        }
-      }
-      var curSlide=0;
-      // function change_slides(){
-      //   var nextSlide=curSlide+1;
-      //   if (nextSlide==3)
-      //     nextSlide=0;
-      //   var indicator=$(".carousel-indicators").children();
-      //   var curInn=$(".carousel-inner").children().eq(curSlide),
-      //       nextInn=$(".carousel-inner").children().eq(nextSlide);
-      //   indicator.eq(curSlide).attr("class","");
-      //   curInn.attr("class","item active left");
-      //   nextInn.attr("class","item next left");
-      //   setTimeout("",1000);
-      //   indicator.eq(nextSlide).attr("class","active");
-      //   curInn.attr("class","item");
-      //   nextInn.attr("class","item active");
-      //   curSlide=nextSlide;
-      //   setTimeout("change_slides",3000);
-      // }
-      $("#search").focus(function(){
-        clr=setInterval("auto_complete()",500);
-      });
-      $("#search").blur(function(){
-        clearInterval(clr);
-        $("#complete").hide();
-        hid=1;
-      });
-      $("#search").keydown(function(e){
-        if (e.keyCode==40||e.keyCode==38){
-          e.preventDefault();
-          if (hid==1){
-            laststr="";
-            return;
-          }
-          var nxt;
-          if (e.keyCode==40){
-            nxt=cur+1;
-            if(nxt==len)
-              nxt=-1;
-          }
-          else{
-            nxt=cur-1;
-            if (nxt<-1)
-              nxt=len-1;
-          }
-          if (cur>=0)
-            $("#complete").children().eq(cur).find("a").attr("style","padding-left:13px;color:#333333;background-color:#ffffff;");
-          if (nxt>=0){
-            var li=$("#complete").children().eq(nxt).find("a");
-            li.attr("style","padding-left:13px;color:#333333;background-color:#ebebeb;");
-            $("#search").val(li.html().replace("<b>","").replace("</b>",""));
-          }
-          else
-            $("#search").val(origin_val);
-          laststr=$("#search").val();
-          cur=nxt;
-        }
-        else if (e.keyCode==13){
-          e.preventDefault();
-          search_post();
-        }
-        else if (e.keyCode==27){
-          if (hid==0){
-            hid=1;
-            $("#complete").hide();
-          }
-        }
-      });
-      $("#submit").click(function(e){
-        e.preventDefault();
-        search_post();
-      });
-      $("#eSearch").keydown(function(e){
-        if (e.keyCode==13){
-          $(this).modal("hide");
-          if ($(this).find(".modal-title").html()=="确认院系")
-            search_get();
-        }
-      });
-      $("#eSubmit").click(function(e){
-        e.preventDefault();
-        if ($("#eSearch").find(".modal-title").html()=="确认院系")
-          search_get();
-      });
-    </script>
+    <script src="{% static 'js/userpage.js' %}"></script>
 	</body>
 </html>
