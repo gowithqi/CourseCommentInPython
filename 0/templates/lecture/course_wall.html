@@ -302,16 +302,16 @@
 															{% with comments=l.lecturecomment_set.all %}
 															{% for comment in comments %}
 															<tr>
-																<th style="width:100px;">
+																<th>
 																	{{ comment.user.name }}
 																	<br/>
 																	<span class="badge" style="background-color:#DEB887">{{ comment.user.influence_factor }}</span>
 																</th>
-																<th style="width:500px;">
+																<th>
 																	<p style="text-align:left;">{{ comment.content }}</p>
 																	<p style="text-align:right;">{{ comment.time|date:"Y-m-d H:i:s" }}</p>
 																</th>
-																<th style="width:50px;">
+																<th>
 																	<p style="text-align:right;"><span class="badge" style="background-color:#0066FF;" id="comment_{{ comment.id }}">{{ comment.super_number }}</span></p>
 																	<input class="comment_id" type="hidden" value="{{ comment.id }}">
 																	<p onclick="comment_good(this)" style="text-decoration:underline; cursor:pointer; color:#0066FF;text-align:right" class="good">赞</p>
@@ -529,10 +529,15 @@
 									var reg = RegExp(nowClass,"g");
 									starlist[flag].className = starlist[flag].className.replace(reg,"")
 								}
+								tips.innerHTML = tipsTxt[this.value];
 							}
 							starlist[i].onmouseout = function(){
 								if (flag< 999){
 									starlist[flag].className = starlist[flag].className + nowClass;
+								    tips.innerHTML = tipsTxt[this.value];
+								}
+								else{
+									tips.innerHTML = "";
 								}
 							}
 						};

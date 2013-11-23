@@ -132,7 +132,7 @@
               <h3 class="panel-title">系统成就</h3>
             </div>
             <div class="panel-body">
-              <p>我们已经帮助{{ sys_achievement }}人选课</p>
+              <p>我们已经帮助交大同学{{ sys_achievement }}次了解课程</p>
             </div>
           </div>
           <div class="panel panel-info">
@@ -180,7 +180,7 @@
               <table class="table table-striped">
                 <thead></thead>
                 <tbody>
-                  {% for comment in u.lecturecomment_set.all|slice:":3" %}
+                  {% for comment in u.lecturecomment_set.all|dictsortreversed:"time"|slice:":3" %}
                   <tr>
                     <th>
                       {{ comment.user.name }}<br/>
