@@ -73,9 +73,12 @@ def searchLectureUsingCourseID(request, course_id):
 def isPinyin(keyword):
 	res = True
 	for k in keyword:
-		res = res and (k.isdigit() or isLetter(k))
+		res = res and (not isHanZi(k))
 	return res
-
+	
+def isHanZi(keyword):
+	return (keyword >= u'\u4e00' and keyword<=u'\u9fa5')
+	
 def isCourseNumber(keyword):
 	res = True
 	for k in keyword[:5]: res = res and (k.isdigit() or isLetter(k))

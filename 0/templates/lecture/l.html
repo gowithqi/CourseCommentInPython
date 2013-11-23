@@ -525,6 +525,9 @@
 					if (x == "Good")
 					{
 						$.get("/comment/super/"+y.val()+"/",function(status){
+							obj = JSON.parse(status);
+							console.log(obj.result);
+							console.log(obj.comment[1]);
 							alert(status);
 							if (status == "yes")
 							{
