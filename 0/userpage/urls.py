@@ -6,5 +6,7 @@ urlpatterns = patterns('',
 	url(r'^change/$', views.changeLecture),
 	url(r'^(?P<collect_act>collect|decollect)/lecture/(?P<lecture_id>\d+)/$', views.collectLecture),
 	url(r'^checksupermessage/(?P<message_id>\d+)/$', views.checkSuperMessage),
+	url(r'^getallcollectionlectures/$', views.getAllCollectionLectures),
+	url(r'^getallcomments/$', views.getAllComments),
 )
 

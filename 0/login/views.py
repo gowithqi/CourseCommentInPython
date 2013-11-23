@@ -95,6 +95,7 @@ def regCheckUser(request, user_id, check_code):
 	context = RequestContext(request, {
 		'u': user
 		})
+	request.session['user_id'] = user.id
 	return HttpResponse(template.render(context))
 
 def sendCheckToUser(user, resurl):
