@@ -58,9 +58,9 @@
               {% if u.messageofcommentsuper_set.all.count %}
               <ul class="dropdown-menu">
                 {% for message in u.messageofcommentsuper_set.all %}
-                <li style="text-align:right;"><a href="/userpage/checksupermessage/{{ message.id }}/">{{ message.lecture_comment.lecture.course.name }}__{{ message.lecture_comment.lecture.professor.name }}<br/>
-                {{ message.lecture_comment.content }}<br/>
-                +{{ message.super_added }}赞</a></li>
+                <li><a href="/userpage/checksupermessage/{{ message.id }}/">{{ message.lecture_comment.lecture.course.name }}__{{ message.lecture_comment.lecture.professor.name }}<br/>
+                {{ message.lecture_comment.content }}
+                <p style="text-align:right;">+{{ message.super_added }}赞</p></a></li>
                 <li class="divider"></li>
                 {% endfor %}
                 <li style="text-align:center;">共{{u.messageofcommentsuper_set.all.count}}条</li>
@@ -98,40 +98,82 @@
         </div><!-- /.modal-dialog -->
       </div><!-- /.modal -->
 
-      <div class="row">
-        <div class="col-sm-9">
-          <div id="carousel-example-generic" class="carousel slide" data-ride="carousel">
-            <!-- Indicators -->
-            <ol class="carousel-indicators">
-              <li data-target="#carousel-example-generic" data-slide-to="0" class="active"></li>
-              <li data-target="#carousel-example-generic" data-slide-to="1"></li>
-              <li data-target="#carousel-example-generic" data-slide-to="2"></li>
-            </ol>
-
-            <!-- Wrapper for slides -->
-            <div class="carousel-inner">
-              {% for l in lectures %}
-              <div class="item active">
-                <img src="{% static 'img/slide0' %}">
-                <div class="carousel-caption">
-                  <h3><a href="/lecture/{{ l.id }}/">{{ l.course.name }}</a></h3>
-                  <p>{{ l.professor.name }}</p>
-                  <p>{{ l.level }}</p>
-                </div>
-              </div>
-              {% endfor %}
+      <div class="row" style="margin-top:20px;">
+        <div class="col-sm-6" style="border:solid 1px black;border-style:solid none;">
+          <h3>猜你喜欢
+          <p style="margin-top:-1.2em;text-align:right;">
+          <a type="button" class="btn btn-default btn-xs" href="#">
+            <span class="glyphicon glyphicon-chevron-left"></span>
+          </a>
+          <button type="button" class="btn btn-default btn-xs">
+            <span class="glyphicon glyphicon-chevron-right"></span>
+          </button>
+          </p>
+          </h3>
+          {% for l in lectures %}
+          <div class="panel panel-primary">
+            <div class="panel-heading">
+              <h3 class="panel-title"><a href="/lecture/{{ l.id }}/">{{ l.course.name }}</a><p style="margin-top:-1.2em;margin-bottom:0;text-align:right;white-space:pre;">{{ l.professor.name }}      {{ l.level }}</p></h3>
             </div>
-
-            <!-- Controls -->
-            <a class="left carousel-control" href="#carousel-example-generic" data-slide="prev">&lt;</a>
-            <a class="right carousel-control" href="#carousel-example-generic" data-slide="next">&gt;</a>
-          </div><!-- carousel -->
+            <div class="panel-body">
+              <p>best comment</p>
+            </div>
+          </div>
+          {% endfor %}
         </div>
+        <div class="col-sm-6">
+          <div class="panel panel-danger">
+            <div class="panel-heading">
+              <h3 class="panel-title">系统成就</h3>
+            </div>
+            <div class="panel-body">
+              <p>我们已经帮助{{ sys_achievement }}人选课</p>
+            </div>
+          </div>
+          <div class="panel panel-info">
+            <div class="panel-heading">
+              <h3 class="panel-title">我的成就</h3>
+            </div>
+            <div class="panel-body">
+              <p>我的影响因子：{{ user_influence_factor }}</p>
+              <p>我的排名：{{ user_rank }}</p>
+            </div>
+          </div>
+        </div>
+        <div class="col-sm-6">
+          <div class="panel panel-danger">
+            <div class="panel-heading">
+              <h3 class="panel-title">系统成就</h3>
+            </div>
+            <div class="panel-body">
+              <p>我们已经帮助{{ sys_achievement }}人选课</p>
+            </div>
+          </div>
+          <div class="panel panel-info">
+            <div class="panel-heading">
+              <h3 class="panel-title">我的成就</h3>
+            </div>
+            <div class="panel-body">
+              <p>我的影响因子：{{ user_influence_factor }}</p>
+              <p>我的排名：{{ user_rank }}</p>
+            </div>
+          </div>
+        </div>
+        Your lecture collection: <br/>
+        {% for collectionrecord in u.userlecturecollection_set.all|slice:":3" %}
+          {{ collectionrecord.lecture.course.name }}__
+          {{ collectionrecord.lecture.professor.name }}__
+          {{ collectionrecord.lecture.id }}<br/>
+          {% for c in collectionrecord.lecture.lecturecomment_set.all|slice:":1" %}
+            _________most popular comment: {{ c.user.name }}__{{ c.content }}__super number: {{ c.super_number }}<br/>
+          {% empty %}
+            there are no comment in this lecture.<br/>
+          {% endfor %}
+          <br/>
+        {% empty %}
+          Your haven't collected any lecture<br/>
+        {% endfor %}
       </div>
-{{ u.name }}<br/>
-{{ user_influence_factor }}<br/>
-{{ user_rank }}<br/>
-{{ sys_achievement }}<br/>
 
 
 Your comment: <br/>
@@ -170,20 +212,7 @@ list 3 of them <br/>
 </table>
 <br/>
 <br/>
-Your lecture collection: <br/>
-{% for collectionrecord in u.userlecturecollection_set.all|slice:":3" %}
-  {{ collectionrecord.lecture.course.name }}__
-  {{ collectionrecord.lecture.professor.name }}__
-  {{ collectionrecord.lecture.id }}<br/>
-  {% for c in collectionrecord.lecture.lecturecomment_set.all|slice:":1" %}
-    _________most popular comment: {{ c.user.name }}__{{ c.content }}__super number: {{ c.super_number }}<br/>
-  {% empty %}
-    there are no comment in this lecture.<br/>
-  {% endfor %}
-  <br/>
-{% empty %}
-  Your haven't collected any lecture<br/>
-{% endfor %}
+
       <!--
       <div class="row">
         <div class="col-sm-5">

@@ -302,7 +302,6 @@
         else{
           if (e.keyCode==13&&last==0)
           {
-
             e.preventDefault();
             if (check()){
               $(".modal-body").html("<h5><b>邮箱 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"+$("#account").val()+"@sjtu.edu.cn</b></h5>");
@@ -314,7 +313,6 @@
                 $(".modal-body").append("<h5><b>请等待几秒钟。。。</b></h5>");
                 $(".modal-footer").hide();
                 register_post();
-
               });
             }
           }
