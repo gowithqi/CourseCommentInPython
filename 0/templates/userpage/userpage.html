@@ -59,7 +59,7 @@
               <ul class="dropdown-menu">
                 {% for message in u.messageofcommentsuper_set.all %}
                 <li><a href="/userpage/checksupermessage/{{ message.id }}/">{{ message.lecture_comment.lecture.course.name }}__{{ message.lecture_comment.lecture.professor.name }}<br/>
-                {{ message.lecture_comment.content }}
+                {{ message.lecture_comment.content|truncatechars:30 }}
                 <p style="text-align:right;">赞 + ({{ message.super_added }})</p></a></li>
                 <li class="divider"></li>
                 {% endfor %}
