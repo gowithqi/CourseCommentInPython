@@ -17,11 +17,7 @@ function auto_complete_post(){
       var s=data.split("\n");
       $("#complete").html(function(){
         var list="",l=$("#search").val().length;
-        if (/[a-zA-Z]/.test($("#search").val())){
-          for (var i=0;i<s.length;i++)
-            list=list+"<li><a href='#' style='padding-left:13px;'>"+s[i]+"</a></li>";
-        }
-        else{
+        if (/[\u4e00-\u9fa5]/.test($("#search").val())){
           for (var i=0;i<s.length;i++){
             list=list+"<li><a href='#' style='padding-left:13px;'>";
             for (var j=0;j<l;j++)
@@ -31,6 +27,10 @@ function auto_complete_post(){
               list=list+s[i][j];
             list=list+"</b></a></li>";
           }
+        }
+        else{
+          for (var i=0;i<s.length;i++)
+            list=list+"<li><a href='#' style='padding-left:13px;'>"+s[i]+"</a></li>";
         }
         return list;
       });
