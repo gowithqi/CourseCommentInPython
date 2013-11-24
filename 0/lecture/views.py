@@ -132,8 +132,9 @@ def test(request, mode):
 	for course in Course.objects.all():
 		if mode == "name": pinyin = course.name
 		else: pinyin = course.name_pinyin
-		res = changeString(pinyin)
-		if res != pinyin :
+		res = changeString(pinyin)    
+		if mode == "name": pinyin = course.name_forsearch
+		if res != pinyin:
 			count = count + 1
 			ret += pinyin + '__' + res + '<br/>'
 			if mode=="name": course.name_forsearch = res
