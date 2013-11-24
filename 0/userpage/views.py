@@ -10,12 +10,17 @@ from login.views import checkUserLogin
 from comment.models import MessageOfCommentSuper
 
 import json
+import random
 from datetime import datetime
+MIN_LECTURE_ID = 6338
+MAX_LECTURE_ID = 10479
+
 def changeLecture(request):
 	if request.method != 'GET': raise Http404
 
 	checkUserLogin(request)
-	lectures = Lecture.objects.order_by('?')[:2]
+	random_id = [random.randrange(MIN_LECTURE_ID, MAX_LECTURE_ID) for i in range(2)]
+	lectures = [Lecture.objects.get(id=id) for id in random_id]
 	res = ''
 	ret = []
 	ret.append(getALecture())
