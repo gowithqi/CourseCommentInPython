@@ -15,34 +15,33 @@ def changeLecture(request):
 	if request.method != 'GET': raise Http404
 
 	checkUserLogin(request)
-	lectures = Lecture.objects.order_by('?')[:3]
+	lectures = Lecture.objects.order_by('?')[:2]
 	res = ''
 	ret = []
+	ret.append(getALecture())
 	for l in lectures:
-		tmp = {}
-		tmp['id'] = l.id
-		tmp['number'] = l.course.number
-		tmp['course_name'] = l.course.name
-		tmp['professor_name'] = l.professor.name
-		tmp['level'] = l.level
+		tmp = getLectureDict(l)
 		tmp['most_popular_comment'] = ""
 		comments = l.lecturecomment_set.all()
 		if comments.count() > 0: 
 			comment = comments[0]
-			comment_tmp = {}
-			comment_tmp['comment_id'] = comment.id
-			comment_tmp['comment_user'] = comment.user.name
-			comment_tmp['comment_content'] = comment.content
-			comment_tmp['comment_super_number'] = comment.super_number
-			comment_tmp['comment_time'] = comment.time.strftime("%Y-%m-%d %H:%M:%S")
+			comment_tmp = getCommentDict(comment)
 			tmp['most_popular_comment'] = comment_tmp
 
 		ret.append(tmp)
-		lurl = '/lecture/' + str(l.id)
-		res = res + l.course.name + ':' + l.professor.name + ':' + str(l.level) + ':' + lurl + '/\n'
-	res = res[:-1]
-	print ret
+		
 	return HttpResponse(json.dumps(ret, ensure_ascii=False, indent=4))
+
+def getALecture():
+	l = Lecture.objects.get(id=6789)
+	tmp = getLectureDict(l)
+	tmp['most_popular_comment'] = ""
+	comments = l.lecturecomment_set.all()
+	if comments.count() > 0: 
+		comment = comments[0]
+		comment_tmp = getCommentDict(comment)
+		tmp['most_popular_comment'] = comment_tmp
+	return tmp
 
 @require_http_methods(['GET'])
 def collectLecture(request, collect_act, lecture_id):
@@ -84,21 +83,12 @@ def getAllCollectionLectures(request):
 	ret = []
 	for cr in user.userlecturecollection_set.all():
 		l = cr.lecture
-		tmp = {}
-		tmp['id'] = l.id
-		tmp['number'] = l.course.number
-		tmp['course_name'] = l.course.name
-		tmp['professor_name'] = l.professor.name
-		tmp['level'] = l.level
+		tmp = getLectureDict(l)
+		tmp['most_popular_comment'] = ""
 		comments = l.lecturecomment_set.all()
 		if comments.count() > 0: 
 			comment = comments[0]
-			comment_tmp = {}
-			comment_tmp['comment_id'] = comment.id
-			comment_tmp['comment_user'] = comment.user.name
-			comment_tmp['comment_content'] = comment.content
-			comment_tmp['conment_super_number'] = comment.super_number
-			comment_tmp['time'] = comment.time.strftime("%Y-%m-%d %H:%M:%S")
+			comment_tmp = getCommentDict(comment)
 			tmp['most_popular_comment'] = comment_tmp
 		ret.append(tmp)
 
@@ -112,22 +102,29 @@ def getAllComments(request):
 
 	ret = []
 	for c in user.lecturecomment_set.all():
-		tmp = {}
+		tmp = getCommentDict(c)
 		l = c.lecture
-		tmp_l = {}
-		tmp_l['id'] = l.id
-		tmp_l['number'] = l.course.number
-		tmp_l['course_name'] = l.course.name
-		tmp_l['professor_name'] = l.professor.name
-		tmp_l['level'] = l.level
-
+		tmp_l = getLectureDict(l)
 		tmp['lecture'] = tmp_l
-		tmp['id'] = c.id
-		tmp['user'] = c.user.name
-		tmp['content'] = c.content
-		tmp['super_number'] = c.super_number
-		tmp['time'] = c.time.strftime("%Y-%m-%d %H:%M:%S")
 
 		ret.append(tmp)
 
 	return HttpResponse(json.dumps(ret, ensure_ascii=False, indent=4))
+
+def getCommentDict(comment):
+	comment_tmp = {}
+	comment_tmp['comment_id'] = comment.id
+	comment_tmp['comment_user'] = comment.user.name
+	comment_tmp['comment_content'] = comment.content
+	comment_tmp['comment_super_number'] = comment.super_number
+	comment_tmp['comment_time'] = comment.time.strftime("%Y-%m-%d %H:%M:%S")
+	return comment_tmp
+
+def getLectureDict(l):
+	tmp = {}
+	tmp['id'] = l.id
+	tmp['number'] = l.course.number
+	tmp['course_name'] = l.course.name
+	tmp['professor_name'] = l.professor.name
+	tmp['level'] = l.level
+	return tmp

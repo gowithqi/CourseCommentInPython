@@ -114,7 +114,7 @@ def getSuperWeight(content):
 # eliminate the sucessive same word
 def getLength(content):
 	ret = 1
-	tmpc = content[1]
+	tmpc = content[0]
 	for c in content[1:]:
 		if c != tmpc: 
 			ret = ret + 1
