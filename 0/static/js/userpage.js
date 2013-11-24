@@ -13,7 +13,7 @@ $(document).ready(function(){
   for (var i=0;i<3;i++){
     var h3=$("#panel_change").find(".panel-title").eq(i);
     stack[0][i]=new Object();
-    stack[0][i].id=h3.find("a").attr("href").replace("/","").replace("lecture","");
+    stack[0][i].id=h3.find("a").attr("href").replace("/","").replace("/","").replace("/","").replace("lecture","");
     stack[0][i].course_name=h3.find("a").html();
     stack[0][i].professor_name=h3.find("p").html();
     var p=$("#panel_change").find(".panel-body").eq(i).find("p");
@@ -141,7 +141,7 @@ function change_course_get(){
         }
         else{
           p.eq(0).html(comment.comment_content);
-          p.eq(1).html(comment.comment_user+"       "+comment.time+"   有用 ("+comment.comment_super_number+")");
+          p.eq(1).html(comment.comment_user+"       "+comment.comment_time+"       有用 ("+comment.comment_super_number+")");
           stack[fTop][i].most_popular_comment=comment.comment_content;
           stack[fTop][i].user=p[1].html;
         }

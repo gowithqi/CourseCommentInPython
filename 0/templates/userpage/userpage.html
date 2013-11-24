@@ -122,10 +122,10 @@
                 <div class="panel-body">
                   {% for c in l.lecturecomment_set.all|slice:":1" %}
                   <p>{{ c.content }}</p>
-                  <p style="text-align:right;white-space:pre;">{{ c.user.name }}       {{ c.time|date:"Y-m-d H:i:s" }}   有用 ({{ c.super_number }})</p>
+                  <p style="text-align:right;white-space:pre;">{{ c.user.name }}       {{ c.time|date:"Y-m-d H:i:s" }}       有用 ({{ c.super_number }})</p>
                   {% empty %}
                   <p>还没有评论。快来抢沙发！</p>
-                  <p></p>
+                  <p style="text-align:right;white-space:pre;"></p>
                   {% endfor %}
                 </div>
               </div>
