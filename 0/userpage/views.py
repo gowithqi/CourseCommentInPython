@@ -33,7 +33,7 @@ def changeLecture(request):
 	return HttpResponse(json.dumps(ret, ensure_ascii=False, indent=4))
 
 def getALecture():
-	l = Lecture.objects.get(id=6789)
+	l = Lecture.objects.get(id=10461)
 	tmp = getLectureDict(l)
 	tmp['most_popular_comment'] = ""
 	comments = l.lecturecomment_set.all()
