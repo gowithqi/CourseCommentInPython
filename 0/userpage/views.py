@@ -23,8 +23,8 @@ def changeLecture(request):
 		tmp['id'] = l.id
 		tmp['number'] = l.course.number
 		tmp['course_name'] = l.course.name
-		tmp['professor_name'] = l.professor.name
 		tmp['level'] = l.level
+		tmp['most_popular_comment'] = ""
 		comments = l.lecturecomment_set.all()
 		if comments.count() > 0: 
 			comment = comments[0]
