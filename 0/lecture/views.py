@@ -134,7 +134,7 @@ def test(request, mode):
 		else: pinyin = course.name_pinyin
 		res = changeString(pinyin)
         if mode == "name": pinyin = course.name_forsearch
-		if res != pinyin :
+		if res != pinyin:
 			count = count + 1
 			ret += pinyin + '__' + res + '<br/>'
 			if mode=="name": course.name_forsearch = res
