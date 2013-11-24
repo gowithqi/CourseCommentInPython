@@ -1,4 +1,4 @@
-# Create your views here.
+# -*- coding: utf-8 -*-
 import os
 
 from django.http import HttpResponse, Http404, HttpResponseRedirect
@@ -11,15 +11,16 @@ from django.views.decorators.http import require_http_methods
 from lecture.models import Lecture, Course
 from login.views import checkUserLogin
 
-AUTO_COMPLETE_LIST_LENGTH = 5
+AUTO_COMPLETE_LIST_LENGTH = 10
 MAX_ALTERNATE_NUMBER = 7
 
 def autoComplete(request):
 	if request.method != "POST": raise Http404
 
 	content = request.POST['content']
+	content = changeString(content)
 	if isPinyin(content): courseList = Course.objects.filter(name_pinyin__startswith=content).order_by("-view_time", "name")[:(AUTO_COMPLETE_LIST_LENGTH+10)]
-	else: 				  courseList = Course.objects.filter(name__startswith=content).order_by("-view_time", "name")[:(AUTO_COMPLETE_LIST_LENGTH+10)]
+	else: 				  courseList = Course.objects.filter(name_forsearch__startswith=content).order_by("-view_time", "name")[:(AUTO_COMPLETE_LIST_LENGTH+10)]
 
 	course_name_list = getCourseNameList(courseList)
 	return HttpResponse("\n".join(course_name_list))
@@ -73,16 +74,32 @@ def searchLectureUsingCourseID(request, course_id):
 def isPinyin(keyword):
 	res = True
 	for k in keyword:
-		res = res and (not isHanZi(k))
+		res = res and (not is_chinese(k))
 	return res
-	
-def isHanZi(keyword):
-	return (keyword >= u'\u4e00' and keyword<=u'\u9fa5')
-	
-def isCourseNumber(keyword):
-	res = True
-	for k in keyword[:5]: res = res and (k.isdigit() or isLetter(k))
-	return res
+		
+def is_alphabet(uchar):
+	return (uchar >= u'\u0041' and uchar<=u'\u005a') or (uchar >= u'\u0061' and uchar<=u'\u007a')
 
-def isLetter(k):
-	return ((k >= u'\u0041' and k<=u'\u005a') or (k >= u'\u0061' and k<=u'\u007a'))
+def is_chinese(uchar):
+	return uchar >= u'\u4e00' and uchar<=u'\u9fa5'
+
+def changeString(ustring):
+	return "".join([changeChar(uchar) for uchar in ustring])
+
+def changeChar(uchar):
+	BIAODIAN = u"《》“”、\"（）()"
+	if uchar in BIAODIAN: return ""
+	if is_alphabet(uchar): return uchar.lower()
+	return Q2B(uchar)
+
+def Q2B(uchar):
+	inside_code = ord(uchar)
+	if inside_code == 0x3000:
+		inside_code = 0x0020
+	else:
+		inside_code -= 0xfee0
+
+	if inside_code<0x0020 or inside_code >0x7e:
+		return uchar
+
+	return unichr(inside_code)

@@ -122,32 +122,59 @@ def recordLevel(request, lecture_id):
 
 	return HttpResponse("yes")	
 
-def test(request):
-	BIAODIAN = u"《》“”"
-	BIAODIAN2 = u"、\""
-	BIAODIAN3 = u"（）()"
+def test(request, mode):
+	user_id = checkUserLogin(request)
+	if user_id != 14: return Http404
+	
+	BIAODIAN = u"《》“”、\"（）()"
 	count = 0
+	ret = ""
 	for course in Course.objects.all():
-		pinyin = course.name_pinyin
-		res = ""
-		flag = True
-		for k in pinyin:
-			if k in BIAODIAN: 
-				flag = not flag
-				continue
-			elif k in BIAODIAN3: 
-				flag = not flag
-				res = res + k
-				continue
-			elif not (k in BIAODIAN2):
-				if flag: res = res + k.lower()
-				else: res = res + k
-				continue
-			else: continue
+		if mode == "name": pinyin = course.name
+		else: pinyin = course.name_pinyin
+		res = changeString(pinyin)
 		if res != pinyin :
 			count = count + 1
+			ret += pinyin + '__' + res + '<br/>'
+			if mode=="name": course.name_forsearch = res
+			else: course.name_pinyin = res
+			course.save()
 			print res
 			print pinyin
 			print 		
 	print count
-	return HttpResponse()
+	ret += str(count)
+	return HttpResponse(ret)
+
+def is_alphabet(uchar):
+	if (uchar >= u'\u0041' and uchar<=u'\u005a') or (uchar >= u'\u0061' and uchar<=u'\u007a'):
+		return True
+	else:
+		return False
+
+def is_chinese(uchar):
+	if uchar >= u'\u4e00' and uchar<=u'\u9fa5':
+		return True
+	else:
+		return False
+
+def changeString(ustring):
+	return "".join([changeChar(uchar) for uchar in ustring])
+
+def changeChar(uchar):
+	BIAODIAN = u"《》“”、\"（）()"
+	if uchar in BIAODIAN: return ""
+	if is_alphabet(uchar): return uchar.lower()
+	return Q2B(uchar)
+
+def Q2B(uchar):
+	inside_code = ord(uchar)
+	if inside_code == 0x3000:
+		inside_code = 0x0020
+	else:
+		inside_code -= 0xfee0
+
+	if inside_code<0x0020 or inside_code >0x7e:
+		return uchar
+
+	return unichr(inside_code)
