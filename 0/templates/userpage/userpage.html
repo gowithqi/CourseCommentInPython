@@ -67,6 +67,7 @@
               </ul>
               {% endif %}
             </li>
+            <!-- <li><a href="#">修改昵称</a></li> -->
             <li><a href="/setpassword/">修改密码</a></li>
             <li><a href="/logout/">退出</a></li>
           </ul>
@@ -156,12 +157,12 @@
             <div class="panel-heading">
               <h3 class="panel-title">收藏的课</h3>
             </div>
-            <div class="panel-body">
+            <div class="panel-body" id="panel_collect">
               {% for collectionrecord in u.userlecturecollection_set.all|slice:":3" %}
-              <p style="white-space:pre;"><a href="/lecture/{{ collectionrecord.lecture.id }}/">{{ collectionrecord.lecture.course.name }}</a>     {{ collectionrecord.lecture.professor.name }}     <a href="#" onclick="decollect_get('{{ collectionrecord.lecture.id }}')">取消收藏</a></p>
+              <p style="white-space:pre;"><a href="/lecture/{{ collectionrecord.lecture.id }}/">{{ collectionrecord.lecture.course.name }}</a>     {{ collectionrecord.lecture.professor.name }}     <a href="#" data-lid="{{ collectionrecord.lecture.id }}" class="decollect">取消收藏</a></p>
               {% for c in collectionrecord.lecture.lecturecomment_set.all|slice:":1" %}
               <p>{{ c.content }}</p>
-              <p style="text-align:right;white-space:pre;">{{ c.user.name }}    有用 ({{ c.super_number }})</p>
+              <p style="text-align:right;white-space:pre;">{{ c.user.name }}  {{ c.time|date:"Y-m-d H:i:s" }}  有用 ({{ c.super_number }})</p>
               {% empty %}
               <p>还没有评论。快来抢沙发！</p>
               {% endfor %}
@@ -170,7 +171,7 @@
               <p>快去课程页面收藏喜欢的课吧！</p>
               {% endfor %}
               {% if u.userlecturecollection_set.all.count > 3 %}
-              <p style="text-align:right;"><a href="#" onclick="all_collection_get()">显示全部</a></p>
+              <p style="text-align:right;"><a href="#" id="all_collection">显示全部</a></p>
               {% endif %}
             </div>
           </div>
