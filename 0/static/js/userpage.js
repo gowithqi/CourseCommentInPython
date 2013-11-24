@@ -171,14 +171,97 @@ function change_course_get(){
 function decollect_get(lid){
   $.get("/userpage/decollect/lecture/"+lid+"/",function(data){
     if (data=="yes"){
-      window.location.assign("/");
+      if ($("#hide_collection").html()=="收起")
+        all_collection_get();
+      else{
+        $.get("/userpage/getallcollectionlectures/",function(data){
+          var obj=JSON.parse(data),str="",l=3;
+          if (obj.length<3)
+            l=obj.length;
+          for (var i=0;i<l;i++){
+            str+='<p style="white-space:pre;"><a href="/lecture/'+obj[i].id+'/">'+obj[i].course_name+'</a>     '+obj[i].professor_name+'     <a href="#" data-lid="'+obj[i].id+'" class="decollect">取消收藏</a></p>';
+            var comment=obj[i].most_popular_comment;
+            if (comment=="")
+              str+='<p>还没有评论。快来抢沙发！</p>';
+            else{
+              str+='<p>'+comment.comment_content+'</p>';
+              str+='<p style="text-align:right;white-space:pre;">'+comment.comment_user+'  '+comment.comment_time+'  有用 ('+comment.comment_super_number+')</p>';
+            }
+          }
+          if (l==0)
+            str+='<p>还没有收藏的课程。</p><p>快去课程页面收藏喜欢的课吧！</p>';
+          else
+          if (obj.length>3)
+            str+='<p style="text-align:right;"><a href="#" id="all_collection">显示全部</a></p>';
+          $("#panel_collect").html(str);
+          $("#all_collection").click(function(e){
+            e.preventDefault();
+            all_collection_get();
+          });
+          $(".decollect").click(function(e){
+            e.preventDefault();
+            decollect_get($(this).attr("data-lid"));
+          });
+        });
+      }
     }
   });
 }
 function all_collection_get(){
   $.get("/userpage/getallcollectionlectures/",function(data){
-    var obj=JSON.parse(data);
-    
+    var obj=JSON.parse(data),str="";
+    for (var i=0;i<obj.length;i++){
+      str+='<p style="white-space:pre;"><a href="/lecture/'+obj[i].id+'/">'+obj[i].course_name+'</a>     '+obj[i].professor_name+'     <a href="#" data-lid="'+obj[i].id+'" class="decollect">取消收藏</a></p>';
+      var comment=obj[i].most_popular_comment;
+      if (comment=="")
+        str+='<p>还没有评论。快来抢沙发！</p>';
+      else{
+        str+='<p>'+comment.comment_content+'</p>';
+        str+='<p style="text-align:right;white-space:pre;">'+comment.comment_user+'  '+comment.comment_time+'  有用 ('+comment.comment_super_number+')</p>';
+      }
+    }
+    if (obj.length==0)
+      str+='<p>还没有收藏的课程。</p><p>快去课程页面收藏喜欢的课吧！</p>';
+    else
+    if (obj.length>3)
+      str+='<p style="text-align:right;"><a href="#" id="hide_collection">收起</a></p>';
+    $("#panel_collect").html(str);
+  });
+  $("#hide_collection").click(function(e){
+    e.preventDefault();
+    $.get("/userpage/getallcollectionlectures/",function(data){
+      var obj=JSON.parse(data),str="",l=3;
+      if (obj.length<3)
+        l=obj.length;
+      for (var i=0;i<l;i++){
+        str+='<p style="white-space:pre;"><a href="/lecture/'+obj[i].id+'/">'+obj[i].course_name+'</a>     '+obj[i].professor_name+'     <a href="#" data-lid="'+obj[i].id+'" class="decollect">取消收藏</a></p>';
+        var comment=obj[i].most_popular_comment;
+        if (comment=="")
+          str+='<p>还没有评论。快来抢沙发！</p>';
+        else{
+          str+='<p>'+comment.comment_content+'</p>';
+          str+='<p style="text-align:right;white-space:pre;">'+comment.comment_user+'  '+comment.comment_time+'  有用 ('+comment.comment_super_number+')</p>';
+        }
+      }
+      if (l==0)
+        str+='<p>还没有收藏的课程。</p><p>快去课程页面收藏喜欢的课吧！</p>';
+      else
+      if (obj.length>3)
+        str+='<p style="text-align:right;"><a href="#" id="all_collection">显示全部</a></p>';
+      $("#panel_collect").html(str);
+      $("#all_collection").click(function(e){
+        e.preventDefault();
+        all_collection_get();
+      });
+      $(".decollect").click(function(e){
+        e.preventDefault();
+        decollect_get($(this).attr("data-lid"));
+      });
+    });
+  });
+  $(".decollect").click(function(e){
+    e.preventDefault();
+    decollect_get($(this).attr("data-lid"));
   });
 }
 function auto_complete(){
@@ -267,4 +350,12 @@ $("#cPrevious").click(function(){
       $("#cPrevious").find("span").attr("style","color:#DDDDDD;");
     }
   }
+});
+$("#all_collection").click(function(e){
+  e.preventDefault();
+  all_collection_get();
+});
+$(".decollect").click(function(e){
+  e.preventDefault();
+  decollect_get($(this).attr("data-lid"));
 });
