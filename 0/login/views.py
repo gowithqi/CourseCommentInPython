@@ -15,6 +15,11 @@ from login.models import User, RegisteringUser
 from lecture.models import Lecture
 from comment.influence import updateUserInfluence, getSysAchievement
 
+if 'SERVER_SOFTWARE' in os.environ:
+	from bae.api import logging
+else: 
+	import logging
+
 LEASTCOMMITNUMBER = 3
 RANKSIZE = 10
 
@@ -25,6 +30,7 @@ CHECK_EMAIL_SUBJECT = "SJTU Course身份验证"
 
 def login(request):
 	print request.method, type(request.method)
+	logging.debug("123")
 	# return HttpResponse("Hi!")
 	if request.method == "GET":
 		if not ('user_id' in request.session): 
