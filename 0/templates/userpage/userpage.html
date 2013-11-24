@@ -58,9 +58,9 @@
               {% if u.messageofcommentsuper_set.all.count %}
               <ul class="dropdown-menu">
                 {% for message in u.messageofcommentsuper_set.all %}
-                <li><a href="/userpage/checksupermessage/{{ message.id }}/">{{ message.lecture_comment.lecture.course.name }}__{{ message.lecture_comment.lecture.professor.name }}<br/>
+                <li style="white-space:pre;"><a href="/userpage/checksupermessage/{{ message.id }}/">{{ message.lecture_comment.lecture.course.name }}  {{ message.lecture_comment.lecture.professor.name }}<br/>
                 {{ message.lecture_comment.content|truncatechars:30 }}
-                <p style="text-align:right;">赞 + ({{ message.super_added }})</p></a></li>
+                <p style="text-align:right;">有用 + ({{ message.super_added }})</p></a></li>
                 <li class="divider"></li>
                 {% endfor %}
                 <li style="text-align:center;">共 {{u.messageofcommentsuper_set.all.count}} 条</li>
@@ -74,10 +74,10 @@
       </nav>
 
       <div class="row">
-        <form class="col-sm-offset-4">
-          <div class="form-group dropdown col-sm-5">
+        <form class="col-sm-offset-3">
+          <div class="form-group dropdown col-sm-6">
             <input type="text" class="form-control" id="search" autocomplete="off" placeholder="来这里找课！">
-            <ul class="dropdown-menu" id="complete" style="width:90.7%;border-radius:0px;margin-top:-1px;margin-left:15px"></ul>
+            <ul class="dropdown-menu" id="complete" style="width:93.3%;margin-top:-1px;margin-left:15px"></ul>
           </div>
           <button type="submit" id="submit" class="btn btn-default">搜索</button>
         </form>
@@ -99,33 +99,41 @@
       </div><!-- /.modal -->
 
       <div class="row" style="margin-top:20px;">
-        <div class="col-sm-6 col-sm-offset-1" style="border:solid 1px black;border-style:solid none;">
-          <h3>猜你喜欢
-          <p style="margin-top:-1.2em;text-align:right;">
-          <a type="button" class="btn btn-default btn-xs" href="#">
-            <span class="glyphicon glyphicon-chevron-left"></span>
-          </a>
-          <button type="button" class="btn btn-default btn-xs">
-            <span class="glyphicon glyphicon-chevron-right"></span>
-          </button>
-          </p>
-          </h3>
-          {% for l in lectures %}
-          <div class="panel panel-primary">
+        <div class="col-sm-6 col-sm-offset-1">
+          <div class="panel panel-default">
             <div class="panel-heading">
-              <h3 class="panel-title"><a href="/lecture/{{ l.id }}/">{{ l.course.name }}</a><p style="margin-top:-1.2em;margin-bottom:0;text-align:right;white-space:pre;">{{ l.professor.name }}      {{ l.level }}</p></h3>
+              <h3 class="panel-title" style="margin-left:10px;">猜你喜欢
+              <p style="margin-top:-1.2em;text-align:right;margin-bottom:0;">
+              <button type="button" class="btn btn-default btn-xs" id="cPrevious">
+                <span class="glyphicon glyphicon-chevron-left" style="color:#DDDDDD;"></span>
+              </button>
+              <button type="button" class="btn btn-default btn-xs" onclick="change_course_get()">
+                <span class="glyphicon glyphicon-chevron-right"></span>
+              </button>
+              </p>
+              </h3>
             </div>
-            <div class="panel-body">
-              {% for c in l.lecturecomment_set.all|slice:":1" %}
-              <p>{{ c.content }}</p>
-              <p style="text-align:right;white-space:pre;">{{ c.user.name }}    赞 ({{ c.super_number }})</p>
-              {% empty %}
-              <p>还没有评论！快来抢沙发</p>
+            <div class="panel-body" id="panel_change">
+              {% for l in lectures %}
+              <div class="panel panel-info">
+                <div class="panel-heading">
+                  <h3 class="panel-title"><a href="/lecture/{{ l.id }}/">{{ l.course.name }}</a><p style="margin-top:-1.1em;margin-bottom:0;text-align:right;">{{ l.professor.name }}</p></h3>
+                </div>
+                <div class="panel-body">
+                  {% for c in l.lecturecomment_set.all|slice:":1" %}
+                  <p>{{ c.content }}</p>
+                  <p style="text-align:right;white-space:pre;">{{ c.user.name }}       {{ c.time|date:"Y-m-d H:i:s" }}   有用 ({{ c.super_number }})</p>
+                  {% empty %}
+                  <p>还没有评论。快来抢沙发！</p>
+                  <p></p>
+                  {% endfor %}
+                </div>
+              </div>
               {% endfor %}
             </div>
           </div>
-          {% endfor %}
         </div>
+
         <div class="col-sm-3 col-sm-offset-1">
           <div class="panel panel-danger">
             <div class="panel-heading">
@@ -135,7 +143,7 @@
               <p>我们已经帮助交大同学{{ sys_achievement }}次了解课程</p>
             </div>
           </div>
-          <div class="panel panel-info">
+          <div class="panel panel-success">
             <div class="panel-heading">
               <h3 class="panel-title">我的成就</h3>
             </div>
@@ -144,23 +152,26 @@
               <p>我的排名：{{ user_rank }}</p>
             </div>
           </div>
-          <div class="panel panel-danger">
+          <div class="panel panel-warning">
             <div class="panel-heading">
               <h3 class="panel-title">收藏的课</h3>
             </div>
             <div class="panel-body">
               {% for collectionrecord in u.userlecturecollection_set.all|slice:":3" %}
-              <p><a href="/lecture/{{ collectionrecord.lecture.id }}/">{{ collectionrecord.lecture.course.name }}</a> {{ collectionrecord.lecture.professor.name }}</p>
+              <p style="white-space:pre;"><a href="/lecture/{{ collectionrecord.lecture.id }}/">{{ collectionrecord.lecture.course.name }}</a>     {{ collectionrecord.lecture.professor.name }}     <a href="#" onclick="decollect_get('{{ collectionrecord.lecture.id }}')">取消收藏</a></p>
               {% for c in collectionrecord.lecture.lecturecomment_set.all|slice:":1" %}
               <p>{{ c.content }}</p>
-              <p style="text-align:right;white-space:pre;">{{ c.user.name }}    赞 ({{ c.super_number }})</p>
+              <p style="text-align:right;white-space:pre;">{{ c.user.name }}    有用 ({{ c.super_number }})</p>
               {% empty %}
-              <p>还没有评论！快来抢沙发</p>
+              <p>还没有评论。快来抢沙发！</p>
               {% endfor %}
               {% empty %}
               <p>还没有收藏的课程。</p>
               <p>快去课程页面收藏喜欢的课吧！</p>
               {% endfor %}
+              {% if u.userlecturecollection_set.all.count > 3 %}
+              <p style="text-align:right;"><a href="#" onclick="all_collection_get()">显示全部</a></p>
+              {% endif %}
             </div>
           </div>
         </div>
@@ -183,8 +194,7 @@
                   {% for comment in u.lecturecomment_set.all|dictsortreversed:"time"|slice:":3" %}
                   <tr>
                     <th>
-                      {{ comment.user.name }}<br/>
-                      {{ comment.lecture.course.name }}<br/>
+                      <a href="/lecture/{{ comment.lecture.id }}">{{ comment.lecture.course.name }}</a><br/>
                       {{ comment.lecture.professor.name }}
                     </th>
                     <th>
@@ -194,14 +204,14 @@
                           {{ comment.time|date:"Y-m-d H:i:s" }}
                         </li>
                         <li>
-                          赞 ({{ comment.super_number }})
+                          有用 ({{ comment.super_number }})
                         </li>
                       </ul>
                       <p><br/></p>
                     </th>
                   </tr>
                   {% empty %}
-                  <p>You haven't make a comment</p>
+                  <p>你还没有留下评论～</p>
                   {% endfor %}
                 </tbody>
               </table>
