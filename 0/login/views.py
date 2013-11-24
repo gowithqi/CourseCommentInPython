@@ -192,7 +192,7 @@ def setNewPassword(request):
 
 @require_http_methods(['GET'])
 def userpage(request, user_id):
-	if not ('user_id' in request.session): raise Http404
+	if not ('user_id' in request.session): return HttpResponseRedirect(reverse('login'))
 
 	user = get_object_or_404(User, id=user_id)
 	lecture_rank_level = Lecture.objects.filter(level_number__gte=LEASTCOMMITNUMBER).order_by("-level")[:RANKSIZE]
