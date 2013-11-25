@@ -21,20 +21,20 @@
 	<style type="text/css">
 			#GoToTop{ 
 				position:fixed; 
-				bottom:280px; 
+				bottom:230px; 
 				_position:absolute; 
-				_bottom:280px;
-				_top:expression(eval(document.documentElement.scrollTop+document.documentElement.clientHeight-this.offsetHeight-(parseInt(this.currentStyle.marginBottom,10)||280)));
+				_bottom:230px;
+				_top:expression(eval(document.documentElement.scrollTop+document.documentElement.clientHeight-this.offsetHeight-(parseInt(this.currentStyle.marginBottom,10)||230)));
 				width:100%; 
 				height:30px; 
 				line-height:30px; 
 			}
 			#GoToBottom{ 
 				position:fixed; 
-				bottom:250px; 
+				bottom:200px; 
 				_position:absolute; 
-				_bottom:250px;
-				_top:expression(eval(document.documentElement.scrollTop+document.documentElement.clientHeight-this.offsetHeight-(parseInt(this.currentStyle.marginBottom,10)||250)));
+				_bottom:200px;
+				_top:expression(eval(document.documentElement.scrollTop+document.documentElement.clientHeight-this.offsetHeight-(parseInt(this.currentStyle.marginBottom,10)||200)));
 				width:100%; 
 				height:30px; 
 				line-height:30px; 
@@ -146,8 +146,8 @@
 <body>
 {% csrf_token %}
 <div  id="top"></div>
-<div id="GoToTop"><div style="text-align:right"><a href="#top"><span class="badge" style="background-color:#B8B8B8">返回顶部</span></a></div></div>
-<div id="GoToBottom"><div style="text-align:right"><a href="#bottom"><span class="badge" style="background-color:#B8B8B8">添加点评</span></a></div></div>
+<div id="GoToTop"><div style="text-align:right;margin-right:40px;"><a href="#top"><span class="badge" style="background-color:#B8B8B8">返回顶部</span></a></div></div>
+<div id="GoToBottom"><div style="text-align:right;margin-right:40px;"><a href="#bottom"><span class="badge" style="background-color:#B8B8B8">添加点评</span></a></div></div>
 
 <div class="container">
 	<div class="row-fluid">
@@ -352,6 +352,7 @@
 														请不要超过300字
 													</div>
 													<div class="col-lg-6">
+														<br/>
 												  		<button type="button" class="btn btn-primary btn-sm comment_submit">提交点评</button>
 												  	</div>
 												  </div>
@@ -375,7 +376,7 @@
 																</th>
 																<th style="width:500px">
 																	<p style="word-break:break-all;">{{ g.content }}</p>
-																	<p style="text-align:left;">{{ g.time|date:"Y-m-d H:i:s" }}</p>
+																	<p style="text-align:right;">{{ g.time|date:"Y-m-d H:i:s" }}</p>
 																</th>
 																<th style="width:100px">
 																	<p style="text-align:right;"><span class="badge" style="background-color:#0066FF;" id="gossip_{{ g.id }}">{{ g.super_number }}</span></p>
@@ -405,6 +406,7 @@
 														请不要超过300字
 													</div>
 													<div class="col-lg-6">
+														<br/>
 												  		<button type="button" class="btn btn-primary btn-sm wall_submit">提交吐槽</button>
 												  	</div>
 												  </div>
