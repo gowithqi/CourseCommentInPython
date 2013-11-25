@@ -65,7 +65,7 @@ def superGossip(request, super_action, gossip_id):
 		gossip_super_record = get_object_or_404(GossipSuperRecord, user_id=user_id, gossip = gossip)
 		gossip_super_record.delete()
 		gossip.rank_score = gossip.rank_score - SUPER_VALUE
-		if gossip.super_number > 1: gossip.super_number = gossip.super_number - 1
+		if gossip.super_number > 0: gossip.super_number = gossip.super_number - 1
 		gossip.save()
 		
 	return HttpResponse("yes")

@@ -33,12 +33,12 @@ def getLecture(request, lecture_id):
 	course.save()
 	lectures = lecture.course.lecture_set.all()
 
-	comment_super_list = getSuperList(lecture, user, "comment")
-	gossip_super_list = getSuperList(lecture, user, "gossip")
+	comment_super_list = getSuperList(lectures, user, "comment")
+	gossip_super_list = getSuperList(lectures, user, "gossip")
 	print comment_super_list
 	print gossip_super_list
 	
-	template = loader.get_template('lecture/course_wall.html')
+	template = loader.get_template('lecture/course.html')
 	context = RequestContext(request, {
 		'course': lecture.course,
 		'lectures' : lectures,
@@ -51,22 +51,24 @@ def getLecture(request, lecture_id):
 	increaseSysAchievement()
 	return HttpResponse(template.render(context))
 
-def getSuperList(lecture, user, table):
+def getSuperList(lectures, user, table):
 	res = []
 	if table == "comment": 
-		comments = LectureComment.objects.filter(lecture=lecture)
-		for comment in comments:
-			try:
-				LectureCommentSuperRecord.objects.get(lecture_comment=comment, user=user)
-				res.append(int(comment.id))
-			except LectureCommentSuperRecord.DoesNotExist: pass
+		for lecture in lectures:
+			comments = LectureComment.objects.filter(lecture=lecture)
+			for comment in comments:
+				try:
+					LectureCommentSuperRecord.objects.get(lecture_comment=comment, user=user)
+					res.append(int(comment.id))
+				except LectureCommentSuperRecord.DoesNotExist: pass
 	elif table == "gossip":
-		gossips = Gossip.objects.filter(lecture=lecture)
-		for gossip in gossips:
-			try:
-				GossipSuperRecord.objects.get(gossip=gossip, user=user)
-				res.append(int(gossip.id))
-			except GossipSuperRecord.DoesNotExist: pass
+		for lecture in lectures:
+			gossips = Gossip.objects.filter(lecture=lecture)
+			for gossip in gossips:
+				try:
+					GossipSuperRecord.objects.get(gossip=gossip, user=user)
+					res.append(int(gossip.id))
+				except GossipSuperRecord.DoesNotExist: pass
 
 	return res
 
