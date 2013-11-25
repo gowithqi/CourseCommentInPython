@@ -20,7 +20,7 @@
     <![endif]-->
 	</head>
 
-	<body>
+	<body background="{% static 'img/userpage.jpg' %}">
     {% csrf_token %}
     <div class="container">
       <nav class="navbar" style="background-color:#DDDDDD;">
@@ -187,7 +187,7 @@
             <div class="panel-body">
               {% if u.lecturecomment_set.all.count > 0 %}
               <ul class="list-group">
-                {% for comment in u.lecturecomment_set.all|dictsortreversed:"time"|slice:":3" %}
+                {% for comment in u.lecturecomment_set.all|dictsortreversed:"time"|slice:":11" %}
                 <li class="list-group-item">
                   <div class="row">
                     <div class="col-sm-3">
@@ -196,7 +196,7 @@
                       <p class="text-warning">{{ comment.lecture.level }}</p>
                     </div>
                     <div class="col-sm-9">
-                      <h5 style="text-indent:2em;line-height:20pt;border:solid 1px #DDDDDD;border-radius:10px;padding:10px;">{{ comment.content }}</h5>
+                      <h5 style="text-indent:2em;line-height:20pt;border:solid 1px #DDDDDD;border-radius:10px;padding:10px;word-break:break-all;">{{ comment.content }}</h5>
                       <h4 style="text-align:right;white-space:pre;"><small>{{ comment.time|date:"Y-m-d H:i" }}      有用 ({{ comment.super_number }})</small></h4>
                     </div>
                   </div>
@@ -269,5 +269,6 @@
     <script src="{% static 'js/bootstrap.min.js' %}"></script>
     <script src="{% static 'js/myjquery.js' %}"></script>
     <script src="{% static 'js/userpage.js' %}"></script>
+    <script src="{% static 'js/search.js' %}"></script>
 	</body>
 </html>
