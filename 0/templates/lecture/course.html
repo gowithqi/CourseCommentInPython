@@ -239,7 +239,7 @@
 									<div class="col-lg-1" style="text-align:right;">
 										<br/>
 										<input class="l_id" type="hidden" value="{{ l.id }}">
-										<button type="button" class="btn btn-success btn-lg" onclick="collect(this)">收藏</button>
+										<button type="button" class="btn btn-success btn-lg" onclick="collect(this)">{% if l.id in lecture_collection %}取消收藏{% else %}收藏{% endif %}</button>
 									</div>
 									<div class="col-lg-2">	
 										<br/>
