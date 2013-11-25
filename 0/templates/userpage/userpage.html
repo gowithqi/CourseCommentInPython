@@ -23,7 +23,7 @@
 	<body background="{% static 'img/userpage.jpg' %}">
     {% csrf_token %}
     <div class="container">
-      <nav class="navbar" style="background-color:#DDDDDD;">
+      <nav class="navbar navbar-default navbar-fixed-top" style="width:84.5%;MARGIN-RIGHT: auto;MARGIN-LEFT: auto;TEXT-ALIGN: center;">
         <!-- Brand and toggle get grouped for better mobile display -->
         <div class="navbar-header">
           <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navcol">
@@ -52,6 +52,13 @@
               </ul>
             </li>
           </ul> -->
+          <form class="navbar-form navbar-left">
+            <div class="form-group dropdown" style="width:400px;">
+              <input type="text" class="form-control" id="search" autocomplete="off" placeholder="来这里找课！">
+              <ul class="dropdown-menu" id="complete" style="width:100%;margin-top:-1px;text-align:left;"></ul>
+            </div>
+            <button type="submit" id="submit" class="btn btn-default">搜索</button>
+          </form>
           <ul class="nav navbar-nav navbar-right">
             <li class="dropdown">
               <a href="#" class="dropdown-toggle" data-toggle="dropdown" style="white-space:pre;"><span class="glyphicon glyphicon-user"></span>  {{ u.name }} <span class="badge" style="background-color:#FF7744 ;">{% if u.messageofcommentsuper_set.all.count %}{{ u.messageofcommentsuper_set.all.count }}{% endif %}</span></a>
@@ -74,7 +81,8 @@
         </div><!-- /.navbar-collapse -->
       </nav>
 
-      <div class="row">
+      <br/><br/><br/>
+      <!-- <div class="row">
         <form class="col-sm-offset-3">
           <div class="form-group dropdown col-sm-6">
             <input type="text" class="form-control" id="search" autocomplete="off" placeholder="来这里找课！">
@@ -82,7 +90,7 @@
           </div>
           <button type="submit" id="submit" class="btn btn-default">搜索</button>
         </form>
-      </div><!-- search form -->
+      </div> -->
 
       <!-- extra search -->
       <div class="modal fade" id="eSearch" tabindex="-1">
@@ -187,8 +195,8 @@
             <div class="panel-body">
               {% if u.lecturecomment_set.all.count > 0 %}
               <ul class="list-group">
-                {% for comment in u.lecturecomment_set.all|dictsortreversed:"time"|slice:":11" %}
-                <li class="list-group-item">
+                {% for comment in u.lecturecomment_set.all|dictsortreversed:"time"|slice:":10" %}
+                <li class="list-group-item" style="border-color:#AAAAAA">
                   <div class="row">
                     <div class="col-sm-3">
                       <h5><a href="/lecture/{{ comment.lecture.id }}"><strong>{{ comment.lecture.course.name }}</strong></a></h5>
@@ -203,6 +211,12 @@
                 </li>
                 {% endfor %}
               </ul>
+              {% if u.lecturecomment_set.all.count > 10 %}
+              <ul class="pagination">
+                <li class="active"><a href="#">1</a></li>
+                <li><a href="#">2</a></li>
+              </ul>
+              {% endif %}
               {% else %}
               <p>你还没有留下过点评～</p>
               {% endif %}
