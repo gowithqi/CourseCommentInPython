@@ -54,7 +54,7 @@
           </ul> -->
           <ul class="nav navbar-nav navbar-right">
             <li class="dropdown">
-              <a href="#" class="dropdown-toggle" data-toggle="dropdown">{{ u.name }} <span class="badge" style="background-color:#FF7744 ;">{% if u.messageofcommentsuper_set.all.count %}{{ u.messageofcommentsuper_set.all.count }}{% endif %}</span></a>
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown" style="white-space:pre;"><span class="glyphicon glyphicon-user"></span>  {{ u.name }} <span class="badge" style="background-color:#FF7744 ;">{% if u.messageofcommentsuper_set.all.count %}{{ u.messageofcommentsuper_set.all.count }}{% endif %}</span></a>
               {% if u.messageofcommentsuper_set.all.count %}
               <ul class="dropdown-menu">
                 {% for message in u.messageofcommentsuper_set.all %}
@@ -161,8 +161,8 @@
               {% for collectionrecord in u.userlecturecollection_set.all|slice:":3" %}
               <p style="white-space:pre;"><a href="/lecture/{{ collectionrecord.lecture.id }}/">{{ collectionrecord.lecture.course.name }}</a>     {{ collectionrecord.lecture.professor.name }}     <a href="#" data-lid="{{ collectionrecord.lecture.id }}" class="decollect">取消收藏</a></p>
               {% for c in collectionrecord.lecture.lecturecomment_set.all|slice:":1" %}
-              <p>{{ c.content }}</p>
-              <p style="text-align:right;white-space:pre;">{{ c.user.name }}  {{ c.time|date:"Y-m-d H:i:s" }}  有用 ({{ c.super_number }})</p>
+              <p>{{ c.content|truncatechars:30 }}</p>
+              <p style="text-align:right;white-space:pre;">{{ c.user.name }}  {{ c.time|date:"Y-m-d H:i" }}  有用 ({{ c.super_number }})</p>
               {% empty %}
               <p>还没有评论。快来抢沙发！</p>
               {% endfor %}
@@ -182,40 +182,30 @@
         <div class="col-sm-10 col-sm-offset-1">
           <div class="panel panel-primary">
             <div class="panel-heading">
-              <h3 class="panel-title">我的评论</h3>
+              <h3 class="panel-title">我的点评{% if u.lecturecomment_set.all.count > 0 %}（{{ u.lecturecomment_set.all.count }}条）{% endif %}</h3>
             </div>
             <div class="panel-body">
-              <p>
-                总共{{ u.lecturecomment_set.all.count }}条评论。显示{% if u.lecturecomment_set.all.count < 3 %}{{ u.lecturecomment_set.all.count }}条。
-                {% else %}3条。{% endif %}
-              </p>
-              <table class="table table-striped">
-                <thead></thead>
-                <tbody>
-                  {% for comment in u.lecturecomment_set.all|dictsortreversed:"time"|slice:":3" %}
-                  <tr>
-                    <th>
-                      <a href="/lecture/{{ comment.lecture.id }}">{{ comment.lecture.course.name }}</a><br/>
-                      {{ comment.lecture.professor.name }}
-                    </th>
-                    <th>
-                      <p>{{ comment.content }}</p>
-                      <ul class="breadcrumb">
-                        <li style="margin-right:40%;">
-                          {{ comment.time|date:"Y-m-d H:i:s" }}
-                        </li>
-                        <li>
-                          有用 ({{ comment.super_number }})
-                        </li>
-                      </ul>
-                      <p><br/></p>
-                    </th>
-                  </tr>
-                  {% empty %}
-                  <p>你还没有留下评论～</p>
-                  {% endfor %}
-                </tbody>
-              </table>
+              {% if u.lecturecomment_set.all.count > 0 %}
+              <ul class="list-group">
+                {% for comment in u.lecturecomment_set.all|dictsortreversed:"time"|slice:":3" %}
+                <li class="list-group-item">
+                  <div class="row">
+                    <div class="col-sm-3">
+                      <h5><a href="/lecture/{{ comment.lecture.id }}"><strong>{{ comment.lecture.course.name }}</strong></a></h5>
+                      <p>{{ comment.lecture.professor.name }}</p>
+                      <p class="text-warning">{{ comment.lecture.level }}</p>
+                    </div>
+                    <div class="col-sm-9">
+                      <h5 style="text-indent:2em;line-height:20pt;border:solid 1px #DDDDDD;border-radius:10px;padding:10px;">{{ comment.content }}</h5>
+                      <h4 style="text-align:right;white-space:pre;"><small>{{ comment.time|date:"Y-m-d H:i" }}      有用 ({{ comment.super_number }})</small></h4>
+                    </div>
+                  </div>
+                </li>
+                {% endfor %}
+              </ul>
+              {% else %}
+              <p>你还没有留下过点评～</p>
+              {% endif %}
             </div>
           </div>
         </div>
