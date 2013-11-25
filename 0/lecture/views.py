@@ -6,7 +6,7 @@ from django.shortcuts import render, get_object_or_404
 # from django.db.models import Avg
 from django import db
 
-from lecture.models import Course, Lecture, LectureComment, LectureCommentSuperRecord, LectureLevelRecord, LectureStudentScoreRecord
+from lecture.models import Course, Lecture, LectureComment, LectureCommentSuperRecord, LectureLevelRecord, LectureStudentScoreRecord, UserLectureCollection
 from gossip.models import Gossip, GossipSuperRecord
 from login.models import User
 from login.views import checkUserLogin
@@ -27,6 +27,7 @@ def getLecture(request, lecture_id):
 	except Lecture.DoesNotExist:
 		raise Http500
 
+	lecture_collection = [r.lecture.id for r in user.userlecturecollection_set.all()]
 	course = lecture.course
 	course.view_time = course.view_time + 1
 	course.save()
@@ -45,6 +46,7 @@ def getLecture(request, lecture_id):
 		'focus_lecture_id': lecture_id,
 		'comment_super_list': comment_super_list,
 		'gossip_super_list': gossip_super_list,
+		'lecture_collection': lecture_collection,
 		})
 	increaseSysAchievement()
 	return HttpResponse(template.render(context))
