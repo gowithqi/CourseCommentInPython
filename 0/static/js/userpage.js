@@ -21,9 +21,9 @@ $(document).ready(function(){
   }
   fTop=1;
   tTop=1;
-  $.ajaxSetup({async:false});
 });
 function change_course_get(){
+  $.ajaxSetup({async:false});
   if (tTop==fTop){
     stack[fTop]=new Array();
     $.get("/userpage/change/",function(data){

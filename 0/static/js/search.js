@@ -3,6 +3,7 @@ $(document).ready(function(){
   $.csrftoken();
 });
 function auto_complete_post(){
+  $.ajaxSetup({async:true});
   $.post("/search/lecture/autocomplete/",
     {
       content:$("#search").val()
