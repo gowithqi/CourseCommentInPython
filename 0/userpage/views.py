@@ -106,12 +106,59 @@ def getAllComments(request):
 	user = get_object_or_404(User, id=user_id)
 
 	ret = []
-	for c in user.lecturecomment_set.all():
+	for c in user.lecturecomment_set.all().order_by('-time'):
 		tmp = getCommentDict(c)
 		l = c.lecture
 		tmp_l = getLectureDict(l)
 		tmp['lecture'] = tmp_l
 
+		ret.append(tmp)
+
+	return HttpResponse(json.dumps(ret, ensure_ascii=False, indent=4))
+
+@require_http_methods(['GET'])
+def getCollectionLectures(request, start, end):
+	start = int(start)
+	if start<1: raise Http500
+	end = int(end)
+	print "getCollectionLecture, start:%d, end:%d" % (start, end)
+	user_id = checkUserLogin(request)
+	user = get_object_or_404(User, id=user_id)
+
+	if end < start: collections = user.userlecturecollection_set.all()[start-1:]
+	else: collections = user.userlecturecollection_set.all()[start-1: end]
+
+	ret = []
+	for cr in collections:
+		l = cr.lecture
+		tmp = getLectureDict(l)
+		tmp['most_popular_comment'] = ""
+		comments = l.lecturecomment_set.all()
+		if comments.count() > 0: 
+			comment = comments[0]
+			comment_tmp = getCommentDict(comment)
+			tmp['most_popular_comment'] = comment_tmp
+		ret.append(tmp)
+	return HttpResponse(json.dumps(ret, ensure_ascii=False, indent=4))
+
+@require_http_methods(['GET'])
+def getComments(request, start, end):
+	start = int(start)
+	if start<1: raise Http500	
+	end = int(end)
+	print "getCollectionLecture, start:%d, end:%d" % (start, end)
+	user_id = checkUserLogin(request)
+	user = get_object_or_404(User, id=user_id)
+
+	if end < start: comments = user.lecturecomment_set.all().order_by('-time')[start-1:]
+	else: comments = user.lecturecomment_set.all().order_by('-time')[start-1: end]
+
+	ret = []
+	for c in comments:
+		tmp = getCommentDict(c)
+		l = c.lecture
+		tmp_l = getLectureDict(l)
+		tmp['lecture'] = tmp_l
 		ret.append(tmp)
 
 	return HttpResponse(json.dumps(ret, ensure_ascii=False, indent=4))

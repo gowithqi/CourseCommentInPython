@@ -7,4 +7,5 @@ urlpatterns = patterns('',
 	url(r'^recordscore/(?P<lecture_id>\d+)/$', views.recordStudentScore),
 	url(r'^recordlevel/(?P<lecture_id>\d+)/$', views.recordLevel),
 	url(r'^test/(?P<mode>.+)/$', views.test),
+	#url(r'^getlecturedata/(?P<lecture_id>\d+)/$', views.getLectureData),
 )

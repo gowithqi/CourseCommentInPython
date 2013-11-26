@@ -8,5 +8,7 @@ urlpatterns = patterns('',
 	url(r'^checksupermessage/(?P<message_id>\d+)/$', views.checkSuperMessage),
 	url(r'^getallcollectionlectures/$', views.getAllCollectionLectures),
 	url(r'^getallcomments/$', views.getAllComments),
+	url(r'^getcollectionlectures/(?P<start>\d+)/(?P<end>\d+)$', views.getCollectionLectures),
+	url(r'^getcomments/(?P<start>\d+)/(?P<end>\d+)$', views.getComments),
 )
 

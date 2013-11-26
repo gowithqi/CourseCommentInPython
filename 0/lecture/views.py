@@ -71,6 +71,15 @@ def getSuperList(lectures, user, table):
 				except GossipSuperRecord.DoesNotExist: pass
 
 	return res
+'''
+def getLectureData(request, lecture_id):
+	if request.method != 'GET': raise Http404
+	print "getLectureData"
+	user_id = checkUserLogin(request)				
+	lecture_id = int(lecture_id)
+	user =  get_object_or_404(User, id=user_id)
+	lecture = get_object_or_404(Lecture, id=lecture_id)
+'''
 
 def recordStudentScore(request, lecture_id):
 	if request.method != "POST": raise Http404

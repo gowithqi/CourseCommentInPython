@@ -15,7 +15,7 @@ NUMBER_OF_WORDS = 40
 
 def updateCommentData(request, mode):
 	user_id = checkUserLogin(request)
-	if user_id != 14: return Http404
+	if str(mode) == "force" and user_id != 14: return Http404
 	if str(mode) == "force": force_recompute = True
 	elif str(mode) == "unforce": force_recompute = False
 	else: raise Http500
