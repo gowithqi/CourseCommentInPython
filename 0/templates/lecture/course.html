@@ -371,8 +371,8 @@
 															{% with gossips=l.gossip_set.all %}
 															{% for g in gossips %}
 															<tr>
-																<th>
-																	<p>{{ g.user.name }}</p>
+																<th style="width:80px">
+																	<p>有人说：</p>
 																</th>
 																<th style="width:500px">
 																	<p style="word-break:break-all;">{{ g.content }}</p>
