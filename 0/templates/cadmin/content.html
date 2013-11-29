@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+{% load staticfiles %}
+<html lang="en-CN">
+<head>
+	<meta charset="utf-8">
+	<meta name="author" content="jt">	
+
+	<title>课程点评网</title>
+
+	<script type="text/javascript" src="{% static 'js/jquery-1.10.2.min.js' %}"></script>
+
+	<link href="{% static 'css/bootstrap.css' %}" rel="stylesheet">
+	<link href="{% static 'css/bootstrap-theme.css' %}" rel="stylesheet">
+	  
+	<script type="text/javascript" src="{% static 'js/bootstrap.min.js' %}"></script>
+	<script src="{% static 'js/myjquery.js' %}"></script>
+</head>
+
+<body>
+	{% csrf_token %}
+<legend>查询</legend>
+	 <div class="container">
+    <form class="form-horizontal" role="form" method="GET" action="/cadmin/contents/">
+      <div id="legend" class="">
+        <legend class="">查询</legend>
+      </div>
+      <label class="control-label">选择评论还是吐槽</label>
+      <div class="radio">
+        <label>
+          <input value="comment" name="group" checked="checked" type="radio">
+          评论
+        </label>
+      </div>
+      <div class="radio">
+        <label>
+          <input value="gossip" name="group" checked="checked" type="radio">
+          吐槽
+        </label>
+      </div>
+
+    <div class="form-group">
+          <label class="control-label" for="input01">开始时间</label>
+          <input class="form-control" name="start_date" placeholder="格式：20130101">
+    </div>
+
+    <div class="form-group">
+          <label class="control-label" for="input01">结束时间</label>
+          <input class="form-control" name="end_date" placeholder="格式：20130101">
+    </div>
+
+    <button type="submit" class="btn btn-defautl">查询</button> 
+  </form>
+</div>
+<legend>{{ title }}</legend>
+
+	<div class="row">
+        <div class="col-sm-10 col-sm-offset-1">
+          <div class="panel panel-primary">
+            <div class="panel-heading">
+              <h3 class="panel-title">{{ title }}: {{ contents|length }}条</h3>
+            </div>
+            <div class="panel-body">
+              <ul class="list-group">
+                {% for content in contents %}
+                <li class="list-group-item" style="border-color:#AAAAAA">
+                  <div class="row">
+                    <div class="col-sm-3">
+                      <h5><a href="/lecture/{{ content.lecture.id }}"><strong>{{ content.lecture.course.name }}</strong></a></h5>
+                      <p>{{ content.lecture.professor.name }}</p>
+                      <p>{{ content.user.name }}</p>
+                    </div>
+                    <div class="col-sm-9">
+                      <h5 style="text-indent:2em;line-height:20pt;border:solid 1px #DDDDDD;border-radius:10px;padding:10px;word-break:break-all;">{{ content.content }}</h5>
+                      <input class="r_id" type="hidden" value="{{ content.id }}"><input class="r_type" type="hidden" value="{{ title }}">
+                      <h4 style="text-align:right;white-space:pre;">
+                      	<small>{{ content.time|date:"Y-m-d  H:i" }}    有用 ({{ content.super_number }})  </small><button id="{{ content.id }}" type="button" class="btn  btn-defautl wall_delete">删除</button></h4>
+                    </div>
+                  </div>
+                </li>
+                {% empty %}
+                  <p>一条记录也没有！</p>
+                {% endfor %}
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+<script>
+$(document).ready(function(){
+  $.csrftoken();
+});
+</script>
+<script>	
+	$(".wall_delete").click(function(){
+		var r_id = $(this).parent().parent().children("input.r_id");
+		var r_type = $(this).parent().parent().children("input.r_type");
+		console.log(123);
+		console.log(r_id.val());
+		console.log(r_type.val());
+		  $.post("/cadmin/delete/",
+		  {
+		    id:r_id.val(),
+		    type:r_type.val()
+		  },
+		  function(status){	
+		  	console.log(status);
+		  	var x = parseInt(status);
+	  		alert("delete record sucessfully");
+	  		$("#"+status).html("已删除");
+		  });
+	});
+</script>	
+</body>
+</html>
