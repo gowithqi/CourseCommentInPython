@@ -87,7 +87,7 @@ def changeString(ustring):
 	return "".join([changeChar(uchar) for uchar in ustring])
 
 def changeChar(uchar):
-	BIAODIAN = u"《》“”、\"（）()"
+	BIAODIAN = u"《》“”、\"（）() "
 	if uchar in BIAODIAN: return ""
 	if is_alphabet(uchar): return uchar.lower()
 	return Q2B(uchar)
