@@ -4,18 +4,6 @@ from datetime import datetime, timedelta, date
 register = template.Library()
 
 @register.filter
-def getkey(value, key):
-	return value[key]
-
-@register.filter
-def div(value, key):
-	value = int (value)
-	key = int (key)
-	if key == 0: return 0
-	res = float(value)/key
-	return int(res*100)
-
-@register.filter
 def formatTime(i_time):
 	time_delta = computeTimeDelta(i_time)
 	print time_delta

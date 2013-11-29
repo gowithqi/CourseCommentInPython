@@ -322,7 +322,7 @@
 																</th>
 																<th>
 																	<p style="word-break:break-all;">{{ comment.content }}</p>
-																	<p style="text-align:right;">{{ comment.time|computeTimeDelta }}之前  {{ comment.time|date:"Y-m-d H:i:s" }}</p>
+																	<p style="text-align:right;">{{ comment.time|formatTime }}</p>
 																</th>
 																<th style="width:50px">
 																	<p style="text-align:right;"><span class="badge" style="background-color:#0066FF;" id="comment_{{ comment.id }}">{{ comment.super_number }}</span></p>
