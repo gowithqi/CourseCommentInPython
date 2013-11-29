@@ -1,11 +1,11 @@
-var stack,fTop=0,tTop=0;
+/*var stack,fTop=0,tTop=0;
 $(document).ready(function(){
-  /*var trs1=$("#rank1").children(),
+  var trs1=$("#rank1").children(),
       trs2=$("#rank2").children();
   for (var i=0;i<10;i++){
     trs1.eq(i).children().eq(0).html(i+1);
     trs2.eq(i).children().eq(0).html(i+1);
-  }*/
+  }
   $("#cPrevious").prop('disabled',true);
   stack=new Array();
   stack[0]=new Array();
@@ -69,7 +69,7 @@ function change_course_get(){
   }
   $("#cPrevious").find("span").attr("style","");
   $("#cPrevious").prop('disabled',false);
-}
+}*/
 function decollect_get(lid){
   $.get("/userpage/decollect/lecture/"+lid+"/",function(data){
     if (data=="yes"){
