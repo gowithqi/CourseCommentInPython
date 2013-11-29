@@ -17,17 +17,16 @@ def div(value, key):
 
 @register.filter
 def formatTime(i_time):
-	format = i_time.strftime("%Y-%m-%d %H:%M:%S")
 	time_delta = computeTimeDelta(i_time)
 	print time_delta
 
 	if "seconds" in time_delta: return str(time_delta["seconds"]) + u"秒前"
 	elif "minutes" in time_delta: return str(time_delta["minutes"]) + u"分钟前"
-	elif "hours" in time_delta: return u"今天" + i_time.strftime("%M:%S")
+	elif "hours" in time_delta: return u"今天 " + i_time.strftime("%M:%S")
 	elif "days" in time_delta: 
-		if time_delta["days"] == 1: return u"昨天" + i_time.strftime("%M:%S")
-		elif time_delta["days"] == 2: return u"前天" + i_time.strftime("%M:%S")
-		elif time_delta["days"] == 3: return u"3天前" + i_time.strftime("%M:%S")
+		if time_delta["days"] == 1: return u"昨天 " + i_time.strftime("%M:%S")
+		elif time_delta["days"] == 2: return u"前天 " + i_time.strftime("%M:%S")
+		elif time_delta["days"] == 3: return u"3天前 " + i_time.strftime("%M:%S")
 		else: return  i_time.strftime("%Y-%m-%d %H:%M:%S")
 	else: return  i_time.strftime("%Y-%m-%d %H:%M:%S")
 
