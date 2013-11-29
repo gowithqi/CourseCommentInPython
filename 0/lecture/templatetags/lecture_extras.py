@@ -25,10 +25,10 @@ def formatTime(i_time):
 	else:
 		today = date.today()
 		delta_day = today - i_time.date()
-		if delta_day.days == 0: return u"今天 " + i_time.strftime("%H:%M:%S")
-		elif delta_day.days == 1: return u"昨天 " + i_time.strftime("%H:%M:%S")
-		elif delta_day.days == 2: return u"前天 " + i_time.strftime("%H:%M:%S")
-		elif delta_day.days == 3: return u"3天前 " + i_time.strftime("%H:%M:%S")
+		if delta_day.days == 0: return u"今天 " + i_time.strftime("%H:%M")
+		elif delta_day.days == 1: return u"昨天 " + i_time.strftime("%H:%M")
+		elif delta_day.days == 2: return u"前天 " + i_time.strftime("%H:%M")
+		elif delta_day.days == 3: return u"3天前 " + i_time.strftime("%H:%M")
 		else: pass
 	return  i_time.strftime("%Y-%m-%d %H:%M:%S")
 
@@ -47,14 +47,3 @@ def computeTimeDelta(i_time):
 	if t < 12: return {"month": int(t)}
 	t = t / 12
 	return {"year": int(t)}
-	# if t < 60: return str(int(t)) + "秒"
-	# t = t / 60		#minute
-	# if t < 60: return str(int(t)) + "分"
-	# t = t / 60		#hour
-	# if t < 24: return str(int(t)) + "小时"
-	# t = t / 24		#day
-	# if t < 30: return str(int(t)) + "天"
-	# t = t / 30 		#month
-	# if t < 12: return str(int(t)) + "月"
-	# t = t / 12
-	# return str(int(t)) + "年" 
