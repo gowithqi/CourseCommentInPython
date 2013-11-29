@@ -1,6 +1,3 @@
-$(document).ready(function(){
-  $.csrftoken();
-});
 $.ajaxSetup({async:false});
 $("#regInfo").modal({
   keyboard:false,

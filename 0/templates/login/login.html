@@ -42,7 +42,7 @@
             <div class="form-group">
               <label for="passwordl" class="control-label">密码</label>
               <div class="enterl">
-                <input type="passwordl" class="form-control" id="passwordl" placeholder="密码">
+                <input type="password" class="form-control" id="passwordl" placeholder="密码">
               </div>
               <label for="passwordl" id="psw_prompt"></label>
               <div class="checkbox">
@@ -57,10 +57,50 @@
       </div>
 
       <div class="row">
-        <div class="col-sm-4">
+        <div class="col-sm-5">
           <h3>这里是专为交大同学打造</h3>
           <h3>真实可靠的课程点评平台</h3>
-          <div><p>comments</p></div>
+          <ul class="list-group" id="float_comment">
+            <li class="list-group-item" style="border-color:#AAAAAA">
+              <div class="row">
+                <div class="col-sm-3">
+                  <h5><strong id="course_name1"></strong></h5>
+                  <p id="professor_name1"></p>
+                  <p class="text-warning" id="course_level1"></p>
+                </div>
+                <div class="col-sm-9">
+                  <h5 style="text-indent:2em;line-height:20pt;border:solid 1px #DDDDDD;border-radius:10px;padding:10px;word-break:break-all;" id="comment_content1"></h5>
+                  <h4 style="text-align:right;white-space:pre;"><small id="comment_info1"></small></h4>
+                </div>
+              </div>
+            </li>
+            <li class="list-group-item" style="border-color:#AAAAAA">
+              <div class="row">
+                <div class="col-sm-3">
+                  <h5><strong id="course_name2"></strong></h5>
+                  <p id="professor_name2"></p>
+                  <p class="text-warning" id="course_level2"></p>
+                </div>
+                <div class="col-sm-9">
+                  <h5 style="text-indent:2em;line-height:20pt;border:solid 1px #DDDDDD;border-radius:10px;padding:10px;word-break:break-all;" id="comment_content2"></h5>
+                  <h4 style="text-align:right;white-space:pre;"><small id="comment_info2"></small></h4>
+                </div>
+              </div>
+            </li>
+            <li class="list-group-item" style="border-color:#AAAAAA">
+              <div class="row">
+                <div class="col-sm-3">
+                  <h5><strong id="course_name3"></strong></h5>
+                  <p id="professor_name3"></p>
+                  <p class="text-warning" id="course_level3"></p>
+                </div>
+                <div class="col-sm-9">
+                  <h5 style="text-indent:2em;line-height:20pt;border:solid 1px #DDDDDD;border-radius:10px;padding:10px;word-break:break-all;" id="comment_content3"></h5>
+                  <h4 style="text-align:right;white-space:pre;"><small id="comment_info3"></small></h4>
+                </div>
+              </div>
+            </li>
+          </ul>
           <p>在这里你可以分享你的课程经历，<strong>提升校园影响力</strong>；</p>
           <p>在这里你可以查看各类课程信息，<strong>全面了解课程。</strong></p>
           <p>最快捷的课程搜索！   最人性化的点评方式！</p>
@@ -68,7 +108,7 @@
           <p>加入我们，给SJTU留下点儿我们<strong>专属的印记</strong>！</p>
         </div>
 
-        <div class="col-sm-8">
+        <div class="col-sm-7">
           <form class="form-horizontal" role="form">
             <div class="form-group">
               <label for="account" class="col-sm-3 control-label">邮箱<span id="help1" class="help-block"></span></label>
@@ -146,6 +186,11 @@
     <script src="{% static 'js/myjquery.js' %}"></script>
     <script src="{% static 'js/register.js' %}"></script>
     <script>
+      $(document).ready(function(){
+        $.csrftoken();
+        comment_get();
+        setInterval("refresh_comment()",5000);
+      });
       function login_post(){
         $.post("/",
         {
@@ -169,6 +214,20 @@
           }
         });
       }
+      function comment_get(){
+        for (var i=1;i<=3;i++){
+          $.get("/userpage/getrandomcomment/",
+            function(data){
+              var obj=JSON.parse(data);
+              $("#course_name"+i).html(obj.lecture.course_name);
+              $("#professor_name"+i).html(obj.lecture.professor_name);
+              $("#course_level"+i).html(obj.lecture.level);
+              $("#comment_content"+i).html(obj.comment_content);
+              $("#comment_info"+i).html(obj.comment_user+"      "+obj.comment_time+"      有用 ("+obj.comment_super_number+")");
+            }
+          );
+        }
+      }
       $("#username").change(function(){
         $("#un_prompt").html("");
         $("#psw_prompt").html("");
@@ -191,6 +250,16 @@
         if (blank)
           return false;
         return true;
+      }
+      function refresh_comment(){
+        $("#float_comment").animate({
+          opacity:'0'
+        },"slow",function(){
+          comment_get();
+          $("#float_comment").animate({
+            opacity:'1'
+          },"slow");
+        });
       }
       var last=0;
       $(".enterl").keydown(function(e){
