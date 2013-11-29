@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 from django import template
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, date
 register = template.Library()
 
 @register.filter
@@ -22,13 +22,15 @@ def formatTime(i_time):
 
 	if "seconds" in time_delta: return str(time_delta["seconds"]) + u"秒前"
 	elif "minutes" in time_delta: return str(time_delta["minutes"]) + u"分钟前"
-	elif "hours" in time_delta: return u"今天 " + i_time.strftime("%H:%M:%S")
-	elif "days" in time_delta: 
-		if time_delta["days"] == 1: return u"昨天 " + i_time.strftime("%H:%M:%S")
-		elif time_delta["days"] == 2: return u"前天 " + i_time.strftime("%H:%M:%S")
-		elif time_delta["days"] == 3: return u"3天前 " + i_time.strftime("%H:%M:%S")
-		else: return  i_time.strftime("%Y-%m-%d %H:%M:%S")
-	else: return  i_time.strftime("%Y-%m-%d %H:%M:%S")
+	else:
+		today = date.today()
+		delta_day = today - i_time.date()
+		if delta_day == 0: return u"今天 " + i_time.strftime("%H:%M:%S")
+		elif delta_day == 1: return u"昨天 " + i_time.strftime("%H:%M:%S")
+		elif delta_day == 2: return u"前天 " + i_time.strftime("%H:%M:%S")
+		elif delta_day == 3: return u"3天前 " + i_time.strftime("%H:%M:%S")
+		else: pass
+	return  i_time.strftime("%Y-%m-%d %H:%M:%S")
 
 def computeTimeDelta(i_time):
 	t = datetime.now() - i_time
@@ -55,4 +57,4 @@ def computeTimeDelta(i_time):
 	# t = t / 30 		#month
 	# if t < 12: return str(int(t)) + "月"
 	# t = t / 12
-	# return str(int(t)) + "年"
+	# return str(int(t)) + "年" 
