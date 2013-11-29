@@ -35,7 +35,8 @@ def login(request):
 	if request.method == "GET":
 		if not ('user_id' in request.session): 
 			template = loader.get_template("login/login.html")      # zzq: html
-			return HttpResponse(template.render(RequestContext(request, {})))
+			sys_achievement = getSysAchievement()
+			return HttpResponse(template.render(RequestContext(request, {'sys_achievement': sys_achievement})))
 		else: return HttpResponseRedirect(reverse('userpage', args=(request.session['user_id'], )))
 	elif request.method == "POST":
 		print "login_POST"
