@@ -25,10 +25,10 @@ def formatTime(i_time):
 	else:
 		today = date.today()
 		delta_day = today - i_time.date()
-		if delta_day == 0: return u"今天 " + i_time.strftime("%H:%M:%S")
-		elif delta_day == 1: return u"昨天 " + i_time.strftime("%H:%M:%S")
-		elif delta_day == 2: return u"前天 " + i_time.strftime("%H:%M:%S")
-		elif delta_day == 3: return u"3天前 " + i_time.strftime("%H:%M:%S")
+		if delta_day.days == 0: return u"今天 " + i_time.strftime("%H:%M:%S")
+		elif delta_day.days == 1: return u"昨天 " + i_time.strftime("%H:%M:%S")
+		elif delta_day.days == 2: return u"前天 " + i_time.strftime("%H:%M:%S")
+		elif delta_day.days == 3: return u"3天前 " + i_time.strftime("%H:%M:%S")
 		else: pass
 	return  i_time.strftime("%Y-%m-%d %H:%M:%S")
 
