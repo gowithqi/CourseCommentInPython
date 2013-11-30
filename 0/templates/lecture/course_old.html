@@ -155,8 +155,7 @@
 		<div class="span12">
 
 			<!--顶部导航-->
-		    <nav class="navbar navbar-inverse navbar-fixed-top" style="width:84.5%;MARGIN-RIGHT: auto;MARGIN-LEFT: auto;TEXT-ALIGN: center;">
-		        <!-- Brand and toggle get grouped for better mobile display -->
+	        <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation" style="width:84.5%;MARGIN-RIGHT: auto;MARGIN-LEFT: auto;TEXT-ALIGN: center;">
 		        <div class="navbar-header">
 		          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navcol">
 		            <span class="icon-bar"></span>
@@ -165,18 +164,17 @@
 		          </button>
 		          <a class="navbar-brand" href="/">课程点评网</a>
 		        </div>
-		        <!-- Collect the nav links, forms, and other content for toggling -->
 		        <div class="collapse navbar-collapse" id="navcol">
-		          <form class="navbar-form navbar-left">
-		            <div class="form-group dropdown" style="width:400px;">
-		              <input type="text" class="form-control" id="search" autocomplete="off" placeholder="来这里找课！">
-		              <ul class="dropdown-menu" id="complete" style="width:100%;margin-top:-1px;text-align:left;"></ul>
-		            </div>
-		            <button type="submit" id="submit" class="btn btn-default">搜索</button>
-		          </form>
+			       <form class="navbar-form navbar-left">
+			          <div class="form-group dropdown" style="width:400px;">
+			            <input type="text" class="form-control" id="search" autocomplete="off" placeholder="来这里找课！">
+			            <ul class="dropdown-menu" id="complete" style="width:100%;margin-top:-1px;text-align:left;"></ul>
+			          </div>
+			          <button type="submit" id="submit" class="btn btn-default">搜索</button>
+			      </form>
 		          <ul class="nav navbar-nav navbar-right">
 		            <li class="dropdown">
-		              <a href={% if u.messageofcommentsuper_set.all.count %}"#" class="dropdown-toggle" data-toggle="dropdown"{% else %}"/"{% endif %} style="white-space:pre;"><span class="glyphicon glyphicon-user"></span>  {{ u.name }} <span class="badge" style="background-color:#FF7744 ;">{% if u.messageofcommentsuper_set.all.count %}{{ u.messageofcommentsuper_set.all.count }}{% endif %}</span></a>
+		              <a href="#" class="dropdown-toggle" data-toggle="dropdown" style="white-space:pre;"><span class="glyphicon glyphicon-user"></span>  {{ u.name }} <span class="badge" style="background-color:#FF7744 ;">{% if u.messageofcommentsuper_set.all.count %}{{ u.messageofcommentsuper_set.all.count }}{% endif %}</span></a>
 		              {% if u.messageofcommentsuper_set.all.count %}
 		              <ul class="dropdown-menu">
 		                {% for message in u.messageofcommentsuper_set.all %}
@@ -193,22 +191,22 @@
 		            <li><a href="/logout/">退出</a></li>
 		          </ul>
 		        </div>
-		    </nav>
+	        </nav>
 
-		      <!-- extra search -->
-		    <div class="modal fade" id="eSearch" tabindex="-1">
-		        <div class="modal-dialog">
-		          <div class="modal-content">
-		            <div class="modal-header">
-		              <h4 class="modal-title"></h4>
-		            </div>
-		            <div class="modal-body"></div>
-		            <div class="modal-footer">
-		              <button type="button" class="btn btn-primary" data-dismiss="modal">确定</button>
-		            </div>
-		          </div><!-- /.modal-content -->
-		        </div><!-- /.modal-dialog -->
-		    </div><!-- /.modal -->
+	        <!-- 搜索框的弹出提示框 -->
+				  <div class="modal fade" id="eSearch" tabindex="-1">
+			        <div class="modal-dialog">
+			          <div class="modal-content">
+			            <div class="modal-header">
+			              <h4 class="modal-title"></h4>
+			            </div>
+			            <div class="modal-body"></div>
+			            <div class="modal-footer">
+			              <button type="button" class="btn btn-primary" data-dismiss="modal">确定</button>
+			            </div>
+			          </div><!-- /.modal-content -->
+			        </div><!-- /.modal-dialog -->
+			      </div><!-- /.modal -->
 
  			<br/><br/><br/>
 			<div style="background-color:#F5F5F5;border: 1px solid #F5F5F5;border-radius: 6px;">
@@ -239,15 +237,18 @@
 				  			<!--老师的得分和用户的评分 -->
 							<div  class="container">
 								<div class="row" style="background-color:#F5F5F5;border: 1px solid #F5F5F5;border-radius: 6px;">
+									<div class="col-lg-1" style="text-align:right;">
+										<br/>
+										<input class="l_id" type="hidden" value="{{ l.id }}">
+										<button type="button" class="btn btn-success btn-lg" onclick="collect(this)">{% if l.id in lecture_collection %}取消收藏{% else %}收藏{% endif %}</button>
+									</div>
 									<div class="col-lg-2">	
-										<p style="text-align:right;"><br/>课程基本信息</p>
+										<br/>
 										<p style="text-align:right; font-weight:bold;">平均期末总评:&nbsp;{{ l.student_score|floatformat:2 }}</p>
 										<p style="text-align:right; font-weight:bold;">评价:&nbsp;{{ l.level|floatformat:1 }}</p>
-										<p><br/></p>
-										<p style="text-align:right;">已有{{ l.level_number }}人评价</p>
 									</div>
-									<div class="col-lg-4">
-										<p><br/>分享您的得分和评分</p>
+									<div class="col-lg-3">
+										<br/>
 										<form>
 											<input class="form-inline rs_content" type="text" style="width:70px" placeholder="期末总评"> 
 											<input class="l_id" type="hidden" value="{{ l.id }}">
@@ -271,6 +272,10 @@
 										  <div class="progress-bar " style="width: 20%;"></div>
 										  <div class="progress-bar progress-bar-success" style="width: 20%;"></div>
 										</div>
+									</div>
+									<div class="col-lg-6">
+										<br/><br/>
+										已有{{ l.level_number }}人评价
 										<div class="progress">
 										  <div class="progress-bar progress-bar-danger" style="width: {{ l.level_1_number|div:l.level_number }}%;"></div>
 										  <div class="progress-bar progress-bar-warning" style="width: {{ l.level_2_number|div:l.level_number }}%;"></div>
@@ -278,15 +283,6 @@
 										  <div class="progress-bar " style="width: {{ l.level_4_number|div:l.level_number }}%;"></div>
 										  <div class="progress-bar progress-bar-success" style="width: {{ l.level_5_number|div:l.level_number }}%;"></div>
 										</div>
-									</div>
-									<div class="col-lg-6" style="text-align:left;">
-										<p><br/>想持续关注这门课,可以把它加入您的收藏栏</p>
-										<input class="l_id" type="hidden" value="{{ l.id }}">
-										{% if l.id in lecture_collection %}
-										<button type="button" class="btn btn-warning btn-lg collect" onclick="collect(this)">取消收藏</button>
-										{% else %}
-										<button type="button" class="btn btn-success btn-lg" onclick="collect(this)">收藏</button>
-										{% endif %}
 									</div>
 								</div>
 							</div>
@@ -296,11 +292,10 @@
 							<div class="row">
 								<div class="col-lg-2" style="text-align:right;"> 
 									<ul class="nav nav-pills nav-stacked" style="max-width: 150px;">
-										<!--如果觉得底色太深可把以下两个li标签中的全部颜色代码都换成#F5F5F5-->
-										<li class="active success" style="background-color:#DCDCFA;border: 0px solid #DCDCFA;border-radius: 6px;">
-											<a data-toggle="tab" data-toggle="tooltip" href="#{{ l.professor.id }}_Comment_Page"  data-placement="right" title="这里都是正儿八经的课评哦~"><h4><strong>点评</strong></h4><p>这儿得是有节操的</p></a>
+										<li class="active success">
+											<a data-toggle="tab" data-toggle="tooltip" href="#{{ l.professor.id }}_Comment_Page"  data-placement="right" title="这里都是正儿八经的课评哦~" ><h4><strong>点评</strong></h4><p>这儿得是有节操的</p></a>
 										</li>
-										<li style="background-color:#DCDCFA;border: 0px solid #DCDCFA;border-radius: 6px;">
+										<li>
 											<a data-toggle="tab" data-toggle="tooltip" href="#{{ l.professor.id }}_Wall_Page" data-placement="right" title="听说吐槽也是一门学问= ="><h4><strong>吐槽</strong></h4><p>没节操的在这儿</p></a>
 										</li>
 									</ul>
@@ -428,12 +423,13 @@
 				</div>
 			</div>
 
-			<!--CopyRight-->
-			<div>
-				<br/><br/>
-				<p style="width:84.5%;MARGIN-RIGHT: auto;MARGIN-LEFT: auto;TEXT-ALIGN: center;color:#AAAAAA">&#169;2013 CourseComment Group  联系我们:coursecomment@groups.163.com</p>
-			</div>
+			<!--教师部分,用tab实现,每个教师占一个tab -->
 
+
+			<!--网页末尾显示访问时间-->
+			<script>
+				document.write(Date());
+			</script>
 			<div id="bottom">
 				<input type="hidden" value="bottom">
 			</div>
@@ -450,7 +446,7 @@
 			        ...
 			      </div>
 			      <div class="modal-footer">
-			        <button type="button" class="btn btn-primary" id="confirm_ok" data-dismiss="modal" address="no_jump">OK</button>
+			        <button type="button" class="btn btn-primary" id="confirm_ok" data-dismiss="modal">OK</button>
 			      </div>
 			    </div><!-- /.modal-content -->
 			  </div><!-- /.modal-dialog -->
@@ -488,10 +484,7 @@
 
 			<script>
 				$("#confirm_ok").click(function(){
-					if (this.getAttribute("address")!="no_jump")
-					{
-						window.location.replace(this.getAttribute("address"));
-					}
+					window.location.reload();
 				});
 			</script>
 
@@ -528,7 +521,6 @@
 							  	{
 							  		$('#confirm_content').html("您的评分为" + String(value) + "分，我们已经记录。谢谢！");
 							  		$('#confirm').modal('toggle');
-							  		$('#confirm_ok').attr('address','/lecture/'+address+'/');
 							  	}
 							  	else{
 									  $('#failed_content').html(status);
@@ -620,7 +612,6 @@
 							  	{
 							  		$('#confirm_content').html("您的期末得分为" + x.val() + "分，我们已经记录。谢谢！");
 							  		$('#confirm').modal('toggle');
-							  		$('#confirm_ok').attr('address', '/lecture/' + y.val() +'/');
 							  	}
 							  });
 					    }
@@ -637,13 +628,11 @@
 					  var tmp = id.innerHTML;
 					  if (tmp == "收藏")
 					    {
-					    	  id.innerHTML = "取消收藏";
-					    	  $(id).attr('class','btn btn-warning btn-lg collect');
+					    	  id.innerHTML = "取消";
 							  $.get("/userpage/collect/lecture/"+y.val()+"/",function(status){
 								if (status == "yes"){
 								  $('#confirm_content').html("收藏成功！");
 						  		  $('#confirm').modal('toggle');
-						  		  $('#confirm_ok').attr('address','no_jump');
 								}
 								else{
 								  $('#failed_content').html(status);
@@ -653,12 +642,10 @@
 					    }
 					    else {
 					    	  id.innerHTML = "收藏";
-					    	  $(id).attr('class','btn btn-success btn-lg collect');
 					    	  $.get("/userpage/decollect/lecture/"+y.val()+"/",function(status){
 								if (status == "yes"){
 								  $('#confirm_content').html("取消成功！");
 						  		  $('#confirm').modal('toggle');
-						  		  $('#confirm_ok').attr('address','no_jump');
 								}
 								else{
 								  $('#failed_content').html(status);
@@ -748,7 +735,6 @@
 					  	{
 					  		$('#confirm_content').html("您的点评已经提交成功，查看请刷新页面。");
 					  		$('#confirm').modal('toggle');
-					  		$('#confirm_ok').attr('address','/lecture/'+ y.val() +'/');
 					  	}
 					  	else
 					  	{
@@ -787,7 +773,6 @@
 					  	{
 					  		$('#confirm_content').html("您的吐槽已经提交成功，查看请刷新页面。");
 					  		$('#confirm').modal('toggle');
-					  		$('#confirm_ok').attr('address','/lecture/'+ y.val() +'/');
 					  	}
 					  	else
 					  	{

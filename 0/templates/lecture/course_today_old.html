@@ -155,7 +155,7 @@
 		<div class="span12">
 
 			<!--顶部导航-->
-		    <nav class="navbar navbar-inverse navbar-fixed-top" style="width:84.5%;MARGIN-RIGHT: auto;MARGIN-LEFT: auto;TEXT-ALIGN: center;">
+		    <nav class="navbar navbar-default navbar-fixed-top" style="width:84.5%;MARGIN-RIGHT: auto;MARGIN-LEFT: auto;TEXT-ALIGN: center;">
 		        <!-- Brand and toggle get grouped for better mobile display -->
 		        <div class="navbar-header">
 		          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navcol">
@@ -282,11 +282,7 @@
 									<div class="col-lg-6" style="text-align:left;">
 										<p><br/>想持续关注这门课,可以把它加入您的收藏栏</p>
 										<input class="l_id" type="hidden" value="{{ l.id }}">
-										{% if l.id in lecture_collection %}
-										<button type="button" class="btn btn-warning btn-lg collect" onclick="collect(this)">取消收藏</button>
-										{% else %}
-										<button type="button" class="btn btn-success btn-lg" onclick="collect(this)">收藏</button>
-										{% endif %}
+										<button type="button" class="btn btn-success btn-lg" onclick="collect(this)">{% if l.id in lecture_collection %}取消收藏{% else %}收藏{% endif %}</button>
 									</div>
 								</div>
 							</div>
@@ -528,7 +524,7 @@
 							  	{
 							  		$('#confirm_content').html("您的评分为" + String(value) + "分，我们已经记录。谢谢！");
 							  		$('#confirm').modal('toggle');
-							  		$('#confirm_ok').attr('address','/lecture/'+address+'/');
+							  		$('#confirm_ok').attr('address','http://sjtucourse.duapp.com/lecture/'+address+'/');
 							  	}
 							  	else{
 									  $('#failed_content').html(status);
@@ -620,7 +616,7 @@
 							  	{
 							  		$('#confirm_content').html("您的期末得分为" + x.val() + "分，我们已经记录。谢谢！");
 							  		$('#confirm').modal('toggle');
-							  		$('#confirm_ok').attr('address', '/lecture/' + y.val() +'/');
+							  		$('#confirm_ok').attr('address','http://sjtucourse.duapp.com/lecture/'+ y.val() +'/');
 							  	}
 							  });
 					    }
@@ -638,7 +634,6 @@
 					  if (tmp == "收藏")
 					    {
 					    	  id.innerHTML = "取消收藏";
-					    	  $(id).attr('class','btn btn-warning btn-lg collect');
 							  $.get("/userpage/collect/lecture/"+y.val()+"/",function(status){
 								if (status == "yes"){
 								  $('#confirm_content').html("收藏成功！");
@@ -653,7 +648,6 @@
 					    }
 					    else {
 					    	  id.innerHTML = "收藏";
-					    	  $(id).attr('class','btn btn-success btn-lg collect');
 					    	  $.get("/userpage/decollect/lecture/"+y.val()+"/",function(status){
 								if (status == "yes"){
 								  $('#confirm_content').html("取消成功！");
@@ -748,7 +742,7 @@
 					  	{
 					  		$('#confirm_content').html("您的点评已经提交成功，查看请刷新页面。");
 					  		$('#confirm').modal('toggle');
-					  		$('#confirm_ok').attr('address','/lecture/'+ y.val() +'/');
+					  		$('#confirm_ok').attr('address','http://sjtucourse.duapp.com/lecture/'+ y.val() +'/');
 					  	}
 					  	else
 					  	{
@@ -787,7 +781,7 @@
 					  	{
 					  		$('#confirm_content').html("您的吐槽已经提交成功，查看请刷新页面。");
 					  		$('#confirm').modal('toggle');
-					  		$('#confirm_ok').attr('address','/lecture/'+ y.val() +'/');
+					  		$('#confirm_ok').attr('address','http://sjtucourse.duapp.com/lecture/'+ y.val() +'/');
 					  	}
 					  	else
 					  	{
