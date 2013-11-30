@@ -11,17 +11,15 @@ from django.views.decorators.http import require_http_methods
 from lecture.models import Lecture, Course
 from login.views import checkUserLogin
 
-AUTO_COMPLETE_LIST_LENGTH = 10
-MAX_ALTERNATE_NUMBER = 7
+AUTO_COMPLETE_LIST_LENGTH = 15
+MAX_ALTERNATE_NUMBER = 12
 
 def autoComplete(request):
 	if request.method != "POST": raise Http404
 
 	content = request.POST['content']
-	content = changeString(content)
-	if isPinyin(content): courseList = Course.objects.filter(name_pinyin__startswith=content).order_by("-view_time", "name")[:(AUTO_COMPLETE_LIST_LENGTH+10)]
-	else: 				  courseList = Course.objects.filter(name_forsearch__startswith=content).order_by("-view_time", "name")[:(AUTO_COMPLETE_LIST_LENGTH+10)]
-
+	courseList = getStartsWithCourseList(content, AUTO_COMPLETE_LIST_LENGTH+10)
+	
 	course_name_list = getCourseNameList(courseList)
 	return HttpResponse("\n".join(course_name_list))
 
@@ -47,15 +45,11 @@ def searchLecture(request):
 		lectures = course.lecture_set.all()
 		if len(lectures) > 0: lecture_id = lectures[0].id
 		else: lecture_id = -1
+	elif len(courses) == 0:
+		courseList = getStartsWithCourseList(keyword, MAX_ALTERNATE_NUMBER)
+		return HttpResponse(getCourseListInfo(courseList))
 	elif (len(courses) > 1): 
-		res = ""
-		i = 0
-		for c in courses:
-			res = res + str(c.id) + ':' + c.name + ':' + c.number + ':' + str(c.credit) + ':' + c.school + '\n'
-			i = i + 1
-			if i == MAX_ALTERNATE_NUMBER: break
-		print res
-		return HttpResponse(res)
+		return HttpResponse(getCourseListInfo(courses))
 	else: lecture_id = -1
 
 	return HttpResponse("/lecture/" + str(lecture_id) + "/")
@@ -70,6 +64,18 @@ def searchLectureUsingCourseID(request, course_id):
 	else: lecture_id = -1
 
 	return HttpResponse("/lecture/" + str(lecture_id) + "/")
+
+def getStartsWithCourseList(keyword, length):
+	content = changeString(keyword)
+	if isPinyin(content): courseList = Course.objects.filter(name_pinyin__startswith=content).order_by("-view_time")[:length]
+	else: 				  courseList = Course.objects.filter(name_forsearch__startswith=content).order_by("-view_time")[:length]
+	return courseList
+
+def getCourseListInfo(courses):
+	res = ""
+	for c in courses:
+		res = res + str(c.id) + ':' + c.name + ':' + c.number + ':' + str(c.credit) + ':' + c.school + '\n'
+	return res
 
 def isPinyin(keyword):
 	res = True
