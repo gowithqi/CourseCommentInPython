@@ -41,13 +41,12 @@ def searchLecture(request):
 	courses = Course.objects.filter(name=keyword)
 	print len(courses)
 	if len(courses) == 1: 
-		course = courses[0]
-		lectures = course.lecture_set.all()
-		if len(lectures) > 0: lecture_id = lectures[0].id
-		else: lecture_id = -1
+		lecture_id = getLectureIdFromCourse(courses)
 	elif len(courses) == 0:
 		courseList = getStartsWithCourseList(keyword, MAX_ALTERNATE_NUMBER)
-		return HttpResponse(getCourseListInfo(courseList))
+		if len(courseList) == 1: lecture_id = getLectureIdFromCourse(courseList)
+		elif len(courseList) == 0: lecture_id = -1
+		else: return HttpResponse(getCourseListInfo(courseList))
 	elif (len(courses) > 1): 
 		return HttpResponse(getCourseListInfo(courses))
 	else: lecture_id = -1
@@ -64,6 +63,13 @@ def searchLectureUsingCourseID(request, course_id):
 	else: lecture_id = -1
 
 	return HttpResponse("/lecture/" + str(lecture_id) + "/")
+
+def getLectureIdFromCourse(courses):
+	course = courses[0]
+	lectures = course.lecture_set.all()
+	if len(lectures) > 0: lecture_id = lectures[0].id
+	else: lecture_id = -1
+	return lecture_id
 
 def getStartsWithCourseList(keyword, length):
 	content = changeString(keyword)
