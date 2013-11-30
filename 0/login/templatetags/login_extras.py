@@ -18,7 +18,7 @@ def formatTime(i_time):
 		elif delta_day.days == 2: return u"前天 " + i_time.strftime("%H:%M")
 		elif delta_day.days == 3: return u"3天前 " + i_time.strftime("%H:%M")
 		else: pass
-	return  i_time.strftime("%Y-%m-%d %H:%M:%S")
+	return  i_time.strftime("%Y-%m-%d  %H:%M")
 
 def computeTimeDelta(i_time):
 	t = datetime.now() - i_time
