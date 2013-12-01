@@ -57,7 +57,21 @@ function comment_get_one(){
   );
   var s=$("#comment"+curcom).clone();
   $("#comment"+curcom).remove();
-  $("#float_comment").prepend(s);
+  var tmpcom=curcom-1;
+  if (tmpcom==0)
+    tmpcom=3;
+  $("#comment"+tmpcom).animate({
+    top:'+=30px',
+    backgroundColor:'#AAC0BB'
+  },"slow");
+  if (--tmpcom==0)
+    tmpcom=3;
+  $("#comment"+tmpcom).animate({
+    top:'+=30px',
+    backgroundColor:'#88A099'
+  },"slow",function(){
+    $("#float_comment").prepend(s);
+  });
 }
 $("#username").change(function(){
   $("#un_prompt").html("");
@@ -96,14 +110,8 @@ function refresh_comment(){
     },"slow");
     if (--curcom==0)
       curcom=3;
-    $("#comment"+curcom).animate({
-      backgroundColor:'#AAC0BB'
-    },"slow");
     if (--curcom==0)
       curcom=3;
-    $("#comment"+curcom).animate({
-      backgroundColor:'#88A099'
-    },"slow");
     if (--curcom==0)
       curcom=3;
     if (--curcom==0)
