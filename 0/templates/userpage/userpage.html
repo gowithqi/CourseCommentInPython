@@ -114,6 +114,7 @@
               <h3 class="panel-title">收藏的课</h3>
             </div>
             <div class="panel-body" id="panel_collect">
+              {% if u.userlecturecollection_set.all.count > 0 %}
               <ul class="list-group">
                 {% for collectionrecord in u.userlecturecollection_set.all|slice:":3" %}
                 <li class="list-group-item" style="border-color:#AAAAAA">
@@ -133,15 +134,16 @@
                     </div>
                   </div>
                 </li>
-                {% empty %}
-                <p>还没有收藏的课程。</p>
-                <p>快去课程页面收藏喜欢的课吧！</p>
                 {% endfor %}
               </ul>
+              {% else %}
+              <p>还没有收藏的课程。</p>
+              <p>快去课程页面收藏喜欢的课吧！</p>
+              {% endif %}
               {% if u.userlecturecollection_set.all.count > 3 %}
               <p style="text-align:right;"><a href="#" id="all_collection">显示全部</a></p>
               {% endif %}
-            </div>
+            </div>            
           </div>
         </div>
 
@@ -163,6 +165,52 @@
               <p>我的排名：{{ user_rank }}</p>
             </div>
           </div>
+        </div>
+      </div>
+      
+      <div class="row">
+        <div class="col-sm-6">
+          <ul class="list-group" id="float_comment" style="position:absolute;">
+            <li class="list-group-item" style="border-color:#AAAAAA" id="comment1">
+              <div class="row">
+                <div class="col-sm-3">
+                  <h5><strong id="course_name1"></strong></h5>
+                  <p id="professor_name1"></p>
+                  <p class="text-warning" id="course_level1"></p>
+                </div>
+                <div class="col-sm-9">
+                  <h5 style="text-indent:2em;line-height:20pt;border:solid 1px #DDDDDD;border-radius:10px;padding:10px;word-break:break-all;" id="comment_content1"></h5>
+                  <h4 style="text-align:right;white-space:pre;"><small id="comment_info1"></small></h4>
+                </div>
+              </div>
+            </li>
+            <li class="list-group-item" style="border-color:#AAAAAA" id="comment2">
+              <div class="row">
+                <div class="col-sm-3">
+                  <h5><strong id="course_name2"></strong></h5>
+                  <p id="professor_name2"></p>
+                  <p class="text-warning" id="course_level2"></p>
+                </div>
+                <div class="col-sm-9">
+                  <h5 style="text-indent:2em;line-height:20pt;border:solid 1px #DDDDDD;border-radius:10px;padding:10px;word-break:break-all;" id="comment_content2"></h5>
+                  <h4 style="text-align:right;white-space:pre;"><small id="comment_info2"></small></h4>
+                </div>
+              </div>
+            </li>
+            <li class="list-group-item" style="border-color:#AAAAAA" id="comment3">
+              <div class="row">
+                <div class="col-sm-3">
+                  <h5><strong id="course_name3"></strong></h5>
+                  <p id="professor_name3"></p>
+                  <p class="text-warning" id="course_level3"></p>
+                </div>
+                <div class="col-sm-9">
+                  <h5 style="text-indent:2em;line-height:20pt;border:solid 1px #DDDDDD;border-radius:10px;padding:10px;word-break:break-all;" id="comment_content3"></h5>
+                  <h4 style="text-align:right;white-space:pre;"><small id="comment_info3"></small></h4>
+                </div>
+              </div>
+            </li>
+          </ul>
         </div>
       </div>
 
