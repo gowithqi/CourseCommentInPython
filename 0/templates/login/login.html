@@ -117,7 +117,7 @@
               <p id="ac_prompt"></p>
             </div>
             <div class="col-sm-2">
-              <span id="account_ok" style="color:#00AA00;padding-top:12px;"></span>
+              <span id="account_ok" class="" style="color:#00AA00;padding-top:12px;"></span>
             </div>
           </div>
 
@@ -127,7 +127,7 @@
               <p id="nm_prompt"></p>
             </div>              
             <div class="col-sm-2">
-              <span id="name_ok" style="color:#00AA00;padding-top:12px;"></span>
+              <span id="name_ok" class="" style="color:#00AA00;padding-top:12px;"></span>
             </div>
           </div>
 
@@ -137,7 +137,7 @@
               <p id="pw_prompt"></p>
             </div>
             <div class="col-sm-2">
-              <span id="password_ok" style="color:#00AA00;padding-top:12px;"></span>
+              <span id="password_ok" class="" style="color:#00AA00;padding-top:12px;"></span>
             </div>
           </div>
 
@@ -147,7 +147,7 @@
               <p id="cpw_prompt"></p>
             </div>
             <div class="col-sm-2">
-              <span id="cpassword_ok" style="color:#00AA00;padding-top:12px;"></span>
+              <span id="cpassword_ok" class="" style="color:#00AA00;padding-top:12px;"></span>
             </div>
           </div>
 
@@ -188,6 +188,7 @@
       $(document).ready(function(){
         $.csrftoken();
         comment_get_all();
+        refresh_comment();
         setInterval("refresh_comment()",5000);
       });
       function login_post(){
@@ -199,14 +200,14 @@
         function(data){
           if (data=='password'){
             $("#psw_prompt").html("密码错误！");
-            $("#psw_prompt").attr("class","text-danger help-block");
+            $("#psw_prompt").attr("class","text-danger");
             $("#psw_prompt").attr("style","margin-bottom:-0.7em;");
             $("#un_prompt").html("");
           }
           else
             if (data=='username'){
               $("#un_prompt").html("昵称或邮箱不存在！");
-              $("#un_prompt").attr("class","text-danger control-label");
+              $("#un_prompt").attr("class","text-danger");
               $("#psw_prompt").html("");
               $("#psw_prompt").attr("style","");
             }
