@@ -61,16 +61,33 @@ function comment_get_one(){
   if (tmpcom==0)
     tmpcom=3;
   $("#comment"+tmpcom).animate({
-    top:'+=30px',
+    top:'+=50px',
     backgroundColor:'#AAC0BB'
   },"slow");
   if (--tmpcom==0)
     tmpcom=3;
   $("#comment"+tmpcom).animate({
-    top:'+=30px',
+    top:'+=50px',
     backgroundColor:'#88A099'
   },"slow",function(){
     $("#float_comment").prepend(s);
+    $("#comment"+curcom).animate({
+      opacity:'1',
+      backgroundColor:'#708380'
+    },"slow");
+    tmpcom=curcom-1;
+    if (tmpcom==0)
+      tmpcom=3;
+    $("#comment"+tmpcom).animate({
+      top:'-=50px',
+    },"fast");
+    if (--tmpcom==0)
+      tmpcom=3;
+    $("#comment"+tmpcom).animate({
+      top:'-=50px',
+    },"fast");
+    if (--curcom==0)
+      curcom=3;
   });
 }
 $("#username").change(function(){
@@ -104,18 +121,7 @@ function refresh_comment(){
     opacity:'0'
   },"slow",function(){
     comment_get_one();
-    $("#comment"+curcom).animate({
-      opacity:'1',
-      backgroundColor:'#708380'
-    },"slow");
-    if (--curcom==0)
-      curcom=3;
-    if (--curcom==0)
-      curcom=3;
-    if (--curcom==0)
-      curcom=3;
-    if (--curcom==0)
-      curcom=3;
+    
   });
 }
 var last=0;
