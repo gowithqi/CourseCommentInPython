@@ -22,7 +22,7 @@
 
 	<body style="background-color:#FFFFFF;">
     {% csrf_token %}
-    <div class="row" style="background-color:#003C9D;color:white">
+    <div class="row" style="background-color:#FFFFFF;color:black">
       <div class="col-sm-3">
         <h1 style="padding-left:100px;">课程点评网</h1>
       </div>
@@ -50,21 +50,13 @@
       </form>
     </div><!-- first row -->
 
-    <div class="row">
-      <div class="col-sm-4" style="padding-left:100px;padding-top:100px;">
-        <h3>这里是专为交大同学打造<br/>真实可靠的课程点评平台</h3>
-        <p style="margin-top:50px;">在这里你可以分享你的课程经历，<strong style="color:#7700BB;">提升校园影响力</strong>；</p>
-        <p>在这里你可以查看各类课程信息，<strong style="color:#000088;">全面了解课程</strong>。</p>
-        <p>最快捷的课程搜索！   最人性化的点评方式！</p>
-        <p>只为你！</p>
-        <p>加入我们，给SJTU留下点儿我们<strong style="color:#FF3333;">专属的印记</strong>！</p>
-      </div><!-- first column -->
-
-      <div class="col-sm-4">
-        <h4 style="padding-top:60px;">还在用教评？那你out啦！</h4>
-        <ul class="list-group" id="float_comment" style="position:absolute;">
-          <li class="list-group-item" style="border-color:#AAAAAA" id="comment1">
-            <div class="row">
+    <div class="row" style="background-color:#CCEEEE; color:black; padding-bottom:60px;">
+      <div class="col-sm-offset-1 col-sm-5" style="background-color:#88AA99;">
+        <h1 style="padding-top:20px; text-align:center; color:white; width:100%;">还在用教评？那你out啦！</h1>
+        <!-- <h4 style="padding-top:60px;">还在用教评？那你out啦！</h4> -->
+        <ul class="list-group" id="float_comment" style="position:absolute; padding-top:10px; background-color:#88AA99; width:100%;">
+          <li class="list-group-item" style="background-color:#88AA99; color:white; border-color:#AAAAAA; margin-top:5px;" id="comment1">
+            <div class="row" style="background-color:#88AA99; color:white;">
               <div class="col-sm-3">
                 <h5><strong id="course_name1"></strong></h5>
                 <p id="professor_name1"></p>
@@ -72,11 +64,11 @@
               </div>
               <div class="col-sm-9">
                 <h5 style="text-indent:2em;line-height:20pt;border:solid 1px #DDDDDD;border-radius:10px;padding:10px;word-break:break-all;" id="comment_content1"></h5>
-                <h4 style="text-align:right;white-space:pre;"><small id="comment_info1"></small></h4>
+                <h4 style="text-align:right;white-space:pre;"><small id="comment_info1"  style="color:white;"></small></h4>
               </div>
             </div>
           </li>
-          <li class="list-group-item" style="border-color:#AAAAAA" id="comment2">
+          <li class="list-group-item" style="background-color:#99BBAA; color:white; border-color:#AAAAAA; margin-top:5px;" id="comment2">
             <div class="row">
               <div class="col-sm-3">
                 <h5><strong id="course_name2"></strong></h5>
@@ -89,7 +81,7 @@
               </div>
             </div>
           </li>
-          <li class="list-group-item" style="border-color:#AAAAAA" id="comment3">
+          <li class="list-group-item" style="background-color:#AACCBB; color:white; border-color:#AAAAAA;margin-top:5px;" id="comment3">
             <div class="row">
               <div class="col-sm-3">
                 <h5><strong id="course_name3"></strong></h5>
@@ -105,9 +97,9 @@
         </ul>
       </div><!-- second column -->
 
-      <div class="col-sm-4">
-        <h2 style="padding-top:40px;">注册</h2>
-        <form class="form-horizontal" style="padding-top:10px;">
+      <div class="col-sm-offset-1 col-sm-4">
+        <!-- <h2 style="padding-top:40px;">注册</h2> -->
+        <form class="form-horizontal" style="padding-top:80px;">
           <div class="form-group">
             <div class="col-sm-10">
               <div class="input-group input-group-lg enter">
@@ -154,10 +146,6 @@
           <button id="register" class="btn btn-success btn-lg" style="white-space:pre;">           注册           </button>
         </form>
 
-        <div class="col-sm-10">
-          <p style="color:#AAAAAA;text-align:center;margin-top:40px;">&#169;2013 CourseComment Group<br/>联系我们:coursecomment@groups.163.com</p>
-        </div>
-
         <div class="modal" id="regInfo">
           <div class="modal-dialog">
             <div class="modal-content">
@@ -174,7 +162,21 @@
         </div>
       </div><!-- third column -->
     </div><!-- second row -->
-      
+    <div class="row" style="background-color:#FFFFFF;color:black">
+      <div class="col-sm-12" style="text-align:center; padding-top:20px;">
+          <h3>专为交大同学打造真实可靠的课程点评平台</h3>
+          <p style="margin-top:50px;">在这里你可以分享你的课程经历，<strong style="color:#7700BB;">提升校园影响力</strong>；</p>
+          <p>在这里你可以查看各类课程信息，<strong style="color:#000088;">全面了解课程</strong>。</p>
+          <p>最快捷的课程搜索！   最人性化的点评方式！</p>
+          <p>只为你！</p>
+          <p>加入我们，给SJTU留下点儿我们<strong style="color:#FF3333;">专属的印记</strong>！</p>
+        </div><!-- first column -->
+    </div>
+    <div class="row" style="background-color:#FFFFFF;color:black">
+      <div class="col-sm-12">
+          <p style="color:#AAAAAA;text-align:center;margin-top:40px;">&#169;2013 CourseComment Group<br/>联系我们:coursecomment@groups.163.com</p>
+      </div>
+    </div>
     <!-- Bootstrap core JavaScript
     ================================================== -->
     <!-- Placed at the end of the document so the pages load faster -->
