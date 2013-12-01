@@ -137,10 +137,10 @@
                 <p>还没有收藏的课程。</p>
                 <p>快去课程页面收藏喜欢的课吧！</p>
                 {% endfor %}
-                {% if u.userlecturecollection_set.all.count > 3 %}
-                <p style="text-align:right;"><a href="#" id="all_collection">显示全部</a></p>
-                {% endif %}
               </ul>
+              {% if u.userlecturecollection_set.all.count > 3 %}
+              <p style="text-align:right;"><a href="#" id="all_collection">显示全部</a></p>
+              {% endif %}
             </div>
           </div>
         </div>

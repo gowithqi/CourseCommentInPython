@@ -111,53 +111,33 @@ function decollect_get(lid){
 }
 function all_collection_get(){
   $.get("/userpage/getallcollectionlectures/",function(data){
-    var obj=JSON.parse(data),str="";
+    var obj=JSON.parse(data),str='<ul class="list-group">';
     for (var i=0;i<obj.length;i++){
-      str+='<p style="white-space:pre;"><a href="/lecture/'+obj[i].id+'/">'+obj[i].course_name+'</a>     '+obj[i].professor_name+'     <a href="#" data-lid="'+obj[i].id+'" class="decollect">取消收藏</a></p>';
+      str+='<li class="list-group-item" style="border-color:#AAAAAA"><div class="row"><div class="col-sm-3"><h5><a href="/lecture/'
+      +obj[i].id+'/"><strong>'+obj[i].course_name+'</strong></a></h5><p>'+obj[i].professor_name+'</p><p><a href="#" data-lid="'+obj[i].id+'" class="decollect">取消收藏</a></p></div><div class="col-sm-9">';
       var comment=obj[i].most_popular_comment;
       if (comment=="")
         str+='<p>还没有评论。快来抢沙发！</p>';
       else{
-        str+='<p>'+comment.comment_content+'</p>';
-        str+='<p style="text-align:right;white-space:pre;">'+comment.comment_user+'  '+comment.comment_time+'  有用 ('+comment.comment_super_number+')</p>';
+        str+='<h5 style="text-indent:2em;line-height:20pt;border:solid 1px #DDDDDD;border-radius:10px;padding:10px;word-break:break-all;">'+comment.comment_content+'</h5>';
+        str+='<h4 style="text-align:right;white-space:pre;"><small>'+comment.comment_user+'      '+comment.comment_time+'      有用 ('+comment.comment_super_number+')</small></h4>';
       }
+      str+='</div></div></li>';
     }
+    str+='</ul>';
     if (obj.length==0)
-      str+='<p>还没有收藏的课程。</p><p>快去课程页面收藏喜欢的课吧！</p>';
-    else
+      str='<p>还没有收藏的课程。</p><p>快去课程页面收藏喜欢的课吧！</p>';
     if (obj.length>3)
       str+='<p style="text-align:right;"><a href="#" id="hide_collection">收起</a></p>';
     $("#panel_collect").html(str);
-  });
-  $("#hide_collection").click(function(e){
-    e.preventDefault();
-    $.get("/userpage/getallcollectionlectures/",function(data){
-      var obj=JSON.parse(data),str="",l=3;
-      if (obj.length<3)
-        l=obj.length;
-      for (var i=0;i<l;i++){
-        str+='<p style="white-space:pre;"><a href="/lecture/'+obj[i].id+'/">'+obj[i].course_name+'</a>     '+obj[i].professor_name+'     <a href="#" data-lid="'+obj[i].id+'" class="decollect">取消收藏</a></p>';
-        var comment=obj[i].most_popular_comment;
-        if (comment=="")
-          str+='<p>还没有评论。快来抢沙发！</p>';
-        else{
-          str+='<p>'+comment.comment_content+'</p>';
-          str+='<p style="text-align:right;white-space:pre;">'+comment.comment_user+'  '+comment.comment_time+'  有用 ('+comment.comment_super_number+')</p>';
-        }
-      }
-      if (l==0)
-        str+='<p>还没有收藏的课程。</p><p>快去课程页面收藏喜欢的课吧！</p>';
-      else
-      if (obj.length>3)
-        str+='<p style="text-align:right;"><a href="#" id="all_collection">显示全部</a></p>';
-      $("#panel_collect").html(str);
+    $("#hide_collection").click(function(e){
+      e.preventDefault();
+      $("#panel_collect").children("p").remove();
+      $("#panel_collect").find("li").eq(2).nextAll().remove();
+      $("#panel_collect").append('<p style="text-align:right;"><a href="#" id="all_collection">显示全部</a></p>');
       $("#all_collection").click(function(e){
         e.preventDefault();
         all_collection_get();
-      });
-      $(".decollect").click(function(e){
-        e.preventDefault();
-        decollect_get($(this).attr("data-lid"));
       });
     });
   });
@@ -166,7 +146,7 @@ function all_collection_get(){
     decollect_get($(this).attr("data-lid"));
   });
 }
-$("#cPrevious").click(function(){
+/*$("#cPrevious").click(function(){
   if (fTop!=1){
     fTop--;
     for (var i=0;i<3;i++){
@@ -183,7 +163,7 @@ $("#cPrevious").click(function(){
       $("#cPrevious").find("span").attr("style","color:#DDDDDD;");
     }
   }
-});
+});*/
 $("#all_collection").click(function(e){
   e.preventDefault();
   all_collection_get();
