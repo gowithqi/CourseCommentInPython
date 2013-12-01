@@ -15,6 +15,7 @@ import random
 from datetime import datetime, date
 MIN_LECTURE_ID = 6338
 MAX_LECTURE_ID = 10479
+COMMENT_CUT_LENGTH = 60
 
 def changeLecture(request):
 	if request.method != 'GET': raise Http404
@@ -188,8 +189,9 @@ def getGossips(request, start, end):
 @require_http_methods(['GET'])
 def getRandomComment(request):
 	c = LectureComment.objects.order_by('?')[0]
-	# c = LectureComment.objects.get(id=43)
+	# c = LectureComment.objects.get(id=57)
 	tmp = getCommentDict(c)
+	tmp['comment_content'] = tmp['comment_content'][:COMMENT_CUT_LENGTH] + "..."
 	tmp_l = getLectureDict(c.lecture)
 	tmp['lecture'] = tmp_l
 
