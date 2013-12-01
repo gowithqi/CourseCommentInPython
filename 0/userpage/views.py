@@ -187,7 +187,8 @@ def getGossips(request, start, end):
 
 @require_http_methods(['GET'])
 def getRandomComment(request):
-	c = LectureComment.objects.order_by('?')[0]
+	# c = LectureComment.objects.order_by('?')[0]
+	c = LectureComment.objects.get(id=43)
 	tmp = getCommentDict(c)
 	tmp_l = getLectureDict(c.lecture)
 	tmp['lecture'] = tmp_l
