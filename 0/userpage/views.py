@@ -191,7 +191,8 @@ def getRandomComment(request):
 	c = LectureComment.objects.order_by('?')[0]
 	# c = LectureComment.objects.get(id=57)
 	tmp = getCommentDict(c)
-	tmp['comment_content'] = tmp['comment_content'][:COMMENT_CUT_LENGTH] + "..."
+	if len(tmp['comment_content']) > COMMENT_CUT_LENGTH:
+		tmp['comment_content'] = tmp['comment_content'][:COMMENT_CUT_LENGTH] + "..."
 	tmp_l = getLectureDict(c.lecture)
 	tmp['lecture'] = tmp_l
 
