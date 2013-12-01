@@ -20,9 +20,9 @@
     <![endif]-->
 	</head>
 
-	<body>
+	<body style="background-color:#DDDDDD;">
     {% csrf_token %}
-    <div class="row" style="background-color:#003377;color:white">
+    <div class="row" style="background-color:#003C9D;color:white">
       <div class="col-sm-3">
         <h1 style="padding-left:100px;">课程点评网</h1>
       </div>
@@ -30,7 +30,7 @@
         <div class="col-sm-2 col-sm-offset-3">
           <div class="form-group">
             <div class="enterl">
-              <input type="text" class="form-control" id="username" placeholder="昵称/邮箱">
+              <input type="text" autocomplete="off" class="form-control input-sm" id="username" placeholder="昵称/邮箱">
             </div>
             <strong><p id="un_prompt"></p></strong>
           </div>
@@ -38,27 +38,26 @@
         <div class="col-sm-2">
           <div class="form-group">
             <div class="enterl">
-              <input type="password" class="form-control" id="passwordl" placeholder="密码">
+              <input type="password" class="form-control input-sm" id="passwordl" placeholder="密码">
             </div>
             <strong><p id="psw_prompt"></p></strong>
-            <p style="text-align:right;"><a href="/setpassword/">忘记密码？</a></p>
+            <p style="text-align:right;"><small><a href="/setpassword/">忘记密码？</a></small></p>
           </div>
         </div>
         <div class="col-sm-1">
-          <button id="login" class="btn btn-primary">登录</button>
+          <button id="login" class="btn btn-primary btn-sm">登录</button>
         </div>
       </form>
     </div><!-- first row -->
 
     <div class="row">
       <div class="col-sm-4" style="padding-left:100px;padding-top:100px;">
-        <h3>这里是专为交大同学打造<br/>
-        真实可靠的课程点评平台</h3>
-        <p style="margin-top:50px;">在这里你可以分享你的课程经历，<strong>提升校园影响力</strong>；</p>
-        <p>在这里你可以查看各类课程信息，<strong>全面了解课程。</strong></p>
+        <h3>这里是专为交大同学打造<br/>真实可靠的课程点评平台</h3>
+        <p style="margin-top:50px;">在这里你可以分享你的课程经历，<strong style="color:#7700BB;">提升校园影响力</strong>；</p>
+        <p>在这里你可以查看各类课程信息，<strong style="color:#000088;">全面了解课程</strong>。</p>
         <p>最快捷的课程搜索！   最人性化的点评方式！</p>
         <p>只为你！</p>
-        <p>加入我们，给SJTU留下点儿我们<strong>专属的印记</strong>！</p>
+        <p>加入我们，给SJTU留下点儿我们<strong style="color:#FF3333;">专属的印记</strong>！</p>
       </div><!-- first column -->
 
       <div class="col-sm-4">
@@ -107,54 +106,57 @@
       </div><!-- second column -->
 
       <div class="col-sm-4">
-        <form class="form-horizontal" style="padding-top:100px;">
+        <h2 style="padding-top:40px;">注册</h2>
+        <form class="form-horizontal" style="padding-top:10px;">
           <div class="form-group">
-            <label for="account" class="col-sm-3 control-label">邮箱<span id="help1" class="help-block"></span></label>
-            <div class="input-group col-sm-6">
-              <input type="text" class="form-control enter" id="account" placeholder="邮箱">
-              <span class="input-group-addon">@sjtu.edu.cn</span>
+            <div class="col-sm-10">
+              <div class="input-group input-group-lg enter">
+                <input type="text" autocomplete="off" class="form-control enter" id="account" placeholder="邮箱">
+                <span class="input-group-addon">@sjtu.edu.cn</span>
+              </div>
+              <p id="ac_prompt"></p>
             </div>
-            <div class="col-sm-3">
-              <label for="account" id="ac_prompt"></label>
+            <div class="col-sm-2">
+              <span id="account_ok" style="color:#00AA00;padding-top:12px;"></span>
             </div>
           </div>
 
           <div class="form-group">
-            <label for="name" class="col-sm-3 control-label">昵称<span id="help2" class="help-block"></span></label>
-            <div class="enter col-sm-6">
-              <input type="text" class="form-control" id="name" placeholder="昵称">
-            </div>
-            <div class="col-sm-3">
-              <label for="name" id="nm_prompt"></label>
-            </div>
-          </div>
-
-          <div class="form-group">
-            <label for="password" class="col-sm-3 control-label">密码<span id="help3" class="help-block"></span></label>
-            <div class="col-sm-6 enter">
-              <input type="password" class="form-control" id="password" placeholder="密码">
-            </div>
-            <div class="col-sm-3">
-              <label for="password" id="pw_prompt"></label>
+            <div class="enter col-sm-10">
+              <input type="text" autocomplete="off" class="form-control input-lg" id="name" placeholder="昵称">
+              <p id="nm_prompt"></p>
+            </div>              
+            <div class="col-sm-2">
+              <span id="name_ok" style="color:#00AA00;padding-top:12px;"></span>
             </div>
           </div>
 
           <div class="form-group">
-            <label for="cpassword" class="col-sm-3 control-label">确认密码</label>
-            <div class="col-sm-6 enter">
-              <input type="password" class="form-control" id="cpassword" placeholder="确认密码">
+            <div class="col-sm-10 enter">
+              <input type="password" class="form-control input-lg" id="password" placeholder="密码">
+              <p id="pw_prompt"></p>
             </div>
-            <div class="col-sm-3">
-              <label for="cpassword" id="cpw_prompt"></label>
+            <div class="col-sm-2">
+              <span id="password_ok" style="color:#00AA00;padding-top:12px;"></span>
             </div>
           </div>
 
           <div class="form-group">
-            <div class="col-sm-offset-7">
-              <button id="register" class="btn btn-primary">注册</button>
+            <div class="col-sm-10 enter">
+              <input type="password" class="form-control input-lg" id="cpassword" placeholder="确认密码">
+              <p id="cpw_prompt"></p>
+            </div>
+            <div class="col-sm-2">
+              <span id="cpassword_ok" style="color:#00AA00;padding-top:12px;"></span>
             </div>
           </div>
+
+          <button id="register" class="btn btn-success btn-lg" style="white-space:pre;">           注册           </button>
         </form>
+
+        <div class="col-sm-10">
+          <p style="color:#AAAAAA;text-align:center;margin-top:40px;">&#169;2013 CourseComment Group<br/>联系我们:coursecomment@groups.163.com</p>
+        </div>
 
         <div class="modal" id="regInfo">
           <div class="modal-dialog">
@@ -197,7 +199,7 @@
         function(data){
           if (data=='password'){
             $("#psw_prompt").html("密码错误！");
-            $("#psw_prompt").attr("class","text-danger control-label");
+            $("#psw_prompt").attr("class","text-danger help-block");
             $("#psw_prompt").attr("style","margin-bottom:-0.7em;");
             $("#un_prompt").html("");
           }
@@ -251,7 +253,7 @@
         $("#psw_prompt").html("");
         $("#psw_prompt").attr("style","");
       });
-      function check(){
+      function checkl(){
         var blank=0;
         if ($("#username").val()==""){
           $("#un_prompt").html("请填写昵称或邮箱！");
@@ -303,7 +305,7 @@
             e.preventDefault();
             $("#username").trigger("blur");
             $("#passwordl").trigger("blur");
-            if (check())
+            if (checkl())
               login_post();
           }
           last=0;
@@ -311,7 +313,7 @@
       });
       $("#login").click(function(e){
         e.preventDefault();
-        if (check())
+        if (checkl())
           login_post();
       });
     </script>

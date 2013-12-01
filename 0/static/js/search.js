@@ -87,7 +87,7 @@ function search_post(){
               ss+="<td>"+cou[j]+"</td>";
             ss+="</tr>";
           }
-          ss+="</tbody></table>";
+          ss+="</tbody></table><p><span class='glyphicon glyphicon-info-sign'></span> 没有找到？试试更完整的课程名</p>";
           mb.html(ss);
           $("#eSearch").modal("show");
         }

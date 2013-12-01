@@ -21,11 +21,13 @@ function account_get(){
   $.get("/register/account/"+$("#account").val()+"@sjtu.edu.cn"+"/",function(data){
     if (data=="no"){
       $("#ac_prompt").html("此邮箱已被注册！");
-      $("#ac_prompt").attr("class","text-danger control-label");
+      $("#ac_prompt").attr("style","color:#AA0000;margin-bottom:-10px");
+      $("#account_ok").attr("class","");
     }
     else{
-      $("#ac_prompt").html("正确");
-      $("#ac_prompt").attr("class","text-success control-label");
+      $("#account_ok").attr("class","glyphicon glyphicon-ok");
+      $("#ac_prompt").html("");
+      $("#ac_prompt").attr("style","");
     }
   });
 }
@@ -33,38 +35,60 @@ function name_get(str){
   $.get("/register/name/"+$("#name").val().toLowerCase()+"/",function(data){
     if (data=="no"){
       $("#nm_prompt").html("昵称已存在！");
-      $("#nm_prompt").attr("class","text-danger control-label");
+      $("#nm_prompt").attr("style","color:#AA0000;margin-bottom:-10px");
+      $("#name_ok").attr("class","");
     }
     else{
-      $("#nm_prompt").html("正确");
-      $("#nm_prompt").attr("class","text-success control-label");
+      $("#name_ok").attr("class","glyphicon glyphicon-ok");
+      $("#nm_prompt").html("");
+      $("#nm_prompt").attr("style","");
     }
   });
 }
 $("#account").focus(function(){
-  $("#help1").html("即jaccount帐号");
+  if ($("#ac_prompt").html()==""&&$("#account_ok").attr("class")==""){
+    $("#ac_prompt").attr("style","color:#666666;margin-bottom:-10px");
+    $("#ac_prompt").html("即jaccount帐号");
+  }
 });
 $("#name").focus(function(){
-  $("#help2").html("3-15位中英字符和数字 不区分大小写");
+  if ($("#nm_prompt").html()==""&&$("#name_ok").attr("class")==""){
+    $("#nm_prompt").attr("style","color:#666666;margin-bottom:-10px");
+    $("#nm_prompt").html("3-15位中英字符和数字 不区分大小写");
+  }
 })
 $("#account").blur(function(){
-  $("#help1").html("");
-  if ($(this).val()!="")
+  if ($("#ac_prompt").attr("style")=="color:#666666;margin-bottom:-10px"){
+    $("#ac_prompt").html("");
+    $("#ac_prompt").attr("style","");
+  }
+  if ($(this).val()!=""){
     account_get();
+    if ($("#name").val()=="")
+      $("#name").val($(this).val());
+  }
   else
-    if ($("#ac_prompt").attr("class")!="text-warning control-label")
+    if ($("#ac_prompt").attr("style")!="color:#888800;margin-bottom:-10px"){
       $("#ac_prompt").html("");
+      $("#ac_prompt").attr("style","");
+      $("#account_ok").attr("class","");
+    }
 });
 $("#name").blur(function(){
-  $("#help2").html("");
+  if ($("#nm_prompt").attr("style")=="color:#666666;margin-bottom:-10px"){
+    $("#nm_prompt").html("");
+    $("#nm_prompt").attr("style","");
+  }
   if ($(this).val()!="")
     if ($(this).val().length<3){
       $("#nm_prompt").html("昵称名太短！");
-      $("#nm_prompt").attr("class","text-danger control-label");
+      $("#nm_prompt").attr("style","color:#AA0000;margin-bottom:-10px");
+      $("#name_ok").attr("class","");
     }
     else if ($(this).val().length>15){
       $("#nm_prompt").html("昵称名太长！");
-      $("#nm_prompt").attr("class","text-danger control-label");
+      $("#nm_prompt").attr("style","color:#AA0000;margin-bottom:-10px");
+      $("#name_ok").attr("class","");
     }
     else{
       var s=$(this).val(),ok=1;
@@ -85,32 +109,45 @@ $("#name").blur(function(){
         name_get();
       else{
         $("#nm_prompt").html("昵称不能含有中英字符和数字以外的字符！");
-        $("#nm_prompt").attr("class","text-danger control-label");
+        $("#nm_prompt").attr("style","color:#AA0000;margin-bottom:-10px");
+        $("#name_ok").attr("class","");
       }
     }
   else
-    if ($("#nm_prompt").attr("class")!="text-warning control-label")
+    if ($("#nm_prompt").attr("style")!="color:#888800;margin-bottom:-10px"){
       $("#nm_prompt").html("");
+      $("#nm_prompt").attr("style","");
+      $("#name_ok").attr("class","");
+    }
 });
 $("#password").focus(function(){
-  $("#help3").html("6-20位英文字符、数字和特殊符号，区分大小写");
+  if ($("#pw_prompt").html()==""&&$("#password_ok").attr("class")==""){
+    $("#pw_prompt").attr("style","color:#666666;margin-bottom:-10px");
+    $("#pw_prompt").html("6-20位英文字符、数字和特殊符号，区分大小写");
+  }
 });
 $("#password").blur(function(){
-  $("#help3").html("");
+  if ($("#pw_prompt").attr("style")=="color:#666666;margin-bottom:-10px"){
+    $("#pw_prompt").html("");
+    $("#pw_prompt").attr("style","");
+  }
   if ($(this).val()!="")
     if ($(this).val().length<6){
       $("#pw_prompt").html("密码长度不足！");
-      $("#pw_prompt").attr("class","text-danger control-label");
+      $("#pw_prompt").attr("style","color:#AA0000;margin-bottom:-10px");
+      $("#password_ok").attr("class","");
     }
     else
     if ($(this).val().length>20){
       $("#pw_prompt").html("密码长度超过限制！");
-      $("#pw_prompt").attr("class","text-danger control-label");
+      $("#pw_prompt").attr("style","color:#AA0000;margin-bottom:-10px");
+      $("#password_ok").attr("class","");
     }
     else
     if (/.*[\u4e00-\u9fa5]+.*$/.test($(this).val())){
       $("#pw_prompt").html("密码不能包含中文！");
-      $("#pw_prompt").attr("class","text-danger control-label");
+      $("#pw_prompt").attr("style","color:#AA0000;margin-bottom:-10px");
+      $("#password_ok").attr("class","");
     }
     else{
       var s=$(this).val(),ok=1;
@@ -122,47 +159,65 @@ $("#password").blur(function(){
       }
       if (ok==0){
         $("#pw_prompt").html("密码不能含有 _:!@#$%^&* 以外的特殊符号！");
-        $("#pw_prompt").attr("class","text-danger control-label");
+        $("#pw_prompt").attr("style","color:#AA0000;margin-bottom:-10px");
+        $("#password_ok").attr("class","");
       }
       else{
-        $("#pw_prompt").html("正确");
-        $("#pw_prompt").attr("class","text-success control-label");
+        $("#password_ok").attr("class","glyphicon glyphicon-ok");
+        $("#pw_prompt").html("");
+        $("#pw_prompt").attr("style","");
         if ($("#cpassword").val()!="")
           if ($("#cpassword").val()==$(this).val()){
-            $("#cpw_prompt").html("正确");
-            $("#cpw_prompt").attr("class","text-success control-label");
+            $("#cpassword_ok").attr("class","glyphicon glyphicon-ok");
+            $("#cpw_prompt").html("");
+            $("#cpw_prompt").attr("style","");
           }
           else{
             $("#cpw_prompt").html("密码不一致！");
-            $("#cpw_prompt").attr("class","text-danger control-label");
+            $("#cpw_prompt").attr("style","color:#AA0000;margin-bottom:-10px");
+            $("#cpassword_ok").attr("class","");
           }
       }
     }
   else
-    if ($("#pw_prompt").attr("class")!="text-warning control-label")
+    if ($("#pw_prompt").attr("style")!="color:#888800;margin-bottom:-10px"){
       $("#pw_prompt").html("");
+      $("#pw_prompt").attr("style","");
+      $("#password_ok").attr("class","");
+    }
 });
 $("#cpassword").blur(function(){
   if ($("#password").val().length>=6 && $("#password").val().length<=16){
     if ($(this).val()==$("#password").val()){
-      $("#cpw_prompt").html("正确");
-      $("#cpw_prompt").attr("class","text-success control-label");
+      $("#cpassword_ok").attr("class","glyphicon glyphicon-ok");
+      $("#cpw_prompt").html("");
+      $("#cpw_prompt").attr("style","");
     }
     else
       if ($(this).val()!=""){
         $("#cpw_prompt").html("密码不一致！");
-        $("#cpw_prompt").attr("class","text-danger control-label");
+        $("#cpw_prompt").attr("style","color:#AA0000;margin-bottom:-10px");
+        $("#cpassword_ok").attr("class","");
       }
       else
-        if ($("#cpw_prompt").attr("class")!="text-warning control-label")
+        if ($("#cpw_prompt").attr("style")!="color:#888800;margin-bottom:-10px"){
           $("#cpw_prompt").html("");
+          $("#cpw_prompt").attr("style","");
+          $("#cpassword_ok").attr("class","");
+        }
   }
   else
-    if ($("#cpw_prompt").attr("class")!="text-warning control-label")
+    if ($("#cpw_prompt").attr("style")!="color:#888800;margin-bottom:-10px"){
       $("#cpw_prompt").html("");
+      $("#cpw_prompt").attr("style","");
+      $("#cpassword_ok").attr("class","");
+    }
     else
-      if ($(this).val()!="")
+      if ($(this).val()!=""){
         $("#cpw_prompt").html("");
+        $("#cpw_prompt").attr("style","");
+        $("#cpassword_ok").attr("class","");
+      }
 });
 function check(){
   $("#account").trigger("blur");
@@ -171,21 +226,28 @@ function check(){
   $("#cpassword").trigger("blur");
   if ($("#account").val()==""){
     $("#ac_prompt").html("请填写邮箱！");
-    $("#ac_prompt").attr("class","text-warning control-label");
+    $("#ac_prompt").attr("style","color:#888800;margin-bottom:-10px");
+    $("#account_ok").attr("class","");
   }
   if ($("#name").val()==""){
     $("#nm_prompt").html("请填写昵称！");
-    $("#nm_prompt").attr("class","text-warning control-label");
+    $("#nm_prompt").attr("style","color:#888800;margin-bottom:-10px");
+    $("#name_ok").attr("class","");
   }
   if ($("#password").val()==""){
     $("#pw_prompt").html("请填写密码！");
-    $("#pw_prompt").attr("class","text-warning control-label");
+    $("#pw_prompt").attr("style","color:#888800;margin-bottom:-10px");
+    $("#password_ok").attr("class","");
   }
   if ($("#cpassword").val()==""){
     $("#cpw_prompt").html("请确认密码！");
-    $("#cpw_prompt").attr("class","text-warning control-label");
+    $("#cpw_prompt").attr("style","color:#888800;margin-bottom:-10px");
+    $("#cpassword_ok").attr("class","");
   }
-  return ($("#ac_prompt").html()+$("#nm_prompt").html()+$("#pw_prompt").html()+$("#cpw_prompt").html()=="正确正确正确正确");
+  if ($("#account_ok").attr("class")!=""&&$("#name_ok").attr("class")!=""&&$("#password_ok").attr("class")!=""&&$("#cpassword_ok").attr("class")!="")
+    return true;
+  else
+    return false;
 }
 var last=0;
 $(".enter").keydown(function(e){
@@ -211,7 +273,7 @@ $(".enter").keydown(function(e){
     last=0;
   }
 });
-$("#register").click(function(e){$("#nm_prompt").html("正确");
+$("#register").click(function(e){
   e.preventDefault();
   if (check()){
     $(".modal-body").html("<h5><b>邮箱 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"+$("#account").val()+"@sjtu.edu.cn</b></h5>");
