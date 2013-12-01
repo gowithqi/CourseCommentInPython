@@ -16,6 +16,7 @@ START_TIME = datetime(year=2013, month=11, day=1)
 SUPER_VALUE = 10		# One SUPER equal how many days
 MAX_COMMENTS_PER_USER = 3		# One user can comment a lecture at most ** times.
 NUMBER_OF_WORDS = 100
+SUPER_VALUE_INFLUENCE = 3
 
 def super(request, comment_id):
 	if request.method != 'GET': raise Http404
@@ -32,7 +33,7 @@ def super(request, comment_id):
 	except LectureCommentSuperRecord.DoesNotExist:
 		pass
 	
-	updateUserInfluence(comment.user, 1)
+	updateUserInfluence(comment.user, SUPER_VALUE_INFLUENCE)
 	LectureCommentSuperRecord.objects.create(lecture_comment=comment, user=user)
 	comment.super_number = comment.super_number + 1
 	comment.rank_score = comment.rank_score + SUPER_VALUE*comment.super_weight
@@ -61,7 +62,7 @@ def deSuper(request, comment_id):
 	except LectureCommentSuperRecord.DoesNotExist:
 		raise Http404
 
-	updateUserInfluence(comment.user, -1)
+	updateUserInfluence(comment.user, -1* SUPER_VALUE_INFLUENCE)
 	comment.super_number = comment.super_number - 1
 	comment.rank_score = comment.rank_score - SUPER_VALUE*comment.super_weight
 	comment.save()

@@ -7,11 +7,14 @@ from django.views.decorators.http import require_http_methods
 
 from login.models import User
 from gossip.models import Gossip, GossipSuperRecord
+from comment.influence import increaseSysAchievement, updateUserInfluence
 
 GOSSIPS_NUMBER = 50
 GOSSIP_MAX_LENGTH = 300
 START_TIME = datetime(year=2013, month=11, day=11)
 SUPER_VALUE = 10
+
+SUPER_VALUE_INFLUENCE = 1
 
 @require_http_methods(['GET'])
 def gossip(request):
@@ -60,12 +63,14 @@ def superGossip(request, super_action, gossip_id):
 		GossipSuperRecord.objects.create(user_id=user_id, gossip = gossip)
 		gossip.rank_score = gossip.rank_score + SUPER_VALUE
 		gossip.super_number = gossip.super_number + 1
+		updateUserInfluence(gossip.user, SUPER_VALUE_INFLUENCE)
 		gossip.save()
 	else:
 		gossip_super_record = get_object_or_404(GossipSuperRecord, user_id=user_id, gossip = gossip)
 		gossip_super_record.delete()
 		gossip.rank_score = gossip.rank_score - SUPER_VALUE
 		if gossip.super_number > 0: gossip.super_number = gossip.super_number - 1
+		updateUserInfluence(gossip.user, -1 * SUPER_VALUE_INFLUENCE)
 		gossip.save()
 		
 	return HttpResponse("yes")

@@ -48,7 +48,7 @@ def getLecture(request, lecture_id):
 		'gossip_super_list': gossip_super_list,
 		'lecture_collection': lecture_collection,
 		})
-	increaseSysAchievement()
+	if lecture.lecturecomment_set.all().count() > 0: increaseSysAchievement()
 	return HttpResponse(template.render(context))
 
 def getSuperList(lectures, user, table):
