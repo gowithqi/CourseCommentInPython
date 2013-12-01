@@ -218,7 +218,7 @@ def getLectureDict(l):
 	tmp['number'] = l.course.number
 	tmp['course_name'] = l.course.name
 	tmp['professor_name'] = l.professor.name
-	tmp['level'] = l.level
+	tmp['level'] = "%.1f" % l.level
 	return tmp
 
 def formatTime(i_time):
