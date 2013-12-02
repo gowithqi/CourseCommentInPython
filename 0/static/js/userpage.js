@@ -231,76 +231,6 @@ function comment_get_one(){
     });
   });
 }
-function name_get(str){
-  $.ajaxSetup({async:false});
-  $.get("/register/name/"+$("#newname").val().toLowerCase()+"/",function(data){
-    if (data=="no"){
-      $("#nm_prompt").html("昵称已存在！");
-      $("#nm_prompt").attr("class","text-danger control-label");
-    }
-    else{
-      $("#nm_prompt").html("正确");
-      $("#nm_prompt").attr("class","text-success control-label");
-    }
-  });
-  $.ajaxSetup({async:true});
-}
-function setname_post(){
-  if (checkname()){
-    $("#sName").modal('hide');
-    $.post("/userpage/setnickname/",
-      {
-        new_nickname:$("#newname").val()
-      },
-      function(){
-        window.location.assign("/");
-      }
-    );
-  }
-}
-function checkname(){
-  if ($("#newname").val()!=""){
-    if ($("#newname").val().length<3){
-      $("#nm_prompt").html("昵称名太短！");
-      $("#nm_prompt").attr("class","text-danger control-label");
-    }
-    else if ($("#newname").val().length>15){
-      $("#nm_prompt").html("昵称名太长！");
-      $("#nm_prompt").attr("class","text-danger control-label");
-    }
-    else{
-      var s=$("#newname").val(),ok=1;
-      for (var i=0;i<s.length;i++){
-        if (/.*[\u4e00-\u9fa5]+.*$/.test(s[i]))
-          continue;
-        if (s[i]>='a'&&s[i]<='z')
-          continue;
-        if (s[i]>='0'&&s[i]<='9')
-          continue;
-        if (s[i]>='A'&&s[i]<='Z'){
-          continue;
-        }
-        ok=0;
-        break;
-      }
-      if (ok==1)
-        name_get();
-      else{
-        $("#nm_prompt").html("昵称不能含有中英字符和数字以外的字符！");
-        $("#nm_prompt").attr("class","text-danger control-label");
-      }
-    }
-  }
-  else{
-    if ($("#nm_prompt").attr("class")!="text-warning control-label")
-      $("#nm_prompt").html("");
-  }
-  if ($("#newname").val()==""){
-    $("#nm_prompt").html("请填写昵称！");
-    $("#nm_prompt").attr("class","text-warning control-label");
-  }
-  return ($("#nm_prompt").html()=="正确");
-}
 function refresh_comment(){
   $("#comment"+curcom).animate({
     opacity:'0'
@@ -333,16 +263,4 @@ $("#all_collection").click(function(e){
 $(".decollect").click(function(e){
   e.preventDefault();
   decollect_get(this);
-});
-$("#newname").focus(function(){
-  $("#helpname").html("3-15位中英字符和数字 不区分大小写");
-})
-$("#newname").keydown(function(e){
-  if (e.keyCode==13)
-    e.preventDefault();
-});
-$("#sName").on('hidden.bs.modal',function(){
-  $("#newname").val("");
-  $("#helpname").html("");
-  $("#nm_prompt").html("");
 });

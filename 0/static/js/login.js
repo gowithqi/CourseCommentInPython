@@ -34,7 +34,7 @@ function login_post(){
 }
 function comment_get_all(){
   for (var i=1;i<=3;i++){
-    $.get("/userpage/getrandomcomment/",
+    $.get("/userpage/getrandomcomment/60",
       function(data){
         var obj=JSON.parse(data);
         $("#course_name"+i).html(obj.lecture.course_name);
@@ -47,7 +47,7 @@ function comment_get_all(){
   }
 }
 function comment_get_one(){
-  $.get("/userpage/getrandomcomment/",function(data){
+  $.get("/userpage/getrandomcomment/60",function(data){
     var obj=JSON.parse(data);
     $("#course_name"+curcom).html(obj.lecture.course_name);
     $("#professor_name"+curcom).html(obj.lecture.professor_name);
