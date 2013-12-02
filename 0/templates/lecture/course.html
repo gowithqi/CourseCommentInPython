@@ -240,14 +240,13 @@
 							<div  class="container">
 								<div class="row" style="background-color:#F5F5F5;border: 1px solid #F5F5F5;border-radius: 6px;">
 									<div class="col-lg-2">	
-										<p style="text-align:right;"><br/>课程基本信息</p>
-										<p style="text-align:right; font-weight:bold;">平均期末总评:&nbsp;{{ l.student_score|floatformat:2 }}</p>
-										<p style="text-align:right; font-weight:bold;">评价:&nbsp;{{ l.level|floatformat:1 }}</p>
-										<p><br/></p>
-										<p style="text-align:right;">已有{{ l.level_number }}人评价</p>
+										<p style="text-align:right; padding-top:6px;"><br/>课程基本信息</p>
+										<p style="text-align:right; font-weight:bold; padding-top:7px;">平均期末总评:&nbsp;{{ l.student_score|floatformat:2 }}</p>
+										<p style="text-align:right; font-weight:bold; padding-top:6px;">评价:&nbsp;{{ l.level|floatformat:1 }}</p>
+										<p style="text-align:right; padding-top:25px;">已有{{ l.level_number }}人评价</p>
 									</div>
 									<div class="col-lg-4">
-										<p><br/>分享您的得分和评分</p>
+										<p><br/><strong style="font-size:20px; color:#553030;">分享</strong>您的得分和评分</p>
 										<form>
 											<input class="form-inline rs_content" type="text" style="width:70px" placeholder="期末总评"> 
 											<input class="l_id" type="hidden" value="{{ l.id }}">
