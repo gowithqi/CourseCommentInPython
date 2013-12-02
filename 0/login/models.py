@@ -13,6 +13,7 @@ class User(models.Model):
 	check_status =  models.BooleanField(default=True, db_column = "check_status")
 	formal = models.BooleanField(default = False, db_column = "formal")
 	influence_factor = models.IntegerField(default = 0, db_column = "influence_factor")
+	style = models.CharField(max_length = 10, default = "zzq", db_column = "style")
 
 	def __unicode__(self):
 		return self.account
