@@ -64,18 +64,21 @@
             <li class="dropdown">
               <a href={% if u.messageofcommentsuper_set.all.count %}"#" class="dropdown-toggle" data-toggle="dropdown"{% else %}"/"{% endif %} style="white-space:pre;"><span class="glyphicon glyphicon-user"></span>  {{ u.name }} <span class="badge" style="background-color:#FF7744 ;">{% if u.messageofcommentsuper_set.all.count %}{{ u.messageofcommentsuper_set.all.count }}{% endif %}</span></a>
               {% if u.messageofcommentsuper_set.all.count %}
-              <ul class="dropdown-menu">
+              <ul class="dropdown-menu" style="width:350px;">
                 {% for message in u.messageofcommentsuper_set.all %}
-                <li style="white-space:pre;"><a href="/userpage/checksupermessage/{{ message.id }}/">{{ message.lecture_comment.lecture.course.name }}  {{ message.lecture_comment.lecture.professor.name }}<br/>
-                {{ message.lecture_comment.content|truncatechars:30 }}
-                <p style="text-align:right;">有用 + ({{ message.super_added }})</p></a></li>
+                <li class="dropdown-header" style="text-align:left;">
+                  {{ message.lecture_comment.lecture.professor.name|truncatechars:10 }} 《{{ message.lecture_comment.lecture.course.name|truncatechars:12 }}》<p style="text-align:right;margin-top:-1.5em"><span class="badge" style="background-color:#00DD00;">有用 +{{ message.super_added }}</span></p>
+                </li>
+                <li>
+                  <a href="/userpage/checksupermessage/{{ message.id }}/"><blockquote style="margin-bottom:5px;"><p style="text-align:left;font-size:small;">{{ message.lecture_comment.content|truncatechars:60 }}</p><small style="text-align:right;">{{ message.lecture_comment.time|formatTime }}</small></blockquote></a>
+                </li>
                 <li class="divider"></li>
                 {% endfor %}
-                <li style="text-align:center;">共 {{u.messageofcommentsuper_set.all.count}} 条</li>
+                <li>共 {{u.messageofcommentsuper_set.all.count}} 条</li>
               </ul>
               {% endif %}
             </li>
-            <!-- <li><a href="#">修改昵称</a></li> -->
+            <li><a href="#">修改昵称</a></li>
             <li><a href="/setpassword/">修改密码</a></li>
             <li><a href="/logout/">退出</a></li>
           </ul>
@@ -107,11 +110,69 @@
         </div><!-- /.modal-dialog -->
       </div><!-- /.modal -->
 
-      <div class="row" style="margin-top:100px;">
+      <ol class="breadcrumb" style="margin-top:70px;">
+        <li>系统影响因子：{{ sys_achievement }}</li>
+        <li>我的影响因子：{{ user_influence_factor }}</li>
+        <li>我的排名：{{ user_rank }}</li>
+        <p style="text-align:right;margin-top:-1.4em;margin-bottom:0;"><a href="#" onclick="addfavorite()">加入收藏夹</a></p>
+      </ol>
+
+      <div class="row">
+        <div class="col-sm-6">
+          <div class="panel panel-info">
+            <div class="panel-heading">
+              <h3 class="panel-title">热门点评</h3>
+            </div>
+            <div class="panel-body">
+              <ul class="list-group" id="float_comment" style="position:relative;">
+                <li class="list-group-item" style="border-color:#AAAAAA" id="comment1">
+                  <div class="row">
+                    <div class="col-sm-3">
+                      <h5><a href="#" id="course_name1"><strong></strong></a></h5>
+                      <p id="professor_name1"></p>
+                      <p class="text-warning" id="course_level1"></p>
+                    </div>
+                    <div class="col-sm-9">
+                      <h5 style="text-indent:2em;line-height:20pt;border:solid 1px #DDDDDD;border-radius:10px;padding:10px;word-break:break-all;" id="comment_content1"></h5>
+                      <h4 style="text-align:right;white-space:pre;"><small id="comment_info1"></small></h4>
+                    </div>
+                  </div>
+                </li>
+                <li class="list-group-item" style="border-color:#AAAAAA" id="comment2">
+                  <div class="row">
+                    <div class="col-sm-3">
+                      <h5><a href="#" id="course_name2"><strong></strong></a></h5>
+                      <p id="professor_name2"></p>
+                      <p class="text-warning" id="course_level2"></p>
+                    </div>
+                    <div class="col-sm-9">
+                      <h5 style="text-indent:2em;line-height:20pt;border:solid 1px #DDDDDD;border-radius:10px;padding:10px;word-break:break-all;" id="comment_content2"></h5>
+                      <h4 style="text-align:right;white-space:pre;"><small id="comment_info2"></small></h4>
+                    </div>
+                  </div>
+                </li>
+                <li class="list-group-item" style="border-color:#AAAAAA" id="comment3">
+                  <div class="row">
+                    <div class="col-sm-3">
+                      <h5><a href="#" id="course_name3"><strong></strong></a></h5>
+                      <p id="professor_name3"></p>
+                      <p class="text-warning" id="course_level3"></p>
+                    </div>
+                    <div class="col-sm-9">
+                      <h5 style="text-indent:2em;line-height:20pt;border:solid 1px #DDDDDD;border-radius:10px;padding:10px;word-break:break-all;" id="comment_content3"></h5>
+                      <h4 style="text-align:right;white-space:pre;"><small id="comment_info3"></small></h4>
+                    </div>
+                  </div>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
         <div class="col-sm-6">
           <div class="panel panel-warning">
             <div class="panel-heading">
-              <h3 class="panel-title">收藏的课</h3>
+              <h3 class="panel-title" id="collection_title" data-number="{{ u.userlecturecollection_set.all.count }}">收藏的课{% if u.userlecturecollection_set.all.count > 0 %}（{{ u.userlecturecollection_set.all.count }}）{% endif %}</h3>
             </div>
             <div class="panel-body" id="panel_collect">
               {% if u.userlecturecollection_set.all.count > 0 %}
@@ -129,7 +190,7 @@
                       <h5 style="text-indent:2em;line-height:20pt;border:solid 1px #DDDDDD;border-radius:10px;padding:10px;word-break:break-all;">{{ c.content|truncatechars:30 }}</h5>
                       <h4 style="text-align:right;white-space:pre;"><small>{{ c.user.name }}      {{ c.time|formatTime }}      有用 ({{ c.super_number }})</small></h4>
                       {% empty %}
-                      <p>还没有评论。快来抢沙发！</p>
+                      <p>还没有点评。快来抢沙发！</p>
                       {% endfor %}
                     </div>
                   </div>
@@ -143,79 +204,25 @@
               {% if u.userlecturecollection_set.all.count > 3 %}
               <p style="text-align:right;"><a href="#" id="all_collection">显示全部</a></p>
               {% endif %}
-            </div>            
-          </div>
-        </div>
-
-        <div class="col-sm-3 col-sm-offset-1">
-          <div class="panel panel-danger">
-            <div class="panel-heading">
-              <h3 class="panel-title">系统成就</h3>
-            </div>
-            <div class="panel-body">
-              <p>我们已经帮助交大同学{{ sys_achievement }}次了解课程</p>
-            </div>
-          </div>
-          <div class="panel panel-success">
-            <div class="panel-heading">
-              <h3 class="panel-title">我的成就</h3>
-            </div>
-            <div class="panel-body">
-              <p>我的影响因子：{{ user_influence_factor }}</p>
-              <p>我的排名：{{ user_rank }}</p>
-            </div>
+            </div> 
           </div>
         </div>
       </div>
 
       <div class="row">
-        <div class="col-sm-6">
-          <ul class="list-group" id="float_comment" style="position:absolute;">
-            <li class="list-group-item" style="border-color:#AAAAAA" id="comment1">
-              <div class="row">
-                <div class="col-sm-3">
-                  <h5><strong id="course_name1"></strong></h5>
-                  <p id="professor_name1"></p>
-                  <p class="text-warning" id="course_level1"></p>
-                </div>
-                <div class="col-sm-9">
-                  <h5 style="text-indent:2em;line-height:20pt;border:solid 1px #DDDDDD;border-radius:10px;padding:10px;word-break:break-all;" id="comment_content1"></h5>
-                  <h4 style="text-align:right;white-space:pre;"><small id="comment_info1"></small></h4>
-                </div>
-              </div>
+        <div class="col-sm-2" style="text-align:right;"> 
+          <ul class="nav nav-pills nav-stacked" style="max-width: 150px;">
+            <!--如果觉得底色太深可把以下两个li标签中的全部颜色代码都换成#F5F5F5-->
+            <li class="active success" style="background-color:#F2F2F2;border: 0px solid #DCDCFA;border-radius: 6px;">
+              <a data-toggle="tab" href="#5359_Comment_Page" data-placement="right" title="这里都是正儿八经的课评哦~"><h4><strong>点评</strong></h4><p>这儿得是有节操的</p></a>
             </li>
-            <li class="list-group-item" style="border-color:#AAAAAA" id="comment2">
-              <div class="row">
-                <div class="col-sm-3">
-                  <h5><strong id="course_name2"></strong></h5>
-                  <p id="professor_name2"></p>
-                  <p class="text-warning" id="course_level2"></p>
-                </div>
-                <div class="col-sm-9">
-                  <h5 style="text-indent:2em;line-height:20pt;border:solid 1px #DDDDDD;border-radius:10px;padding:10px;word-break:break-all;" id="comment_content2"></h5>
-                  <h4 style="text-align:right;white-space:pre;"><small id="comment_info2"></small></h4>
-                </div>
-              </div>
-            </li>
-            <li class="list-group-item" style="border-color:#AAAAAA" id="comment3">
-              <div class="row">
-                <div class="col-sm-3">
-                  <h5><strong id="course_name3"></strong></h5>
-                  <p id="professor_name3"></p>
-                  <p class="text-warning" id="course_level3"></p>
-                </div>
-                <div class="col-sm-9">
-                  <h5 style="text-indent:2em;line-height:20pt;border:solid 1px #DDDDDD;border-radius:10px;padding:10px;word-break:break-all;" id="comment_content3"></h5>
-                  <h4 style="text-align:right;white-space:pre;"><small id="comment_info3"></small></h4>
-                </div>
-              </div>
+            <li style="background-color:#F2F2F2;border: 0px solid #DCDCFA;border-radius: 6px;">
+              <a data-toggle="tab" href="#5359_Wall_Page" data-placement="right" title="听说吐槽也是一门学问= ="><h4><strong>吐槽</strong></h4><p>没节操的在这儿</p></a>
             </li>
           </ul>
         </div>
-      </div>
 
-      <div class="row">
-        <div class="col-sm-10 col-sm-offset-1">
+        <div class="col-sm-10">
           <div class="panel panel-primary">
             <div class="panel-heading">
               <h3 class="panel-title">我的点评{% if u.lecturecomment_set.all.count > 0 %}（{{ u.lecturecomment_set.all.count }}条）{% endif %}</h3>
@@ -223,7 +230,7 @@
             <div class="panel-body">
               {% if u.lecturecomment_set.all.count > 0 %}
               <ul class="list-group">
-                {% for comment in u.lecturecomment_set.all|dictsortreversed:"time"|slice:":10" %}
+                {% for comment in u.lecturecomment_set.all|dictsortreversed:"time" %}
                 <li class="list-group-item" style="border-color:#AAAAAA">
                   <div class="row">
                     <div class="col-sm-3">
@@ -239,12 +246,6 @@
                 </li>
                 {% endfor %}
               </ul>
-              {% if u.lecturecomment_set.all.count > 10 %}
-              <ul class="pagination">
-                <li class="active"><a href="#">1</a></li>
-                <li><a href="#">2</a></li>
-              </ul>
-              {% endif %}
               {% else %}
               <p>你还没有留下过点评～</p>
               {% endif %}
@@ -327,7 +328,7 @@
                 <p>{{ c.content }}</p>
                 <p style="text-align:right;white-space:pre;">{{ c.user.name }}       {{ c.time|date:"Y-m-d H:i" }}       有用 ({{ c.super_number }})</p>
                 {% empty %}
-                <p>还没有评论。快来抢沙发！</p>
+                <p>还没有点评。快来抢沙发！</p>
                 <p style="text-align:right;white-space:pre;"></p>
                 {% endfor %}
               </div>

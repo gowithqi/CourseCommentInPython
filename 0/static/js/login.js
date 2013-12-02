@@ -1,7 +1,9 @@
 var curcom=3;
 $(document).ready(function(){
   $.csrftoken();
+  $.ajaxSetup({async:false});
   comment_get_all();
+  $.ajaxSetup({async:true});
   refresh_comment();
   setInterval("refresh_comment()",5000);
 });
@@ -45,49 +47,47 @@ function comment_get_all(){
   }
 }
 function comment_get_one(){
-  $.get("/userpage/getrandomcomment/",
-    function(data){
-      var obj=JSON.parse(data);
-      $("#course_name"+curcom).html(obj.lecture.course_name);
-      $("#professor_name"+curcom).html(obj.lecture.professor_name);
-      $("#course_level"+curcom).html(obj.lecture.level);
-      $("#comment_content"+curcom).html(obj.comment_content);
-      $("#comment_info"+curcom).html(obj.comment_user+"      "+obj.comment_time+"      有用 ("+obj.comment_super_number+")");
-    }
-  );
-  var s=$("#comment"+curcom).clone();
-  $("#comment"+curcom).remove();
-  var tmpcom=curcom-1;
-  if (tmpcom==0)
-    tmpcom=3;
-  $("#comment"+tmpcom).animate({
-    top:'+=50px',
-    backgroundColor:'#AAC0BB'
-  },"slow");
-  if (--tmpcom==0)
-    tmpcom=3;
-  $("#comment"+tmpcom).animate({
-    top:'+=50px',
-    backgroundColor:'#88A099'
-  },"slow",function(){
-    $("#float_comment").prepend(s);
-    $("#comment"+curcom).animate({
-      opacity:'1',
-      backgroundColor:'#708380'
-    },"slow");
-    tmpcom=curcom-1;
+  $.get("/userpage/getrandomcomment/",function(data){
+    var obj=JSON.parse(data);
+    $("#course_name"+curcom).html(obj.lecture.course_name);
+    $("#professor_name"+curcom).html(obj.lecture.professor_name);
+    $("#course_level"+curcom).html(obj.lecture.level);
+    $("#comment_content"+curcom).html(obj.comment_content);
+    $("#comment_info"+curcom).html(obj.comment_user+"      "+obj.comment_time+"      有用 ("+obj.comment_super_number+")");
+    var tmpcom=curcom-1,height=$("#comment"+curcom).innerHeight();
     if (tmpcom==0)
       tmpcom=3;
     $("#comment"+tmpcom).animate({
-      top:'-=50px',
-    },"fast");
+      top:'+='+height+'px',
+      backgroundColor:'#AAC0BB'
+    },"slow");
     if (--tmpcom==0)
       tmpcom=3;
     $("#comment"+tmpcom).animate({
-      top:'-=50px',
-    },"fast");
-    if (--curcom==0)
-      curcom=3;
+      top:'+='+height+'px',
+      backgroundColor:'#88A099'
+    },"slow",function(){
+      var s=$("#comment"+curcom).clone();
+      $("#comment"+curcom).remove();
+      $("#float_comment").prepend(s);
+      $("#comment"+curcom).animate({
+        opacity:'1',
+        backgroundColor:'#708380'
+      },"slow");
+      tmpcom=curcom-1;
+      if (tmpcom==0)
+        tmpcom=3;
+      $("#comment"+tmpcom).animate({
+        top:'-='+height+'px'
+      },0);
+      if (--tmpcom==0)
+        tmpcom=3;
+      $("#comment"+tmpcom).animate({
+        top:'-='+height+'px'
+      },0);
+      if (--curcom==0)
+        curcom=3;
+    });
   });
 }
 $("#username").change(function(){
@@ -121,7 +121,6 @@ function refresh_comment(){
     opacity:'0'
   },"slow",function(){
     comment_get_one();
-    
   });
 }
 var last=0;

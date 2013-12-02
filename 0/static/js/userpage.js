@@ -36,9 +36,9 @@ function change_course_get(){
         stack[fTop][i]=new Object();
         var p=$("#panel_change").find(".panel-body").eq(i).find("p"),comment=obj[i].most_popular_comment;
         if (comment==""){
-          p.eq(0).html("还没有评论。快来抢沙发！");
+          p.eq(0).html("还没有点评。快来抢沙发！");
           p.eq(1).html("");
-          stack[fTop][i].most_popular_comment="还没有评论。快来抢沙发！";
+          stack[fTop][i].most_popular_comment="还没有点评。快来抢沙发！";
           stack[fTop][i].user="";
         }
         else{
@@ -72,13 +72,17 @@ function change_course_get(){
 }*/
 var curcom=3;
 $(document).ready(function(){
+  $.ajaxSetup({async:false});
   comment_get_all();
+  $.ajaxSetup({async:true});
   refresh_comment();
   setInterval("refresh_comment()",5000);
 });
 function decollect_get(that){
   $.get("/userpage/decollect/lecture/"+$(that).attr("data-lid")+"/",function(data){
     $(that).parentsUntil("li").parent().remove();
+    var num=$("#collection_title").attr("data-number");
+    $("#collection_title").attr("data-number",num-1);
     if ($("#hide_collection").html()=="收起"){
       if ($("#panel_collect li").length<=3)
         $("#hide_collection").remove();
@@ -97,7 +101,7 @@ function decollect_get(that){
               +obj[i].id+'/"><strong>'+obj[i].course_name+'</strong></a></h5><p>'+obj[i].professor_name+'</p><p><a href="#" data-lid="'+obj[i].id+'" class="decollect">取消收藏</a></p></div><div class="col-sm-9">';
               var comment=obj[i].most_popular_comment;
               if (comment=="")
-                str+='<p>还没有评论。快来抢沙发！</p>';
+                str+='<p>还没有点评。快来抢沙发！</p>';
               else{
                 str+='<h5 style="text-indent:2em;line-height:20pt;border:solid 1px #DDDDDD;border-radius:10px;padding:10px;word-break:break-all;">'+comment.comment_content+'</h5>';
                 str+='<h4 style="text-align:right;white-space:pre;"><small>'+comment.comment_user+'      '+comment.comment_time+'      有用 ('+comment.comment_super_number+')</small></h4>';
@@ -110,6 +114,7 @@ function decollect_get(that){
             if (obj.length>3)
               str+='<p style="text-align:right;"><a href="#" id="all_collection">显示全部</a></p>';
             $("#panel_collect").html(str);
+            $("#collection_title").attr("data-number",obj.length);
             $("#all_collection").click(function(e){
               e.preventDefault();
               all_collection_get();
@@ -122,17 +127,21 @@ function decollect_get(that){
         }
       }
     }
+    var title="收藏的课";
+    if ($("#collection_title").attr("data-number")>0)
+      title+="（"+$("#collection_title").attr("data-number")+"）";
+    $("#collection_title").html(title);
   });
 }
 function all_collection_get(){
   $.get("/userpage/getallcollectionlectures/",function(data){
-    var obj=JSON.parse(data),str='<ul class="list-group">';
+    var obj=JSON.parse(data),str='<ul class="list-group">',title="收藏的课";
     for (var i=0;i<obj.length;i++){
       str+='<li class="list-group-item" style="border-color:#AAAAAA"><div class="row"><div class="col-sm-3"><h5><a href="/lecture/'
       +obj[i].id+'/"><strong>'+obj[i].course_name+'</strong></a></h5><p>'+obj[i].professor_name+'</p><p><a href="#" data-lid="'+obj[i].id+'" class="decollect">取消收藏</a></p></div><div class="col-sm-9">';
       var comment=obj[i].most_popular_comment;
       if (comment=="")
-        str+='<p>还没有评论。快来抢沙发！</p>';
+        str+='<p>还没有点评。快来抢沙发！</p>';
       else{
         str+='<h5 style="text-indent:2em;line-height:20pt;border:solid 1px #DDDDDD;border-radius:10px;padding:10px;word-break:break-all;">'+comment.comment_content+'</h5>';
         str+='<h4 style="text-align:right;white-space:pre;"><small>'+comment.comment_user+'      '+comment.comment_time+'      有用 ('+comment.comment_super_number+')</small></h4>';
@@ -142,9 +151,13 @@ function all_collection_get(){
     str+='</ul>';
     if (obj.length==0)
       str='<p>还没有收藏的课程。</p><p>快去课程页面收藏喜欢的课吧！</p>';
+    else
+      title+="（"+obj.length+"）";
     if (obj.length>3)
       str+='<p style="text-align:right;"><a href="#" id="hide_collection">收起</a></p>';
     $("#panel_collect").html(str);
+    $("#collection_title").html(title);
+    $("#collection_title").attr("data-number",obj.length);
     $("#hide_collection").click(function(e){
       e.preventDefault();
       $("#panel_collect").children("p").remove();
@@ -166,7 +179,8 @@ function comment_get_all(){
     $.get("/userpage/getrandomcomment/",
       function(data){
         var obj=JSON.parse(data);
-        $("#course_name"+i).html(obj.lecture.course_name);
+        $("#course_name"+i+" strong").html(obj.lecture.course_name);
+        $("#course_name"+i).attr("href","/lecture/"+obj.lecture.id+"/");
         $("#professor_name"+i).html(obj.lecture.professor_name);
         $("#course_level"+i).html(obj.lecture.level);
         $("#comment_content"+i).html(obj.comment_content);
@@ -176,43 +190,52 @@ function comment_get_all(){
   }
 }
 function comment_get_one(){
-  $.get("/userpage/getrandomcomment/",
-    function(data){
-      var obj=JSON.parse(data);
-      $("#course_name"+curcom).html(obj.lecture.course_name);
-      $("#professor_name"+curcom).html(obj.lecture.professor_name);
-      $("#course_level"+curcom).html(obj.lecture.level);
-      $("#comment_content"+curcom).html(obj.comment_content);
-      $("#comment_info"+curcom).html(obj.comment_user+"      "+obj.comment_time+"      有用 ("+obj.comment_super_number+")");
-    }
-  );
-  var s=$("#comment"+curcom).clone();
-  $("#comment"+curcom).remove();
-  $("#float_comment").prepend(s);
+  $.get("/userpage/getrandomcomment/",function(data){
+    var obj=JSON.parse(data);
+    $("#course_name"+curcom+" strong").html(obj.lecture.course_name);
+    $("#course_name"+curcom).attr("href","/lecture/"+obj.lecture.id+"/");
+    $("#professor_name"+curcom).html(obj.lecture.professor_name);
+    $("#course_level"+curcom).html(obj.lecture.level);
+    $("#comment_content"+curcom).html(obj.comment_content);
+    $("#comment_info"+curcom).html(obj.comment_user+"      "+obj.comment_time+"      有用 ("+obj.comment_super_number+")");
+    var tmpcom=curcom-1,height=$("#comment"+curcom).innerHeight();
+    if (tmpcom==0)
+      tmpcom=3;
+    $("#comment"+tmpcom).animate({
+      top:'+='+height+'px'
+    },"slow");
+    if (--tmpcom==0)
+      tmpcom=3;
+    $("#comment"+tmpcom).animate({
+      top:'+='+height+'px'
+    },"slow",function(){
+      var s=$("#comment"+curcom).clone();
+      $("#comment"+curcom).remove();
+      $("#float_comment").prepend(s);
+      $("#comment"+curcom).animate({
+        opacity:'1'
+      },"slow");
+      tmpcom=curcom-1;
+      if (tmpcom==0)
+        tmpcom=3;
+      $("#comment"+tmpcom).animate({
+        top:'-='+height+'px'
+      },0);
+      if (--tmpcom==0)
+        tmpcom=3;
+      $("#comment"+tmpcom).animate({
+        top:'-='+height+'px'
+      },0);
+      if (--curcom==0)
+        curcom=3;
+    });
+  });
 }
 function refresh_comment(){
   $("#comment"+curcom).animate({
     opacity:'0'
   },"slow",function(){
     comment_get_one();
-    if (--curcom==0)
-      curcom=3;
-    /*$("#comment"+curcom).animate({
-      top:'+=80px'
-    },"slow");*/
-    if (--curcom==0)
-      curcom=3;
-    // $("#comment"+curcom).animate({
-    //   top:'+=80px'
-    // },"slow",function(){
-      if (--curcom==0)
-        curcom=3;
-      $("#comment"+curcom).animate({
-        opacity:'1'
-      },"slow");
-      if (--curcom==0)
-        curcom=3;
-    //});
   });
 }
 /*$("#cPrevious").click(function(){

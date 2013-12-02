@@ -1,4 +1,3 @@
-$.ajaxSetup({async:false});
 $("#regInfo").modal({
   keyboard:false,
   backdrop:'static'
