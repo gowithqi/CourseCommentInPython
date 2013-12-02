@@ -78,7 +78,7 @@
               </ul>
               {% endif %}
             </li>
-            <li><a href="javascript:void(0);" onclick="setname()">修改昵称</a></li>
+            <li><a href="javascript:void(0);" onclick="$('#sName').modal('show');">修改昵称</a></li>
             <li><a href="/setpassword/">修改密码</a></li>
             <li><a href="/logout/">退出</a></li>
           </ul>
@@ -105,26 +105,28 @@
         <div class="modal-dialog">
           <div class="modal-content">
             <div class="modal-header">
+              <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
               <h4 class="modal-title">修改昵称</h4>
             </div>
             <div class="modal-body">
               <form class="form-horizontal" role="form">
                 <div class="form-group">
-                  <label class="col-sm-2 control-label">Email</label>
+                  <label class="col-sm-2 control-label">旧昵称</label>
                   <div class="col-sm-10">
-                    <p class="form-control-static">email@example.com</p>
+                    <p class="form-control-static">{{ u.name }}</p>
                   </div>
                 </div>
                 <div class="form-group">
-                  <label for="inputPassword" class="col-sm-2 control-label">Password</label>
-                  <div class="col-sm-10">
-                    <input type="password" class="form-control" id="inputPassword" placeholder="Password">
+                  <label for="newname" class="col-sm-2 control-label">新昵称<span id="helpname" class="help-block"></span></label>
+                  <div class="col-sm-10 enter">
+                    <input type="text" class="form-control" id="newname" placeholder="新昵称" autocomplete="off">
+                    <label for="name" id="nm_prompt"></label>
                   </div>
                 </div>
               </form>
             </div>
             <div class="modal-footer">
-              <button type="button" class="btn btn-primary" data-dismiss="modal" onclick="get">确定</button>
+              <button type="button" class="btn btn-primary" onclick="setname_post()">确定</button>
               <button type="button" class="btn btn-primary" data-dismiss="modal">取消</button>
             </div>
           </div><!-- /.modal-content -->
@@ -132,10 +134,10 @@
       </div><!-- /.modal -->
 
       <ol class="breadcrumb" style="margin-top:70px;">
-        <li>系统影响因子：{{ sys_achievement }}</li>
+        <li>{{ sys_achievement }}次帮助大家选课</li>
         <li>我的影响因子：{{ user_influence_factor }}</li>
         <li>我的排名：{{ user_rank }}</li>
-        <p style="text-align:right;margin-top:-1.4em;margin-bottom:0;"><a href="javascript:void(0);" onclick="window.external.AddFavorite(document.location.href,document.title)">加入收藏夹</a></p>
+        <p style="text-align:right;margin-top:-1.4em;margin-bottom:0;"><a href="javascript:void(0);" onclick="window.external.AddFavorite(document.location.href,document.title)">收藏本站</a></p>
       </ol>
 
       <div class="row">
@@ -166,14 +168,14 @@
             <div class="panel-body">
               <ul class="list-group" id="float_comment" style="position:relative;">
                 <li class="list-group-item" style="border-color:#AAAAAA" id="comment1">
-                  <div class="row">
+                  <div class="row"> 
                     <div class="col-sm-3">
                       <h5><a href="#" id="course_name1"><strong></strong></a></h5>
                       <p id="professor_name1"></p>
                       <p class="text-warning" id="course_level1"></p>
                     </div>
                     <div class="col-sm-9">
-                      <h5 style="text-indent:2em;line-height:20pt;border:solid 1px #DDDDDD;border-radius:10px;padding:10px;word-break:break-all;" id="comment_content1"></h5>
+                      <h5 style="height:80px;text-indent:2em;line-height:20pt;border:solid 1px #DDDDDD;border-radius:10px;padding:10px;word-break:break-all;" id="comment_content1"></h5>
                       <h4 style="text-align:right;white-space:pre;"><small id="comment_info1"></small></h4>
                     </div>
                   </div>
@@ -186,7 +188,7 @@
                       <p class="text-warning" id="course_level2"></p>
                     </div>
                     <div class="col-sm-9">
-                      <h5 style="text-indent:2em;line-height:20pt;border:solid 1px #DDDDDD;border-radius:10px;padding:10px;word-break:break-all;" id="comment_content2"></h5>
+                      <h5 style="height:80px;text-indent:2em;line-height:20pt;border:solid 1px #DDDDDD;border-radius:10px;padding:10px;word-break:break-all;" id="comment_content2"></h5>
                       <h4 style="text-align:right;white-space:pre;"><small id="comment_info2"></small></h4>
                     </div>
                   </div>
@@ -199,7 +201,7 @@
                       <p class="text-warning" id="course_level3"></p>
                     </div>
                     <div class="col-sm-9">
-                      <h5 style="text-indent:2em;line-height:20pt;border:solid 1px #DDDDDD;border-radius:10px;padding:10px;word-break:break-all;" id="comment_content3"></h5>
+                      <h5 style="height:80px;text-indent:2em;line-height:20pt;border:solid 1px #DDDDDD;border-radius:10px;padding:10px;word-break:break-all;" id="comment_content3"></h5>
                       <h4 style="text-align:right;white-space:pre;"><small id="comment_info3"></small></h4>
                     </div>
                   </div>
@@ -212,7 +214,7 @@
         <div class="col-sm-6">
           <div class="panel panel-warning">
             <div class="panel-heading">
-              <h3 class="panel-title" id="collection_title" data-number="{{ u.userlecturecollection_set.all.count }}">收藏的课{% if u.userlecturecollection_set.all.count > 0 %}（{{ u.userlecturecollection_set.all.count }}）{% endif %}</h3>
+              <h3 class="panel-title" id="collection_title" data-number="{{ u.userlecturecollection_set.all.count }}"><span class="glyphicon glyphicon-bookmark"></span> 收藏的课{% if u.userlecturecollection_set.all.count > 0 %}（{{ u.userlecturecollection_set.all.count }}）{% endif %}</h3>
             </div>
             <div class="panel-body" id="panel_collect">
               {% if u.userlecturecollection_set.all.count > 0 %}
