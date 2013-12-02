@@ -188,17 +188,6 @@
           <div class="col-sm-6">
             <div class="panel panel-danger">
               <div class="panel-heading">
-                <h3 class="panel-title">系统成就</h3>
-              </div>
-              <div class="panel-body">
-                <p>我们已经帮助交大同学{{ sys_achievement }}次了解课程</p>
-              </div>
-            </div>
-          </div>
-
-          <div class="col-sm-6">
-            <div class="panel panel-success">
-              <div class="panel-heading">
                 <h3 class="panel-title">我的成就</h3>
               </div>
               <div class="panel-body">
@@ -207,8 +196,20 @@
               </div>
             </div>
           </div>
+
+          <div class="col-sm-6">
+            <div class="panel panel-danger">
+              <div class="panel-heading">
+                <h3 class="panel-title">系统成就</h3>
+              </div>
+              <div class="panel-body" style="height:90px;">
+                <p>我们已经帮助交大同学{{ sys_achievement }}次了解课程</p>
+              </div>
+            </div>
+          </div>
+
         </div>
-          <div class="panel panel-warning">
+          <div class="panel panel-success">
             <div class="panel-heading">
               <h3 class="panel-title" id="collection_title" data-number="{{ u.userlecturecollection_set.all.count }}">收藏的课{% if u.userlecturecollection_set.all.count > 0 %}（{{ u.userlecturecollection_set.all.count }}）{% endif %}</h3>
             </div>
