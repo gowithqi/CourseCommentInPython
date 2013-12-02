@@ -11,7 +11,7 @@ urlpatterns = patterns('',
 	url(r'^getcollectionlectures/(?P<start>\d+)/(?P<end>\d+)/$', views.getCollectionLectures),
 	url(r'^getcomments/(?P<start>\d+)/(?P<end>\d+)/$', views.getComments),
 	url(r'^getgossips/(?P<start>\d+)/(?P<end>\d+)/$', views.getGossips),
-	url(r'^getrandomcomment/$', views.getRandomComment),
+	url(r'^getrandomcomment/(?P<length>\d+)/$', views.getRandomComment),
 	url(r'^setnickname/$', views.setNickname),
 	url(r'^setstyle/$', views.setStyle),
 )

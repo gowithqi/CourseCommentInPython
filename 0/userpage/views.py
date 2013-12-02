@@ -187,12 +187,14 @@ def getGossips(request, start, end):
 
 
 @require_http_methods(['GET'])
-def getRandomComment(request):
+def getRandomComment(request, length):
+	length = int(length)
+	if length > COMMENT_CUT_LENGTH: raise Http404
 	c = LectureComment.objects.order_by('?')[0]
 	# c = LectureComment.objects.get(id=57)
 	tmp = getCommentDict(c)
 	if len(tmp['comment_content']) > COMMENT_CUT_LENGTH:
-		tmp['comment_content'] = tmp['comment_content'][:COMMENT_CUT_LENGTH] + "..."
+		tmp['comment_content'] = tmp['comment_content'][:length] + "..."
 	tmp_l = getLectureDict(c.lecture)
 	tmp['lecture'] = tmp_l
 
