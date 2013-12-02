@@ -22,6 +22,9 @@ def cadmin(request):
 	if not (request.session['user_id'] in ADMINS): raise Http404
 	template = loader.get_template("cadmin/cadmin.html")
 	context = RequestContext(request, {
+		"user_number": User.objects.all().count(),
+		"comment_number": LectureComment.objects.all().count(),
+		"gossip_number": Gossip.objects.all().count()
 		})
 
 	return HttpResponse(template.render(context))
@@ -47,6 +50,9 @@ def getContent(request):
 
 	template = loader.get_template("cadmin/content.html")
 	context = RequestContext(request, {
+		"user_number": User.objects.all().count(),
+		"comment_number": LectureComment.objects.all().count(),
+		"gossip_number": Gossip.objects.all().count(),
 		'contents': l,
 		'title': request.GET['group'],
 		})

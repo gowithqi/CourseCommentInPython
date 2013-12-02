@@ -11,7 +11,7 @@ MANAGERS = ADMINS
 
 MANAGERS = ADMINS
 if 'SERVER_SOFTWARE' in os.environ:
-    # DEBUG = False
+    DEBUG = False
     from bae.core import const
     DATABASES = {
         'default': {
