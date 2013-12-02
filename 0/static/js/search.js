@@ -121,7 +121,7 @@ function setname_post(){
         new_nickname:$("#newname").val()
       },
       function(){
-        window.location.assign("/");
+        window.location.reload();
       }
     );
   }
