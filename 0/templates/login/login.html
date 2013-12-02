@@ -23,11 +23,14 @@
 	<body style="background-color:#FFFFFF;">
     {% csrf_token %}
     <div class="row" style="background-color:#FFFFFF;color:black">
-      <div class="col-sm-3">
+      <div class="col-sm-3" style="margin-right:-50px;">
         <h1 style="padding-left:100px;">课程点评网</h1>
       </div>
+      <div class="col-sm-4" style="padding-top:40px;">
+      <img src="{% static 'img/logo_small.png' %}" border="0" width="104" height="40" style="margin-top:-20px;">
+      </div>  
       <form style="margin-top:20px;">
-        <div class="col-sm-2 col-sm-offset-3">
+        <div class="col-sm-2">
           <div class="form-group">
             <div class="enterl">
               <input type="text" autocomplete="off" class="form-control input-sm" id="username" placeholder="昵称/邮箱">

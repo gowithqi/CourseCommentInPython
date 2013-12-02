@@ -15,7 +15,7 @@ import random
 from datetime import datetime, date
 MIN_LECTURE_ID = 6338
 MAX_LECTURE_ID = 10479
-COMMENT_CUT_LENGTH = 60
+COMMENT_CUT_LENGTH = 80
 
 def changeLecture(request):
 	if request.method != 'GET': raise Http404
