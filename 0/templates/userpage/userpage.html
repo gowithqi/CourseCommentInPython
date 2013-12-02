@@ -101,9 +101,18 @@
       </div><!-- /.modal -->
 
       <ol class="breadcrumb" style="margin-top:70px;">
-        <li>系统影响因子：{{ sys_achievement }}</li>
+
+              <form>
+                <div class="form-group dropdown col-sm-5 col-sm-offset-3">
+                  <input type="text" class="form-control" id="search" autocomplete="off" placeholder="来这里找课！">
+                  <ul class="dropdown-menu" id="complete" style="width:91%;margin-top:-1px;margin-left:15px"></ul>
+                </div>
+                <button type="submit" id="submit" class="btn btn-default">搜索</button>
+              </form>
+
+        <!-- <li>系统影响因子：{{ sys_achievement }}</li>
         <li>我的影响因子：{{ user_influence_factor }}</li>
-        <li>我的排名：{{ user_rank }}</li>
+        <li>我的排名：{{ user_rank }}</li> -->
         <p style="text-align:right;margin-top:-1.4em;margin-bottom:0;"><a href="#" onclick="addfavorite()">加入收藏夹</a></p>
       </ol>
 
