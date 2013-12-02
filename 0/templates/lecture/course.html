@@ -265,7 +265,7 @@
 				<ul class="nav nav-tabs" id="tabs">
 					{% for l in lectures %}
 						<li class="{% ifequal l.id focus_lecture_id %} active {% endifequal %}">
-							<a data-toggle="tab" href="#{{ l.professor.id }}">{{ l.professor.name }} <span class="badge" style="background-color:#5599FF">{{ l.level|floatformat:1 }}</span></a>
+							<a data-toggle="tab" href="#{{ l.professor.id }}">{{ l.professor.name }} <span class="badge" style="background-color:#5599FF">{{ l.level|floatformat:2 }}</span></a>
 						</li>
 					{% endfor %}
 				</ul>
@@ -281,7 +281,7 @@
 									<div class="col-lg-2">	
 										<p style="text-align:right; padding-top:6px;"><br/>课程基本信息</p>
 										<p style="text-align:right; font-weight:bold; padding-top:7px;">平均期末总评:&nbsp;{{ l.student_score|floatformat:2 }}</p>
-										<p style="text-align:right; font-weight:bold; padding-top:6px;">评价:&nbsp;{{ l.level|floatformat:1 }}</p>
+										<p style="text-align:right; font-weight:bold; padding-top:6px;">评价:&nbsp;{{ l.level|floatformat:2 }}</p>
 										<p style="text-align:right; padding-top:25px;">已有{{ l.level_number }}人评价</p>
 									</div>
 									<div class="col-lg-4">

@@ -283,7 +283,7 @@
                         <div class="col-sm-3">
                           <h5><a href="/lecture/{{ comment.lecture.id }}"><strong>{{ comment.lecture.course.name }}</strong></a></h5>
                           <p>{{ comment.lecture.professor.name }}</p>
-                          <p class="text-warning">{{ comment.lecture.level }}</p>
+                          <p class="text-warning">{{ comment.lecture.level|floatformat:2 }}</p>
                         </div>
                         <div class="col-sm-9">
                           <h5 style="text-indent:2em;line-height:20pt;border:solid 1px #DDDDDD;border-radius:10px;padding:10px;word-break:break-all;">{{ comment.content }}</h5>
@@ -313,7 +313,7 @@
                         <div class="col-sm-3">
                           <h5><a href="/lecture/{{ comment.lecture.id }}"><strong>{{ comment.lecture.course.name }}</strong></a></h5>
                           <p>{{ comment.lecture.professor.name }}</p>
-                          <p class="text-warning">{{ comment.lecture.level }}</p>
+                          <p class="text-warning">{{ comment.lecture.level|floatformat:2 }}</p>
                         </div>
                         <div class="col-sm-9">
                           <h5 style="text-indent:2em;line-height:20pt;border:solid 1px #DDDDDD;border-radius:10px;padding:10px;word-break:break-all;">{{ comment.content }}</h5>
