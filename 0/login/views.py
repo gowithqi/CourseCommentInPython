@@ -228,9 +228,11 @@ def getUserInfluenceInfo(user):
 		r = BaeRank("UserInfluence")
 		keyword = str(user.id)
 		info = r.get(keyword)
-		res = (info['response_params']['value'], info['response_params']['rank']+1)
+		tmp =  float(User.objects.all().count() - info['response_params']['rank'] - 1) / User.objects.all().count()
+		res = (info['response_params']['value'], int(tmp*100))
 	else:
-		res = (user.influence_factor, User.objects.filter(influence_factor__gt=user.influence_factor).count()+1)
+		tmp =  float(User.objects.filter(influence_factor__lte=user.influence_factor).count()) / User.objects.all().count()
+		res = (user.influence_factor, int(tmp*100))
 	return res
 
 def sign(request):
