@@ -163,8 +163,8 @@
 		            <span class="icon-bar"></span>
 		            <span class="icon-bar"></span>
 		          </button>
-		          <a class="navbar-brand" href="/" style=" margin-top:-5px;">
-		          	<img src="{% static 'img/logo_small.png' %}" border="0" width="78" height="30" style="padding-top:0px;">
+		          <a class="navbar-brand" href="/" style=" margin-top:0px;">
+		          	<img src="{% static 'img/logo_small.png' %}" border="0" width="78" height="30" style="margin-top:-2px;">
 		          	  课程点评网</a>
 		        </div>
 		        <!-- Collect the nav links, forms, and other content for toggling -->
@@ -178,7 +178,7 @@
 		          </form>
 		          <ul class="nav navbar-nav navbar-right">
 		            <li class="dropdown">
-		              <a href={% if u.messageofcommentsuper_set.all.count %}"#" class="dropdown-toggle" data-toggle="dropdown"{% else %}"/"{% endif %} style="white-space:pre;"><span class="glyphicon glyphicon-user"></span>  {{ u.name }} <span class="badge" style="background-color:#FF7744 ;">{% if u.messageofcommentsuper_set.all.count %}{{ u.messageofcommentsuper_set.all.count }}{% endif %}</span></a>
+		              <a href={% if u.messageofcommentsuper_set.all.count %}"#" class="dropdown-toggle" data-toggle="dropdown"{% else %}"/"{% endif %} style="white-space:pre; width:130px; text-align:right;"><span class="glyphicon glyphicon-user"></span>  {{ u.name }} <span class="badge" style="background-color:#FF7744 ;">{% if u.messageofcommentsuper_set.all.count %}{{ u.messageofcommentsuper_set.all.count }}{% endif %}</span></a>
 		              {% if u.messageofcommentsuper_set.all.count %}
 		              <ul class="dropdown-menu" style="width:350px;">
 		                {% for message in u.messageofcommentsuper_set.all %}
