@@ -70,7 +70,7 @@
                   {{ message.lecture_comment.lecture.professor.name|truncatechars:10 }} 《{{ message.lecture_comment.lecture.course.name|truncatechars:12 }}》<p style="text-align:right;margin-top:-1.5em"><span class="badge" style="background-color:#00DD00;">有用 +{{ message.super_added }}</span></p>
                 </li>
                 <li>
-                  <a href="/userpage/checksupermessage/{{ message.id }}/"><blockquote style="margin-bottom:5px;"><p style="text-align:left;font-size:small;">{{ message.lecture_comment.content|truncatechars:60 }}</p><small style="text-align:right;">{{ message.lecture_comment.time|formatTime }}</small></blockquote></a>
+                  <a href="/userpage/checksupermessage/{{ message.id }}/"><blockquote style="margin-bottom:5px;"><p style="text-align:left;font-size:small;">{{ message.lecture_comment.content|truncatechars:20 }}</p><small style="text-align:right;">{{ message.lecture_comment.time|formatTime }}</small></blockquote></a>
                 </li>
                 <li class="divider"></li>
                 {% endfor %}
@@ -160,7 +160,7 @@
         </div>
 
         <div class="col-sm-6">
-          <div class="panel panel-primary">
+          <div class="panel panel-info">
             <div class="panel-heading">
               <h3 class="panel-title"><span class="glyphicon glyphicon-search"></span> 搜课神器</h3>
             </div>
