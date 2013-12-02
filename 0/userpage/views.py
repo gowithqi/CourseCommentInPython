@@ -198,6 +198,15 @@ def getRandomComment(request):
 
 	return HttpResponse(json.dumps(tmp, ensure_ascii=False, indent=4))
 
+@require_http_methods(['POST'])
+def setNickname(request):
+	user_id = checkUserLogin(request)
+	user = get_object_or_404(User, id=user_id)
+
+	user.name = request.POST['new_nickname']
+	user.save()
+	return HttpResponse("yes")
+
 def getGossipDict(gossip):
 	gossip_tmp = {}
 	gossip_tmp['gossip_id'] = gossip.id
