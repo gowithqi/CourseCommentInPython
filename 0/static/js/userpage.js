@@ -127,7 +127,7 @@ function decollect_get(that){
         }
       }
     }
-    var title="收藏的课";
+    var title="<span class='glyphicon glyphicon-bookmark'></span> 收藏的课";
     if ($("#collection_title").attr("data-number")>0)
       title+="（"+$("#collection_title").attr("data-number")+"）";
     $("#collection_title").html(title);
@@ -135,7 +135,7 @@ function decollect_get(that){
 }
 function all_collection_get(){
   $.get("/userpage/getallcollectionlectures/",function(data){
-    var obj=JSON.parse(data),str='<ul class="list-group">',title="收藏的课";
+    var obj=JSON.parse(data),str='<ul class="list-group">',title="<span class='glyphicon glyphicon-bookmark'></span> 收藏的课";
     for (var i=0;i<obj.length;i++){
       str+='<li class="list-group-item" style="border-color:#AAAAAA"><div class="row"><div class="col-sm-3"><h5><a href="/lecture/'
       +obj[i].id+'/"><strong>'+obj[i].course_name+'</strong></a></h5><p>'+obj[i].professor_name+'</p><p><a href="#" data-lid="'+obj[i].id+'" class="decollect">取消收藏</a></p></div><div class="col-sm-9">';
@@ -156,7 +156,7 @@ function all_collection_get(){
     if (obj.length>3)
       str+='<p style="text-align:right;"><a href="#" id="hide_collection">收起</a></p>';
     $("#panel_collect").html(str);
-    $("#collection_title").html(title);
+    $("#collection_title").text(title);
     $("#collection_title").attr("data-number",obj.length);
     $("#hide_collection").click(function(e){
       e.preventDefault();
