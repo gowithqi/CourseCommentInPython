@@ -128,11 +128,11 @@ function setname_post(){
 }
 function checkname(){
   if ($("#newname").val()!=""){
-    if ($("#newname").val().length<3){
+    if ($("#newname").val().length<2){
       $("#nm_prompt").html("昵称名太短！");
       $("#nm_prompt").attr("class","text-danger control-label");
     }
-    else if ($("#newname").val().length>15){
+    else if ($("#newname").val().length>20){
       $("#nm_prompt").html("昵称名太长！");
       $("#nm_prompt").attr("class","text-danger control-label");
     }
@@ -239,7 +239,7 @@ $("#eSearch").keydown(function(e){
     $(this).modal("hide");
 });
 $("#newname").focus(function(){
-  $("#helpname").html("3-15位中英字符和数字 不区分大小写");
+  $("#helpname").html("2-20位中英字符和数字 不区分大小写");
 })
 $("#newname").keydown(function(e){
   if (e.keyCode==13)

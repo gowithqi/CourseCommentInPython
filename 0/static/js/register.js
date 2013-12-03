@@ -53,7 +53,7 @@ $("#account").focus(function(){
 $("#name").focus(function(){
   if ($("#nm_prompt").html()==""&&$("#name_ok").attr("class")==""){
     $("#nm_prompt").attr("style","color:#666666;margin-bottom:-10px");
-    $("#nm_prompt").html("3-15位中英字符和数字 不区分大小写");
+    $("#nm_prompt").html("2-20位中英字符和数字 不区分大小写");
   }
 })
 $("#account").blur(function(){
@@ -79,12 +79,12 @@ $("#name").blur(function(){
     $("#nm_prompt").attr("style","");
   }
   if ($(this).val()!="")
-    if ($(this).val().length<3){
+    if ($(this).val().length<2){
       $("#nm_prompt").html("昵称名太短！");
       $("#nm_prompt").attr("style","color:#AA0000;margin-bottom:-10px");
       $("#name_ok").attr("class","");
     }
-    else if ($(this).val().length>15){
+    else if ($(this).val().length>20){
       $("#nm_prompt").html("昵称名太长！");
       $("#nm_prompt").attr("style","color:#AA0000;margin-bottom:-10px");
       $("#name_ok").attr("class","");
