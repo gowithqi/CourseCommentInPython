@@ -217,8 +217,15 @@ def userpage(request, user_id):
 	sys_achievement = getSysAchievement()
 	lectures = Lecture.objects.order_by('?')[:3]
 
-	template = loader.get_template("userpage/userpage.html")
+	if int(request.session['user_id']) == int(user_id):
+		me = user
+		template = loader.get_template("userpage/userpage.html")
+	else:
+		me = get_object_or_404(User, id = int(request.session['user_id']))
+		template = loader.get_template("userpage/hisuserpage.html")
+
 	context = RequestContext(request, {
+		'me': me,
 		'u': user,
 		'llevel': lecture_rank_level,
 		'lstudentscore': lecture_rank_student_score,
