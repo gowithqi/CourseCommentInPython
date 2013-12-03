@@ -205,7 +205,7 @@ def getRandomComment(request, length):
 def setNickname(request):
 	user_id = checkUserLogin(request)
 	user = get_object_or_404(User, id=user_id)
-	
+
 	user.name = request.POST['new_nickname']
 	user.save()
 	return HttpResponse("yes")
@@ -252,6 +252,7 @@ def getCommentDict(comment):
 	comment_tmp = {}
 	comment_tmp['comment_id'] = comment.id
 	comment_tmp['comment_user'] = comment.user.name
+	comment_tmp['comment_user_id'] = comment.user.id
 	comment_tmp['comment_content'] = comment.content
 	comment_tmp['comment_super_number'] = comment.super_number
 	comment_tmp['comment_time'] = formatTime(comment.time)
