@@ -13,7 +13,7 @@ function register_post(){
   function(){
     $(".modal-title").html("还差一步！");
     $(".modal-body").html("<h5><b>我们已向您的邮箱发送验证邮件</b></h5>");
-    $(".modal-body").append("<h5><b>请登录<a href='http://mail.sjtu.edu.cn'> mail.sjtu.edu.cn </a>查询<h4 style=\"color:red;\">（可能在垃圾邮箱中T_T）</h4></b></h5>");
+    $(".modal-body").append("<h5><b>请登录<a href='http://mail.sjtu.edu.cn'> mail.sjtu.edu.cn </a>查询，由于网络延迟，1-2分钟邮件可能才会到达，请您耐心等候<h4 style=\"color:red;\">（可能在垃圾邮箱中T_T）</h4></b></h5>");
   });
 }
 function account_get(){
