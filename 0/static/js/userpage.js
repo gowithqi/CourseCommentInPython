@@ -156,7 +156,7 @@ function all_collection_get(){
     if (obj.length>3)
       str+='<p style="text-align:right;"><a href="#" id="hide_collection">收起</a></p>';
     $("#panel_collect").html(str);
-    $("#collection_title").text(title);
+    $("#collection_title").html(title);
     $("#collection_title").attr("data-number",obj.length);
     $("#hide_collection").click(function(e){
       e.preventDefault();
@@ -268,6 +268,5 @@ $("#float_comment").mouseenter(function(){
   clearInterval(clr_refresh);
 });
 $("#float_comment").mouseleave(function(){
-  refresh_comment();
   clr_refresh=setInterval("refresh_comment()",5000);
 });
