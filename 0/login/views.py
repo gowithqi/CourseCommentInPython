@@ -146,17 +146,16 @@ def checkAccountName(request, key, content):
 		raise Http404
 
 	if ('have_register' in request.session): del request.session['have_register']
-	try:
-		if key == "account":
-			user = User.objects.get(Q(account=content))
-			if not user.formal:
-				user.delete()
-				return HttpResponse("yes")
-		else :
-			user = User.objects.get(Q(name=content))
-	except User.DoesNotExist:
-		return HttpResponse("yes")
-	return HttpResponse("no")
+	if key == "account":
+		tmp = False
+		for user in User.objects.filter(Q(account=content)):
+			tmp = tmp or user.formal
+			if not user.formal: user.delete()
+		if tmp:	return HttpResponse("no")
+		else: return HttpResponse("yes")
+	else :
+		if User.objects.filter(Q(name=content)).count() > 0: return HttpResponse("no")
+		else: return HttpResponse("yes")
 
 def setPassword(request):
 	if request.method == "GET":
