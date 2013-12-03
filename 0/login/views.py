@@ -12,7 +12,7 @@ from django.core.urlresolvers import reverse
 from django.db.models import Q
 
 from login.models import User, RegisteringUser
-from lecture.models import Lecture
+from lecture.models import Lecture, LectureCommentSuperRecord
 from comment.influence import updateUserInfluence, getSysAchievement
 
 if 'SERVER_SOFTWARE' in os.environ:
@@ -212,8 +212,8 @@ def userpage(request, user_id):
 	if not ('user_id' in request.session): return HttpResponseRedirect(reverse('login'))
 
 	user = get_object_or_404(User, id=user_id)
-	lecture_rank_level = Lecture.objects.filter(level_number__gte=LEASTCOMMITNUMBER).order_by("-level")[:RANKSIZE]
-	lecture_rank_student_score = Lecture.objects.filter(student_score_number__gte=LEASTCOMMITNUMBER).order_by("-student_score")[:RANKSIZE]
+	# lecture_rank_level = Lecture.objects.filter(level_number__gte=LEASTCOMMITNUMBER).order_by("-level")[:RANKSIZE]
+	# lecture_rank_student_score = Lecture.objects.filter(student_score_number__gte=LEASTCOMMITNUMBER).order_by("-student_score")[:RANKSIZE]
 	(user_influence_factor, user_rank) = getUserInfluenceInfo(user)
 	sys_achievement = getSysAchievement()
 	lectures = Lecture.objects.order_by('?')[:3]
@@ -221,18 +221,21 @@ def userpage(request, user_id):
 	if int(request.session['user_id']) == int(user_id):
 		top_users = User.objects.order_by("-influence_factor")[:TOP_USER_NUMBER]
 		me = user
+		comment_super_records = []
 		template = loader.get_template("userpage/userpage.html")
 	else:
 		top_users = ""
 		me = get_object_or_404(User, id = int(request.session['user_id']))
+		comment_super_records = [ t.lecture_comment.id for t in me.lecturecommentsuperrecord_set.all()]
 		template = loader.get_template("userpage/hisuserpage.html")
 
 	context = RequestContext(request, {
+		'comment_super_records': comment_super_records,
 		'me': me,
 		'top_users': top_users,
 		'u': user,
-		'llevel': lecture_rank_level,
-		'lstudentscore': lecture_rank_student_score,
+		# 'llevel': lecture_rank_level,
+		# 'lstudentscore': lecture_rank_student_score,
 		'user_influence_factor': user_influence_factor,
 		'user_rank': user_rank,
 		'sys_achievement': sys_achievement,
