@@ -70,13 +70,13 @@ function change_course_get(){
   $("#cPrevious").find("span").attr("style","");
   $("#cPrevious").prop('disabled',false);
 }*/
-var curcom=3;
+var curcom=3,clr_refresh=0;
 $(document).ready(function(){
   $.ajaxSetup({async:false});
   comment_get_all();
   $.ajaxSetup({async:true});
   refresh_comment();
-  setInterval("refresh_comment()",5000);
+  clr_refresh=setInterval("refresh_comment()",5000);
 });
 function decollect_get(that){
   $.get("/userpage/decollect/lecture/"+$(that).attr("data-lid")+"/",function(data){
@@ -263,4 +263,11 @@ $("#all_collection").click(function(e){
 $(".decollect").click(function(e){
   e.preventDefault();
   decollect_get(this);
+});
+$("#float_comment").mouseenter(function(){
+  clearInterval(clr_refresh);
+});
+$("#float_comment").mouseleave(function(){
+  refresh_comment();
+  clr_refresh=setInterval("refresh_comment()",5000);
 });
