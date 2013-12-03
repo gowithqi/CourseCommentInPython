@@ -22,6 +22,7 @@ else:
 
 LEASTCOMMITNUMBER = 3
 RANKSIZE = 10
+TOP_USER_NUMBER = 5
 
 CHECK_EMAIL_CONTENT = """您好，这里SJTU Course，我们在通过交大邮箱验证您的身份信息，请您访问以下链接来确认信息。
 		%s
@@ -218,14 +219,17 @@ def userpage(request, user_id):
 	lectures = Lecture.objects.order_by('?')[:3]
 
 	if int(request.session['user_id']) == int(user_id):
+		top_users = User.objects.order_by("-influence_factor")[:TOP_USER_NUMBER]
 		me = user
 		template = loader.get_template("userpage/userpage.html")
 	else:
+		top_users = ""
 		me = get_object_or_404(User, id = int(request.session['user_id']))
 		template = loader.get_template("userpage/hisuserpage.html")
 
 	context = RequestContext(request, {
 		'me': me,
+		'top_users': top_users,
 		'u': user,
 		'llevel': lecture_rank_level,
 		'lstudentscore': lecture_rank_student_score,
