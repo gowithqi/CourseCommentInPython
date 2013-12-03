@@ -31,7 +31,7 @@ def getLecture(request, lecture_id):
 	course = lecture.course
 	course.view_time = course.view_time + 1
 	course.save()
-	lectures = lecture.course.lecture_set.all()
+	lectures = lecture.course.lecture_set.all().order_by("-level")
 
 	comment_super_list = getSuperList(lectures, user, "comment")
 	gossip_super_list = getSuperList(lectures, user, "gossip")
