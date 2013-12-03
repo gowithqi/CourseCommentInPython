@@ -223,15 +223,17 @@ def userpage(request, user_id):
 def getUserInfluenceInfo(user):
 	res = (10, 1)
 	if 'SERVER_SOFTWARE' in os.environ:
-		from bae.api.rank import BaeRank
-		from bae.api import logging
-		r = BaeRank("UserInfluence")
-		keyword = str(user.id)
-		info = r.get(keyword)
-		tmp =  float(User.objects.all().count() - info['response_params']['rank'] - 1) / User.objects.all().count()
-		res = (info['response_params']['value'], int(tmp*100))
+		# from bae.api.rank import BaeRank
+		# from bae.api import logging
+		# r = BaeRank("UserInfluence")
+		# keyword = str(user.id)
+		# info = r.get(keyword)
+		# tmp =  float(User.objects.all().count() - info['response_params']['rank'] - 1) / User.objects.all().count()
+		# res = (info['response_params']['value'], int(tmp*100))
+		tmp =  float(User.objects.filter(influence_factor__lt=user.influence_factor).count()) / User.objects.all().count()
+		res = (user.influence_factor, int(tmp*100))
 	else:
-		tmp =  float(User.objects.filter(influence_factor__lte=user.influence_factor).count()) / User.objects.all().count()
+		tmp =  float(User.objects.filter(influence_factor__lt=user.influence_factor).count()) / User.objects.all().count()
 		res = (user.influence_factor, int(tmp*100))
 	return res
 
