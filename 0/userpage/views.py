@@ -205,7 +205,7 @@ def getRandomComment(request, length):
 def setNickname(request):
 	user_id = checkUserLogin(request)
 	user = get_object_or_404(User, id=user_id)
-
+	
 	user.name = request.POST['new_nickname']
 	user.save()
 	return HttpResponse("yes")
