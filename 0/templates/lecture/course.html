@@ -358,8 +358,8 @@
 															{% with comments=l.lecturecomment_set.all %}
 															{% for comment in comments %}
 															<tr>
-																<th style="padding-right:70px;">
-																	<p style="margin-right:-55px;">{{ comment.user.name }}</p>
+																<th style="width:100px;">
+																	<p style="margin-right:0px;">{{ comment.user.name }}</p>
 																	<span class="badge" style="background-color:#DEB887">{{ comment.user.influence_factor }}</span>
 																</th>
 																<th>
@@ -413,17 +413,17 @@
 															{% with gossips=l.gossip_set.all %}
 															{% for g in gossips %}
 															<tr>
-																<th style="width:80px">
+																<th style="width:100px">
 																	<p>有人说：</p>
 																</th>
 																<th style="width:500px">
 																	<p style="word-break:break-all;">{{ g.content }}</p>
 																	<p style="text-align:right;">{{ g.time|formatTime }}</p>
 																</th>
-																<th style="width:100px">
+																<th style="width:50px">
 																	<p style="text-align:right;"><span class="badge" style="background-color:#0066FF;" id="gossip_{{ g.id }}">{{ g.super_number }}</span></p>
 																	<input class="gossip_id" type="hidden" value="{{ g.id }}">
-																	<p onclick="gossip_good(this)" style="text-decoration:underline; cursor:pointer; color:#0066FF; margin-left:20px; text-align:right;" class="good">{% if g.id in gossip_super_list %}取消{% else %}点赞{% endif %}</p>
+																	<p onclick="gossip_good(this)" style="text-decoration:underline; cursor:pointer; color:#0066FF; text-align:right;" class="good">{% if g.id in gossip_super_list %}取消{% else %}点赞{% endif %}</p>
 																</th>
 															</tr>
 															{% empty %}
