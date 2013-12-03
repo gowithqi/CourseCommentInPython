@@ -76,6 +76,12 @@ def register(request):
 		if not ('have_register' in request.session):									
 			request.session['have_register'] = True
 			print "there is /register POST"
+			try:
+				user = User.objects.get(Q(account=request.POST['account']) | Q(name = request.POST['name']))
+				if user.formal: raise Http404
+				user.delete()
+			except User.DoesNotExist:
+				pass
 			registering_user = User.objects.create(account=request.POST['account'],
 											name = request.POST['name'],
 											password = request.POST['password'])
@@ -139,9 +145,13 @@ def checkAccountName(request, key, content):
 	if request.method != 'GET':
 		raise Http404
 
+	if ('have_register' in request.session): del request.session['have_register']
 	try:
 		if key == "account":
 			user = User.objects.get(Q(account=content))
+			if not user.formal:
+				user.delete()
+				return HttpResponse("yes")
 		else :
 			user = User.objects.get(Q(name=content))
 	except User.DoesNotExist:
