@@ -104,7 +104,7 @@ function decollect_get(that){
                 str+='<p>还没有点评。快来抢沙发！</p>';
               else{
                 str+='<h5 style="text-indent:2em;line-height:20pt;border:solid 1px #DDDDDD;border-radius:10px;padding:10px;word-break:break-all;">'+comment.comment_content+'</h5>';
-                str+='<h4 style="text-align:right;white-space:pre;"><small>'+comment.comment_user+'      '+comment.comment_time+'      有用 ('+comment.comment_super_number+')</small></h4>';
+                str+='<h4 style="text-align:right;white-space:pre;"><small><a href="/'+comment.comment_user_id+'/">'+comment.comment_user+'</a>      '+comment.comment_time+'      有用 ('+comment.comment_super_number+')</small></h4>';
               }
               str+='</div></div></li>';
             }
@@ -134,7 +134,7 @@ function decollect_get(that){
   });
 }
 function all_collection_get(){
-  $.get("/userpage/getallcollectionlectures/",function(data){
+  $.get("/userpage/getcollectionlectures/1/0",function(data){
     var obj=JSON.parse(data),str='<ul class="list-group">',title="<span class='glyphicon glyphicon-bookmark'></span> 收藏的课";
     for (var i=0;i<obj.length;i++){
       str+='<li class="list-group-item" style="border-color:#AAAAAA"><div class="row"><div class="col-sm-3"><h5><a href="/lecture/'
@@ -144,7 +144,7 @@ function all_collection_get(){
         str+='<p>还没有点评。快来抢沙发！</p>';
       else{
         str+='<h5 style="text-indent:2em;line-height:20pt;border:solid 1px #DDDDDD;border-radius:10px;padding:10px;word-break:break-all;">'+comment.comment_content+'</h5>';
-        str+='<h4 style="text-align:right;white-space:pre;"><small>'+comment.comment_user+'      '+comment.comment_time+'      有用 ('+comment.comment_super_number+')</small></h4>';
+        str+='<h4 style="text-align:right;white-space:pre;"><small><a href="/'+comment.comment_user_id+'/">'+comment.comment_user+'</a>      '+comment.comment_time+'      有用 ('+comment.comment_super_number+')</small></h4>';
       }
       str+='</div></div></li>';
     }
@@ -184,7 +184,7 @@ function comment_get_all(){
         $("#professor_name"+i).html(obj.lecture.professor_name);
         $("#course_level"+i).html(obj.lecture.level);
         $("#comment_content"+i).html(obj.comment_content);
-        $("#comment_info"+i).html(obj.comment_user+"      "+obj.comment_time+"      有用 ("+obj.comment_super_number+")");
+        $("#comment_info"+i).html("<a href='/"+obj.comment_user_id+"/'>"+obj.comment_user+"</a>      "+obj.comment_time+"      有用 ("+obj.comment_super_number+")");
       }
     );
   }
@@ -197,7 +197,7 @@ function comment_get_one(){
     $("#professor_name"+curcom).html(obj.lecture.professor_name);
     $("#course_level"+curcom).html(obj.lecture.level);
     $("#comment_content"+curcom).html(obj.comment_content);
-    $("#comment_info"+curcom).html(obj.comment_user+"      "+obj.comment_time+"      有用 ("+obj.comment_super_number+")");
+    $("#comment_info"+curcom).html("<a href='/"+obj.comment_user_id+"/'>"+obj.comment_user+"</a>      "+obj.comment_time+"      有用 ("+obj.comment_super_number+")");
     var tmpcom=curcom-1,height=$("#comment"+curcom).innerHeight();
     if (tmpcom==0)
       tmpcom=3;

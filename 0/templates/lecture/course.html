@@ -364,7 +364,7 @@
 															{% for comment in comments %}
 															<tr>
 																<th style="width:100px;">
-																	<p style="margin-right:0px;">{{ comment.user.name }}</p>
+																	<p style="margin-right:0px;"><a href="/{{ comment.user.id }}/">{{ comment.user.name }}</a></p>
 																	<span class="badge" style="background-color:#DEB887">{{ comment.user.influence_factor }}</span>
 																</th>
 																<th>
