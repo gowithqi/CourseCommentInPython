@@ -12,25 +12,12 @@ function auto_complete_post(){
       var s=data.split("\n");
       $("#complete").html(function(){
         var list="",l=$("#search").val().length;
-        if (/[\u4e00-\u9fa5]/.test($("#search").val())){
-          for (var i=0;i<s.length;i++){
-            list=list+"<li><a href='#' style='padding-left:13px;'>";
-            for (var j=0;j<l;j++)
-              list=list+s[i][j];
-            list=list+"<b>";
-            for (var j=l;j<s[i].length;j++)
-              list=list+s[i][j];
-            list=list+"</b></a></li>";
-          }
-        }
-        else{
-          for (var i=0;i<s.length;i++)
-            list=list+"<li><a href='#' style='padding-left:13px;'>"+s[i]+"</a></li>";
-        }
+        for (var i=0;i<s.length;i++)
+          list=list+"<li><a href='#' style='padding-left:13px;'>"+s[i]+"</a></li>";
         return list;
       });
       $("#complete").find("a").mousedown(function(){
-        $("#search").val($(this).html().replace("<b>","").replace("</b>",""));
+        $("#search").val($(this).html());
         $("#complete").hide();
         hid=1;
         search_post();
@@ -212,7 +199,7 @@ $("#search").keydown(function(e){
     if (nxt>=0){
       var li=$("#complete").children().eq(nxt).find("a");
       li.attr("style","padding-left:13px;color:#333333;background-color:#ebebeb;");
-      $("#search").val(li.html().replace("<b>","").replace("</b>",""));
+      $("#search").val(li.html());
     }
     else
       $("#search").val(origin_val);
