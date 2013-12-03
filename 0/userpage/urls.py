@@ -14,5 +14,6 @@ urlpatterns = patterns('',
 	url(r'^getrandomcomment/(?P<length>\d+)/$', views.getRandomComment),
 	url(r'^setnickname/$', views.setNickname),
 	url(r'^setstyle/$', views.setStyle),
+	url(r'^freshuserinfluence/$', views.freshUserInfluence),
 )
 

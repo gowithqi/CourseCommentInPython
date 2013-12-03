@@ -9,6 +9,7 @@ from lecture.models import Course, Lecture, LectureComment, LectureCommentSuperR
 from login.models import User
 from login.views import checkUserLogin
 from comment.models import MessageOfCommentSuper
+from comment.influence import updateUserInfluence
 
 import json
 import random
@@ -193,7 +194,7 @@ def getRandomComment(request, length):
 	c = LectureComment.objects.order_by('?')[0]
 	# c = LectureComment.objects.get(id=57)
 	tmp = getCommentDict(c)
-	if len(tmp['comment_content']) > COMMENT_CUT_LENGTH:
+	if len(tmp['comment_content']) > length:
 		tmp['comment_content'] = tmp['comment_content'][:length] + "..."
 	tmp_l = getLectureDict(c.lecture)
 	tmp['lecture'] = tmp_l
@@ -217,6 +218,25 @@ def setStyle(request):
 	if not (str(request.POST['style']) in ['zzq', 'lyw']): raise Http404
 	user.style = str(request.POST['new_nickname'])
 	user.save()
+	return HttpResponse("yes")
+
+@require_http_methods(['GET'])
+def freshUserInfluence(request):
+	user_id = checkUserLogin(request)
+	if int(user_id) != 14: raise Http404
+
+	from comment.views import COMMENT_SUPER_VALUE_INFLUENCE, COMMENT_VALUE_INFLUENCE
+	from gossip.views import GOSSIP_SUPER_VALUE_INFLUENCE
+	for u in User.objects.all():
+		t = u.influence_factor
+		updateUserInfluence(u, (-1*t))
+		tmp = 0
+		for c in u.lecturecomment_set.all():
+			tmp += COMMENT_VALUE_INFLUENCE
+			tmp += c.lecturecommentsuperrecord_set.all().count() * COMMENT_SUPER_VALUE_INFLUENCE
+		for g in u.gossip_set.all():
+			tmp += g.gossipsuperrecord_set.all().count() * GOSSIP_SUPER_VALUE_INFLUENCE
+		updateUserInfluence(u, tmp)
 	return HttpResponse("yes")
 
 def getGossipDict(gossip):
@@ -243,7 +263,7 @@ def getLectureDict(l):
 	tmp['number'] = l.course.number
 	tmp['course_name'] = l.course.name
 	tmp['professor_name'] = l.professor.name
-	tmp['level'] = "%.1f" % l.level
+	tmp['level'] = "%.2f" % l.level
 	return tmp
 
 def formatTime(i_time):

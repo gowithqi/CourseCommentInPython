@@ -163,8 +163,8 @@
 		            <span class="icon-bar"></span>
 		            <span class="icon-bar"></span>
 		          </button>
-		          <a class="navbar-brand" href="/" style=" margin-top:-5px;">
-		          	<img src="{% static 'img/logo_small.png' %}" border="0" width="78" height="30" style="margin-top:-2px;">
+		          <a class="navbar-brand" href="/" style=" margin-top:-3px;">
+            	  <img src="{% static 'img/logo_small.png' %}" border="0" width="78" height="30" style="margin-top:-3px;">
 		          	  课程点评网</a>
 		        </div>
 		        <!-- Collect the nav links, forms, and other content for toggling -->
@@ -265,7 +265,7 @@
 				<ul class="nav nav-tabs" id="tabs">
 					{% for l in lectures %}
 						<li class="{% ifequal l.id focus_lecture_id %} active {% endifequal %}">
-							<a data-toggle="tab" href="#{{ l.professor.id }}">{{ l.professor.name }} <span class="badge" style="background-color:#5599FF">{{ l.level|floatformat:1 }}</span></a>
+							<a data-toggle="tab" href="#{{ l.professor.id }}">{{ l.professor.name }} <span class="badge" style="background-color:#5599FF">{{ l.level|floatformat:2 }}</span></a>
 						</li>
 					{% endfor %}
 				</ul>
@@ -281,7 +281,7 @@
 									<div class="col-lg-2">	
 										<p style="text-align:right; padding-top:6px;"><br/>课程基本信息</p>
 										<p style="text-align:right; font-weight:bold; padding-top:7px;">平均期末总评:&nbsp;{{ l.student_score|floatformat:2 }}</p>
-										<p style="text-align:right; font-weight:bold; padding-top:6px;">评价:&nbsp;{{ l.level|floatformat:1 }}</p>
+										<p style="text-align:right; font-weight:bold; padding-top:6px;">评价:&nbsp;{{ l.level|floatformat:2 }}</p>
 										<p style="text-align:right; padding-top:25px;">已有{{ l.level_number }}人评价</p>
 									</div>
 									<div class="col-lg-4">
@@ -358,8 +358,8 @@
 															{% with comments=l.lecturecomment_set.all %}
 															{% for comment in comments %}
 															<tr>
-																<th style="padding-right:70px;">
-																	<p style="margin-right:-55px;">{{ comment.user.name }}</p>
+																<th style="width:100px;">
+																	<p style="margin-right:0px;">{{ comment.user.name }}</p>
 																	<span class="badge" style="background-color:#DEB887">{{ comment.user.influence_factor }}</span>
 																</th>
 																<th>
@@ -413,17 +413,17 @@
 															{% with gossips=l.gossip_set.all %}
 															{% for g in gossips %}
 															<tr>
-																<th style="width:80px">
+																<th style="width:100px">
 																	<p>有人说：</p>
 																</th>
 																<th style="width:500px">
 																	<p style="word-break:break-all;">{{ g.content }}</p>
 																	<p style="text-align:right;">{{ g.time|formatTime }}</p>
 																</th>
-																<th style="width:100px">
+																<th style="width:50px">
 																	<p style="text-align:right;"><span class="badge" style="background-color:#0066FF;" id="gossip_{{ g.id }}">{{ g.super_number }}</span></p>
 																	<input class="gossip_id" type="hidden" value="{{ g.id }}">
-																	<p onclick="gossip_good(this)" style="text-decoration:underline; cursor:pointer; color:#0066FF; margin-left:20px; text-align:right;" class="good">{% if g.id in gossip_super_list %}取消{% else %}点赞{% endif %}</p>
+																	<p onclick="gossip_good(this)" style="text-decoration:underline; cursor:pointer; color:#0066FF; text-align:right;" class="good">{% if g.id in gossip_super_list %}取消{% else %}点赞{% endif %}</p>
 																</th>
 															</tr>
 															{% empty %}
