@@ -22,7 +22,7 @@ else:
 
 LEASTCOMMITNUMBER = 3
 RANKSIZE = 10
-TOP_USER_NUMBER = 5
+TOP_USER_NUMBER = 10
 
 CHECK_EMAIL_CONTENT = """您好，这里SJTU Course，我们在通过交大邮箱验证您的身份信息，请您访问以下链接来确认信息。
 		%s
