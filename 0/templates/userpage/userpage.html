@@ -104,6 +104,41 @@
         </div><!-- /.modal-dialog -->
       </div><!-- /.modal -->
 
+      <!-- encouragement -->
+      <div class="modal fade" id="encourage" tabindex="-1">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h4 class="modal-title">
+                {% if u.lecturecomment_set.all.count < 2 %}
+                  {% if u.lecturecomment_set.all.count > 0 %}
+                  再次欢迎～
+                  {% else %}
+                  欢迎
+                  {% endif %}
+                {% endif %}
+              </h4>
+            </div>
+            <div class="modal-body">
+              {% if u.lecturecomment_set.all.count < 2 %}
+                {% if u.lecturecomment_set.all.count > 0 %}
+                加油！你已经写过一条点评了！再来一条吧！<br/>
+                （在您写过<strong>2条点评</strong>后（不是吐槽哦），本弹框就不骚扰你啦～）
+                {% else %}
+                初来乍到，还没有留下过点评吧～<br/>
+                回忆那些让你惊喜或失望的选课经历<br/>
+                留下你的独到见解，帮助学弟学妹哦亲～<br/>
+                （在您写过<strong>2条点评</strong>后（不是吐槽哦），本弹框就不骚扰你啦～）
+                {% endif %}
+              {% endif %}
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-primary" data-dismiss="modal">去写点评</button>
+            </div>
+          </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+      </div><!-- /.modal -->
+
       <!-- set name -->
       <div class="modal fade" id="sName" tabindex="-1">
         <div class="modal-dialog">
@@ -149,7 +184,7 @@
             {% endfor %}
           </ul>
         </li>
-        <p style="text-align:right;margin-top:-1.4em;margin-bottom:0;"><a href="javascript:void(0)" onclick="addfavorite()">收藏本站</a></p>
+        <p style="text-align:right;margin-top:-1.4em;margin-bottom:0;"><a data-toggle="tooltip" title="谢谢您的支持！请手动添加书签T_T" href="javascript:void(0)" onclick="addfavorite()">收藏本站</a></p>
       </ol>
 
       <div class="row">
@@ -440,5 +475,6 @@
     <script src="{% static 'js/myjquery.js' %}"></script>
     <script src="{% static 'js/userpage.js' %}"></script>
     <script src="{% static 'js/search.js' %}"></script>
+    {% if u.lecturecomment_set.all.count < 2 %}<script>$("#encourage").modal("show");</script>{% endif %}
 	</body>
 </html>
