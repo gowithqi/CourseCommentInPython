@@ -194,7 +194,7 @@
             </div>
             <div class="panel-body col-sm-offset-1">
               <form style="padding-top:15px;padding-bottom:15px">
-                <div class="form-group dropdown col-sm-10">
+                <div class="form-group dropdown col-xs-10">
                   <input type="text" class="form-control" id="search" autocomplete="off" placeholder="来这里找课！">
                   <ul class="dropdown-menu" id="complete" style="width:94.5%;margin-top:-1px;margin-left:15px"></ul>
                 </div>
@@ -206,7 +206,7 @@
       </div>
 
       <div class="row">
-        <div class="col-xs-6">
+        <div class="col-sm-6">
           <div class="panel panel-danger">
             <div class="panel-heading">
               <h3 class="panel-title"><span class="glyphicon glyphicon-fire"></span> 热门点评</h3>
@@ -257,7 +257,7 @@
           </div>
         </div>
 
-        <div class="col-xs-6">
+        <div class="col-sm-6">
           <div class="panel panel-warning">
             <div class="panel-heading">
               <h3 class="panel-title" id="collection_title" data-number="{{ u.userlecturecollection_set.all.count }}"><span class="glyphicon glyphicon-bookmark"></span> 收藏的课{% if u.userlecturecollection_set.all.count > 0 %}（{{ u.userlecturecollection_set.all.count }}）{% endif %}</h3>
