@@ -110,25 +110,24 @@
           <div class="modal-content">
             <div class="modal-header">
               <h4 class="modal-title">
-                {% if u.lecturecomment_set.all.count < 2 %}
-                  {% if u.lecturecomment_set.all.count > 0 %}
-                  再次欢迎～
-                  {% else %}
+                {% if u.lecturecomment_set.all.count < 3 %}
                   欢迎
-                  {% endif %}
                 {% endif %}
               </h4>
             </div>
             <div class="modal-body">
-              {% if u.lecturecomment_set.all.count < 2 %}
-                {% if u.lecturecomment_set.all.count > 0 %}
-                加油！你已经写过一条点评了！再来一条吧！<br/>
-                （在您写过<strong>2条点评</strong>后（不是吐槽哦），本弹框就不骚扰你啦～）
+              {% if u.lecturecomment_set.all.count < 3 %}
+                {% if u.lecturecomment_set.all.count < 1 %}
+                SJTU Course是交大人互帮互助的平台。<br/>
+                大家都期待着你对课程的独到见解。<br/>
+                <br/>
+                <strong>一两句话就可以在SJTU留下你专属的印记哦～</strong>
                 {% else %}
-                初来乍到，还没有留下过点评吧～<br/>
-                回忆那些让你惊喜或失望的选课经历<br/>
-                留下你的独到见解，帮助学弟学妹哦亲～<br/>
-                （在您写过<strong>2条点评</strong>后（不是吐槽哦），本弹框就不骚扰你啦～）
+                SJTU Course是交大人互帮互助的平台。<br/>
+                大家都期待着你对课程的独到见解。<br/>
+                <br/>
+                你已点评了<strong>{{ u.lecturecomment_set.all.count }}</strong>门课程，再想想还有什么印象深刻的课吗。<br/>
+                点评3条，小框框就不会再烦你了>_< 
                 {% endif %}
               {% endif %}
             </div>
@@ -475,6 +474,6 @@
     <script src="{% static 'js/myjquery.js' %}"></script>
     <script src="{% static 'js/userpage.js' %}"></script>
     <script src="{% static 'js/search.js' %}"></script>
-    {% if u.lecturecomment_set.all.count < 2 %}<script>$("#encourage").modal("show");</script>{% endif %}
+    {% if u.lecturecomment_set.all.count < 3 %}<script>$("#encourage").modal("show");</script>{% endif %}
 	</body>
 </html>
