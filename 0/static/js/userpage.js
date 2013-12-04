@@ -270,3 +270,6 @@ $("#float_comment").mouseenter(function(){
 $("#float_comment").mouseleave(function(){
   clr_refresh=setInterval("refresh_comment()",5000);
 });
+$("#favor").mouseenter(function(){
+  $('#favor').tooltip('show');
+});

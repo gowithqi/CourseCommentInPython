@@ -96,7 +96,7 @@
                     </div>
                     <div class="col-sm-9">
                       <h5 style="text-indent:2em;line-height:20pt;border:solid 1px #DDDDDD;border-radius:10px;padding:10px;word-break:break-all;">{{ comment.content }}</h5>
-                      <h4 style="text-align:right;white-space:pre;"><small>{{ comment.time|formatTime }}      <a href="#" data-num="{{ forloop.counter }}" data-comid="{{ comment.id }}" class="comm" data-super="{% if comment.id in comment_super_records %}1{% else %}0{% endif %}">有用</a> (<span id="number{{ forloop.counter }}">{{ comment.super_number }}</span>)</small></h4>
+                      <h4 style="text-align:right;white-space:pre;"><small>{{ comment.time|formatTime }}      <a href="#" data-num="{{ forloop.counter }}" data-comid="{{ comment.id }}" class="comm" data-super="{% if comment.id in comment_super_records %}1{% else %}0{% endif %}">{% if comment.id in comment_super_records %}取消{% else %}有用{% endif %}</a> (<span id="number{{ forloop.counter }}">{{ comment.super_number }}</span>)</small></h4>
                     </div>
                   </div>
                 </li>
@@ -160,13 +160,6 @@
     <script src="{% static 'js/myjquery.js' %}"></script>
     <script src="{% static 'js/search.js' %}"></script>
     <script>
-      $(".comm").mouseenter(function(){
-        if ($(this).attr("data-super")==1)
-          $(this).html("取消");
-      });
-      $(".comm").mouseleave(function(){
-        $(this).html("有用");
-      });
       $(".comm").click(function(e){
         e.preventDefault();
         var nu=Number($("#number"+$(this).attr("data-num")).html());

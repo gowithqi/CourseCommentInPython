@@ -126,7 +126,7 @@
                 SJTU Course是交大人互帮互助的平台。<br/>
                 大家都期待着你对课程的独到见解。<br/>
                 <br/>
-                你已点评了<strong>{{ u.lecturecomment_set.all.count }}</strong>门课程，再想想还有什么印象深刻的课吗。<br/>
+                你已点评了<strong>{{ u.lecturecomment_set.all.count }}</strong>门课程，再想想还有什么印象深刻的课吗？<br/>
                 点评3条，小框框就不会再烦你了>_< 
                 {% endif %}
               {% endif %}
@@ -183,7 +183,7 @@
             {% endfor %}
           </ul>
         </li>
-        <p style="text-align:right;margin-top:-1.4em;margin-bottom:0;"><a data-toggle="tooltip" title="谢谢您的支持！请手动添加书签T_T" href="javascript:void(0)" onclick="addfavorite()">收藏本站</a></p>
+        <p style="text-align:right;margin-top:-1.4em;margin-bottom:0;"><a id="favor" data-toggle="tooltip" data-placement="bottom" title="谢谢您的支持！请手动添加书签或牢记sjtucourse.duapp.com！" href="javascript:void(0)" onclick="addfavorite()">收藏本站</a></p>
       </ol>
 
       <div class="row">
