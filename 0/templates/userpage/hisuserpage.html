@@ -96,7 +96,7 @@
                     </div>
                     <div class="col-sm-9">
                       <h5 style="text-indent:2em;line-height:20pt;border:solid 1px #DDDDDD;border-radius:10px;padding:10px;word-break:break-all;">{{ comment.content }}</h5>
-                      <h4 style="text-align:right;white-space:pre;"><small>{{ comment.time|formatTime }}      有用 ({{ comment.super_number }})</small></h4>
+                      <h4 style="text-align:right;white-space:pre;"><small>{{ comment.time|formatTime }}      <a href="#" data-num="{{ forloop.counter }}" data-comid="{{ comment.id }}" class="comm" data-super="{% if comment.id in comment_super_records %}1{% else %}0{% endif %}">有用</a> (<span id="number{{ forloop.counter }}">{{ comment.super_number }}</span>)</small></h4>
                     </div>
                   </div>
                 </li>
@@ -112,7 +112,7 @@
         <div class="col-sm-6">
           <div class="panel panel-warning">
             <div class="panel-heading">
-              <h3 class="panel-title" id="collection_title" data-number="{{ u.userlecturecollection_set.all.count }}"><span class="glyphicon glyphicon-bookmark"></span> 收藏的课{% if u.userlecturecollection_set.all.count > 0 %}（{{ u.userlecturecollection_set.all.count }}）{% endif %}</h3>
+              <h3 class="panel-title" id="collection_title" data-number="{{ u.userlecturecollection_set.all.count }}"><span class="glyphicon glyphicon-bookmark"></span> {{ u.name }}的收藏{% if u.userlecturecollection_set.all.count > 0 %}（{{ u.userlecturecollection_set.all.count }}）{% endif %}</h3>
             </div>
             <div class="panel-body" id="panel_collect">
               {% if u.userlecturecollection_set.all.count > 0 %}
@@ -159,5 +159,31 @@
     <script src="{% static 'js/bootstrap.min.js' %}"></script>
     <script src="{% static 'js/myjquery.js' %}"></script>
     <script src="{% static 'js/search.js' %}"></script>
+    <script>
+      $(".comm").mouseenter(function(){
+        if ($(this).attr("data-super")==1)
+          $(this).html("取消");
+      });
+      $(".comm").mouseleave(function(){
+        $(this).html("有用");
+      });
+      $(".comm").click(function(e){
+        e.preventDefault();
+        var nu=Number($("#number"+$(this).attr("data-num")).html());
+        if ($(this).attr("data-super")==1){
+          $.get("/comment/desuper/"+$(this).attr("data-comid")+"/");
+          nu-=1;
+          $(this).attr("data-super","0");
+          $(this).html("有用");
+        }
+        else{
+          $.get("/comment/super/"+$(this).attr("data-comid")+"/");
+          nu+=1;
+          $(this).attr("data-super","1");
+          $(this).html("取消");
+        }
+        $("#number"+$(this).attr("data-num")).html(nu);
+      });
+    </script>
 	</body>
 </html>
