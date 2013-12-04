@@ -25,7 +25,7 @@
 	<body>
     {% csrf_token %}
     <div class="container">
-      <nav class="navbar navbar-inverse navbar-fixed-top" style="width:84.5%;MARGIN-RIGHT: auto;MARGIN-LEFT: auto;TEXT-ALIGN: center;">
+      <nav class="navbar navbar-inverse navbar-fixed-top" style="max-width:1140px;MARGIN-RIGHT: auto;MARGIN-LEFT: auto;TEXT-ALIGN: center;">
         <!-- Brand and toggle get grouped for better mobile display -->
         <div class="navbar-header">
           <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navcol">
@@ -89,12 +89,12 @@
                 {% for comment in u.lecturecomment_set.all|dictsortreversed:"time" %}
                 <li class="list-group-item" style="border-color:#AAAAAA">
                   <div class="row">
-                    <div class="col-sm-3">
+                    <div class="col-xs-3">
                       <h5><a href="/lecture/{{ comment.lecture.id }}"><strong>{{ comment.lecture.course.name }}</strong></a></h5>
                       <p>{{ comment.lecture.professor.name }}</p>
                       <p class="text-warning">{{ comment.lecture.level|floatformat:2 }}</p>
                     </div>
-                    <div class="col-sm-9">
+                    <div class="col-xs-9">
                       <h5 style="text-indent:2em;line-height:20pt;border:solid 1px #DDDDDD;border-radius:10px;padding:10px;word-break:break-all;">{{ comment.content }}</h5>
                       <h4 style="text-align:right;white-space:pre;"><small>{{ comment.time|formatTime }}      <a href="#" data-num="{{ forloop.counter }}" data-comid="{{ comment.id }}" class="comm" data-super="{% if comment.id in comment_super_records %}1{% else %}0{% endif %}">{% if comment.id in comment_super_records %}取消{% else %}有用{% endif %}</a> (<span id="number{{ forloop.counter }}">{{ comment.super_number }}</span>)</small></h4>
                     </div>
@@ -120,11 +120,11 @@
                 {% for collectionrecord in u.userlecturecollection_set.all %}
                 <li class="list-group-item" style="border-color:#AAAAAA">
                   <div class="row">
-                    <div class="col-sm-3">
+                    <div class="col-xs-3">
                       <h5><a href="/lecture/{{ collectionrecord.lecture.id }}/"><strong>{{ collectionrecord.lecture.course.name }}</strong></a></h5>
                       <p>{{ collectionrecord.lecture.professor.name }}</p>
                     </div>
-                    <div class="col-sm-9">
+                    <div class="col-xs-9">
                       {% for c in collectionrecord.lecture.lecturecomment_set.all|slice:":1" %}
                       <h5 style="text-indent:2em;line-height:20pt;border:solid 1px #DDDDDD;border-radius:10px;padding:10px;word-break:break-all;">{{ c.content|truncatechars:30 }}</h5>
                       <h4 style="text-align:right;white-space:pre;"><small>{{ c.user.name }}      {{ c.time|formatTime }}      有用 ({{ c.super_number }})</small></h4>
@@ -145,7 +145,7 @@
       </div>
 
       <div class="row" style="background-color:#FFFFFF;color:black">
-        <div class="col-sm-12">
+        <div class="col-xs-12">
           <p style="color:#AAAAAA;text-align:center;margin-top:40px;">&#169; 2013 CourseComment Group<br/>联系我们：coursecomment@groups.163.com</p>
         </div>
       </div>

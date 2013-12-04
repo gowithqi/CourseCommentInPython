@@ -155,7 +155,7 @@
 		<div class="span12">
 
 			<!--顶部导航-->
-		    <nav class="navbar navbar-inverse navbar-fixed-top" style="width:84.5%;MARGIN-RIGHT: auto;MARGIN-LEFT: auto;TEXT-ALIGN: center;">
+		    <nav class="navbar navbar-inverse navbar-fixed-top" style="max-width:1140px;MARGIN-RIGHT: auto;MARGIN-LEFT: auto;TEXT-ALIGN: center;">
 		        <!-- Brand and toggle get grouped for better mobile display -->
 		        <div class="navbar-header">
 		          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navcol">
@@ -180,7 +180,7 @@
 		            <li class="dropdown">
 		              <a href={% if u.messageofcommentsuper_set.all.count %}"#" class="dropdown-toggle" data-toggle="dropdown"{% else %}"/"{% endif %} style="white-space:pre;"><span class="glyphicon glyphicon-user"></span>  {{ u.name }} <span class="badge" style="background-color:#FF7744 ;">{% if u.messageofcommentsuper_set.all.count %}{{ u.messageofcommentsuper_set.all.count }}{% endif %}</span></a>
 		              {% if u.messageofcommentsuper_set.all.count %}
-		              <ul class="dropdown-menu" style="width:350px;margin-top:4px;">
+		              <ul class="dropdown-menu" style="width:350px;margin-top:4px;max-height:400px;overflow:auto;overflow-x:hidden;">
 		                {% for message in u.messageofcommentsuper_set.all reversed %}
 		                <li class="dropdown-header" style="text-align:left;">
 		                  {{ message.lecture_comment.lecture.professor.name|truncatechars:10 }} 《{{ message.lecture_comment.lecture.course.name|truncatechars:12 }}》<p style="text-align:right;margin-top:-1.5em"><span class="badge" style="background-color:#00DD00;">有用 +{{ message.super_added }}</span></p>
@@ -283,13 +283,13 @@
 				  			<!--老师的得分和用户的评分 -->
 							<div  class="container">
 								<div class="row" style="background-color:#F5F5F5;border: 1px solid #F5F5F5;border-radius: 6px;">
-									<div class="col-lg-2">	
+									<div class="col-xs-2">	
 										<p style="text-align:right; padding-top:6px;"><br/>课程基本信息</p>
 										<p style="text-align:right; font-weight:bold; padding-top:7px;">平均期末总评:&nbsp;{{ l.student_score|floatformat:2 }}</p>
 										<p style="text-align:right; font-weight:bold; padding-top:6px;">评价:&nbsp;{{ l.level|floatformat:2 }}</p>
 										<p style="text-align:right; padding-top:25px;">已有{{ l.level_number }}人评价</p>
 									</div>
-									<div class="col-lg-4">
+									<div class="col-xs-4">
 										<p><br/><strong style="font-size:20px; color:#553030;">分享</strong>您的得分和评分</p>
 										<form>
 											<input class="form-inline rs_content" type="text" style="width:70px" placeholder="期末总评"> 
@@ -322,7 +322,7 @@
 										  <div class="progress-bar progress-bar-success" style="width: {{ l.level_5_number|div:l.level_number }}%;"></div>
 										</div>
 									</div>
-									<div class="col-lg-6" style="text-align:left;">
+									<div class="col-xs-6" style="text-align:left;">
 										<p><br/>想持续关注这门课,可以把它加入您的收藏栏</p>
 										<input class="l_id" type="hidden" value="{{ l.id }}">
 										{% if l.id in lecture_collection %}
@@ -337,7 +337,7 @@
 							<br/>
 							<!-- 点评和吐槽墙 -->
 							<div class="row">
-								<div class="col-lg-2" style="text-align:right;"> 
+								<div class="col-xs-2" style="text-align:right;"> 
 									<ul class="nav nav-pills nav-stacked" style="max-width: 150px;">
 										<!--如果觉得底色太深可把以下两个li标签中的全部颜色代码都换成#F5F5F5-->
 										<li class="active success" style="background-color:#F2F2F2;border: 0px solid #DCDCFA;border-radius: 6px;">
@@ -349,14 +349,14 @@
 									</ul>
 								</div>
 								<!--每个tab的具体内容 -->
-								<div class="col-lg-10"> 
+								<div class="col-xs-10"> 
 								   <div class="tab-content">
 
 								  	<div class="tab-pane fade in active" id="{{ l.professor.id }}_Comment_Page">
 								  		<legend>点评</legend>
 										<div class="container">
 											<div class="row">
-												<div class="col-lg-9">
+												<div class="col-xs-9">
 													<table class="table table-striped">
 														<thead></thead>
 														<tbody>
@@ -384,7 +384,7 @@
 														</tbody>
 													</table>
 												</div>
-												<div class="col-lg-3"></div>
+												<div class="col-xs-3"></div>
 											</div>
 										</div>
 										<legend></legend>
@@ -395,10 +395,10 @@
 												  <textarea class="form-control comment_content" rows="3" style="width:60%" placeholder="您正在给{{ l.professor.name }}老师的课添加点评"></textarea>
 												  <input class="l_id" type="hidden" value="{{ l.id }}">
 												  <div class="row">
-													<div class="col-lg-6">
+													<div class="col-xs-6">
 														请不要超过300字
 													</div>
-													<div class="col-lg-6">
+													<div class="col-xs-6">
 														<br/>
 												  		<button type="button" class="btn btn-primary btn-sm comment_submit">提交点评</button>
 												  	</div>
@@ -411,7 +411,7 @@
 								  		<legend>槽= =</legend>
 										<div class="container">
 											<div class="row">
-												<div class="col-lg-9">
+												<div class="col-xs-9">
 													<table class="table table-striped">
 														<thead></thead>
 														<tbody>
@@ -438,7 +438,7 @@
 														</tbody>
 													</table>
 												</div>
-												<div class="col-lg-3"></div>
+												<div class="col-xs-3"></div>
 											</div>
 										</div>
 										<legend></legend>
@@ -449,10 +449,10 @@
 												  <textarea class="form-control wall_content" rows="3" style="width:60%" placeholder="您正在吐槽{{ l.professor.name }}老师的课"></textarea>
 												  <input class="l_id" type="hidden" value="{{ l.id }}">
 												  <div class="row">
-													<div class="col-lg-6">
+													<div class="col-xs-6">
 														请不要超过300字
 													</div>
-													<div class="col-lg-6">
+													<div class="col-xs-6">
 														<br/>
 												  		<button type="button" class="btn btn-primary btn-sm wall_submit">提交吐槽</button>
 												  	</div>

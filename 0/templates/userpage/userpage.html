@@ -25,7 +25,7 @@
 	<body>
     {% csrf_token %}
     <div class="container">
-      <nav class="navbar navbar-inverse navbar-fixed-top" style="width:84.5%;MARGIN-RIGHT: auto;MARGIN-LEFT: auto;TEXT-ALIGN: center;">
+      <nav class="navbar navbar-inverse navbar-fixed-top" style="max-width:1140px;MARGIN-RIGHT: auto;MARGIN-LEFT: auto;TEXT-ALIGN: center;">
         <!-- Brand and toggle get grouped for better mobile display -->
         <div class="navbar-header">
           <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navcol">
@@ -68,7 +68,7 @@
             <li class="dropdown">
               <a href={% if u.messageofcommentsuper_set.all.count %}"#" class="dropdown-toggle" data-toggle="dropdown"{% else %}"/"{% endif %} style="white-space:pre;"><span class="glyphicon glyphicon-user"></span>  {{ u.name }} <span class="badge" style="background-color:#FF7744 ;">{% if u.messageofcommentsuper_set.all.count %}{{ u.messageofcommentsuper_set.all.count }}{% endif %}</span></a>
               {% if u.messageofcommentsuper_set.all.count %}
-              <ul class="dropdown-menu" style="width:350px;margin-top:4px;">
+              <ul class="dropdown-menu" style="width:350px;margin-top:4px;max-height:400px;overflow:auto;overflow-x:hidden;">
                 {% for message in u.messageofcommentsuper_set.all reversed %}
                 <li class="dropdown-header" style="text-align:left;">
                   {{ message.lecture_comment.lecture.professor.name|truncatechars:10 }} 《{{ message.lecture_comment.lecture.course.name|truncatechars:12 }}》<p style="text-align:right;margin-top:-1.5em"><span class="badge" style="background-color:#00DD00;">有用 +{{ message.super_added }}</span></p>
@@ -149,14 +149,14 @@
             <div class="modal-body">
               <form class="form-horizontal" role="form">
                 <div class="form-group">
-                  <label class="col-sm-2 control-label">旧昵称</label>
-                  <div class="col-sm-10">
+                  <label class="col-xs-2 control-label">旧昵称</label>
+                  <div class="col-xs-10">
                     <p class="form-control-static">{{ u.name }}</p>
                   </div>
                 </div>
                 <div class="form-group">
-                  <label for="newname" class="col-sm-2 control-label">新昵称<span id="helpname" class="help-block"></span></label>
-                  <div class="col-sm-10 enter">
+                  <label for="newname" class="col-xs-2 control-label">新昵称<span id="helpname" class="help-block"></span></label>
+                  <div class="col-xs-10 enter">
                     <input type="text" class="form-control" id="newname" placeholder="新昵称" autocomplete="off">
                     <label for="name" id="nm_prompt"></label>
                   </div>
@@ -194,7 +194,7 @@
             </div>
             <div class="panel-body col-sm-offset-1">
               <form style="padding-top:15px;padding-bottom:15px">
-                <div class="form-group dropdown col-sm-10">
+                <div class="form-group dropdown col-xs-10">
                   <input type="text" class="form-control" id="search" autocomplete="off" placeholder="来这里找课！">
                   <ul class="dropdown-menu" id="complete" style="width:94.5%;margin-top:-1px;margin-left:15px"></ul>
                 </div>
@@ -211,44 +211,44 @@
             <div class="panel-heading">
               <h3 class="panel-title"><span class="glyphicon glyphicon-fire"></span> 热门点评</h3>
             </div>
-            <div class="panel-body">
+            <div class="panel-body" style="overflow:auto;max-height:500px;">
               <ul class="list-group" id="float_comment" style="position:relative;">
                 <li class="list-group-item" style="border-color:#AAAAAA" id="comment1">
                   <div class="row"> 
-                    <div class="col-sm-3">
+                    <div class="col-xs-3">
                       <h5><a href="#" id="course_name1"><strong></strong></a></h5>
                       <p id="professor_name1"></p>
                       <p class="text-warning" id="course_level1"></p>
                     </div>
-                    <div class="col-sm-9">
-                      <h5 style="height:80px;text-indent:2em;line-height:20pt;border:solid 1px #DDDDDD;border-radius:10px;padding:10px;word-break:break-all;" id="comment_content1"></h5>
-                      <h4 style="text-align:right;white-space:pre;"><small id="comment_info1"></small></h4>
+                    <div class="col-xs-9">
+                      <h5 style="height:80px;text-indent:2em;line-height:20pt;border:solid 1px #DDDDDD;border-radius:10px;padding:10px;word-break:break-all;overflow:auto;" id="comment_content1"></h5>
+                      <h4 style="text-align:right;white-space:pre;overflow:auto;"><small id="comment_info1"></small></h4>
                     </div>
                   </div>
                 </li>
                 <li class="list-group-item" style="border-color:#AAAAAA" id="comment2">
                   <div class="row">
-                    <div class="col-sm-3">
+                    <div class="col-xs-3">
                       <h5><a href="#" id="course_name2"><strong></strong></a></h5>
                       <p id="professor_name2"></p>
                       <p class="text-warning" id="course_level2"></p>
                     </div>
-                    <div class="col-sm-9">
-                      <h5 style="height:80px;text-indent:2em;line-height:20pt;border:solid 1px #DDDDDD;border-radius:10px;padding:10px;word-break:break-all;" id="comment_content2"></h5>
-                      <h4 style="text-align:right;white-space:pre;"><small id="comment_info2"></small></h4>
+                    <div class="col-xs-9">
+                      <h5 style="height:80px;text-indent:2em;line-height:20pt;border:solid 1px #DDDDDD;border-radius:10px;padding:10px;word-break:break-all;overflow:auto;" id="comment_content2"></h5>
+                      <h4 style="text-align:right;white-space:pre;overflow:auto;"><small id="comment_info2"></small></h4>
                     </div>
                   </div>
                 </li>
                 <li class="list-group-item" style="border-color:#AAAAAA" id="comment3">
                   <div class="row">
-                    <div class="col-sm-3">
+                    <div class="col-xs-3">
                       <h5><a href="#" id="course_name3"><strong></strong></a></h5>
                       <p id="professor_name3"></p>
                       <p class="text-warning" id="course_level3"></p>
                     </div>
-                    <div class="col-sm-9">
-                      <h5 style="height:80px;text-indent:2em;line-height:20pt;border:solid 1px #DDDDDD;border-radius:10px;padding:10px;word-break:break-all;" id="comment_content3"></h5>
-                      <h4 style="text-align:right;white-space:pre;"><small id="comment_info3"></small></h4>
+                    <div class="col-xs-9">
+                      <h5 style="height:80px;text-indent:2em;line-height:20pt;border:solid 1px #DDDDDD;border-radius:10px;padding:10px;word-break:break-all;overflow:auto;" id="comment_content3"></h5>
+                      <h4 style="text-align:right;white-space:pre;overflow:auto;"><small id="comment_info3"></small></h4>
                     </div>
                   </div>
                 </li>
@@ -262,21 +262,21 @@
             <div class="panel-heading">
               <h3 class="panel-title" id="collection_title" data-number="{{ u.userlecturecollection_set.all.count }}"><span class="glyphicon glyphicon-bookmark"></span> 收藏的课{% if u.userlecturecollection_set.all.count > 0 %}（{{ u.userlecturecollection_set.all.count }}）{% endif %}</h3>
             </div>
-            <div class="panel-body" id="panel_collect">
+            <div class="panel-body" id="panel_collect" style="overflow:auto;max-height:500px;">
               {% if u.userlecturecollection_set.all.count > 0 %}
               <ul class="list-group">
                 {% for collectionrecord in u.userlecturecollection_set.all|slice:":3" %}
                 <li class="list-group-item" style="border-color:#AAAAAA">
                   <div class="row">
-                    <div class="col-sm-3">
+                    <div class="col-xs-3">
                       <h5><a href="/lecture/{{ collectionrecord.lecture.id }}/"><strong>{{ collectionrecord.lecture.course.name }}</strong></a></h5>
                       <p>{{ collectionrecord.lecture.professor.name }}</p>
                       <p><a href="#" data-lid="{{ collectionrecord.lecture.id }}" class="decollect">取消收藏</a></p>
                     </div>
-                    <div class="col-sm-9">
+                    <div class="col-xs-9">
                       {% for c in collectionrecord.lecture.lecturecomment_set.all|slice:":1" %}
-                      <h5 style="text-indent:2em;line-height:20pt;border:solid 1px #DDDDDD;border-radius:10px;padding:10px;word-break:break-all;">{{ c.content|truncatechars:30 }}</h5>
-                      <h4 style="text-align:right;white-space:pre;"><small><a href="/{{ c.user.id }}/">{{ c.user.name }}</a>      {{ c.time|formatTime }}      有用 ({{ c.super_number }})</small></h4>
+                      <h5 style="text-indent:2em;line-height:20pt;border:solid 1px #DDDDDD;border-radius:10px;padding:10px;word-break:break-all;overflow:auto;">{{ c.content|truncatechars:30 }}</h5>
+                      <h4 style="text-align:right;white-space:pre;overflow:auto;"><small><a href="/{{ c.user.id }}/">{{ c.user.name }}</a>      {{ c.time|formatTime }}      有用 ({{ c.super_number }})</small></h4>
                       {% empty %}
                       <p>还没有点评。快来抢沙发！</p>
                       {% endfor %}
@@ -298,7 +298,7 @@
       </div>
 
       <div class="row">
-        <div class="col-sm-2" style="text-align:right;"> 
+        <div class="col-xs-2" style="text-align:right;"> 
           <ul class="nav nav-pills nav-stacked" style="max-width: 150px;">
             <li class="active success" style="background-color:#F2F2F2;border: 0px solid #DCDCFA;border-radius: 6px;">
               <a data-toggle="tab" href="#user_comment" data-placement="right"><h4><span class="badge" style="background-color:#5555FF;">{{ u.lecturecomment_set.all.count }}</span><strong> 点评</strong></h4></a>
@@ -309,7 +309,7 @@
           </ul>
         </div>
 
-        <div class="col-sm-10">
+        <div class="col-xs-10">
           <div class="tab-content">
             <div class="tab-pane fade in active" id="user_comment">
               <div class="panel panel-primary">
@@ -322,12 +322,12 @@
                     {% for comment in u.lecturecomment_set.all|dictsortreversed:"time" %}
                     <li class="list-group-item" style="border-color:#AAAAAA">
                       <div class="row">
-                        <div class="col-sm-3">
+                        <div class="col-xs-3">
                           <h5><a href="/lecture/{{ comment.lecture.id }}"><strong>{{ comment.lecture.course.name }}</strong></a></h5>
                           <p>{{ comment.lecture.professor.name }}</p>
                           <p class="text-warning">{{ comment.lecture.level|floatformat:2 }}</p>
                         </div>
-                        <div class="col-sm-9">
+                        <div class="col-xs-9">
                           <h5 style="text-indent:2em;line-height:20pt;border:solid 1px #DDDDDD;border-radius:10px;padding:10px;word-break:break-all;">{{ comment.content }}</h5>
                           <h4 style="text-align:right;white-space:pre;"><small>{{ comment.time|formatTime }}      有用 ({{ comment.super_number }})</small></h4>
                         </div>
@@ -352,12 +352,12 @@
                     {% for comment in u.gossip_set.all|dictsortreversed:"time" %}
                     <li class="list-group-item" style="border-color:#AAAAAA">
                       <div class="row">
-                        <div class="col-sm-3">
+                        <div class="col-xs-3">
                           <h5><a href="/lecture/{{ comment.lecture.id }}"><strong>{{ comment.lecture.course.name }}</strong></a></h5>
                           <p>{{ comment.lecture.professor.name }}</p>
                           <p class="text-warning">{{ comment.lecture.level|floatformat:2 }}</p>
                         </div>
-                        <div class="col-sm-9">
+                        <div class="col-xs-9">
                           <h5 style="text-indent:2em;line-height:20pt;border:solid 1px #DDDDDD;border-radius:10px;padding:10px;word-break:break-all;">{{ comment.content }}</h5>
                           <h4 style="text-align:right;white-space:pre;"><small>{{ comment.time|formatTime }}      赞 ({{ comment.super_number }})</small></h4>
                         </div>
@@ -377,7 +377,7 @@
 
       <!-- ranking
       <div class="row">
-        <div class="col-sm-5">
+        <div class="col-xs-5">
           <div class="panel panel-primary">
             <div class="panel-heading" style="text-align:center;">评分TOP10</div>
             <table class="table">
@@ -399,7 +399,7 @@
             </table>
           </div>
         </div>
-        <div class="col-sm-5 col-sm-offset-2">
+        <div class="col-xs-5 col-xs-offset-2">
           <div class="panel panel-primary">
             <div class="panel-heading" style="text-align:center;">得分TOP10</div>
             <table class="table">
@@ -424,7 +424,7 @@
       </div>-->
 
       <!-- change_lecture
-      <div class="col-sm-6 col-sm-offset-1">
+      <div class="col-xs-6 col-xs-offset-1">
         <div class="panel panel-default">
           <div class="panel-heading">
             <h3 class="panel-title" style="margin-left:10px;">猜你喜欢
@@ -459,7 +459,7 @@
         </div>
       </div> -->
       <div class="row" style="background-color:#FFFFFF;color:black">
-        <div class="col-sm-12">
+        <div class="col-xs-12">
           <p style="color:#AAAAAA;text-align:center;margin-top:40px;">&#169; 2013 CourseComment Group<br/>联系我们：coursecomment@groups.163.com</p>
         </div>
       </div>
