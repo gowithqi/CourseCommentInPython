@@ -81,6 +81,10 @@ def getLectureData(request, lecture_id):
 	lecture = get_object_or_404(Lecture, id=lecture_id)
 '''
 
+def updateAverange(average, total_count, new, new_count = 1):
+	average = float(average*total_count + new) / (total_count+new_count)
+	return average, total_count+new_count
+
 def recordStudentScore(request, lecture_id):
 	if request.method != "POST": raise Http404
 
@@ -88,21 +92,35 @@ def recordStudentScore(request, lecture_id):
 	user = get_object_or_404(User, id=user_id)
 	lecture_id = int(lecture_id)
 	lecture = get_object_or_404(Lecture, id=lecture_id)
-	try:
-		LectureStudentScoreRecord.objects.get(lecture=lecture, user=user)
-		return HttpResponse("have recorded student score")
-	except LectureStudentScoreRecord.DoesNotExist: pass
-	lss = lecture.student_score         
-	lssn = lecture.student_score_number
-	newscore = float(lss*lssn + float(request.POST['score'])) / (lssn+1)
-	lecture.student_score_number = lssn+1
-	lecture.student_score = newscore
 
+	average = lecture.student_score
+	total_count = lecture.student_score_number
+	new = float(request.POST['score'])
+	new_count = 1
+	try:
+		record = LectureStudentScoreRecord.objects.get(lecture=lecture, user=user)
+		new, record.score = (new-record.score), new
+		new_count = 0
+		record.save()
+		flag = False
+	except LectureStudentScoreRecord.DoesNotExist: flag = True
+
+	lecture.student_score, lecture.student_score_number = updateAverange(average, total_count, new, new_count)
 	lecture.save()
 
-	LectureStudentScoreRecord.objects.create(lecture=lecture, user=user, score=float(request.POST['score']))
+	if flag: LectureStudentScoreRecord.objects.create(lecture=lecture, user=user, score=float(request.POST['score']))
 
 	return HttpResponse("yes")
+
+def updateLevel(lecture, level, delta):
+	if level == 1: lecture.level_1_number = lecture.level_1_number + delta
+	elif level == 2: lecture.level_2_number = lecture.level_2_number + delta
+	elif level == 3: lecture.level_3_number = lecture.level_3_number + delta
+	elif level == 4: lecture.level_4_number = lecture.level_4_number + delta
+	elif level == 5: lecture.level_5_number = lecture.level_5_number + delta
+	else: pass
+
+	return lecture
 
 def recordLevel(request, lecture_id):
 	if request.method != "POST": raise Http404
@@ -111,27 +129,25 @@ def recordLevel(request, lecture_id):
 	user = get_object_or_404(User, id=user_id)
 	lecture_id = int(lecture_id)
 	lecture = get_object_or_404(Lecture, id=lecture_id)
+
+	average = lecture.level
+	total_count = lecture.level_number
+	origin = new = int(request.POST['level'])
+	new_count = 1
 	try:
-		LectureLevelRecord.objects.get(lecture=lecture, user=user)
-		return HttpResponse("have recorded level")
-	except LectureLevelRecord.DoesNotExist: pass
+		record = LectureLevelRecord.objects.get(lecture=lecture, user=user)
+		lecture = updateLevel(lecture, record.level, -1)
+		new, record.level = (new-record.level), new
+		new_count = 0
+		record.save()
+		flag = False
+	except LectureLevelRecord.DoesNotExist: flag = True
 
-	level = int(request.POST['level'])
-	if level == 1: lecture.level_1_number = lecture.level_1_number + 1
-	elif level == 2: lecture.level_2_number = lecture.level_2_number + 1
-	elif level == 3: lecture.level_3_number = lecture.level_3_number + 1
-	elif level == 4: lecture.level_4_number = lecture.level_4_number + 1
-	elif level == 5: lecture.level_5_number = lecture.level_5_number + 1
-	else: raise Http500
-
-	ll = lecture.level         
-	lln = lecture.level_number
-	newlevel = float(ll*lln + float(level)) / (lln+1)
-	lecture.level_number = lln+1
-	lecture.level = newlevel
+	lecture.level, lecture.level_number = updateAverange(average, total_count, new, new_count)
+	lecture = updateLevel(lecture, origin, 1)
 	lecture.save()
 
-	LectureLevelRecord.objects.create(lecture=lecture, user=user, level=int(request.POST['level']))
+	if flag: LectureLevelRecord.objects.create(lecture=lecture, user=user, level=int(request.POST['level']))
 
 	return HttpResponse("yes")	
 
