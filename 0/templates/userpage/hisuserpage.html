@@ -96,14 +96,14 @@
                     </div>
                     <div class="col-xs-9">
                       <h5 style="text-indent:2em;line-height:20pt;border:solid 1px #DDDDDD;border-radius:10px;padding:10px;word-break:break-all;">{{ comment.content }}</h5>
-                      <h4 style="text-align:right;white-space:pre;"><small>{{ comment.time|formatTime }}      <a href="#" data-num="{{ forloop.counter }}" data-comid="{{ comment.id }}" class="comm" data-super="{% if comment.id in comment_super_records %}1{% else %}0{% endif %}">{% if comment.id in comment_super_records %}取消{% else %}有用{% endif %}</a> (<span id="number{{ forloop.counter }}">{{ comment.super_number }}</span>)</small></h4>
+                      <h4 style="text-align:right;white-space:pre;overflow:auto;"><small>{{ comment.time|formatTime }}      <a href="#" data-num="{{ forloop.counter }}" data-comid="{{ comment.id }}" class="comm" data-super="{% if comment.id in comment_super_records %}1{% else %}0{% endif %}">{% if comment.id in comment_super_records %}取消{% else %}有用{% endif %}</a> (<span id="number{{ forloop.counter }}">{{ comment.super_number }}</span>)</small></h4>
                     </div>
                   </div>
                 </li>
                 {% endfor %}
               </ul>
               {% else %}
-              <p>你还没有留下过点评～</p>
+              <p>他/她还没有留下过点评～</p>
               {% endif %}
             </div>
           </div>
@@ -127,7 +127,7 @@
                     <div class="col-xs-9">
                       {% for c in collectionrecord.lecture.lecturecomment_set.all|slice:":1" %}
                       <h5 style="text-indent:2em;line-height:20pt;border:solid 1px #DDDDDD;border-radius:10px;padding:10px;word-break:break-all;">{{ c.content|truncatechars:30 }}</h5>
-                      <h4 style="text-align:right;white-space:pre;"><small>{{ c.user.name }}      {{ c.time|formatTime }}      有用 ({{ c.super_number }})</small></h4>
+                      <h4 style="text-align:right;white-space:pre;overflow:auto;"><small><a href="/{{ c.user.id }}/">{{ c.user.name }}</a>      {{ c.time|formatTime }}      有用 ({{ c.super_number }})</small></h4>
                       {% empty %}
                       <p>还没有点评。快来抢沙发！</p>
                       {% endfor %}
