@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-from datetime import datetime
+from datetime import datetime, date
 import os
 
 from django.http import HttpResponse, Http404, HttpResponseRedirect
@@ -16,6 +16,8 @@ from comment.influence import increaseSysAchievement, updateUserInfluence
 
 ADMINS = [6, 14, 15]
 START_DATE = datetime.strptime("20131101", "%Y%m%d")
+TODAY = date.today()
+TODAY = datetime(year=TODAY.year, month=TODAY.month, day=TODAY.day)
 
 @require_http_methods(['GET'])
 def cadmin(request):
@@ -34,7 +36,7 @@ def getContent(request):
 	if not (request.session['user_id'] in ADMINS): raise Http404
 	start_date = str(request.GET['start_date'])
 	end_date = str(request.GET['end_date'])
-	if start_date == "": start_date = START_DATE
+	if start_date == "": start_date = TODAY
 	else: start_date = datetime.strptime(start_date, "%Y%m%d")
 	if end_date == "": end_date = datetime.now()
 	else: end_date = datetime.strptime(end_date, "%Y%m%d")
