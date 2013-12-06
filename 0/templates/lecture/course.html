@@ -8,16 +8,10 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<title>课程点评网</title>
 
-	<script src="{% static 'js/jquery-1.10.2.min.js' %}"></script>
-
-	<link href="{% static 'css/bootstrap.css' %}" rel="stylesheet">
-	<link href="{% static 'css/bootstrap-theme.css' %}" rel="stylesheet">
+	<link href="{% static 'css/bootstrap.min.css' %}" rel="stylesheet">
+	<link href="{% static 'css/bootstrap-theme.min.css' %}" rel="stylesheet">
+	<link href="{% static 'css/rating.css' %}" rel="stylesheet">
 	<link href="{% static 'img/icon2.jpg' %}" rel="icon">
-    
-    <script src="{% static 'js/jquery-migrate-1.2.1.min.js' %}"></script>
-    <script src="{% static 'js/bootstrap.min.js' %}"></script>
-	<script src="{% static 'js/myjquery.js' %}"></script>
-
 
 	<style type="text/css">
 			#GoToTop{ 
@@ -40,107 +34,6 @@
 				height:30px; 
 				line-height:30px; 
 			}
-
-
-			.shop-rating {
-			    height: 25px;
-			    overflow: hidden;
-			    zoom: 1;
-			    padding: 2px 0px;
-			    position: relative;
-			    z-index: 999;
-			}
-
-			.shop-rating span {
-			    height: 23px;
-			    display: block;
-			    line-height: 23px;
-			    float: left;
-			}
-
-			.shop-rating span.title {
-			    width: 125px;
-			    text-align: right;
-			    margin-right: 5px;
-			}
-
-			.shop-rating ul {
-			    float: left;
-				margin:0;padding:0
-			}
-
-			.shop-rating .result {
-			    margin-left: 20px;
-			    padding-top: 2px;
-			}
-
-			.shop-rating .result span {
-				color: #ff6d02;
-			}
-			.shop-rating .result em {
-			    color: #f60;
-			    font-family: arial;
-			    font-weight: bold;
-			}
-			.shop-rating .result strong {
-				color: #666666;
-				font-weight: normal;
-			}
-			.rating-level,
-			.rating-level a {
-			    background: url("{% static 'img/star.png' %}") no-repeat scroll 1000px 1000px;
-			}
-			.rating-level {
-			    background-position: 0px 0px;
-			    width: 120px;
-			    height: 23px;
-			    position: relative;
-			    z-index: 1000;
-			}
-			.rating-level li {
-			    display: inline;
-			}
-
-			.rating-level a {
-			    line-height: 23px;
-			    height: 23px;
-			    position: absolute;
-			    top: 0px;
-			    left: 0px;
-			    text-indent: -999em;
-			    *zoom: 1;
-			    outline: none;
-			}
-
-
-			.rating-level a.one-star {
-			    width: 20%;
-			    z-index: 6;
-			}
-
-			.rating-level a.two-stars {
-			width: 40%;
-			z-index: 5;
-			}
-
-			.rating-level a.three-stars {
-			    width: 60%;
-			    z-index: 4;
-			}
-
-			.rating-level a.four-stars {
-			    width: 80%;
-			    z-index: 3;
-			}
-
-			.rating-level a.five-stars {
-			    width: 100%;
-			    z-index: 2;
-			}
-
-			.rating-level .current-rating,.rating-level a:hover{background-position:0 -28px;}
-			.rating-level a.one-star:hover,.rating-level a.two-stars:hover,.rating-level a.one-star.current-rating,.rating-level a.two-stars.current-rating{background-position:0 -116px;}
-			.rating-level .three-stars .current-rating,.rating-level .four-stars .current-rating,.rating-level .five-stars .current-rating{background-position:0 -28px;}
 	</style>
 </head>
 
@@ -283,7 +176,7 @@
 				  			<!--老师的得分和用户的评分 -->
 							<div  class="container">
 								<div class="row" style="background-color:#F5F5F5;border: 1px solid #F5F5F5;border-radius: 6px;">
-									<div class="col-xs-2">	
+									<div class="col-xs-2">
 										<p style="text-align:right; padding-top:6px;"><br/>课程基本信息</p>
 										<p style="text-align:right; font-weight:bold; padding-top:7px;">平均期末总评:&nbsp;{{ l.student_score|floatformat:2 }}</p>
 										<p style="text-align:right; font-weight:bold; padding-top:6px;">评价:&nbsp;{{ l.level|floatformat:2 }}</p>
@@ -292,21 +185,10 @@
 									<div class="col-xs-4">
 										<p><br/><strong style="font-size:20px; color:#553030;">分享</strong>您的得分和评分</p>
 										<form>
-											<input class="form-inline rs_content" type="text" style="width:70px" placeholder="期末总评"> 
-											<input class="l_id" type="hidden" value="{{ l.id }}">
-											<button type="button" class="btn btn-primary btn-sm rs_submit">提交</button>
+											<input class="form-inline rs_content" type="text" style="width:70px" placeholder="期末总评" autocomplete="off"> 
+											<button type="button" class="btn btn-primary btn-sm rs_submit" data-id="{{ l.id }}">提交</button>
 										</form>
-										<div class="shop-rating">
-											<ul class="rating-level" id="stars{{ l.id }}">
-												<li><a class="one-star" star:value="1" address="{{ l.id }}" href="#">1</a></li>
-												<li><a class="two-stars" star:value="2" address="{{ l.id }}" href="#">2</a></li>
-												<li><a class="three-stars" star:value="3" address="{{ l.id }}" href="#">3</a></li>
-												<li><a class="four-stars" star:value="4" address="{{ l.id }}" href="#">4</a></li>
-												<li><a class="five-stars" star:value="5" address="{{ l.id }}" href="#">5</a></li>
-											</ul>
-											<span class="result" id="stars{{ l.id }}-tips"></span>
-											<input type="hidden" id="stars{{ l.id }}-input" name="a" value="" size="2" />
-										</div>
+										<div class='rating forall' id='rate{{ l.id }}' data-id="{{ l.id }}" style="margin-top:10px;margin-left:0px;"></div>
 										<div class="progress" style="width: 120px">
 										  <div class="progress-bar progress-bar-danger" style="width: 20%;"></div>
 										  <div class="progress-bar progress-bar-warning" style="width: 20%;"></div>
@@ -368,7 +250,7 @@
 																	<span class="badge" style="background-color:#DEB887">{{ comment.user.influence_factor }}</span>
 																</th>
 																<th>
-																	<p style="word-break:break-all;">{{ comment.content }}</p>
+																	<p style="word-break:break-all;white-space:pre-wrap;">{{ comment.content }}</p>
 																	<p style="text-align:right;">{{ comment.time|formatTime }}</p>
 																</th>
 																<th style="width:50px">
@@ -392,15 +274,14 @@
 										<form>
 											<fieldset>
 												  <label>添加点评</label> <br/> 
-												  <textarea class="form-control comment_content" rows="3" style="width:60%" placeholder="您正在给{{ l.professor.name }}老师的课添加点评"></textarea>
-												  <input class="l_id" type="hidden" value="{{ l.id }}">
+												  <textarea class="form-control comment_content" rows="3" style="width:60%" placeholder="您正在给{{ l.professor.name }}老师的课添加点评" autocomplete="off"></textarea>
 												  <div class="row">
 													<div class="col-xs-6">
 														请不要超过300字
 													</div>
 													<div class="col-xs-6">
 														<br/>
-												  		<button type="button" class="btn btn-primary btn-sm comment_submit">提交点评</button>
+												  		<button type="button" class="btn btn-primary btn-sm comment_submit" data-id="{{ l.id }}">提交点评</button>
 												  	</div>
 												  </div>
 											</fieldset>
@@ -422,7 +303,7 @@
 																	<p>有人说：</p>
 																</th>
 																<th style="width:500px">
-																	<p style="word-break:break-all;">{{ g.content }}</p>
+																	<p style="word-break:break-all;white-space:pre-wrap;">{{ g.content }}</p>
 																	<p style="text-align:right;">{{ g.time|formatTime }}</p>
 																</th>
 																<th style="width:50px">
@@ -446,7 +327,7 @@
 										<form>
 											<fieldset>
 												  <label>吐多一个槽</label> <br/> 
-												  <textarea class="form-control wall_content" rows="3" style="width:60%" placeholder="您正在吐槽{{ l.professor.name }}老师的课"></textarea>
+												  <textarea class="form-control wall_content" rows="3" style="width:60%" placeholder="您正在吐槽{{ l.professor.name }}老师的课" autocomplete="off"></textarea>
 												  <input class="l_id" type="hidden" value="{{ l.id }}">
 												  <div class="row">
 													<div class="col-xs-6">
@@ -473,7 +354,7 @@
 			<!--CopyRight-->
 			<div>
 				<br/><br/>
-				<p style="width:84.5%;MARGIN-RIGHT: auto;MARGIN-LEFT: auto;TEXT-ALIGN: center;color:#AAAAAA">&#169;2013 CourseComment Group  联系我们:coursecomment@groups.163.com</p>
+				<p style="width:84.5%;MARGIN-RIGHT: auto;MARGIN-LEFT: auto;TEXT-ALIGN: center;color:#AAAAAA">&#169; 2013 CourseComment Group  联系我们：coursecomment@groups.163.com</p>
 			</div>
 
 			<div id="bottom">
@@ -516,346 +397,42 @@
 			  </div><!-- /.modal-dialog -->
 			</div><!-- /.modal -->
 
-
-
-<!-- ---------------------------以下为js代码------------------------------------------------ -->
-			<script src="{% static 'js/search.js' %}"></script>
-
-			<script>	//test
-				function display_alert()
-				  {
-				  alert("I am an alert box!!")
-				  }
-			</script>
-
-			<script>
-				$("#confirm_ok").click(function(){
-					if (this.getAttribute("address")!="no_jump")
-					{
-						window.location.replace(this.getAttribute("address"));
-					}
-				});
-			</script>
-
-			<script type="text/javascript">
-				var Class = {
-					create: function() {
-						return function() { this.initialize.apply(this, arguments); }
-					}
-				}
-				var Extend = function(destination, source) {
-					for (var property in source) {
-						destination[property] = source[property];
-					}
-				}
-				function stopDefault( e ) {
-					 if ( e && e.preventDefault ){
-						e.preventDefault();
-					}else{
-						window.event.returnValue = false;
-					}
-					return false;
-				} 
-				function submit_rl(value, address)
-				  {
-				  	value = value+1;
-				  	if ((0<=value)&&(value<=5))
-					    {
-							  $.post("/lecture/recordlevel/" + address + "/",
-							  {
-							    level:String(value)
-							  },
-							  function(status){
-							  	if (status=="yes")
-							  	{
-							  		$('#confirm_content').html("您的评分为" + String(value) + "分，我们已经记录。谢谢！");
-							  		$('#confirm').modal('toggle');
-							  		$('#confirm_ok').attr('address','/lecture/'+address+'/');
-							  	}
-							  	else{
-									  $('#failed_content').html(status);
-									  $('#failed').modal('toggle');
-								}
-							  });
-					    }
-				  }
-
-				var Stars = Class.create();
-				Stars.prototype = {
-					initialize: function(star,options) {
-						this.SetOptions(options); 
-						var flag = 999; 
-						var isIE = (document.all) ? true : false; 
-						var starlist = document.getElementById(star).getElementsByTagName('a'); 
-						var input = document.getElementById(this.options.Input) || document.getElementById(star+"-input"); 
-						var tips = document.getElementById(this.options.Tips) || document.getElementById(star+"-tips");
-						var nowClass = " " + this.options.nowClass; 
-						var tipsTxt = this.options.tipsTxt; 
-						var len = starlist.length; 
-						
-
-						for(i=0;i<len;i++){
-							starlist[i].value = i;
-							starlist[i].onclick = function(e){
-								stopDefault(e);
-								this.className = this.className + nowClass;
-								flag = this.value;
-								input.value = this.getAttribute("star:value");
-								tips.innerHTML = tipsTxt[this.value];
-								submit_rl(this.value,this.getAttribute("address"));
-							}
-							starlist[i].onmouseover = function(){
-								if (flag< 999){
-									var reg = RegExp(nowClass,"g");
-									starlist[flag].className = starlist[flag].className.replace(reg,"")
-								}
-								tips.innerHTML = tipsTxt[this.value];
-							}
-							starlist[i].onmouseout = function(){
-								if (flag< 999){
-									starlist[flag].className = starlist[flag].className + nowClass;
-								}
-								else{
-									tips.innerHTML = "";
-								}
-							}
-						};
-						if (isIE){
-							var li = document.getElementById(star).getElementsByTagName('li');
-							for (var i = 0, len = li.length; i < len; i++) {
-								var c = li[i];
-								if (c) {
-									c.className = c.getElementsByTagName('a')[0].className;
-								}
-							}
-						}
-					},
-
-					SetOptions: function(options) {
-						this.options = {
-							Input:			"",
-							Tips:			"",
-							nowClass:		"current-rating",
-							tipsTxt:		["很差","一般","还行","推荐","力荐"]
-						};
-						Extend(this.options, options || {});
-					}
-				}
-				{% for l in lectures %}
-					var Stars{{ l.id }} = new Stars("stars{{ l.id }}");
-				{% endfor %}
-			</script>
-
-			<script>	//ajax-post-recordscore_submit
-				$(".rs_submit").click(function(){
-					  var x = $(this).parent().children("input.rs_content");
-					  var y = $(this).parent().children("input.l_id");
-					  var tmp = parseInt(x.val());
-					  if ((0<=tmp)&&(tmp<=100))
-					    {
-							  $.post("/lecture/recordscore/"+y.val()+"/",
-							  {
-							    score:x.val()
-							  },
-							  function(status){
-							  	if (status=="yes")
-							  	{
-							  		$('#confirm_content').html("您的期末得分为" + x.val() + "分，我们已经记录。谢谢！");
-							  		$('#confirm').modal('toggle');
-							  		$('#confirm_ok').attr('address', '/lecture/' + y.val() +'/');
-							  	}
-							  });
-					    }
-					    else {
-					    	  $('#failed_content').html("抱歉，请输入一个0-100之间的数字");
-					          $('#failed').modal('toggle');
-					    }
-				});
-			</script>
-
-			<script>	//收藏按钮
-				function collect(id){
-					  var y = $(id).parent().children("input.l_id");
-					  var tmp = id.innerHTML;
-					  if (tmp == "收藏")
-					    {
-					    	  id.innerHTML = "取消收藏";
-					    	  $(id).attr('class','btn btn-warning btn-lg collect');
-							  $.get("/userpage/collect/lecture/"+y.val()+"/",function(status){
-								if (status == "yes"){
-								  $('#confirm_content').html("收藏成功！");
-						  		  $('#confirm').modal('toggle');
-						  		  $('#confirm_ok').attr('address','no_jump');
-								}
-								else{
-								  $('#failed_content').html(status);
-						  		  $('#failed').modal('toggle');
-								}
-							  }); 
-					    }
-					    else {
-					    	  id.innerHTML = "收藏";
-					    	  $(id).attr('class','btn btn-success btn-lg collect');
-					    	  $.get("/userpage/decollect/lecture/"+y.val()+"/",function(status){
-								if (status == "yes"){
-								  $('#confirm_content').html("取消成功！");
-						  		  $('#confirm').modal('toggle');
-						  		  $('#confirm_ok').attr('address','no_jump');
-								}
-								else{
-								  $('#failed_content').html(status);
-						  		  $('#failed').modal('toggle');
-								}
-							  }); 
-					    };
-				}
-			</script>
-
-			<script>	//点评点有用部分的js
-				function comment_good(id)
-				{
-					var x = id.innerHTML;	//检测当前是否已经点过有用
-					var y = $(id).parent().children("input.comment_id");
-					var ss = "comment_"+y.val();
-					var z = document.getElementById(ss);
-					var num = parseInt(z.innerHTML);
-					if (x == "有用")
-					{
-						x = "取消";
-						id.innerHTML = x;
-						num = num + 1;
-						z.innerHTML = String(num);
-						$.get("/comment/super/"+y.val()+"/",function(status){
-							if (status!="yes") alert(status);
-						});
-
-					}
-					else
-					{
-						x = "有用";
-						id.innerHTML = x;
-						num = num - 1;
-						z.innerHTML = String(num);
-						$.get("/comment/desuper/"+y.val()+"/",function(status){
-							if (status!="yes") alert(status);
-						});
-					}
-				}
-			</script>
-
-			<script>	//吐槽点赞部分的js
-				function gossip_good(id)
-				{
-					var x = id.innerHTML;	//检测当前是否已经赞过
-					var y = $(id).parent().children("input.gossip_id");
-					var ss = "gossip_"+y.val();
-					var z = document.getElementById(ss);
-					var num = parseInt(z.innerHTML);
-					if (x == "点赞")
-					{
-						x = "取消";
-						id.innerHTML = x;
-						num = num + 1;
-						z.innerHTML = String(num);
-						$.get("/gossip/super/"+y.val()+"/",function(status){
-							if (status!="yes") alert(status);
-						});
-
-					}
-					else
-					{
-						x = "点赞";
-						id.innerHTML = x;
-						num = num - 1;
-						z.innerHTML = String(num);
-						$.get("/gossip/desuper/"+y.val()+"/",function(status){
-							if (status!="yes") alert(status);
-						});
-					}
-				}
-			</script>
-
-			<script>	//点评submit
-				$(".comment_submit").click(function(){
-				  var x = $(this).parent().parent().parent().children("textarea.comment_content");
-				  var y = $(this).parent().parent().parent().children("input.l_id");
-				  if ((x.val().length<300) && (x.val().length>0))
-				  {
-					  $.post("/comment/lecture/"+y.val()+"/",
-					  {
-					    content:x.val()
-					  },
-					  function(status){
-					  	if (status=="yes")
-					  	{
-					  		$('#confirm_content').html("您的点评已经提交成功，查看请刷新页面。");
-					  		$('#confirm').modal('toggle');
-					  		$('#confirm_ok').attr('address','/lecture/'+ y.val() +'/');
-					  	}
-					  	else
-					  	{
-					  		$('#failed_content').html(status);
-					  		$('#failed').modal('toggle');
-					  	}
-					  });
-				  }
-				  else {
-		  			  if (x.val().length>300)
-		  			  	{
-		  			  		$('#failed_content').html("请不要超过300字");
-		  			  	}
-		  			  else
-		  			    {
-		  			    	$('#failed_content').html("请填写点评");
-		  			    }
-			          $('#failed').modal('toggle');
-				  }
-				});
-			</script>
-
-			<script>	//吐槽submit
-				$(".wall_submit").click(function(){
-				  var x = $(this).parent().parent().parent().children("textarea.wall_content");
-				  var y = $(this).parent().parent().parent().children("input.l_id");
-				  if ((x.val().length<300) && (x.val().length>0))
-				  {
-					  $.post("/gossip/record/",
-					  {
-					    content:x.val(),
-					    lecture_id:y.val()
-					  },
-					  function(status){
-					  	if (status=="yes")
-					  	{
-					  		$('#confirm_content').html("您的吐槽已经提交成功，查看请刷新页面。");
-					  		$('#confirm').modal('toggle');
-					  		$('#confirm_ok').attr('address','/lecture/'+ y.val() +'/');
-					  	}
-					  	else
-					  	{
-					  		$('#failed_content').html(status);
-					  		$('#failed').modal('toggle');
-					  	}
-					  });
-				  }
-				  else {
-		  			  if (x.val().length>300)
-		  			  	{
-		  			  		$('#failed_content').html("请不要超过300字");
-		  			  	}
-		  			  else
-		  			    {
-		  			    	$('#failed_content').html("请填写吐槽");
-		  			    }
-			          $('#failed').modal('toggle');
-				  }
-				});
-			</script>	
-<!-- ---------------------------以上为js代码------------------------------------------------ -->
-
-
+			<div class="modal" id="trinity" tabindex="-1">
+			  <div class="modal-dialog">
+			    <div class="modal-content">
+			      <div class="modal-header">
+			        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+			        <h4 class="modal-title" style="color:#0066FF">添加点评</h4>
+			      </div>
+			      <div class="modal-body">
+			      	<p>给个评价吧 <div class="rating" id="trinity1"></div></p>
+			      	<p>期末总评</p>
+							<form>
+								<input class="form-inline" id="trinity2" type="text" style="width:70px;margin-bottom:50px;" autocomplete="off" placeholder="期末总评"> 
+							</form>
+							<p>我的点评</p>
+			        <form><fieldset><textarea autocomplete="off" class='form-control' id='trinity3'></textarea></fieldset></form>
+			      </div>
+			      <div class="modal-footer">
+			        <button type="button" class="btn btn-primary" id="trinity_submit" data-dismiss="modal">提交</button>
+			      </div>
+			    </div><!-- /.modal-content -->
+			  </div><!-- /.modal-dialog -->
+			</div><!-- /.modal -->
 		</div>
 	</div>
 </div>
+<script src="{% static 'js/jquery-1.10.2.min.js' %}"></script>
+<script src="{% static 'js/jquery-migrate-1.2.1.min.js' %}"></script>
+<script src="{% static 'js/bootstrap.min.js' %}"></script>
+<script src="{% static 'js/myjquery.js' %}"></script>
+<script src="{% static 'js/search.js' %}"></script>
+<script src="{% static 'js/jquery.rating.js' %}"></script>
+<script>
+	{% for l in lectures %}
+	$("#rate{{ l.id }}").rating({maxvalue:5,curvalue:{{ l.level|floatformat:1 }},increment:0.5});
+	{% endfor %}
+</script>
+<script src="{% static 'js/course.js' %}"></script>
 </body>
 </html>
