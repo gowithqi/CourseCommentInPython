@@ -39,58 +39,72 @@ $(".comment_submit").click(function(){
 
 $("#trinity_submit").click(function(){
 	var s=parseInt($("#trinity1").attr("data-value")),lid=$("#trinity").attr("data-id");
-	if (s>0){
-		$.post("/lecture/recordlevel/"+lid+"/",
+	var ss=$("#trinity2").val();
+	var int_ss=parseInt(ss)
+	var sss=$("#trinity3").val();
+	if ((s>0) && (sss.length<=300)) {
+		$.post("/lecture/recordall/"+lid+"/",
 		{
-			level:s
+			level:s,
+			score:ss,
+			content:sss
 		},
 		function(status){
 			window.location.reload();
 		});
 	}
-	var ss=$("#trinity2").val();
-	if (ss.search(/^\d+$/)==-1){
+	// if (s>0){
+	// 	$.post("/lecture/recordlevel/"+lid+"/",
+	// 	{
+	// 		level:s
+	// 	},
+	// 	function(status){
+	// 		window.location.reload();
+	// 	});
+	// }
+	// var ss=$("#trinity2").val();
+	// if (ss.search(/^\d+$/)==-1){
 		
-	}
-	else{
-		s=parseInt(ss);
-		if ((40<=s)&&(s<=100))
-		{
-			$.post("/lecture/recordscore/"+lid+"/",
-			{
-				score:s
-			},
-			function(status){
-				window.location.reload();
-			});
-		}
-		else {
+	// }
+	// else{
+	// 	s=parseInt(ss);
+	// 	if ((40<=s)&&(s<=100))
+	// 	{
+	// 		$.post("/lecture/recordscore/"+lid+"/",
+	// 		{
+	// 			score:s
+	// 		},
+	// 		function(status){
+	// 			window.location.reload();
+	// 		});
+	// 	}
+	// 	else {
 			
-		}
-	}
-	ss=$("#trinity3").val();
-	if (ss.length>0){
-		if (ss.length<=300){
-		  	$.post("/comment/lecture/"+lid+"/",
-			{
-				content:ss
-			},
-			function(status){
-				if (status=="yes")
-				{
-					window.location.reload();
-				}
-				else
-				{
-					$('#failed_content').html(status);
-					$('#failed').modal('toggle');
-				}
-			});
-	  	}
-	  	else{
+	// 	}
+	// }
+	// ss=$("#trinity3").val();
+	// if (ss.length>0){
+	// 	if (ss.length<=300){
+	// 	  	$.post("/comment/lecture/"+lid+"/",
+	// 		{
+	// 			content:ss
+	// 		},
+	// 		function(status){
+	// 			if (status=="yes")
+	// 			{
+	// 				window.location.reload();
+	// 			}
+	// 			else
+	// 			{
+	// 				$('#failed_content').html(status);
+	// 				$('#failed').modal('toggle');
+	// 			}
+	// 		});
+	//   	}
+	//   	else{
 			
-	  	}
-	}
+	//   	}
+	// }
 });
 
 $("#trinity").on('hidden.bs.modal',function(){
