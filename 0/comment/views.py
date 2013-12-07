@@ -81,14 +81,33 @@ def deSuper(request, comment_id):
 
 def commentLecture(request, lecture_id):
 	if request.method != "POST": raise Http404
-
+	print "comment lecture"
 	user_id = checkUserLogin(request)
 	user = get_object_or_404(User, id=user_id)
 	lecture_id = int(lecture_id)
 	lecture = get_object_or_404(Lecture, id=lecture_id)
 
+	if _commentLecture(request, lecture, user): 
+		return HttpResponse("yes")
+	else:
+		return HttpResponse("you have record too many times!")
+	# if LectureComment.objects.filter(user=user, lecture=lecture).count() >= MAX_COMMENTS_PER_USER:
+	# 	return HttpResponse("You have comment too mant times")
+
+	# super_weight = getSuperWeight(request.POST['content'])
+
+	# lectureComment = LectureComment.objects.create(lecture=lecture, 
+	# 	user=user, 
+	# 	content=request.POST['content'], 
+	# 	rank_score=getRankScore(super_weight),
+	# 	super_weight=super_weight)
+	# updateUserInfluence(user, COMMENT_VALUE_INFLUENCE)
+	# return HttpResponse("yes")
+
+def _commentLecture(request, lecture, user):
+	if request.POST['content'] == "" : return True
 	if LectureComment.objects.filter(user=user, lecture=lecture).count() >= MAX_COMMENTS_PER_USER:
-		return HttpResponse("You have comment too mant times")
+		return False
 
 	super_weight = getSuperWeight(request.POST['content'])
 
@@ -97,8 +116,9 @@ def commentLecture(request, lecture_id):
 		content=request.POST['content'], 
 		rank_score=getRankScore(super_weight),
 		super_weight=super_weight)
+
 	updateUserInfluence(user, COMMENT_VALUE_INFLUENCE)
-	return HttpResponse("yes")
+	return True
 
 def getRankScore(super_weight):
 	now = datetime.now()

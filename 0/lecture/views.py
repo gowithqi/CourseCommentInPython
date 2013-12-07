@@ -5,18 +5,18 @@ from django.shortcuts import render, get_object_or_404
 # from django.core.urlresolvers import reverse
 # from django.db.models import Avg
 from django import db
+from django.views.decorators.http import require_http_methods
 
 from lecture.models import Course, Lecture, LectureComment, LectureCommentSuperRecord, LectureLevelRecord, LectureStudentScoreRecord, UserLectureCollection
 from gossip.models import Gossip, GossipSuperRecord
 from login.models import User
 from login.views import checkUserLogin
-from comment.views import increaseSysAchievement
+from comment.views import increaseSysAchievement, _commentLecture
 
 import os
 
 def getLecture(request, lecture_id):
 	if request.method != 'GET': raise Http404
-	print "123"
 	user_id = checkUserLogin(request)				
 	print lecture_id, type(lecture_id)
 	lecture_id = int(lecture_id)
@@ -28,11 +28,15 @@ def getLecture(request, lecture_id):
 		raise Http500
 
 	lecture_collection = [r.lecture.id for r in user.userlecturecollection_set.all()]
+	print "after lecture collection"
 	course = lecture.course
 	course.view_time = course.view_time + 1
+	print "course view time", course.view_time
 	course.save()
+	print "course"
 	lectures = lecture.course.lecture_set.all().order_by("-level")
 
+	print "lectures"
 	comment_super_list = getSuperList(lectures, user, "comment")
 	gossip_super_list = getSuperList(lectures, user, "gossip")
 	print comment_super_list
@@ -83,19 +87,29 @@ def getLectureData(request, lecture_id):
 
 def updateAverange(average, total_count, new, new_count = 1):
 	average = float(average*total_count + new) / (total_count+new_count)
+	print "average", average
 	return average, total_count+new_count
 
 def recordStudentScore(request, lecture_id):
 	if request.method != "POST": raise Http404
-
+	print "record student score"
 	user_id = checkUserLogin(request)
 	user = get_object_or_404(User, id=user_id)
 	lecture_id = int(lecture_id)
 	lecture = get_object_or_404(Lecture, id=lecture_id)
 
+	lecture = _recordStudentScore(request, lecture, user)
+	print "lecture student_score", lecture.professor.name, lecture.student_score
+	lecture.save()
+	print "lecture student_score", lecture.professor.name, lecture.student_score
+	return HttpResponse("yes")
+
+def _recordStudentScore(request, lecture, user):
+	if request.POST['score'] == "" :return lecture
 	average = lecture.student_score
 	total_count = lecture.student_score_number
 	new = float(request.POST['score'])
+	if not (40 < new <= 101) : return lecture
 	new_count = 1
 	try:
 		record = LectureStudentScoreRecord.objects.get(lecture=lecture, user=user)
@@ -106,11 +120,10 @@ def recordStudentScore(request, lecture_id):
 	except LectureStudentScoreRecord.DoesNotExist: flag = True
 
 	lecture.student_score, lecture.student_score_number = updateAverange(average, total_count, new, new_count)
-	lecture.save()
 
 	if flag: LectureStudentScoreRecord.objects.create(lecture=lecture, user=user, score=float(request.POST['score']))
 
-	return HttpResponse("yes")
+	return lecture
 
 def updateLevel(lecture, level, delta):
 	if level == 1: lecture.level_1_number = lecture.level_1_number + delta
@@ -124,15 +137,23 @@ def updateLevel(lecture, level, delta):
 
 def recordLevel(request, lecture_id):
 	if request.method != "POST": raise Http404
-
+	print "record level"
 	user_id = checkUserLogin(request)
 	user = get_object_or_404(User, id=user_id)
 	lecture_id = int(lecture_id)
 	lecture = get_object_or_404(Lecture, id=lecture_id)
 
+	lecture = _recordLevel(request, lecture, user)
+	lecture.save()
+	print "record level done", lecture.level
+	return HttpResponse("yes")	
+
+def _recordLevel(request, lecture, user):
+	if request.POST['level'] == "" :return lecture
 	average = lecture.level
 	total_count = lecture.level_number
 	origin = new = int(request.POST['level'])
+	if not (1 <= new <= 5):  return lecture
 	new_count = 1
 	try:
 		record = LectureLevelRecord.objects.get(lecture=lecture, user=user)
@@ -145,11 +166,28 @@ def recordLevel(request, lecture_id):
 
 	lecture.level, lecture.level_number = updateAverange(average, total_count, new, new_count)
 	lecture = updateLevel(lecture, origin, 1)
-	lecture.save()
 
 	if flag: LectureLevelRecord.objects.create(lecture=lecture, user=user, level=int(request.POST['level']))
 
-	return HttpResponse("yes")	
+	return lecture
+
+@require_http_methods(['POST'])
+def recordAll(request, lecture_id):
+	user_id = checkUserLogin(request)
+	user = get_object_or_404(User, id=user_id)
+	lecture = get_object_or_404(Lecture, id=int(lecture_id))
+	
+	lecture = _recordLevel(request, lecture, user)
+	lecture = _recordStudentScore(request, lecture, user)
+	lecture.save()
+
+	if _commentLecture(request, lecture, user):
+		pass
+	else:
+		return HttpResponse("no")
+
+	return HttpResponse("yes")
+
 
 def test(request, mode):
 	user_id = checkUserLogin(request)
