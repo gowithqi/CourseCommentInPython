@@ -186,7 +186,7 @@ $("#password").blur(function(){
     }
 });
 $("#cpassword").blur(function(){
-  if ($("#password").val().length>=6 && $("#password").val().length<=16){
+  if ($("#password").val().length>=6 && $("#password").val().length<=20){
     if ($(this).val()==$("#password").val()){
       $("#cpassword_ok").attr("class","glyphicon glyphicon-ok");
       $("#cpw_prompt").html("");
