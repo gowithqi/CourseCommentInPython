@@ -14,6 +14,7 @@ from login.views import checkUserLogin
 from comment.views import increaseSysAchievement, _commentLecture
 
 import os
+import json
 
 def getLecture(request, lecture_id):
 	if request.method != 'GET': raise Http404
@@ -188,6 +189,45 @@ def recordAll(request, lecture_id):
 
 	return HttpResponse("yes")
 
+@require_http_methods(['GET'])
+def courselist(request):
+	user_id = checkUserLogin(request)
+	# template = loader.get_template('lecture/courselist.html')
+	school_list = [c['school'] for c in Course.objects.values('school').distinct()]
+	print school_list
+	context = RequestContext(request, {
+		'school_list': school_list
+		})
+	return HttpResponse(template.render(context))
+
+@require_http_methods(['POST'])
+def getCourses(request, start, end):
+	user_id = checkUserLogin(request)
+	start = int(start)
+	end   = int(end)
+
+	school = request.POST['school']
+	if end != 0:
+		courses = Course.objects.filter(school=school).order_by("-view_time")[start-1: end]
+	else:
+		courses = Course.objects.filter(school=school).order_by("-view_time")[start:]
+	courses = getCourseDict(courses)
+
+	return HttpResponse(json.dumps(courses, ensure_ascii=False, indent=4))
+
+def getCourseDict(courses):
+	ret = []
+	for c in courses:
+		tmp = {}
+		tmp['id'] = c.id
+		tmp['name'] = c.name
+		tmp['number'] = c.number
+		tmp['credit'] = "%.1f" % c.credit
+		tmp['school'] = c.school
+		tmp['view_time'] = c.view_time
+		ret.append(tmp)
+
+	return ret
 
 def test(request, mode):
 	user_id = checkUserLogin(request)
