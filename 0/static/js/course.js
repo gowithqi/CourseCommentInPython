@@ -5,111 +5,82 @@ $("#confirm_ok").click(function(){
 	}
 });
 
-//level
-$(".forall .star").click(function(){
-	var level=parseInt(($(this).index()+2)/2);
+function moveToModal(lid,level,rs,cm,professor){
 	$("#trinity1").html("");
 	$("#trinity1").rating({maxvalue:5,curvalue:level,increment:0.5,change:1});
 	$("#trinity1").attr("data-value",level);
-	$("#trinity").attr("data-id",$(this).parent().attr("data-id"));
+	$("#trinity2").val(rs);
+	$("#trinity3").val(cm);
+	$("#trinity").attr("data-id",lid);
+	$("#trinity .modal-title").html("正在评价   "+professor+"《"+$("#trinity").attr("data-course")+"》");
 	$("#trinity").modal('show');
+}
+
+//level
+$(".forall .star").click(function(){
+	var lid=$(this).parent().attr("data-id"),professor=$(this).parent().attr("data-professor");;
+	moveToModal(lid,parseInt(($(this).index()+2)/2),$("#rs"+lid).val(),$("#cm"+lid).val(),professor);
 });
 
 //score
 $(".rs_submit").click(function(){
-	var x = $(".rs_content").val();
-	$("#trinity2").val(x);
-	$("#trinity1").html("");
-	$("#trinity1").rating({maxvalue:5,curvalue:0,increment:0.5,change:1});
-	$("#trinity1").attr("data-value",0);
-	$("#trinity").attr("data-id",$(this).attr("data-id"));
-	$("#trinity").modal('show');
+	var lid=$(this).attr("data-id"),professor=$(this).attr("data-professor");
+	moveToModal(lid,0,$("#rs"+lid).val(),$("#cm"+lid).val(),professor);
 });
 
 //comment
 $(".comment_submit").click(function(){
-	var x = $(this).parent().parent().parent().children("textarea.comment_content").val();
-	$("#trinity3").val(x);
-	$("#trinity1").html("");
-	$("#trinity1").rating({maxvalue:5,curvalue:0,increment:0.5,change:1});
-	$("#trinity1").attr("data-value",0);
-	$("#trinity").attr("data-id",$(this).attr("data-id"));
-	$('#trinity').modal('show');
+	var lid=$(this).attr("data-id"),professor=$(this).attr("data-professor");;
+	moveToModal(lid,0,$("#rs"+lid).val(),$("#cm"+lid).val(),professor);
 });
 
 $("#trinity_submit").click(function(){
-	var s=parseInt($("#trinity1").attr("data-value")),lid=$("#trinity").attr("data-id");
+	var level="",score="",comment="",lid=$("#trinity").attr("data-id");
+	var s=parseInt($("#trinity1").attr("data-value"));
+	if (s>0)
+		level=s;
 	var ss=$("#trinity2").val();
-	var int_ss=parseInt(ss)
-	var sss=$("#trinity3").val();
-	if ((s>0) && (sss.length<=300)) {
-		$.post("/lecture/recordall/"+lid+"/",
+	if (ss.search(/^[\-\+]?\d*\.?\d+$/)!=-1){
+		s=Number(ss);
+		if ((40>s)||(s>100))
 		{
-			level:s,
-			score:ss,
-			content:sss
-		},
-		function(status){
-			window.location.reload();
-		});
+			$('#failed_content').html('score should be 40-100');
+			$('#failed').modal('toggle');
+			return;
+		}
+		else
+			score=s;
 	}
-	// if (s>0){
-	// 	$.post("/lecture/recordlevel/"+lid+"/",
-	// 	{
-	// 		level:s
-	// 	},
-	// 	function(status){
-	// 		window.location.reload();
-	// 	});
-	// }
-	// var ss=$("#trinity2").val();
-	// if (ss.search(/^\d+$/)==-1){
-		
-	// }
-	// else{
-	// 	s=parseInt(ss);
-	// 	if ((40<=s)&&(s<=100))
-	// 	{
-	// 		$.post("/lecture/recordscore/"+lid+"/",
-	// 		{
-	// 			score:s
-	// 		},
-	// 		function(status){
-	// 			window.location.reload();
-	// 		});
-	// 	}
-	// 	else {
-			
-	// 	}
-	// }
-	// ss=$("#trinity3").val();
-	// if (ss.length>0){
-	// 	if (ss.length<=300){
-	// 	  	$.post("/comment/lecture/"+lid+"/",
-	// 		{
-	// 			content:ss
-	// 		},
-	// 		function(status){
-	// 			if (status=="yes")
-	// 			{
-	// 				window.location.reload();
-	// 			}
-	// 			else
-	// 			{
-	// 				$('#failed_content').html(status);
-	// 				$('#failed').modal('toggle');
-	// 			}
-	// 		});
-	//   	}
-	//   	else{
-			
-	//   	}
-	// }
-});
-
-$("#trinity").on('hidden.bs.modal',function(){
-	$("#trinity2").val("");
-	$("#trinity3").val("");
+	else if (ss!=""){
+		alert("score should be number");
+		$("#trinity").modal('show');
+		return;
+	}
+	ss=$("#trinity3").val();
+	if (ss.length>0){
+		if (ss.length<=300){
+		  	comment=ss;
+	  	}
+	  	else{
+			alert('comment length exceeded');
+			$("#trinity").modal('show');
+			return;
+	  	}
+	}
+	$.post("/lecture/recordall/"+lid+"/",
+	{
+		level:level,
+		score:score,
+		content:comment
+	},
+	function(status){
+		if (status=='yes')
+			window.location.assign("/lecture/"+lid+"/");
+		else{
+			alert('3 comments at most');
+			$("#trinity").modal("hide");
+		}
+	});
 });
 
 //收藏按钮
