@@ -31,7 +31,8 @@
           <img  src="{% static 'img/logo_small.png' %}" class="img-responsive" alt="Responsive image" border="0" width="104" style="margin-top:20px; margin-left:-10px;">
           <p style="margin-top:10px;margin-bottom:0"><strong>分享到</strong></p>
           <p style="text-align:right;margin-top:-1.35em;margin-right:40px;margin-bottom:0"><a name="xn_share" onclick="shareClick()" type="icon" href="javascript:void(0);"></a></p>
-          <p style="text-align:right;margin-top:-1.7em;margin-right:17px;margin-bottom:0"><wb:share-button addition="simple" type="icon"></wb:share-button></p>
+          <!-- <p style="text-align:right;margin-top:-1.7em;margin-right:17px;margin-bottom:0"><wb:share-button addition="simple" type="icon"></wb:share-button></p> -->
+          <p style="text-align:right;margin-top:-1.7em;margin-right:17px;margin-bottom:0"><wb:share-button addition="simple" type="icon" default_text="选课还看教评？你OUT啦！sjtucourse.duapp.com——交大人专属的课程信息交流平台。在这里你可以快速查找大家对课程的评价，在这里你可以随意赞美吐槽曾经的课程！就在这个选课季，与所有交大人分享最真实可靠的课程信息！" pic="http%3A%2F%2Fsjtucourse.duapp.com%2Fstatic%2Fimg%2Flogo_big.png"></wb:share-button></p>
         </div>
         <div class="col-md-9 col-xs-12 col-sm-8">
           <h1 style="padding-left:0px;"><div class="visible-xs col-xs-1"></div>课程点评网</h1>
@@ -207,11 +208,11 @@
     <script type="text/javascript">
       function shareClick() {
         var rrShareParam = {
-          resourceUrl : '', //分享的资源Url
-          srcUrl : '',  //分享的资源来源Url,默认为header中的Referer,如果分享失败可以调整此值为resourceUrl试试
-          pic : '',   //分享的主题图片Url
-          title : '',   //分享的标题
-          description : ''  //分享的详细描述
+          resourceUrl : 'http://sjtucourse.duapp.com',
+          srcUrl : 'http://sjtucourse.duapp.com',
+          pic : 'http://sjtucourse.duapp.com/static/img/logo_big.png',
+          title : '选课还看教评，你神经病啊？！！！！',
+          description : '选课还看教评？你OUT啦！sjtucourse.duapp.com——交大人专属的课程信息交流平台。在这里你可以快速查找大家对课程的评价，在这里你可以随意赞美吐槽曾经的课程！就在这个选课季，与所有交大人分享最真实可靠的课程信息！'
         };
         rrShareOnclick(rrShareParam);
       }
