@@ -181,7 +181,7 @@
 								<div class="row" style="background-color:#F5F5F5;border: 1px solid #F5F5F5;border-radius: 6px;">
 									<div class="col-xs-2">
 										<p style="text-align:right; padding-top:6px;"><br/>课程基本信息</p>
-										<p style="text-align:right; font-weight:bold; padding-top:7px;">平均期末总评:&nbsp;{{ l.student_score|floatformat:2 }}</p>
+										<p style="text-align:right; font-weight:bold; padding-top:7px;">平均总评({{ l.student_score_number }}人):&nbsp;{{ l.student_score|floatformat:2 }}</p>
 										<p style="text-align:right; font-weight:bold; padding-top:6px;">评价:&nbsp;{{ l.level|floatformat:2 }}</p>
 										<p style="text-align:right; padding-top:25px;">已有{{ l.level_number }}人评价</p>
 									</div>
