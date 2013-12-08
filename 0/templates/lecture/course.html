@@ -34,6 +34,9 @@
 				height:30px; 
 				line-height:30px; 
 			}
+			#warning2{
+				color:red;
+			}
 	</style>
 </head>
 
@@ -185,7 +188,7 @@
 									<div class="col-xs-4">
 										<p><br/><strong style="font-size:20px; color:#553030;">分享</strong>您的得分和评分</p>
 										<form>
-											<input class="form-inline rs_content" id="rs{{ l.id }}" type="text" style="width:70px" placeholder="期末总评" autocomplete="off"> 
+											<input class="form-inline rs_content leveling" id="rs{{ l.id }}" type="text" style="width:70px" placeholder="期末总评" autocomplete="off"> 
 											<button type="button" class="btn btn-primary btn-sm rs_submit" data-id="{{ l.id }}" data-professor="{{ l.professor.name }}">提交</button>
 										</form>
 										<div class='rating forall' id='rate{{ l.id }}' data-id="{{ l.id }}" data-professor="{{ l.professor.name }}" style="margin-top:10px;margin-left:0px;margin-bottom:10px;"></div>
@@ -410,20 +413,56 @@
 					      	<p style="margin-top:10px;"><strong>评分</strong></p>
 					      	<p style="margin-top:20px;"><strong>期末总评</strong></p>
 					      	<p style="margin-top:30px;"><strong>添加点评</strong></p>
-								</div>
-								<div class="col-xs-10">
+						</div>
+						<div class="col-xs-10">
 					      	<div class="rating" id="trinity1" style="margin-top:12px;margin-left:0px;" title="若已评价则覆盖"></div>
 					      	<form style="margin-top:-10px;" title="若已提交则覆盖">
-										<input class="form-inline form-control input-sm" id="trinity2" type="text" style="width:100px;" autocomplete="off" placeholder="40 - 100">
-									</form>
-									<form style="margin-top:25px;">
-										<fieldset><textarea autocomplete="off" style="height:140px;" placeholder="同一老师最多三条点评" class='form-control' id='trinity3'></textarea></fieldset>
-									</form>
-								</div>
-							</div>
+								<input class="form-inline form-control input-sm leveling" id="trinity2" type="text" style="width:100px;" autocomplete="off" placeholder="40 - 100">
+								<p id="warning2"></p>
+							</form>
+							<form style="margin-top:25px;">
+								<fieldset><textarea autocomplete="off" style="height:140px;" placeholder="同一老师最多三条点评" class='form-control' id='trinity3'></textarea></fieldset>
+							</form>
+						</div>
+					</div>
 			      </div>
 			      <div class="modal-footer">
-			        <button type="button" class="btn btn-primary" id="trinity_submit" data-dismiss="modal">提交</button>
+			      	<div class="row">
+						<div class="col-xs-6" style="text-align:left;">
+							<p><span class='glyphicon glyphicon-info-sign'></span> 三者皆可选填</p>
+						</div>
+						<div class="col-xs-6" style="text-align:right;">
+			        		<button type="button" class="btn btn-primary" id="trinity_submit">提交</button>
+						</div>
+					</div>
+			      </div>
+			    </div><!-- /.modal-content -->
+			  </div><!-- /.modal-dialog -->
+			</div><!-- /.modal -->
+
+			<div class="modal" id="infortri" tabindex="-1">
+			  <div class="modal-dialog">
+			    <div class="modal-content">
+			      <div class="modal-header">
+			        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+			        <h4 class="modal-title" style="color:green">本次评价</h4>
+			      </div>
+			      <div class="modal-body">
+			      	<div class="row">
+				      	<div class="col-xs-2">
+					      	<p style="margin-top:10px;"><strong>评分</strong></p>
+					      	<p style="margin-top:20px;"><strong>期末总评</strong></p>
+					      	<p style="margin-top:20px;"><strong>点评</strong></p>
+						</div>
+						<div class="col-xs-10">
+					      	<p id="infortri1" style="margin-top:10px;"></p>
+					      	<p id="infortri2" style="margin-top:20px;"></p>
+							<p id="infortri3" style="margin-top:20px;"></p>
+				      	</div>
+			      	</div>
+			      </div>
+			      <div class="modal-footer">
+			        <button type="button" class="btn btn-success" id="refresh_page"data-dismiss="modal">知道了</button>
 			      </div>
 			    </div><!-- /.modal-content -->
 			  </div><!-- /.modal-dialog -->
@@ -438,7 +477,6 @@
 <script src="{% static 'js/search.js' %}"></script>
 <script src="{% static 'js/jquery.rating.js' %}"></script>
 <script>
-	
 	{% for l in lectures %}
 	$("#rate{{ l.id }}").rating({maxvalue:5,curvalue:{{ l.level|floatformat:1 }},increment:0.5});
 	{% endfor %}

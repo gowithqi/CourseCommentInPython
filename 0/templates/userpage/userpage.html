@@ -183,7 +183,13 @@
             {% endfor %}
           </ul>
         </li>
-        <p style="text-align:right;margin-top:-1.4em;margin-bottom:0;"><a id="favor" data-toggle="tooltip" data-placement="bottom" title="谢谢您的支持！请手动添加书签或牢记sjtucourse.duapp.com！" href="javascript:void(0)" onclick="addfavorite()">收藏本站</a></p>
+        <!-- <p style="text-align:right;margin-top:-1.4em;margin-bottom:0;"><a id="favor" data-toggle="tooltip" data-placement="bottom" title="谢谢您的支持！请手动添加书签或牢记sjtucourse.duapp.com！" href="javascript:void(0)" onclick="addfavorite()">收藏本站</a></p> -->
+        <div id="ckepop">
+          <span class="jiathis_txt">分享到：</span>
+            <a class="jiathis_button_renren">人人网</a>
+            <a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jiathis_separator jtico jtico_jiathis" target="_blank">更多</a>
+            <a class="jiathis_counter_style"></a>
+        </div>
       </ol>
 
       <div class="row">
@@ -474,6 +480,7 @@
     <script src="{% static 'js/myjquery.js' %}"></script>
     <script src="{% static 'js/userpage.js' %}"></script>
     <script src="{% static 'js/search.js' %}"></script>
+    <script type="text/javascript" src="http://v2.jiathis.com/code/jia.js" charset="utf-8"></script>
     {% if u.lecturecomment_set.all.count < 3 %}<script>$("#encourage").modal("show");</script>{% endif %}
 	</body>
 </html>

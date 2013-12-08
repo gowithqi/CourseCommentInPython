@@ -10,7 +10,7 @@ jQuery.fn.rating = function(options) {
     jQuery.extend(settings, options);
   };
    
-  var container = jQuery(this);
+  var container = jQuery(this), phrase=new Array("很差","一般","还行","推荐","力荐");
 	
 	jQuery.extend(container, {
     averageRating: settings.curvalue,
@@ -31,7 +31,7 @@ jQuery.fn.rating = function(options) {
     i=i-1+settings.increment;
     s++;
   }
-	
+	jQuery(container).append('<p></p>');
 	var stars = jQuery(container).children('.star');
 	
   stars
@@ -68,11 +68,15 @@ jQuery.fn.rating = function(options) {
 			stars
 				.children('p').css('width', '100%').end()
 				.slice(0,index).addClass('hover').end();
+      container.children('p').html(phrase[index/2-1]);
+      container.children('p').attr('style',"margin-bottom:-0.5em;margin-left:90px;");
 		},
 		drain: function() { // drain all the stars.
 			stars
 				.filter('.on').removeClass('on').end()
 				.filter('.hover').removeClass('hover').end();
+      container.children('p').html("");
+      container.children('p').attr('style',"");
 		},
 		reset: function(){ // Reset the stars to the default index.
 			stars.slice(0,settings.curvalue / settings.increment).addClass('on').end();

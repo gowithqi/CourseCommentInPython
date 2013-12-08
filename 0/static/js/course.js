@@ -44,16 +44,16 @@ $("#trinity_submit").click(function(){
 		s=Number(ss);
 		if ((40>s)||(s>100))
 		{
-			$('#failed_content').html('score should be 40-100');
-			$('#failed').modal('toggle');
+			$("#warning2").attr("style","margin-bottom:-1.4em");
+			$("#warning2").html("分数应在40-100之间！");
 			return;
 		}
 		else
 			score=s;
 	}
 	else if (ss!=""){
-		alert("score should be number");
-		$("#trinity").modal('show');
+		$("#warning2").attr("style","margin-bottom:-1.4em");
+		$("#warning2").html("分数应为数字！");
 		return;
 	}
 	ss=$("#trinity3").val();
@@ -62,10 +62,25 @@ $("#trinity_submit").click(function(){
 		  	comment=ss;
 	  	}
 	  	else{
-			alert('comment length exceeded');
-			$("#trinity").modal('show');
+			$("#warning2").attr("style","margin-bottom:-1.4em");
+			$("#warning2").html("请不要超过300字！");
 			return;
 	  	}
+	}
+	if (level!="")
+		$("#infortri1").html(level);
+	else
+		$("#infortri1").html("未提供");
+	if (score!="")
+		$("#infortri2").html(score);
+	else
+		$("#infortri2").html("未提供");
+	if (level==""&&score==""&&comment==""){
+		$("#trinity").modal('hide');
+		$("#infortri3").html("未提供");
+		$("#infortri").attr("data-id","");
+		$("#infortri").modal("show");
+		return;
 	}
 	$.post("/lecture/recordall/"+lid+"/",
 	{
@@ -74,13 +89,47 @@ $("#trinity_submit").click(function(){
 		content:comment
 	},
 	function(status){
-		if (status=='yes')
-			window.location.assign("/lecture/"+lid+"/");
-		else{
-			alert('3 comments at most');
-			$("#trinity").modal("hide");
+		if (status=='yes'){
+			if (comment!="")
+				$("#infortri3").html(comment);
+			else
+				$("#infortri3").html("未提供");
 		}
+		else
+			$("#infortri3").html("您已点评过三条");
+		$("#trinity").modal("hide");
+		$("#infortri").attr("data-id",lid);
+		$("#infortri").modal("show");
+		//setTimeout('window.location.assign("/lecture/'+lid+'/")',1000);
 	});
+});
+
+$("#trinity").on("hidden.bs.modal",function(){
+	$("#warning2").html("");
+	$("#warning2").attr("style","");
+});
+
+$("#refresh_page").click(function(){
+	var s=$("#infortri").attr("data-id");
+	if (s!="")
+		window.location.assign("/lecture/"+s+"/");
+});
+
+var last=0;
+$(".leveling").keydown(function(e){
+  if (e.keyCode==40||e.keyCode==38)
+    last=1;
+  else{
+    if (e.keyCode==13&&last==0)
+    {
+      e.preventDefault();
+      if ($(this).attr("id")!="trinity2")
+      	$(".rs_submit").trigger("click");
+      else
+      	$("#trinity3").trigger("focus");
+    }
+    last=0;
+  }
 });
 
 //收藏按钮
