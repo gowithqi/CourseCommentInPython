@@ -1,7 +1,7 @@
 {% load staticfiles %}
 {% load login_extras %}
 <!DOCTYPE html>
-<html lang="zh">
+<html lang="zh" xmlns:wb="http://open.weibo.com/wb">
 	<head>
 		<meta charset="utf-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -482,7 +482,20 @@
     <script src="{% static 'js/myjquery.js' %}"></script>
     <script src="{% static 'js/userpage.js' %}"></script>
     <script src="{% static 'js/search.js' %}"></script>
-    <script type="text/javascript" src="http://v2.jiathis.com/code/jia.js" charset="utf-8"></script>
     {% if u.lecturecomment_set.all.count < 3 %}<script>$("#encourage").modal("show");</script>{% endif %}
+    <script type="text/javascript" src="http://widget.renren.com/js/rrshare.js"></script>
+    <script src="http://tjs.sjs.sinajs.cn/open/api/js/wb.js" type="text/javascript" charset="utf-8"></script>
+    <script type="text/javascript">
+      function shareClick() {
+        var rrShareParam = {
+          resourceUrl : '', //分享的资源Url
+          srcUrl : '',  //分享的资源来源Url,默认为header中的Referer,如果分享失败可以调整此值为resourceUrl试试
+          pic : '',   //分享的主题图片Url
+          title : '',   //分享的标题
+          description : ''  //分享的详细描述
+        };
+        rrShareOnclick(rrShareParam);
+      }
+    </script>
 	</body>
 </html>
