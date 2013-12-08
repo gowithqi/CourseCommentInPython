@@ -1,11 +1,12 @@
 {% load staticfiles %}
 <!DOCTYPE html>
-<html lang="zh">
+<html lang="zh" xmlns:wb="http://open.weibo.com/wb">
 	<head>
 		<meta charset="utf-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
 		<meta name="description" content="login">
     <meta name="author" content="lyw">
+    <meta property="wb:webmaster" content="f0afb9d389e7abc1" />
 		<link href="{% static 'img/icon2.jpg' %}" rel="icon">
 
 		<title>课程点评网</title>
@@ -28,8 +29,13 @@
         <div class="col-md-3 col-xs-12 col-sm-4" style="margin-left:-15px;">
           <div class="visible-xs col-xs-3"></div>
           <img  src="{% static 'img/logo_small.png' %}" class="img-responsive" alt="Responsive image" border="0" width="104" style="margin-top:20px; margin-left:-10px;">
+          <p style="margin-top:10px;margin-bottom:0"><strong>分享到</strong></p>
+          <p style="text-align:right;margin-top:-1.35em;margin-right:40px;margin-bottom:0"><a name="xn_share" onclick="shareClick()" type="icon" href="javascript:void(0);"></a></p>
+          <p style="text-align:right;margin-top:-1.7em;margin-right:17px;margin-bottom:0"><wb:share-button addition="simple" type="icon"></wb:share-button></p>
         </div>
-        <h1 class="col-md-9 col-xs-12 col-sm-8" style="padding-left:0px;"><div class="visible-xs col-xs-1"></div>课程点评网</h1>
+        <div class="col-md-9 col-xs-12 col-sm-8">
+          <h1 style="padding-left:0px;"><div class="visible-xs col-xs-1"></div>课程点评网</h1>
+        </div>
       </div>
       <form class="col-xs-6" style="margin-top:20px;">
         <div class="col-md-4 col-md-offset-2 col-xs-9 col-sm-5">
@@ -196,5 +202,19 @@
     <script src="{% static 'js/myjquery.js' %}"></script>
     <script src="{% static 'js/register.js' %}"></script>
     <script src="{% static 'js/login.js' %}"></script>
+    <script type="text/javascript" src="http://widget.renren.com/js/rrshare.js"></script>
+    <script src="http://tjs.sjs.sinajs.cn/open/api/js/wb.js" type="text/javascript" charset="utf-8"></script>
+    <script type="text/javascript">
+      function shareClick() {
+        var rrShareParam = {
+          resourceUrl : '', //分享的资源Url
+          srcUrl : '',  //分享的资源来源Url,默认为header中的Referer,如果分享失败可以调整此值为resourceUrl试试
+          pic : '',   //分享的主题图片Url
+          title : '',   //分享的标题
+          description : ''  //分享的详细描述
+        };
+        rrShareOnclick(rrShareParam);
+      }
+    </script>
 	</body>
 </html>
