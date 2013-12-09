@@ -243,6 +243,7 @@ def getGossipDict(gossip):
 	gossip_tmp = {}
 	gossip_tmp['gossip_id'] = gossip.id
 	gossip_tmp['gossip_user'] = gossip.user.name
+	gossip_tmp['gossip_user_id'] = gossip.user.id
 	gossip_tmp['gossip_content'] = gossip.content
 	gossip_tmp['gossip_super_number'] = gossip.super_number
 	gossip_tmp['gossip_time'] = formatTime(gossip.time)

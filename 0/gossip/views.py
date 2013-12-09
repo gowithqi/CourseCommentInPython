@@ -1,4 +1,5 @@
 from datetime import datetime
+import json
 
 from django.http import HttpResponse, Http404, HttpResponseRedirect
 from django.template import RequestContext, loader
@@ -9,6 +10,7 @@ from login.models import User
 from gossip.models import Gossip, GossipSuperRecord
 from comment.influence import increaseSysAchievement, updateUserInfluence
 from login.views import checkUserLogin
+from userpage.views import getGossipDict, getLectureDict
 
 GOSSIPS_NUMBER = 50
 GOSSIP_MAX_LENGTH = 300
@@ -30,6 +32,27 @@ def gossip(request):
 		})
 	
 	return HttpResponse(template.render(context))
+
+@require_http_methods(['GET'])
+def getGossips(request, start, end):
+	start = int(start)
+	if start<1: raise Http500	
+	end = int(end)
+	print "getgossips, start:%d, end:%d" % (start, end)
+	user_id = checkUserLogin(request)
+
+	if end < start: gossips = Gossip.objects.all().order_by('-rank_score')[start-1:]
+	else: gossips = Gossip.objects.all().order_by('-rank_score')[start-1: end]
+
+	ret = []
+	for g in gossips:
+		tmp = getGossipDict(g)
+		l = g.lecture
+		tmp_l = getLectureDict(l)
+		tmp['lecture'] = tmp_l
+		ret.append(tmp)
+
+	return HttpResponse(json.dumps(ret, ensure_ascii=False, indent=4))
 
 # a gossip with its author hidden, the user id will be 0.
 # a gossip that isn't for a specific lecture, the lecture id will 0
