@@ -25,8 +25,11 @@ def gossip(request):
 	user = get_object_or_404(User, id=user_id)
 
 	gossips = Gossip.objects.all()[:GOSSIPS_NUMBER]
+	gossip_super_records = [t.gossip.id for t in user.gossipsuperrecord_set.all()]
+	print gossip_super_records
 	template = loader.get_template("gossip/gossip.html")
 	context = RequestContext(request, {
+		'gossip_super_records': gossip_super_records,
 		'gossips': gossips,
 		'u': user,
 		})
@@ -40,6 +43,7 @@ def getGossips(request, start, end):
 	end = int(end)
 	print "getgossips, start:%d, end:%d" % (start, end)
 	user_id = checkUserLogin(request)
+	user = get_object_or_404(User, id=user_id)
 
 	if end < start: gossips = Gossip.objects.all().order_by('-rank_score')[start-1:]
 	else: gossips = Gossip.objects.all().order_by('-rank_score')[start-1: end]
@@ -48,6 +52,11 @@ def getGossips(request, start, end):
 	for g in gossips:
 		tmp = getGossipDict(g)
 		l = g.lecture
+		try:
+			r = GossipSuperRecord.objects.get(gossip=g, user=user)
+			tmp['have_supered'] = True
+		except GossipSuperRecord.DoesNotExist:
+			tmp['have_supered'] = False
 		tmp_l = getLectureDict(l)
 		tmp['lecture'] = tmp_l
 		ret.append(tmp)
