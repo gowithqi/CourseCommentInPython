@@ -8,6 +8,7 @@ from django.views.decorators.http import require_http_methods
 from login.models import User
 from gossip.models import Gossip, GossipSuperRecord
 from comment.influence import increaseSysAchievement, updateUserInfluence
+from login.views import checkUserLogin
 
 GOSSIPS_NUMBER = 50
 GOSSIP_MAX_LENGTH = 300
