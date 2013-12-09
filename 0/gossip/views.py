@@ -18,10 +18,14 @@ GOSSIP_SUPER_VALUE_INFLUENCE = 1
 
 @require_http_methods(['GET'])
 def gossip(request):
+	user_id = checkUserLogin(request)
+	user = get_object_or_404(User, id=user_id)
+
 	gossips = Gossip.objects.all()[:GOSSIPS_NUMBER]
 	template = loader.get_template("gossip/gossip.html")
 	context = RequestContext(request, {
 		'gossips': gossips,
+		'u': user,
 		})
 	
 	return HttpResponse(template.render(context))
