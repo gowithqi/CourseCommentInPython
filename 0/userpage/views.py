@@ -10,6 +10,8 @@ from login.models import User
 from login.views import checkUserLogin
 from comment.models import MessageOfCommentSuper
 from comment.influence import updateUserInfluence
+from cadmin.views import deleteComment, deleteGossip
+from gossip.models import Gossip
 
 import json
 import random
@@ -237,6 +239,29 @@ def freshUserInfluence(request):
 		for g in u.gossip_set.all():
 			tmp += g.gossipsuperrecord_set.all().count() * GOSSIP_SUPER_VALUE_INFLUENCE
 		updateUserInfluence(u, tmp)
+	return HttpResponse("yes")
+
+@require_http_methods(['GET'])
+def deleteRecord(request, record_type, id):
+	user_id = checkUserLogin(request)
+	user = get_object_or_404(User, id=user_id)
+
+	record_type = str(record_type)
+	if record_type == "comment":
+		record = get_object_or_404(LectureComment, id=int(id))
+		if record.user.id == user.id:
+			deleteComment(int(id))
+		else:
+			raise Http404
+	elif record_type == "gossip":
+		record = get_object_or_404(Gossip, id=int(id))
+		if record.user.id == user.id:
+			deleteGossip(int(id))
+		else:
+			raise Http404
+	else:
+		raise Http404
+
 	return HttpResponse("yes")
 
 def getGossipDict(gossip):

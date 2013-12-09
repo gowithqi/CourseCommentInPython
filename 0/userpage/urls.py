@@ -15,5 +15,6 @@ urlpatterns = patterns('',
 	url(r'^setnickname/$', views.setNickname),
 	url(r'^setstyle/$', views.setStyle),
 	url(r'^freshuserinfluence/$', views.freshUserInfluence),
+	url(r'^delete(?P<record_type>gossip|comment)/(?P<id>\d+)/$', views.deleteRecord),
 )
 
