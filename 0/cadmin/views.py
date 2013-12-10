@@ -13,8 +13,10 @@ from login.models import User
 from comment.models import MessageOfCommentSuper
 from login.views import checkUserLogin
 from comment.influence import increaseSysAchievement, updateUserInfluence
+from comment.settings import COMMENT_VALUE_INFLUENCE, COMMENT_SUPER_VALUE_INFLUENCE
+from gossip.settings import GOSSIP_SUPER_VALUE_INFLUENCE
 
-ADMINS = [6, 14, 15]
+ADMINS = [6, 14, 15, 16]
 START_DATE = datetime.strptime("20131101", "%Y%m%d")
 TODAY = date.today()
 TODAY = datetime(year=TODAY.year, month=TODAY.month, day=TODAY.day)
@@ -25,6 +27,7 @@ def cadmin(request):
 	template = loader.get_template("cadmin/cadmin.html")
 	context = RequestContext(request, {
 		"user_number": User.objects.all().count(),
+		"formal_user_number": User.objects.filter(formal=True).count(),
 		"comment_number": LectureComment.objects.all().count(),
 		"gossip_number": Gossip.objects.all().count()
 		})
@@ -74,15 +77,18 @@ def deleteRecord(request):
 
 def deleteComment(id):
 	c = get_object_or_404(LectureComment, id=id)
+	updateUserInfluence(c.user, LectureCommentSuperRecord.objects.filter(lecture_comment=c).count()*COMMENT_SUPER_VALUE_INFLUENCE*(-1))
 	# delete super record
 	LectureCommentSuperRecord.objects.filter(lecture_comment=c).delete()
 	# delete message
 	MessageOfCommentSuper.objects.filter(lecture_comment=c).delete()
+	updateUserInfluence(c.user, COMMENT_VALUE_INFLUENCE*(-1))
 	c.delete()
 	return
 
 def deleteGossip(id):
 	g = get_object_or_404(Gossip, id=id)
+	updateUserInfluence(g.user, GOSSIP_SUPER_VALUE_INFLUENCE*(-1)*GossipSuperRecord.objects.filter(gossip=g).count())
 	GossipSuperRecord.objects.filter(gossip=g).delete()
 	g.delete()
 	return 

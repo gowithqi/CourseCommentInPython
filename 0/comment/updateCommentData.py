@@ -8,7 +8,7 @@ from login.models import User
 from comment.models import MessageOfCommentSuper
 from login.views import checkUserLogin
 from comment.influence import increaseSysAchievement, updateUserInfluence
-from comment.views import START_TIME, SUPER_VALUE
+from comment.settings import START_TIME, SUPER_VALUE
 
 import jieba
 NUMBER_OF_WORDS = 40

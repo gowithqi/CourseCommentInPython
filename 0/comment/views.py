@@ -11,13 +11,7 @@ from login.models import User
 from comment.models import MessageOfCommentSuper
 from login.views import checkUserLogin
 from comment.influence import increaseSysAchievement, updateUserInfluence
-
-START_TIME = datetime(year=2013, month=11, day=1)
-SUPER_VALUE = 10		# One SUPER equal how many days
-MAX_COMMENTS_PER_USER = 3		# One user can comment a lecture at most ** times.
-NUMBER_OF_WORDS = 100
-COMMENT_SUPER_VALUE_INFLUENCE = 5
-COMMENT_VALUE_INFLUENCE = 2
+from comment.settings import *
 
 def super(request, comment_id):
 	if request.method != 'GET': raise Http404
