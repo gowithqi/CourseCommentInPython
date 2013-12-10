@@ -192,10 +192,12 @@ def recordAll(request, lecture_id):
 @require_http_methods(['GET'])
 def courselist(request):
 	user_id = checkUserLogin(request)
+	user = get_object_or_404(User, id=user_id)
 	template = loader.get_template('lecture/courselist.html')
 	school_list = [c['school'] for c in Course.objects.values('school').distinct()]
 	print school_list
 	context = RequestContext(request, {
+		'u', user,
 		'school_list': school_list
 		})
 	return HttpResponse(template.render(context))
