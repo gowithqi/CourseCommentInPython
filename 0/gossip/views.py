@@ -11,13 +11,7 @@ from gossip.models import Gossip, GossipSuperRecord
 from comment.influence import increaseSysAchievement, updateUserInfluence
 from login.views import checkUserLogin
 from userpage.views import getGossipDict, getLectureDict
-
-GOSSIPS_NUMBER = 50
-GOSSIP_MAX_LENGTH = 300
-START_TIME = datetime(year=2013, month=11, day=11)
-SUPER_VALUE = 10
-
-GOSSIP_SUPER_VALUE_INFLUENCE = 1
+from gossip.settings import *
 
 @require_http_methods(['GET'])
 def gossip(request):

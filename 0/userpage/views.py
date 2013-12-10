@@ -227,8 +227,8 @@ def freshUserInfluence(request):
 	user_id = checkUserLogin(request)
 	if int(user_id) != 14: raise Http404
 
-	from comment.views import COMMENT_SUPER_VALUE_INFLUENCE, COMMENT_VALUE_INFLUENCE
-	from gossip.views import GOSSIP_SUPER_VALUE_INFLUENCE
+	from comment.settings import COMMENT_SUPER_VALUE_INFLUENCE, COMMENT_VALUE_INFLUENCE
+	from gossip.settings import GOSSIP_SUPER_VALUE_INFLUENCE
 	for u in User.objects.all():
 		t = u.influence_factor
 		updateUserInfluence(u, (-1*t))
