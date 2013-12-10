@@ -197,7 +197,7 @@ def courselist(request):
 	school_list = [c['school'] for c in Course.objects.values('school').distinct()]
 	print school_list
 	context = RequestContext(request, {
-		'u', user,
+		'u': user,
 		'school_list': school_list
 		})
 	return HttpResponse(template.render(context))
