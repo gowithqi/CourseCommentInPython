@@ -273,3 +273,33 @@ $("#float_comment").mouseleave(function(){
 $("#favor").mouseenter(function(){
   $('#favor').tooltip('show');
 });
+$(".deleteg").click(function(){
+  $("#delete_content").html('确定要永久删除这条吐槽吗？');
+  $("#delete_confirm").attr("data-id",$(this).attr("data-id"));
+  $("#delete_confirm").attr("data-type",'gossip');
+  $("#delete_modal").modal('show');
+});
+$(".deletec").click(function(){
+  $("#delete_content").html('确定要永久删除这条点评吗？');
+  $("#delete_confirm").attr("data-id",$(this).attr("data-id"));
+  $("#delete_confirm").attr("data-type",'comment');
+  $("#delete_modal").modal('show');
+});
+$("#delete_confirm").click(function(){
+  var type=$(this).attr('data-type'),id=$(this).attr('data-id');
+  $.get('/userpage/delete'+type+'/'+id+'/');
+  $('#delete_modal').modal('hide');
+  var numb;
+  if (type=='gossip'){
+    $('#g'+id).remove();
+    numb=parseInt($('#gnumber1').html())-1;
+    $('#gnumber1').html(numb);
+    $('#gnumber2').html(numb);
+  }
+  else{
+    $('#c'+id).remove();
+    numb=parseInt($('#cnumber1').html())-1;
+    $('#cnumber1').html(numb);
+    $('#cnumber2').html(numb);
+  }
+});

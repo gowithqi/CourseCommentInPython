@@ -91,89 +91,6 @@
         </div><!-- /.navbar-collapse -->
       </nav>
 
-      <!-- extra search -->
-      <div class="modal fade" id="eSearch" tabindex="-1">
-        <div class="modal-dialog">
-          <div class="modal-content">
-            <div class="modal-header">
-              <h4 class="modal-title"></h4>
-            </div>
-            <div class="modal-body"></div>
-            <div class="modal-footer">
-              <button type="button" class="btn btn-primary" data-dismiss="modal">确定</button>
-            </div>
-          </div><!-- /.modal-content -->
-        </div><!-- /.modal-dialog -->
-      </div><!-- /.modal -->
-
-      <!-- encouragement -->
-      <div class="modal fade" id="encourage" tabindex="-1">
-        <div class="modal-dialog">
-          <div class="modal-content">
-            <div class="modal-header">
-              <h4 class="modal-title">
-                {% if u.lecturecomment_set.all.count < 3 %}
-                  欢迎
-                {% endif %}
-              </h4>
-            </div>
-            <div class="modal-body">
-              {% if u.lecturecomment_set.all.count < 3 %}
-                {% if u.lecturecomment_set.all.count < 1 %}
-                SJTU Course是交大人互帮互助的平台。<br/>
-                大家都期待着你对课程的独到见解。<br/>
-                <br/>
-                <strong>一两句话就可以在SJTU留下你专属的印记哦～</strong><br/>
-                赶快去分享你的第一条点评吧！～～
-                {% else %}
-                SJTU Course是交大人互帮互助的平台。<br/>
-                大家都期待着你对课程的独到见解。<br/>
-                <br/>
-                你已点评了<strong>{{ u.lecturecomment_set.all.count }}</strong>门课程，再想想还有什么印象深刻的课吗？<br/>
-                大家都点评了3条，你怎么能示弱呢！>_<
-                {% endif %}
-              {% endif %}
-            </div>
-            <div class="modal-footer">
-              <button type="button" class="btn btn-primary" data-dismiss="modal">去写点评</button>
-            </div>
-          </div><!-- /.modal-content -->
-        </div><!-- /.modal-dialog -->
-      </div><!-- /.modal -->
-
-      <!-- set name -->
-      <div class="modal fade" id="sName" tabindex="-1">
-        <div class="modal-dialog">
-          <div class="modal-content">
-            <div class="modal-header">
-              <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-              <h4 class="modal-title">修改昵称</h4>
-            </div>
-            <div class="modal-body">
-              <form class="form-horizontal" role="form">
-                <div class="form-group">
-                  <label class="col-xs-2 control-label">旧昵称</label>
-                  <div class="col-xs-10">
-                    <p class="form-control-static">{{ u.name }}</p>
-                  </div>
-                </div>
-                <div class="form-group">
-                  <label for="newname" class="col-xs-2 control-label">新昵称<span id="helpname" class="help-block"></span></label>
-                  <div class="col-xs-10 enter">
-                    <input type="text" class="form-control" id="newname" placeholder="新昵称" autocomplete="off">
-                    <label for="name" id="nm_prompt"></label>
-                  </div>
-                </div>
-              </form>
-            </div>
-            <div class="modal-footer">
-              <button type="button" class="btn btn-primary" onclick="setname_post()">确定</button>
-              <button type="button" class="btn btn-primary" data-dismiss="modal">取消</button>
-            </div>
-          </div><!-- /.modal-content -->
-        </div><!-- /.modal-dialog -->
-      </div><!-- /.modal -->
-
       <ol class="breadcrumb" style="margin-top:70px;">
         <li>{{ sys_achievement }}次帮助大家了解课程</li>
         <li>我的影响因子：{{ user_influence_factor }}</li>
@@ -306,10 +223,10 @@
         <div class="col-xs-2" style="text-align:right;"> 
           <ul class="nav nav-pills nav-stacked" style="max-width: 150px;">
             <li class="active success" style="background-color:#F2F2F2;border: 0px solid #DCDCFA;border-radius: 6px;">
-              <a data-toggle="tab" href="#user_comment" data-placement="right"><h4><span class="badge" style="background-color:#5555FF;">{{ u.lecturecomment_set.all.count }}</span><strong> 点评</strong></h4></a>
+              <a data-toggle="tab" href="#user_comment" data-placement="right"><h4><span class="badge" style="background-color:#5555FF;" id='cnumber1'>{{ u.lecturecomment_set.all.count }}</span><strong> 点评</strong></h4></a>
             </li>
             <li style="background-color:#F2F2F2;border: 0px solid #DCDCFA;border-radius: 6px;">
-              <a data-toggle="tab" href="#user_gossip" data-placement="right"><h4><span class="badge" style="background-color:#5555FF;">{{ u.gossip_set.all.count }}</span><strong> 吐槽</strong></h4></a>
+              <a data-toggle="tab" href="#user_gossip" data-placement="right"><h4><span class="badge" style="background-color:#5555FF;" id='gnumber1'>{{ u.gossip_set.all.count }}</span><strong> 吐槽</strong></h4></a>
             </li>
           </ul>
         </div>
@@ -319,13 +236,14 @@
             <div class="tab-pane fade in active" id="user_comment">
               <div class="panel panel-primary">
                 <div class="panel-heading">
-                  <h3 class="panel-title"><span class="glyphicon glyphicon-edit"></span> 我的点评{% if u.lecturecomment_set.all.count > 0 %}（{{ u.lecturecomment_set.all.count }}条）{% endif %}</h3>
+                  <h3 class="panel-title"><span class="glyphicon glyphicon-edit"></span> 我的点评{% if u.lecturecomment_set.all.count > 0 %}（<span id='cnumber2'>{{ u.lecturecomment_set.all.count }}</span>条）{% endif %}</h3>
                 </div>
                 <div class="panel-body">
                   {% if u.lecturecomment_set.all.count > 0 %}
                   <ul class="list-group">
                     {% for comment in u.lecturecomment_set.all|dictsortreversed:"time" %}
-                    <li class="list-group-item" style="border-color:#AAAAAA">
+                    <li class="list-group-item" style="border-color:#AAAAAA" id="c{{ comment.id }}">
+                      <button type="button" class="close deletec" data-id="{{ comment.id }}" title='删除'>&times;</button>
                       <div class="row">
                         <div class="col-xs-3">
                           <h5><a href="/lecture/{{ comment.lecture.id }}"><strong>{{ comment.lecture.course.name }}</strong></a></h5>
@@ -349,13 +267,14 @@
             <div class="tab-pane fade in" id="user_gossip">
               <div class="panel panel-primary">
                 <div class="panel-heading">
-                  <h3 class="panel-title"><span class="glyphicon glyphicon-edit"></span> 我的吐槽{% if u.gossip_set.all.count > 0 %}（{{ u.gossip_set.all.count }}条）{% endif %}</h3>
+                  <h3 class="panel-title"><span class="glyphicon glyphicon-edit"></span> 我的吐槽{% if u.gossip_set.all.count > 0 %}（<span id='gnumber2'>{{ u.gossip_set.all.count }}</span>条）{% endif %}</h3>
                 </div>
                 <div class="panel-body">
                   {% if u.gossip_set.all.count > 0 %}
                   <ul class="list-group">
                     {% for comment in u.gossip_set.all|dictsortreversed:"time" %}
-                    <li class="list-group-item" style="border-color:#AAAAAA">
+                    <li class="list-group-item" style="border-color:#AAAAAA" id="g{{ comment.id }}">
+                      <button type="button" class="close deleteg" data-id="{{ comment.id }}" title='删除'>&times;</button>
                       <div class="row">
                         <div class="col-xs-3">
                           <h5><a href="/lecture/{{ comment.lecture.id }}"><strong>{{ comment.lecture.course.name }}</strong></a></h5>
@@ -463,6 +382,110 @@
           </div>
         </div>
       </div> -->
+
+      <!-- extra search -->
+      <div class="modal fade" id="eSearch" tabindex="-1">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h4 class="modal-title"></h4>
+            </div>
+            <div class="modal-body"></div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-primary" data-dismiss="modal">确定</button>
+            </div>
+          </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+      </div><!-- /.modal -->
+
+      <!-- encouragement -->
+      <div class="modal fade" id="encourage" tabindex="-1">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h4 class="modal-title">
+                {% if u.lecturecomment_set.all.count < 3 %}
+                  欢迎
+                {% endif %}
+              </h4>
+            </div>
+            <div class="modal-body">
+              {% if u.lecturecomment_set.all.count < 3 %}
+                {% if u.lecturecomment_set.all.count < 1 %}
+                SJTU Course是交大人互帮互助的平台。<br/>
+                大家都期待着你对课程的独到见解。<br/>
+                <br/>
+                <strong>一两句话就可以在SJTU留下你专属的印记哦～</strong><br/>
+                赶快去分享你的第一条点评吧！～～
+                {% else %}
+                SJTU Course是交大人互帮互助的平台。<br/>
+                大家都期待着你对课程的独到见解。<br/>
+                <br/>
+                你已点评了<strong>{{ u.lecturecomment_set.all.count }}</strong>门课程，再想想还有什么印象深刻的课吗？<br/>
+                大家都点评了3条，你怎么能示弱呢！>_<
+                {% endif %}
+              {% endif %}
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-primary" data-dismiss="modal">去写点评</button>
+            </div>
+          </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+      </div><!-- /.modal -->
+
+      <!-- set name -->
+      <div class="modal fade" id="sName" tabindex="-1">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+              <h4 class="modal-title">修改昵称</h4>
+            </div>
+            <div class="modal-body">
+              <form class="form-horizontal" role="form">
+                <div class="form-group">
+                  <label class="col-xs-2 control-label">旧昵称</label>
+                  <div class="col-xs-10">
+                    <p class="form-control-static">{{ u.name }}</p>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label for="newname" class="col-xs-2 control-label">新昵称<span id="helpname" class="help-block"></span></label>
+                  <div class="col-xs-10 enter">
+                    <input type="text" class="form-control" id="newname" placeholder="新昵称" autocomplete="off">
+                    <label for="name" id="nm_prompt"></label>
+                  </div>
+                </div>
+              </form>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-primary" onclick="setname_post()">确定</button>
+              <button type="button" class="btn btn-primary" data-dismiss="modal">取消</button>
+            </div>
+          </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+      </div><!-- /.modal -->
+
+      <!-- confirm delete -->
+      <div class="modal fade" id="delete_modal" tabindex="-1">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+              <h4 class="modal-title text-danger">确认删除</h4>
+            </div>
+            <div class="modal-body">
+              <p>删除后，您的影响因子可能将相应减少。</p>
+              <p id='delete_content'></p>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-danger" id="delete_confirm">确定</button>
+              <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+            </div>
+          </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+      </div><!-- /.modal -->
+
       <div class="row" style="background-color:#FFFFFF;color:black">
         <div class="col-xs-12">
           <p style="color:#AAAAAA;text-align:center;margin-top:40px;">&#169; 2013 CourseComment Group<br/>联系我们：coursecomment@groups.163.com</p>
