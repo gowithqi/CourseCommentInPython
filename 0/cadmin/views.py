@@ -57,6 +57,7 @@ def getContent(request):
 	template = loader.get_template("cadmin/content.html")
 	context = RequestContext(request, {
 		"user_number": User.objects.all().count(),
+		"formal_user_number": User.objects.filter(formal=True).count(),
 		"comment_number": LectureComment.objects.all().count(),
 		"gossip_number": Gossip.objects.all().count(),
 		'contents': l,
