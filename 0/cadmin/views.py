@@ -25,9 +25,10 @@ TODAY = datetime(year=TODAY.year, month=TODAY.month, day=TODAY.day)
 def cadmin(request):
 	if not (request.session['user_id'] in ADMINS): raise Http404
 	template = loader.get_template("cadmin/cadmin.html")
+	formal_user_number = User.objects.filter(formal=True).count()
 	context = RequestContext(request, {
 		"user_number": User.objects.all().count(),
-		"formal_user_number": User.objects.filter(formal=True).count(),
+		"formal_user_number": formal_user_number,
 		"comment_number": LectureComment.objects.all().count(),
 		"gossip_number": Gossip.objects.all().count()
 		})
