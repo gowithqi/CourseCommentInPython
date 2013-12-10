@@ -51,6 +51,8 @@ def getGossips(request, start, end):
 	ret = []
 	for g in gossips:
 		tmp = getGossipDict(g)
+		del tmp['gossip_user']
+		del tmp['gossip_user_id']
 		l = g.lecture
 		try:
 			r = GossipSuperRecord.objects.get(gossip=g, user=user)
