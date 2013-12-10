@@ -22,7 +22,7 @@
     <![endif]-->
 	</head>
 
-	<body>
+	<body background="{% static 'img/wall.png' %}">
     {% csrf_token %}
     <div class="container">
       <nav class="navbar navbar-inverse navbar-fixed-top" style="max-width:1140px;MARGIN-RIGHT: auto;MARGIN-LEFT: auto;TEXT-ALIGN: center;">
@@ -138,41 +138,52 @@
       </div><!-- /.modal -->
 
       <div class="row" style="margin-top:100px;">
-        <div class="col-xs-4">
-          {% for g in gossips|slice:":5" %}
+        <div class="col-xs-4" id="column1">
+          {% for g in gossips|dictsortreversed:"rank_score"|slice:":19:3" %}
           <div class="panel panel-default">
             <div class="panel-heading">
-              <h3 class="panel-title">{{ g.lecture.professor.name}} 《{{ g.lecture.course.name }}》</h3>
+              <h3 class="panel-title" style='color:#0066FF;'><a href="/lecture/{{ g.lecture.id}}/">{{ g.lecture.professor.name}} 《{{ g.lecture.course.name }}》</a></h3>
             </div>
             <div class="panel-body">
-              {{ g.content }}
+              <h4 style="text-indent:2em;">{{ g.content }}</h4>
+              <h4 style="text-align:right;white-space:pre;"><small>{{ g.time|formatTime }}      <a href="#" class="goss" data-gosid="{{ g.id }}" data-super="{% if g.id in gossip_super_records %}1{% else %}0{% endif %}">{% if g.id in gossip_super_records %}取消{% else %}赞{% endif %}</a> (<span id='s{{ g.id }}'>{{ g.super_number }}</span>)</small></h4>
             </div>
           </div>
           {% endfor %}
         </div>
-        <div class="col-xs-4">
-          {% for g in gossips|slice:"5:10" %}
+        <div class="col-xs-4" id="column2">
+          {% for g in gossips|dictsortreversed:"rank_score"|slice:"1:20:3" %}
           <div class="panel panel-default">
             <div class="panel-heading">
-              <h3 class="panel-title">{{ g.lecture.professor.name}} 《{{ g.lecture.course.name }}》</h3>
+              <h3 class="panel-title" style='color:#0066FF;'><a href="/lecture/{{ g.lecture.id}}/">{{ g.lecture.professor.name}} 《{{ g.lecture.course.name }}》</a></h3>
             </div>
             <div class="panel-body">
-              {{ g.content }}
+              <h4 style="text-indent:2em;">{{ g.content }}</h4>
+              <h4 style="text-align:right;white-space:pre;"><small>{{ g.time|formatTime }}      <a href="#" class="goss" data-gosid="{{ g.id }}" data-super="{% if g.id in gossip_super_records %}1{% else %}0{% endif %}">{% if g.id in gossip_super_records %}取消{% else %}赞{% endif %}</a> (<span id='s{{ g.id }}'>{{ g.super_number }}</span>)</small></h4>
             </div>
           </div>
           {% endfor %}
         </div>
-        <div class="col-xs-4">
-          {% for g in gossips|slice:"10:15" %}
+        <div class="col-xs-4" id="column3">
+          {% for g in gossips|dictsortreversed:"rank_score"|slice:"2:21:3" %}
           <div class="panel panel-default">
             <div class="panel-heading">
-              <h3 class="panel-title">{{ g.lecture.professor.name}} 《{{ g.lecture.course.name }}》</h3>
+              <h3 class="panel-title" style='color:#0066FF;'><a href="/lecture/{{ g.lecture.id}}/">{{ g.lecture.professor.name}} 《{{ g.lecture.course.name }}》</a></h3>
             </div>
             <div class="panel-body">
-              {{ g.content }}
+              <h4 style="text-indent:2em;">{{ g.content }}</h4>
+              <h4 style="text-align:right;white-space:pre;"><small>{{ g.time|formatTime }}      <a href="#" class="goss" data-gosid="{{ g.id }}" data-super="{% if g.id in gossip_super_records %}1{% else %}0{% endif %}">{% if g.id in gossip_super_records %}取消{% else %}赞{% endif %}</a> (<span id='s{{ g.id }}'>{{ g.super_number }}</span>)</small></h4>
             </div>
           </div>
           {% endfor %}
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-xs-4"></div>
+        <div class="col-xs-4">
+          <div class="well hidden">
+            <h4 style='color:#0066FF;text-align:center;' id="loading"></h4>
+          </div>
         </div>
       </div>
     </div><!-- container -->
@@ -184,6 +195,7 @@
     <script src="{% static 'js/jquery-migrate-1.2.1.min.js' %}"></script>
     <script src="{% static 'js/bootstrap.min.js' %}"></script>
     <script src="{% static 'js/myjquery.js' %}"></script>
+    <script src="{% static 'js/search.js' %}"></script>
     <script src="{% static 'js/gossip.js' %}"></script>
 	</body>
 </html>

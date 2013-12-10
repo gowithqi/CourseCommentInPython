@@ -100,7 +100,6 @@ $("#trinity_submit").click(function(){
 		$("#trinity").modal("hide");
 		$("#infortri").attr("data-id",lid);
 		$("#infortri").modal("show");
-		//setTimeout('window.location.assign("/lecture/'+lid+'/")',1000);
 	});
 });
 
@@ -122,11 +121,13 @@ $(".leveling").keydown(function(e){
   else{
     if (e.keyCode==13&&last==0)
     {
-      e.preventDefault();
-      if ($(this).attr("id")!="trinity2")
-      	$(".rs_submit").trigger("click");
-      else
-      	$("#trinity3").trigger("focus");
+		e.preventDefault();
+		if ($(this).attr("id")!="trinity2"){
+			var lid=$(".rs_submit").attr("data-id"),professor=$(".rs_submit").attr("data-professor");
+			moveToModal(lid,0,$("#rs"+lid).val(),$("#cm"+lid).val(),professor);
+		}
+      	else
+      		$("#trinity3").trigger("focus");
     }
     last=0;
   }
