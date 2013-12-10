@@ -99,6 +99,11 @@ def superGossip(request, super_action, gossip_id):
 	gossip = get_object_or_404(Gossip, id=gossip_id)
 
 	if str(super_action) == "super":
+		try:
+			gossip_super_record = GossipSuperRecord.objects.get(user_id=user_id, gossip = gossip)
+			return HttpResponse("no")
+		except 	GossipSuperRecord.DoesNotExist:
+			pass
 		GossipSuperRecord.objects.create(user_id=user_id, gossip = gossip)
 		gossip.rank_score = gossip.rank_score + SUPER_VALUE
 		gossip.super_number = gossip.super_number + 1
