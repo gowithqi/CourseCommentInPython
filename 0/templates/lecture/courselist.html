@@ -137,10 +137,11 @@
         </div><!-- /.modal-dialog -->
       </div><!-- /.modal -->
 
-      <div class="row" style="margin-top:100px;" id='rewrite'>
-        {% for s in school_list %}
-        <p><a href="#" onclick="school_course_post($(this).html())" id="">{{ s }}</a></p>
-        {% endfor %}
+      <div class="col-sm-6">
+        <div class="jumbotron" style='margin-top:100px;'>
+          <h1>即将推出</h1>
+          <h1>敬请期待！</h1>
+        </div>
       </div>
     </div><!-- container -->
 
@@ -153,19 +154,6 @@
     <script src="{% static 'js/myjquery.js' %}"></script>
     <script src="{% static 'js/search.js' %}"></script>
     <script>
-      function school_course_post(school){
-        $.post('/lecture/getcourses/1/0/',
-        {
-          school:school
-        },
-        function(data){
-          obj=JSON.parse(data);
-          $('#rewrite').html("");
-          for (var i=0;i<obj.length;i++){
-            $('#rewrite').append('<p>'+obj[i].name+' '+obj[i].number+'</p>');
-          }
-        });
-      }
     </script>
 	</body>
 </html>
