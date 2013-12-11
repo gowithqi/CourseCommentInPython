@@ -129,12 +129,11 @@ def sendCheckToUser(user, resurl):
 		from bae.core import const
 		from bae.api.bcms import BaeBcms	
 		bcms = BaeBcms(const.ACCESS_KEY, const.SECRET_KEY)
-		ret = bcms.createQueue("emailQ")
+		logging.debug("init object")
 		logging.debug("create Queue")
-		real_qname = str(ret['response_params']['queue_name'])
+		real_qname = "4665ae9f84f7c7700dfbc46dc9e73d61"
 		ret = bcms.mail(real_qname, content, [user_account], "support@baidu.com", CHECK_EMAIL_SUBJECT)
 		logging.debug("have send mail")
-		ret = bcms.dropQueue(real_qname)
 		return True
 	else:
 		check_URL = '127.0.0.1:8000/' +  check_URL
