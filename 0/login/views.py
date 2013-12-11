@@ -31,7 +31,7 @@ CHECK_EMAIL_SUBJECT = "SJTU Course身份验证"
 
 def login(request):
 	print request.method, type(request.method)
-	logging.debug("123")
+	# logging.debug("123")
 	# return HttpResponse("Hi!")
 	if request.method == "GET":
 		if not ('user_id' in request.session): 
@@ -123,14 +123,17 @@ def sendCheckToUser(user, resurl):
 
 	check_URL = resurl + str(user.id) + '/' + str(check_code)
 	if 'SERVER_SOFTWARE' in os.environ:
+		logging.debug("send mail")
 		check_URL = 'http://sjtucourse.duapp.com/' + check_URL
 		content = CHECK_EMAIL_CONTENT % check_URL
 		from bae.core import const
 		from bae.api.bcms import BaeBcms	
 		bcms = BaeBcms(const.ACCESS_KEY, const.SECRET_KEY)
 		ret = bcms.createQueue("emailQ")
+		logging.debug("create Queue")
 		real_qname = str(ret['response_params']['queue_name'])
 		ret = bcms.mail(real_qname, content, [user_account], "support@baidu.com", CHECK_EMAIL_SUBJECT)
+		logging.debug("have send mail")
 		ret = bcms.dropQueue(real_qname)
 		return True
 	else:
