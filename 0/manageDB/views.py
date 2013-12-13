@@ -52,12 +52,12 @@ def _updateLecture(file_name):
 		course_name = l.get("kcmc").strip()
 		course_credit = float(l.get("xqxf").strip())
 
-		logging.debug("after get info")
 		c_flag = True
 		p_flag = True
 		try:
 			c = Course.objects.get(school=course_school, number=course_number)
 		except Course.DoesNotExist:
+			logging.debug("course not exist")
 			c_flag = False
 			name_pinyin = changeString(course_name)
 			c = Course.objects.create(name=course_name, 
@@ -66,16 +66,17 @@ def _updateLecture(file_name):
 				school=course_school, 
 				name_pinyin=p.get_pinyin((name_pinyin), '')[:50],
 				name_forsearch=name_pinyin)
-		logging.debug("after course")
 		try:
 			pro = Professor.objects.get(name=professor_name)
 		except Professor.DoesNotExist:
+			logging.debug("professor not exist")
 			p_flag = False
 			pro = Professor.objects.create(name=professor_name, title=professor_title)
-		logging.debug("after pro")
+
 		try:
 			lecture = Lecture.objects.get(course=c, professor=pro)
 		except Lecture.DoesNotExist:
+			logging.debug("lecture not exist")
 			lecture = Lecture.objects.create(course=c, professor=pro)
 			if not c_flag and p_flag: 
 				ret += "course__"
