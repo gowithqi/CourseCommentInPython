@@ -18,6 +18,11 @@ from search.views import changeString
 import os
 import json
 
+if 'SERVER_SOFTWARE' in os.environ:
+	from bae.api import logging
+else: 
+	import logging
+
 @require_http_methods(["GET"])
 def updateLecture(request):
 	user_id = checkUserLogin(request)
@@ -79,6 +84,7 @@ def _updateLecture(file_name):
 				ret += "lectur__"
 
 			ret += "lecture_id:%ld__course_id:%ld__%s__%s </br>" % (lecture.id, c.id, c.name, pro.name)
+			logging.debug("lecture_id:%ld__course_id:%ld__%s__%s </br>" % (lecture.id, c.id, c.name, pro.name))
 
 	return ret
 
