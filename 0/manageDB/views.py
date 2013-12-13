@@ -43,7 +43,9 @@ def _updateLecture(file_name):
 	p = Pinyin()
 	flag = True
 	ret = ""
+	i = 0
 	for l in soup.findAll("detail"):
+		i += 1
 		course_school = l.get("yxmc").strip()
 		course_number = l.get("kcbm")[17:22]
 		professor_name = l.get("xm").strip()
@@ -51,7 +53,7 @@ def _updateLecture(file_name):
 		if type(professor_title) == type(None): continue
 		course_name = l.get("kcmc").strip()
 		course_credit = float(l.get("xqxf").strip())
-		logging.debug("%s___%s" % (course_name, professor_name))
+		logging.debug("%s___%d___%s___%s" % (file_name, i, course_name, professor_name))
 		c_flag = True
 		p_flag = True
 		try:
