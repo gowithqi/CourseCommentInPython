@@ -52,6 +52,7 @@ def _updateLecture(file_name):
 		course_name = l.get("kcmc").strip()
 		course_credit = float(l.get("xqxf").strip())
 
+		logging.debug("after get info")
 		c_flag = True
 		p_flag = True
 		try:
@@ -65,13 +66,13 @@ def _updateLecture(file_name):
 				school=course_school, 
 				name_pinyin=p.get_pinyin((name_pinyin), '')[:50],
 				name_forsearch=name_pinyin)
-
+		logging.debug("after course")
 		try:
 			pro = Professor.objects.get(name=professor_name)
 		except Professor.DoesNotExist:
 			p_flag = False
 			pro = Professor.objects.create(name=professor_name, title=professor_title)
-
+		logging.debug("after pro")
 		try:
 			lecture = Lecture.objects.get(course=c, professor=pro)
 		except Lecture.DoesNotExist:
