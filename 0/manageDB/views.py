@@ -51,7 +51,7 @@ def _updateLecture(file_name):
 		if type(professor_title) == type(None): continue
 		course_name = l.get("kcmc").strip()
 		course_credit = float(l.get("xqxf").strip())
-
+		logging.debug("%s___%s" % (course_name, professor_name))
 		c_flag = True
 		p_flag = True
 		try:
@@ -86,7 +86,6 @@ def _updateLecture(file_name):
 				ret += "lectur__"
 
 			ret += "lecture_id:%ld__course_id:%ld__%s__%s </br>" % (lecture.id, c.id, c.name, pro.name)
-			logging.debug("lecture_id:%ld__course_id:%ld__%s__%s </br>" % (lecture.id, c.id, c.name, pro.name))
 
 	return ret
 
