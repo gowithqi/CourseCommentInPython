@@ -73,8 +73,10 @@ def getLectureIdFromCourse(courses):
 
 def getStartsWithCourseList(keyword, length):
 	content = changeString(keyword)
+	print content
 	if isPinyin(content): courseList = Course.objects.filter(name_pinyin__startswith=content).order_by("-view_time")[:length]
 	else: 				  courseList = Course.objects.filter(name_forsearch__startswith=content).order_by("-view_time")[:length]
+	print len(courseList)
 	return courseList
 
 def getCourseListInfo(courses):
@@ -99,7 +101,7 @@ def changeString(ustring):
 	return "".join([changeChar(uchar) for uchar in ustring])
 
 def changeChar(uchar):
-	BIAODIAN = u"《》“”、\"（）() "
+	BIAODIAN = u"《》“”、\"（）() :：——-"
 	if uchar in BIAODIAN: return ""
 	if is_alphabet(uchar): return uchar.lower()
 	return Q2B(uchar)

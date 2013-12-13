@@ -13,6 +13,7 @@ class Course(models.Model):
 	view_time = models.IntegerField(default = 0, db_column = "view_time")
 	name_pinyin = models.CharField(max_length = 50, db_column = "name_pinyin")
 	name_forsearch = models.CharField(max_length = 50, db_column = "name_forsearch")
+	category = models.CharField(max_length = 50, db_column = "category")
 
 class Professor(models.Model):
 	class Meta:

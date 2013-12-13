@@ -9,6 +9,6 @@ urlpatterns = patterns('',
 	url(r'^recordall/(?P<lecture_id>\d+)/$', views.recordAll),
 	url(r'^getcourses/(?P<start>\d+)/(?P<end>\d+)/$', views.getCourses),
 	url(r'^courselist/$', views.courselist),
-	url(r'^test/(?P<mode>.+)/$', views.test),
+	url(r'^test/$', views.test),
 	#url(r'^getlecturedata/(?P<lecture_id>\d+)/$', views.getLectureData),
 )

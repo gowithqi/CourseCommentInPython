@@ -231,30 +231,12 @@ def getCourseDict(courses):
 
 	return ret
 
-def test(request, mode):
+def test(request):
 	user_id = checkUserLogin(request)
 	if user_id != 14: return Http404
 	
-	BIAODIAN = u"《》“”、\"（）()"
-	count = 0
-	ret = ""
-	for course in Course.objects.all():
-		if mode == "name": pinyin = course.name
-		else: pinyin = course.name_pinyin
-		res = changeString(pinyin)    
-		if mode == "name": pinyin = course.name_forsearch
-		if res != pinyin:
-			count = count + 1
-			ret += pinyin + '__' + res + '<br/>'
-			if mode=="name": course.name_forsearch = res
-			else: course.name_pinyin = res
-			course.save()
-			print res
-			print pinyin
-			print 		
-	print count
-	ret += str(count)
-	return HttpResponse(ret)
+	return HttpResponse("yes")
+	
 
 def is_alphabet(uchar):
 	if (uchar >= u'\u0041' and uchar<=u'\u005a') or (uchar >= u'\u0061' and uchar<=u'\u007a'):

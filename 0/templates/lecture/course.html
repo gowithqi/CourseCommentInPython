@@ -157,6 +157,9 @@
 					<dt style="font-weight:normal;">课号</dt><dd style="font-weight:bold;">{{ course.number }}</dd>
 					<dt style="font-weight:normal;">开设学院</dt><dd style="font-weight:bold;">{{ course.school }}</dd>
 					<dt style="font-weight:normal;">学分</dt><dd style="font-weight:bold;">{{ course.credit }}</dd>
+					{% if course.category %}
+					<dt style="font-weight:normal;">通识</dt><dd style="font-weight:bold;">{{ course.category }}</dd>
+					{% endif %}
 				</dl>
 			</div>
 			<br/>
