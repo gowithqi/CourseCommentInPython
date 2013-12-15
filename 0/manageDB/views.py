@@ -24,17 +24,16 @@ else:
 	import logging
 
 @require_http_methods(["GET"])
-def updateLecture(request):
+def updateLecture(request, f, start, end):
 	user_id = checkUserLogin(request)
 	if user_id != 14: return Http404
 
 	ret = ""
-	ret += _updateLecture("1.xml")
-	ret += _updateLecture("2.xml")
+	ret += _updateLecture(str(f) + ".xml", int(start), int(end))
 
 	return HttpResponse(ret)
 
-def _updateLecture(file_name):
+def _updateLecture(file_name, start, end):
 	from BeautifulSoup import BeautifulStoneSoup
 	f = open(os.path.join(os.path.dirname(__file__), "../tongshike/"+file_name), "r")
 	file_content = f.read()
@@ -42,9 +41,9 @@ def _updateLecture(file_name):
 
 	p = Pinyin()
 	flag = True
-	ret = ""
+	ret = "file: %s </br>" % file_name
 	i = 0
-	for l in soup.findAll("detail"):
+	for l in soup.findAll("detail")[start:end]:
 		i += 1
 		course_school = l.get("yxmc").strip()
 		course_number = l.get("kcbm")[17:22]
@@ -89,6 +88,7 @@ def _updateLecture(file_name):
 
 			ret += "lecture_id:%ld__course_id:%ld__%s__%s </br>" % (lecture.id, c.id, c.name, pro.name)
 
+	ret += "%d </br>" % i
 	return ret
 
 def parse(c):
