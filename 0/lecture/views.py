@@ -195,7 +195,6 @@ def courselist(request):
 	user = get_object_or_404(User, id=user_id)
 	template = loader.get_template('lecture/courselist.html')
 	all_courses = Course.objects.exclude(category__exact="")
-	print school_list
 	context = RequestContext(request, {
 		'u': user,
 		'c': all_courses,
