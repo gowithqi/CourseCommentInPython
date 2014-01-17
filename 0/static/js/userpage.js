@@ -103,8 +103,8 @@ function decollect_get(that){
               if (comment=="")
                 str+='<p>还没有点评。快来抢沙发！</p>';
               else{
-                str+='<h5 style="text-indent:2em;line-height:20pt;border:solid 1px #DDDDDD;border-radius:10px;padding:10px;word-break:break-all;">'+comment.comment_content+'</h5>';
-                str+='<h4 style="text-align:right;white-space:pre;"><small><a href="/'+comment.comment_user_id+'/">'+comment.comment_user+'</a>      '+comment.comment_time+'      有用 ('+comment.comment_super_number+')</small></h4>';
+                str+='<h5 style="text-indent:2em;line-height:20pt;border:solid 1px #DDDDDD;border-radius:10px;padding:10px;word-break:break-all;overflow:auto;">'+comment.comment_content+'</h5>';
+                str+='<h4 style="text-align:right;white-space:pre;overflow:auto;"><small><a href="/'+comment.comment_user_id+'/">'+comment.comment_user+'</a>      '+comment.comment_time+'      有用 ('+comment.comment_super_number+')</small></h4>';
               }
               str+='</div></div></li>';
             }
@@ -143,8 +143,8 @@ function all_collection_get(){
       if (comment=="")
         str+='<p>还没有点评。快来抢沙发！</p>';
       else{
-        str+='<h5 style="text-indent:2em;line-height:20pt;border:solid 1px #DDDDDD;border-radius:10px;padding:10px;word-break:break-all;">'+comment.comment_content+'</h5>';
-        str+='<h4 style="text-align:right;white-space:pre;"><small><a href="/'+comment.comment_user_id+'/">'+comment.comment_user+'</a>      '+comment.comment_time+'      有用 ('+comment.comment_super_number+')</small></h4>';
+        str+='<h5 style="text-indent:2em;line-height:20pt;border:solid 1px #DDDDDD;border-radius:10px;padding:10px;word-break:break-all;overflow:auto;">'+comment.comment_content+'</h5>';
+        str+='<h4 style="text-align:right;white-space:pre;overflow:auto;"><small><a href="/'+comment.comment_user_id+'/">'+comment.comment_user+'</a>      '+comment.comment_time+'      有用 ('+comment.comment_super_number+')</small></h4>';
       }
       str+='</div></div></li>';
     }
