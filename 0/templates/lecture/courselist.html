@@ -137,10 +137,101 @@
         </div><!-- /.modal-dialog -->
       </div><!-- /.modal -->
 
-      <div class="col-sm-6">
-        <div class="jumbotron" style='margin-top:100px;'>
-          <h1>即将推出</h1>
-          <h1>敬请期待！</h1>
+      <div class="col-xs-12" style="margin-top:70px;">
+        <div class="row">
+          <div class="col-xs-3" style="text-align:left;position:fixed;width:300px;"> 
+            <ul class="nav nav-pills nav-stacked">
+              <li class="active success" style="background-color:#F2F2F2;border: 0px solid #DCDCFA;border-radius: 6px;">
+                <a data-toggle="tab" href="#renwen" data-placement="right"><h4><strong>人文学科</strong></h4></a>
+              </li>
+              <li style="background-color:#F2F2F2;border: 0px solid #DCDCFA;border-radius: 6px;">
+                <a data-toggle="tab" href="#sheke" data-placement="right"><h4><strong>社会科学</strong></h4></a>
+              </li>
+              <li style="background-color:#F2F2F2;border: 0px solid #DCDCFA;border-radius: 6px;">
+                <a data-toggle="tab" href="#ziran" data-placement="right"><h4><strong>自然科学与工程技术</strong></h4></a>
+              </li>
+              <li style="background-color:#F2F2F2;border: 0px solid #DCDCFA;border-radius: 6px;">
+                <a data-toggle="tab" href="#shuxue" data-placement="right"><h4><strong>数学或逻辑学</strong></h4></a>
+              </li>
+            </ul>
+          </div>
+
+          <div class="col-sm-offset-3 col-xs-9">
+            <div class="tab-content">
+              <div class="tab-pane fade in active" id="renwen">
+                <div class="panel panel-primary">
+                  <div class="panel-heading">
+                    
+                  </div>
+                  <div class="panel-body">
+                    <ul class="list-group">
+                      {% for cc in c %}
+                      {% ifequal cc.category "人文学科" %}
+                      <li class="list-group-item" style="border-color:#AAAAAA">
+                        <a href="#" onclick="search_get({{ cc.id }})">{{ cc.name }}</a>
+                      </li>
+                      {% endifequal %}
+                      {% endfor %}
+                    </ul>
+                  </div>
+                </div>
+              </div>
+              <div class="tab-pane fade in" id="sheke">
+               <div class="panel panel-primary">
+                  <div class="panel-heading">
+                    
+                  </div>
+                  <div class="panel-body">
+                    <ul class="list-group">
+                      {% for cc in c %}
+                      {% ifequal cc.category "社会科学" %}
+                      <li class="list-group-item" style="border-color:#AAAAAA">
+                        <a href="#" onclick="search_get({{ cc.id }})">{{ cc.name }}</a>
+                      </li>
+                      {% endifequal %}
+                      {% endfor %}
+                    </ul>
+                  </div>
+                </div>
+              </div>
+              <div class="tab-pane fade in" id="ziran">
+                <div class="panel panel-primary">
+                  <div class="panel-heading">
+                    
+                  </div>
+                  <div class="panel-body">
+                    <ul class="list-group">
+                      {% for cc in c %}
+                      {% ifequal cc.category "自然科学与工程技术" %}
+                      <li class="list-group-item" style="border-color:#AAAAAA">
+                        <a href="#" onclick="search_get({{ cc.id }})">{{ cc.name }}</a>
+                      </li>
+                      {% endifequal %}
+                      {% endfor %}
+                    </ul>
+                  </div>
+                </div>
+              </div>
+              <div class="tab-pane fade in" id="shuxue">
+                <div class="panel panel-primary">
+                  <div class="panel-heading">
+                    
+                  </div>
+                  <div class="panel-body">
+                    <ul class="list-group">
+                      {% for cc in c %}
+                      {% ifequal cc.category "数学或逻辑学" %}
+                      <li class="list-group-item" style="border-color:#AAAAAA">
+                        <a href="#" onclick="search_get({{ cc.id }})">{{ cc.name }}</a>
+                      </li>
+                      {% endifequal %}
+                      {% endfor %}
+                    </ul>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </div><!-- container -->
