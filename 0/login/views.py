@@ -12,7 +12,7 @@ from django.core.urlresolvers import reverse
 from django.db.models import Q
 
 from login.models import User, RegisteringUser
-from lecture.models import Lecture, LectureCommentSuperRecord
+from lecture.models import Lecture, LectureCommentSuperRecord, Course
 from comment.influence import updateUserInfluence, getSysAchievement
 
 if 'SERVER_SOFTWARE' in os.environ:
@@ -219,6 +219,8 @@ def userpage(request, user_id):
 	(user_influence_factor, user_rank) = getUserInfluenceInfo(user)
 	sys_achievement = getSysAchievement()
 	lectures = Lecture.objects.order_by('?')[:3]
+	tongshike = Course.objects.exclude(category__exact="")
+	tongshike_ranked = Lecture.objects.filter(course__in=tongshike).order_by("level")
 
 	if int(request.session['user_id']) == int(user_id):
 		top_users = User.objects.order_by("-influence_factor")[:TOP_USER_NUMBER]
@@ -236,8 +238,7 @@ def userpage(request, user_id):
 		'me': me,
 		'top_users': top_users,
 		'u': user,
-		# 'llevel': lecture_rank_level,
-		# 'lstudentscore': lecture_rank_student_score,
+		'tongshikes': tongshike_ranked,
 		'user_influence_factor': user_influence_factor,
 		'user_rank': user_rank,
 		'sys_achievement': sys_achievement,

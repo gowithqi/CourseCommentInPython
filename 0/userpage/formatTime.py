@@ -1,12 +1,9 @@
 # -*- coding: utf-8 -*-
-from django import template
-from datetime import datetime, timedelta, date
-register = template.Library()
+from datetime import datetime, date
 
-@register.filter
 def formatTime(i_time):
 	time_delta = computeTimeDelta(i_time)
-	# print time_delta
+	print time_delta
 
 	if "seconds" in time_delta: return str(time_delta["seconds"]) + u"秒前"
 	elif "minutes" in time_delta: return str(time_delta["minutes"]) + u"分钟前"

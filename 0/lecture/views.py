@@ -56,6 +56,27 @@ def getLecture(request, lecture_id):
 	if lecture.lecturecomment_set.all().count() > 0: increaseSysAchievement()
 	return HttpResponse(template.render(context))
 
+@require_http_methods(["GET"])
+def getLectureData(request, lecture_id):
+	user_id = checkUserLogin(request)				
+	lecture_id = int(lecture_id)
+	user =  get_object_or_404(User, id=user_id)
+
+	try:
+		lecture = Lecture.objects.get(id=lecture_id)
+	except Lecture.DoesNotExist:
+		raise Http500
+
+	ret_json = lecture.getDict()
+	ret_json['course'] = lecture.course.getDict()
+	ret_json['professor'] = lecture.professor.getDict()
+	ret_json['comments'] = [c.getDict(user=True) for c in lecture.lecturecomment_set.all()]
+	ret_json['gossips'] = [g.getDict(user=True) for g in lecture.gossip_set.all()]
+	ret_json['comments_super_record'] = getSuperList([lecture], user, "comment")
+	ret_json['gossips_super_record'] = getSuperList([lecture], user, "gossip")
+
+	return HttpResponse(json.dumps(ret_json, ensure_ascii=False, indent=4))
+
 def getSuperList(lectures, user, table):
 	res = []
 	if table == "comment": 

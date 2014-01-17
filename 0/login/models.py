@@ -18,6 +18,14 @@ class User(models.Model):
 	def __unicode__(self):
 		return self.account
 
+	def getDict(self, id=True, name=True, influence_factor=True):
+		ret = {}
+		if id: 					ret['id'] = self.id
+		if name: 				ret['name'] = self.name
+		if influence_factor: 	ret['influence_factor'] = self.influence_factor
+
+		return ret
+
 class RegisteringUser(models.Model):
 	class Meta:
 		db_table = "registeringUser"
