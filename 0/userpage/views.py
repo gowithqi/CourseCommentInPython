@@ -13,6 +13,8 @@ from comment.influence import updateUserInfluence
 from cadmin.views import deleteComment, deleteGossip
 from gossip.models import Gossip
 from userpage.formatTime import formatTime
+from userpage.models import MessageTopic, MessageWords
+from userpage.models import Message, MessageOfCommentSupered, MessageOfGossipSupered, MessageOfMessageTopic
 
 import json
 import random
@@ -293,3 +295,50 @@ def getLectureDict(l):
 	tmp['professor_name'] = l.professor.name
 	tmp['level'] = "%.2f" % l.level
 	return tmp
+
+# return JSON message data 
+@require_http_methods(['GET'])
+def getMessages(request):
+	
+	return
+
+def sendMessageOfMessageTopic(message_topic, writer):
+	users_id = [message_topic.user.id]
+	users_id.extend([m.user.id for m in message_topic.messagewords_set.all()])
+	readers = list(set(users_id))
+
+	messages = [(user_id, MessageOfMessageTopic.objects.create(user = writer, message_topic = message_topic).id) for user_id in readers]
+	Message.objects.bulk_create([Message(user=s[0], message_id=s[1]) for s in messages])
+	return True
+	
+def sendMessageOfCommentSupered(lecture_comment, writer):
+	m = MessageOfCommentSupered.objects.create(user = writer, lecture_comment = lecture_comment)
+	Message.objects.create(user = lecture_comment.user, message_id = m.id)
+	return True
+
+def sendMessageOfGossipSupered(gossip, writer):
+	m = MessageOfGossipSupered.objects.create(user = writer, gossip = gossip)
+	Message.objects.create(user = gossip.user, message_id = m.id)
+	return True
+
+@require_http_methods(["POST"])
+def newMessageTopic(request):
+	user_id = checkUserLogin(request)
+	user = get_object_or_404(User, id=user_id)
+
+	mt = MessageTopic.objects.create(topic = request.POST['topic'], 
+		user = user)
+	return HttpResponse("yes")
+
+@require_http_methods(["POST"])
+def newMessageWords(request):
+	user_id = checkUserLogin(request)
+	user = get_object_or_404(User, id=user_id)
+
+	message_topic = get_object_or_404(message_topic, id = request.POST['message_topic_id'])
+	MessageWords.objects.create(message_topic=message_topic,
+		content = request.POST['content'],
+		user = user)
+
+	sendMessage()
+	return HttpResponse("yes")	
