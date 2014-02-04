@@ -299,8 +299,42 @@ def getLectureDict(l):
 # return JSON message data 
 @require_http_methods(['GET'])
 def getMessages(request):
-	
-	return
+	user_id = checkUserLogin(request)
+	user = get_object_or_404(User, id=user_id)
+
+	messages = user.message_set.all()
+
+	#get JSON data
+	ret = [m.getDict() for m in messages]
+
+	return HttpResponse(json.dumps(ret, ensure_ascii=False, indent=4))
+
+@require_http_methods(['GET'])
+def checkMessage(request, message_id):
+	user_id = checkUserLogin(request)
+	user = get_object_or_404(User, id=user_id)
+
+	message = get_object_or_404(Message, id = message_id)	
+	if message.message_type == 0:
+		m = get_object_or_404(MessageOfCommentSupered, id = message.message_id)
+		lecture_id = m.lecture_comment.lecture.id
+		MessageOfCommentSupered.objects.delete(lecture_comment = m.lecture_comment)
+
+		return HttpResponseRedirect(reverse("lecture", args=(lecture_id, )))
+	elif message.message_type == 1:
+		m = get_object_or_404(MessageOfGossipSupered, id = message.message_id)
+		lecture_id = m.gossip.lecture.id
+		MessageOfGossipSupered.objects.delete(gossip = m.gossip)
+
+		return HttpResponseRedirect(reverse("lecture", args=(lecture_id, )))
+	elif message.message_type == 2:
+		m = get_object_or_404(MessageOfMessageTopic, id = message.message_id)
+		m.delete()
+		return HttpResponse("yes")
+	else:
+		pass
+
+	return HttpResponse()
 
 def sendMessageOfMessageTopic(message_topic, writer):
 	users_id = [message_topic.user.id]

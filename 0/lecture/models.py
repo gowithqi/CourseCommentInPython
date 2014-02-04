@@ -46,6 +46,7 @@ class Professor(models.Model):
 class Lecture(models.Model):
 	class Meta:
 		db_table = "lecture"
+		ordering = ["-level"]
 
 	course = models.ForeignKey(Course, db_column = "course_id")
 	professor = models.ForeignKey(Professor, db_column = "professor_id")

@@ -16,5 +16,7 @@ urlpatterns = patterns('',
 	url(r'^setstyle/$', views.setStyle),
 	url(r'^freshuserinfluence/$', views.freshUserInfluence),
 	url(r'^delete(?P<record_type>gossip|comment)/(?P<id>\d+)/$', views.deleteRecord),
+	url(r'^getmessages/$', views.getMessages),
+	url(r'^checkmessage/(?P<message_id>\d+)/$', views.checkMessages),
 )
 
