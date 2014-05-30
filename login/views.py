@@ -29,6 +29,9 @@ CHECK_EMAIL_CONTENT = """您好，这里SJTU Course，我们在通过交大邮�
 SJTU Course感谢您一如既往的支持，谢谢您的使用！"""
 CHECK_EMAIL_SUBJECT = "SJTU Course身份验证"
 
+ACCESS_KEY = '7QoScchG0id2x0hGQf9Fyolb'
+SECRET_KEY = 'cnIi1GSjHQPtazwl8PG3UGy8kHUsi6ZO'
+
 def login(request):
 	print request.method, type(request.method)
 	# logging.debug("123")
@@ -126,9 +129,10 @@ def sendCheckToUser(user, resurl):
 		logging.debug("send mail")
 		check_URL = 'http://sjtucourse.duapp.com/' + check_URL
 		content = CHECK_EMAIL_CONTENT % check_URL
-		from bae.core import const
+		
 		from bae.api.bcms import BaeBcms	
-		bcms = BaeBcms(const.ACCESS_KEY, const.SECRET_KEY)
+		# bcms = BaeBcms(ACCESS_KEY, SECRET_KEY)
+		bcms = BaeBcms(ACCESS_KEY, SECRET_KEY)
 		logging.debug("init object")
 		logging.debug("create Queue")
 		real_qname = "4665ae9f84f7c7700dfbc46dc9e73d61"
@@ -265,9 +269,9 @@ def getUserInfluenceInfo(user):
 
 def sign(request):
 	if 'SERVER_SOFTWARE' in os.environ:
-		from bae.core import const
+
 		from bae.api.bcms import BaeBcms	
-		bcms = BaeBcms(const.ACCESS_KEY, const.SECRET_KEY)
+		bcms = BaeBcms(ACCESS_KEY, SECRET_KEY)
 		ret = bcms.createQueue("emailQ")
 		real_qname = str(ret['response_params']['queue_name'])
 		ret = bcms.mail(real_qname, "lalala", ['gowithqi@126.com'], "sjtucourse@duapp.com", "Check You")

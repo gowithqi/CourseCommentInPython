@@ -16,12 +16,12 @@ if 'SERVER_SOFTWARE' in os.environ:
     DATABASES = {
         'default': {
             'ENGINE': 'django.db.backends.mysql', # Add 'postgresql_psycopg2', 'mysql', 'sqlite3' or 'oracle'.
-            'NAME': 'ByVMateICoqKWWIJVIsB',                      # Or path to database file if using sqlite3.
+            'NAME': 'fNelHRHJHjXDxZBMZbEC',                      # Or path to database file if using sqlite3.
             # The following settings are not used with sqlite3:
-            'USER': const.MYSQL_USER,
-            'PASSWORD': const.MYSQL_PASS,
-            'HOST': const.MYSQL_HOST,                      # Empty for localhost through domain sockets or '127.0.0.1' for localhost through TCP.
-            'PORT': const.MYSQL_PORT,                      # Set to empty string for default.
+            'USER': '7QoScchG0id2x0hGQf9Fyolb',
+            'PASSWORD': 'cnIi1GSjHQPtazwl8PG3UGy8kHUsi6ZO',
+            'HOST': 'sqld.duapp.com',                      # Empty for localhost through domain sockets or '127.0.0.1' for localhost through TCP.
+            'PORT': '4050',                      # Set to empty string for default.
         }
     }
 else :
