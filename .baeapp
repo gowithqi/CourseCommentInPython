@@ -1,0 +1,14 @@
+alias: []
+appid: appid5393axct1l
+appname: SJTUCourse
+cdatetime: '1401371378'
+createtype: web
+domain: sjtucourse3.duapp.com
+inum: '1'
+lang_type: python
+name: SJTUCourseWeb
+release_revision: 9de230c88426784922b478b385e3d3bea575e670
+repos_url: https://git.duapp.com/appid5393axct1l
+solution: python-web
+status: '6'
+version_type: git

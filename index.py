@@ -1,5 +1,6 @@
 #-*- coding:utf-8 -*-
 
+return "zzq"
 def app(environ, start_response):
     status = '200 OK'
     headers = [('Content-type', 'text/html')]
