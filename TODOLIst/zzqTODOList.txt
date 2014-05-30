@@ -1,0 +1,2 @@
+some inner function in the model's class
+试一试

@@ -1,0 +1,418 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html><head>
+		<title>speltyGeneralCourse</title>
+		<meta content="Microsoft Visual Studio 7.0" name="GENERATOR">
+		<meta content="C#" name="CODE_LANGUAGE">
+		<meta content="JavaScript" name="vs_defaultClientScript">
+		<link href="newsinside_data/main.css" type="text/css" rel="stylesheet">
+		<link href="newsinside_data/style.css" type="text/css" rel="stylesheet">
+		<meta content="http://schemas.microsoft.com/intellisense/ie5" name="vs_targetSchema">
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	</head>
+	<body ms_positioning="GridLayout">
+		<div>
+<input name="__EVENTTARGET" id="__EVENTTARGET" value="" type="hidden">
+<input name="__EVENTARGUMENT" id="__EVENTARGUMENT" value="" type="hidden">
+<input name="__LASTFOCUS" id="__LASTFOCUS" value="" type="hidden">
+<input name="__VIEWSTATE" id="__VIEWSTATE" value="/wEPDwUKMTkzNDg1NTIxOQ8WBB4FdHhrbWtkHgV0c2ttawUDNDQwFgICAQ9kFhICAQ9kFgICAQ8PFgIeBFRleHQFigHkurrmloflrabnp5HvvJrmnIDkvY7lrabliIbopoHmsYLkuLrvvJo4LOekvuS8muenkeWtpu+8muacgOS9juWtpuWIhuimgeaxguS4uu+8mjQs6Ieq54S256eR5a2m5LiO5bel56iL5oqA5pyv77ya5pyA5L2O5a2m5YiG6KaB5rGC5Li677yaOSxkZAIDD2QWFgIBDw8WAh8CBQIyM2RkAgMPDxYCHwIFAjQ1ZGQCBQ8PFgIfAgUBNWRkAgcPDxYCHwIFHSDku7vpgInor77mnIDlpJrog73pgInvvJo16ZeoZGQCCQ8PFgIfAgUdIOmAmuivhuivvuacgOWkmuiDvemAie+8mjHpl6hkZAIRDw8WBB8CBRvmmpHlgYflsI/lrabmnJ/lt7LpgInlrabliIYeB1Zpc2libGVoZGQCEw8PFgIfAmVkZAIVDw8WBB8CBRvmmpHlgYflsI/lrabmnJ/mnIDpq5jlrabliIYfA2hkZAIXDw8WAh8CZWRkAhkPDxYEHwIFG+aakeWBh+Wwj+Wtpuacn+acgOS9juWtpuWIhh8DaGRkAhsPDxYCHwJlZGQCBQ88KwALAQAPFgoeCERhdGFLZXlzFgAeC18hSXRlbUNvdW50AgQeCVBhZ2VDb3VudAIBHhVfIURhdGFTb3VyY2VJdGVtQ291bnQCBB4NU2VsZWN0ZWRJbmRleAICZBYCZg9kFggCAQ9kFgZmD2QWAgIBDxAPFgQeCFRhYkluZGV4AQAAHgdDaGVja2VkaGRkZGQCAQ8PFgIfAgUDNDIwZGQCAg8PFgIfAgUM5Lq65paH5a2m56eRZGQCAg9kFgZmD2QWAgIBDxAPFgQfCQEBAB8KaGRkZGQCAQ8PFgIfAgUDNDMwZGQCAg8PFgIfAgUM56S+5Lya56eR5a2mZGQCAw9kFgZmD2QWAgIBDxAPFgQfCQECAB8KZ2RkZGQCAQ8PFgIfAgUDNDQwZGQCAg8PFgIfAgUb6Ieq54S256eR5a2m5LiO5bel56iL5oqA5pyvZGQCBA9kFgZmD2QWAgIBDxAPFgQfCQEDAB8KaGRkZGQCAQ8PFgIfAgUDNDUwZGQCAg8PFgIfAgUS5pWw5a2m5oiW6YC76L6R5a2mZGQCBw8PFgIfAgUCMzZkZAIJDzwrAAsBAA8WCB8EFiQFCkFCOTAxICAgICAFCkFNOTA0ICAgICAFCkJJMDAxICAgICAFCkJJMDAxICAgICAFCkJJOTAzICAgICAFCkJJOTA0ICAgICAFCkJJOTA3ICAgICAFCkJJOTEyICAgICAFCkJJOTEzICAgICAFCkJJOTE1ICAgICAFCkJNOTAyICAgICAFCkJNOTA3ICAgICAFCkNBOTAxICAgICAFCkNBOTAyICAgICAFCkNBOTAzICAgICAFCkNTOTAyICAgICAFCkVJOTAxICAgICAFCklOOTAxICAgICAFCk1FOTAxICAgICAFCk1FOTAzICAgICAFCk1FOTAzICAgICAFCk1FOTA0ICAgICAFCk1FOTA1ICAgICAFCk1FOTA3ICAgICAFCk1FOTA4ICAgICAFCk1JOTAxICAgICAFCk1UOTAyICAgICAFCk1UOTAzICAgICAFCk1UOTA0ICAgICAFCk9DOTAxICAgICAFClBIOTAyICAgICAFClBIOTAzICAgICAFClBIOTA1ICAgICAFClBIOTA2ICAgICAFClBPOTAxICAgICAFClNPOTIyICAgICAfBQIkHwYCAR8HAiRkFgJmD2QWSAIBD2QWDmYPZBYCAgEPDxYCHwIFNzxpbnB1dCB0eXBlPXJhZGlvIG5hbWU9J215cmFkaW9ncm91cCcgdmFsdWU9QUI5MDEgICAgID5kZAIBDw8WAh8CBTvnjrDku6PlhpzkuJrkuI7nlJ/mgIHmlofmmI4gICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIGRkAgIPDxYCHwIFCkFCOTAxICAgICBkZAIDDw8WAh8CBQbpgJror4ZkZAIEDw8WAh8CBQMyLjBkZAIFDw8WAh8CBQIzMmRkAgcPDxYCHwIFATFkZAICD2QWDmYPZBYCAgEPDxYCHwIFNzxpbnB1dCB0eXBlPXJhZGlvIG5hbWU9J215cmFkaW9ncm91cCcgdmFsdWU9QU05MDQgICAgID5kZAIBDw8WAh8CBTnlt6XnqIvlj6/mjIHnu63lj5HlsZUgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICBkZAICDw8WAh8CBQpBTTkwNCAgICAgZGQCAw8PFgIfAgUG6YCa6K+GZGQCBA8PFgIfAgUDMi4wZGQCBQ8PFgIfAgUCMzJkZAIHDw8WAh8CBQExZGQCAw9kFg5mD2QWAgIBDw8WAh8CBTc8aW5wdXQgdHlwZT1yYWRpbyBuYW1lPSdteXJhZGlvZ3JvdXAnIHZhbHVlPUJJMDAxICAgICA+ZGQCAQ8PFgIfAgU455Sf5ZG956eR5a2m5a+86K66ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICBkZAICDw8WAh8CBQpCSTAwMSAgICAgZGQCAw8PFgIfAgUG6YCa6K+GZGQCBA8PFgIfAgUDMi4wZGQCBQ8PFgIfAgUCMzJkZAIHDw8WAh8CBQExZGQCBA9kFg5mD2QWAgIBDw8WAh8CBTc8aW5wdXQgdHlwZT1yYWRpbyBuYW1lPSdteXJhZGlvZ3JvdXAnIHZhbHVlPUJJMDAxICAgICA+ZGQCAQ8PFgIfAgU455Sf5ZG956eR5a2m5a+86K66ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICBkZAICDw8WAh8CBQpCSTAwMSAgICAgZGQCAw8PFgIfAgUG6YCa6K+GZGQCBA8PFgIfAgUDMi4wZGQCBQ8PFgIfAgUCMzNkZAIHDw8WAh8CBQExZGQCBQ9kFg5mD2QWAgIBDw8WAh8CBTc8aW5wdXQgdHlwZT1yYWRpbyBuYW1lPSdteXJhZGlvZ3JvdXAnIHZhbHVlPUJJOTAzICAgICA+ZGQCAQ8PFgIfAgU655Sf5ZG956eR5a2m5a6e6aqM5o6i57SiICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIGRkAgIPDxYCHwIFCkJJOTAzICAgICBkZAIDDw8WAh8CBQbpgJror4ZkZAIEDw8WAh8CBQMyLjBkZAIFDw8WAh8CBQIzMmRkAgcPDxYCHwIFATFkZAIGD2QWDmYPZBYCAgEPDxYCHwIFNzxpbnB1dCB0eXBlPXJhZGlvIG5hbWU9J215cmFkaW9ncm91cCcgdmFsdWU9Qkk5MDQgICAgID5kZAIBDw8WAh8CBTjmtbfmtIvkuJbnlYzmjqLnp5ggICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIGRkAgIPDxYCHwIFCkJJOTA0ICAgICBkZAIDDw8WAh8CBQbpgJror4ZkZAIEDw8WAh8CBQMyLjBkZAIFDw8WAh8CBQIzMmRkAgcPDxYCHwIFATFkZAIHD2QWDmYPZBYCAgEPDxYCHwIFNzxpbnB1dCB0eXBlPXJhZGlvIG5hbWU9J215cmFkaW9ncm91cCcgdmFsdWU9Qkk5MDcgICAgID5kZAIBDw8WAh8CBTbln7rlm6DkuI7kurogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICBkZAICDw8WAh8CBQpCSTkwNyAgICAgZGQCAw8PFgIfAgUG6YCa6K+GZGQCBA8PFgIfAgUDMi4wZGQCBQ8PFgIfAgUCMzJkZAIHDw8WAh8CBQExZGQCCA9kFg5mD2QWAgIBDw8WAh8CBTc8aW5wdXQgdHlwZT1yYWRpbyBuYW1lPSdteXJhZGlvZ3JvdXAnIHZhbHVlPUJJOTEyICAgICA+ZGQCAQ8PFgIfAgU36YGX5Lyg5LiO56S+5LyaICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIGRkAgIPDxYCHwIFCkJJOTEyICAgICBkZAIDDw8WAh8CBQbpgJror4ZkZAIEDw8WAh8CBQMyLjBkZAIFDw8WAh8CBQIzM2RkAgcPDxYCHwIFATFkZAIJD2QWDmYPZBYCAgEPDxYCHwIFNzxpbnB1dCB0eXBlPXJhZGlvIG5hbWU9J215cmFkaW9ncm91cCcgdmFsdWU9Qkk5MTMgICAgID5kZAIBDw8WAh8CBTnnlJ/nianmioDmnK/kuI7kurrnsbsgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICBkZAICDw8WAh8CBQpCSTkxMyAgICAgZGQCAw8PFgIfAgUG6YCa6K+GZGQCBA8PFgIfAgUDMy4wZGQCBQ8PFgIfAgUCNDhkZAIHDw8WAh8CBQExZGQCCg9kFg5mD2QWAgIBDw8WAh8CBTc8aW5wdXQgdHlwZT1yYWRpbyBuYW1lPSdteXJhZGlvZ3JvdXAnIHZhbHVlPUJJOTE1ICAgICA+ZGQCAQ8PFgIfAgU45b6u55Sf54mp55qE5LiW55WMICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICBkZAICDw8WAh8CBQpCSTkxNSAgICAgZGQCAw8PFgIfAgUG6YCa6K+GZGQCBA8PFgIfAgUDMi4wZGQCBQ8PFgIfAgUCMzJkZAIHDw8WAh8CBQExZGQCCw9kFg5mD2QWAgIBDw8WAh8CBTc8aW5wdXQgdHlwZT1yYWRpbyBuYW1lPSdteXJhZGlvZ3JvdXAnIHZhbHVlPUJNOTAyICAgICA+ZGQCAQ8PFgIfAgU/6I2v54mp5Y+R5bGV4oCU4oCU5bu257ut55Sf5ZG955qE5aWl56eYICAgICAgICAgICAgICAgICAgICAgICAgZGQCAg8PFgIfAgUKQk05MDIgICAgIGRkAgMPDxYCHwIFBumAmuivhmRkAgQPDxYCHwIFAzIuMGRkAgUPDxYCHwIFAjMyZGQCBw8PFgIfAgUBMWRkAgwPZBYOZg9kFgICAQ8PFgIfAgU3PGlucHV0IHR5cGU9cmFkaW8gbmFtZT0nbXlyYWRpb2dyb3VwJyB2YWx1ZT1CTTkwNyAgICAgPmRkAgEPDxYCHwIFO+S8oOe7n+WMu+WtpuS4juS6uuexu+WBpeW6tyAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgZGQCAg8PFgIfAgUKQk05MDcgICAgIGRkAgMPDxYCHwIFBumAmuivhmRkAgQPDxYCHwIFAzIuMGRkAgUPDxYCHwIFAjMyZGQCBw8PFgIfAgUBMWRkAg0PZBYOZg9kFgICAQ8PFgIfAgU3PGlucHV0IHR5cGU9cmFkaW8gbmFtZT0nbXlyYWRpb2dyb3VwJyB2YWx1ZT1DQTkwMSAgICAgPmRkAgEPDxYCHwIFNuWkp+WtpuWMluWtpiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIGRkAgIPDxYCHwIFCkNBOTAxICAgICBkZAIDDw8WAh8CBQbpgJror4ZkZAIEDw8WAh8CBQMyLjBkZAIFDw8WAh8CBQIzMmRkAgcPDxYCHwIFATFkZAIOD2QWDmYPZBYCAgEPDxYCHwIFNzxpbnB1dCB0eXBlPXJhZGlvIG5hbWU9J215cmFkaW9ncm91cCcgdmFsdWU9Q0E5MDIgICAgID5kZAIBDw8WAh8CBTrlnKjlrp7pqozkuK3mjqLnqbbljJblraYgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgZGQCAg8PFgIfAgUKQ0E5MDIgICAgIGRkAgMPDxYCHwIFBumAmuivhmRkAgQPDxYCHwIFAzIuMGRkAgUPDxYCHwIFAjMyZGQCBw8PFgIfAgUBMWRkAg8PZBYOZg9kFgICAQ8PFgIfAgU3PGlucHV0IHR5cGU9cmFkaW8gbmFtZT0nbXlyYWRpb2dyb3VwJyB2YWx1ZT1DQTkwMyAgICAgPmRkAgEPDxYCHwIFO+WMluWtpumXrumimOeahOWunumqjOeglOeptiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgZGQCAg8PFgIfAgUKQ0E5MDMgICAgIGRkAgMPDxYCHwIFBumAmuivhmRkAgQPDxYCHwIFAzIuMGRkAgUPDxYCHwIFAjM2ZGQCBw8PFgIfAgUBMWRkAhAPZBYOZg9kFgICAQ8PFgIfAgU3PGlucHV0IHR5cGU9cmFkaW8gbmFtZT0nbXlyYWRpb2dyb3VwJyB2YWx1ZT1DUzkwMiAgICAgPmRkAgEPDxYCHwIFO+eoi+W6j+iuvuiuoeaAneaDs+S4juaWueazlSAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgZGQCAg8PFgIfAgUKQ1M5MDIgICAgIGRkAgMPDxYCHwIFBumAmuivhmRkAgQPDxYCHwIFAzMuMGRkAgUPDxYCHwIFAjQ4ZGQCBw8PFgIfAgUBMWRkAhEPZBYOZg9kFgICAQ8PFgIfAgU3PGlucHV0IHR5cGU9cmFkaW8gbmFtZT0nbXlyYWRpb2dyb3VwJyB2YWx1ZT1FSTkwMSAgICAgPmRkAgEPDxYCHwIFO+W3peeoi+Wunui3teS4juenkeaKgOWIm+aWsEkgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgZGQCAg8PFgIfAgUKRUk5MDEgICAgIGRkAgMPDxYCHwIFBumAmuivhmRkAgQPDxYCHwIFAzIuMGRkAgUPDxYCHwIFAjMyZGQCBw8PFgIfAgUBMWRkAhIPZBYOZg9kFgICAQ8PFgIfAgU3PGlucHV0IHR5cGU9cmFkaW8gbmFtZT0nbXlyYWRpb2dyb3VwJyB2YWx1ZT1JTjkwMSAgICAgPmRkAgEPDxYCHwIFOeS/oeaBr+e0oOWFu+S4juWunui3tSAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIGRkAgIPDxYCHwIFCklOOTAxICAgICBkZAIDDw8WAh8CBQbpgJror4ZkZAIEDw8WAh8CBQMyLjBkZAIFDw8WAh8CBQIzMmRkAgcPDxYCHwIFATFkZAITD2QWDmYPZBYCAgEPDxYCHwIFNzxpbnB1dCB0eXBlPXJhZGlvIG5hbWU9J215cmFkaW9ncm91cCcgdmFsdWU9TUU5MDEgICAgID5kZAIBDw8WAh8CBTjlt6XnqIvmioDmnK/mjqLnqbYgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIGRkAgIPDxYCHwIFCk1FOTAxICAgICBkZAIDDw8WAh8CBQbpgJror4ZkZAIEDw8WAh8CBQMyLjBkZAIFDw8WAh8CBQIzMmRkAgcPDxYCHwIFATFkZAIUD2QWDmYPZBYCAgEPDxYCHwIFNzxpbnB1dCB0eXBlPXJhZGlvIG5hbWU9J215cmFkaW9ncm91cCcgdmFsdWU9TUU5MDMgICAgID5kZAIBDw8WAh8CBTvliJvmlrDmgJ3nu7TkuI7njrDku6Porr7orqEgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIGRkAgIPDxYCHwIFCk1FOTAzICAgICBkZAIDDw8WAh8CBQbpgJror4ZkZAIEDw8WAh8CBQMyLjBkZAIFDw8WAh8CBQIzMmRkAgcPDxYCHwIFATFkZAIVD2QWDmYPZBYCAgEPDxYCHwIFNzxpbnB1dCB0eXBlPXJhZGlvIG5hbWU9J215cmFkaW9ncm91cCcgdmFsdWU9TUU5MDMgICAgID5kZAIBDw8WAh8CBTvliJvmlrDmgJ3nu7TkuI7njrDku6Porr7orqEgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIGRkAgIPDxYCHwIFCk1FOTAzICAgICBkZAIDDw8WAh8CBQbpgJror4ZkZAIEDw8WAh8CBQMyLjBkZAIFDw8WAh8CBQIzNGRkAgcPDxYCHwIFATFkZAIWD2QWDmYPZBYCAgEPDxYCHwIFNzxpbnB1dCB0eXBlPXJhZGlvIG5hbWU9J215cmFkaW9ncm91cCcgdmFsdWU9TUU5MDQgICAgID5kZAIBDw8WAh8CBTvlvaLosaHmgJ3nu7TkuI7lt6XnqIvor63oqIAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIGRkAgIPDxYCHwIFCk1FOTA0ICAgICBkZAIDDw8WAh8CBQbpgJror4ZkZAIEDw8WAh8CBQMyLjBkZAIFDw8WAh8CBQIzNGRkAgcPDxYCHwIFATFkZAIXD2QWDmYPZBYCAgEPDxYCHwIFNzxpbnB1dCB0eXBlPXJhZGlvIG5hbWU9J215cmFkaW9ncm91cCcgdmFsdWU9TUU5MDUgICAgID5kZAIBDw8WAh8CBTzlipvlrabku7/nlJ/vvI3lkK/npLrkuI7mjqLntKIgICAgICAgICAgICAgICAgICAgICAgICAgICAgICBkZAICDw8WAh8CBQpNRTkwNSAgICAgZGQCAw8PFgIfAgUG6YCa6K+GZGQCBA8PFgIfAgUDMi4wZGQCBQ8PFgIfAgUCMzRkZAIHDw8WAh8CBQExZGQCGA9kFg5mD2QWAgIBDw8WAh8CBTc8aW5wdXQgdHlwZT1yYWRpbyBuYW1lPSdteXJhZGlvZ3JvdXAnIHZhbHVlPU1FOTA3ICAgICA+ZGQCAQ8PFgIfAgU35bel56iL5b+D55CG5a2mICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIGRkAgIPDxYCHwIFCk1FOTA3ICAgICBkZAIDDw8WAh8CBQbpgJror4ZkZAIEDw8WAh8CBQMyLjBkZAIFDw8WAh8CBQIzMmRkAgcPDxYCHwIFATFkZAIZD2QWDmYPZBYCAgEPDxYCHwIFNzxpbnB1dCB0eXBlPXJhZGlvIG5hbWU9J215cmFkaW9ncm91cCcgdmFsdWU9TUU5MDggICAgID5kZAIBDw8WAh8CBTzmnLrlmajnmoTlvoHpgJTvvJrnqbrlpKnnp5HmioAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICBkZAICDw8WAh8CBQpNRTkwOCAgICAgZGQCAw8PFgIfAgUG6YCa6K+GZGQCBA8PFgIfAgUDMi4wZGQCBQ8PFgIfAgUCMzJkZAIHDw8WAh8CBQExZGQCGg9kFg5mD2QWAgIBDw8WAh8CBTc8aW5wdXQgdHlwZT1yYWRpbyBuYW1lPSdteXJhZGlvZ3JvdXAnIHZhbHVlPU1JOTAxICAgICA+ZGQCAQ8PFgIfAgU35L+h5oGv5LiO5oSf55+lICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIGRkAgIPDxYCHwIFCk1JOTAxICAgICBkZAIDDw8WAh8CBQbpgJror4ZkZAIEDw8WAh8CBQMyLjBkZAIFDw8WAh8CBQIzMmRkAgcPDxYCHwIFATFkZAIbD2QWDmYPZBYCAgEPDxYCHwIFNzxpbnB1dCB0eXBlPXJhZGlvIG5hbWU9J215cmFkaW9ncm91cCcgdmFsdWU9TVQ5MDIgICAgID5kZAIBDw8WAh8CBTfmnZDmlpnkuI7nlJ/mgIEgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgZGQCAg8PFgIfAgUKTVQ5MDIgICAgIGRkAgMPDxYCHwIFBumAmuivhmRkAgQPDxYCHwIFAzIuMGRkAgUPDxYCHwIFAjM0ZGQCBw8PFgIfAgUBMWRkAhwPZBYOZg9kFgICAQ8PFgIfAgU3PGlucHV0IHR5cGU9cmFkaW8gbmFtZT0nbXlyYWRpb2dyb3VwJyB2YWx1ZT1NVDkwMyAgICAgPmRkAgEPDxYCHwIFNuadkOaWmee+juWtpiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIGRkAgIPDxYCHwIFCk1UOTAzICAgICBkZAIDDw8WAh8CBQbpgJror4ZkZAIEDw8WAh8CBQMyLjBkZAIFDw8WAh8CBQIzMmRkAgcPDxYCHwIFATFkZAIdD2QWDmYPZBYCAgEPDxYCHwIFNzxpbnB1dCB0eXBlPXJhZGlvIG5hbWU9J215cmFkaW9ncm91cCcgdmFsdWU9TVQ5MDQgICAgID5kZAIBDw8WAh8CBUDnp5HlrabkuI7oibrmnK8t5p2Q5paZ56eR5a2m5LiO6K6+6K6h6Im65pyvICAgICAgICAgICAgICAgICAgICAgZGQCAg8PFgIfAgUKTVQ5MDQgICAgIGRkAgMPDxYCHwIFBumAmuivhmRkAgQPDxYCHwIFAzIuMGRkAgUPDxYCHwIFAjMyZGQCBw8PFgIfAgUBMWRkAh4PZBYQZg9kFgICAQ8PFgIfAgU3PGlucHV0IHR5cGU9cmFkaW8gbmFtZT0nbXlyYWRpb2dyb3VwJyB2YWx1ZT1PQzkwMSAgICAgPmRkAgEPDxYCHwIFN+a1t+a0i+WtpuWvvOiuuiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICBkZAICDw8WAh8CBQpPQzkwMSAgICAgZGQCAw8PFgIfAgUG6YCa6K+GZGQCBA8PFgIfAgUDMi4wZGQCBQ8PFgIfAgUCMzJkZAIGDw8WCB8CBQPiiJoeCUZvcmVDb2xvcgolHglGb250X0JvbGRnHgRfIVNCAoQQZGQCBw8PFgIfAgUBMWRkAh8PZBYOZg9kFgICAQ8PFgIfAgU3PGlucHV0IHR5cGU9cmFkaW8gbmFtZT0nbXlyYWRpb2dyb3VwJyB2YWx1ZT1QSDkwMiAgICAgPmRkAgEPDxYCHwIFN+Wuh+WumeS4juS6uuexuyAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICBkZAICDw8WAh8CBQpQSDkwMiAgICAgZGQCAw8PFgIfAgUG6YCa6K+GZGQCBA8PFgIfAgUDMi4wZGQCBQ8PFgIfAgUCMzJkZAIHDw8WAh8CBQExZGQCIA9kFg5mD2QWAgIBDw8WAh8CBTc8aW5wdXQgdHlwZT1yYWRpbyBuYW1lPSdteXJhZGlvZ3JvdXAnIHZhbHVlPVBIOTAzICAgICA+ZGQCAQ8PFgIfAgU86YeP5a2Q5rOi5r6c77ya5Y6G5Y+y5LiO5qaC5b+1ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgZGQCAg8PFgIfAgUKUEg5MDMgICAgIGRkAgMPDxYCHwIFBumAmuivhmRkAgQPDxYCHwIFAzIuMGRkAgUPDxYCHwIFAjMyZGQCBw8PFgIfAgUBMWRkAiEPZBYOZg9kFgICAQ8PFgIfAgU3PGlucHV0IHR5cGU9cmFkaW8gbmFtZT0nbXlyYWRpb2dyb3VwJyB2YWx1ZT1QSDkwNSAgICAgPmRkAgEPDxYCHwIFOuS7jueJqeeQhuWunumqjOeci+S4lueVjCAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICBkZAICDw8WAh8CBQpQSDkwNSAgICAgZGQCAw8PFgIfAgUG6YCa6K+GZGQCBA8PFgIfAgUDMi4wZGQCBQ8PFgIfAgUCMzJkZAIHDw8WAh8CBQExZGQCIg9kFg5mD2QWAgIBDw8WAh8CBTc8aW5wdXQgdHlwZT1yYWRpbyBuYW1lPSdteXJhZGlvZ3JvdXAnIHZhbHVlPVBIOTA2ICAgICA+ZGQCAQ8PFgIfAgU26YeP5a2Q5Yqb5a2mICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgZGQCAg8PFgIfAgUKUEg5MDYgICAgIGRkAgMPDxYCHwIFBumAmuivhmRkAgQPDxYCHwIFAzMuMGRkAgUPDxYCHwIFAjQ4ZGQCBw8PFgIfAgUBMWRkAiMPZBYOZg9kFgICAQ8PFgIfAgU3PGlucHV0IHR5cGU9cmFkaW8gbmFtZT0nbXlyYWRpb2dyb3VwJyB2YWx1ZT1QTzkwMSAgICAgPmRkAgEPDxYCHwIFNuS9jueis+iDvea6kCAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIGRkAgIPDxYCHwIFClBPOTAxICAgICBkZAIDDw8WAh8CBQbpgJror4ZkZAIEDw8WAh8CBQMyLjBkZAIFDw8WAh8CBQIzNGRkAgcPDxYCHwIFATFkZAIkD2QWDmYPZBYCAgEPDxYCHwIFNzxpbnB1dCB0eXBlPXJhZGlvIG5hbWU9J215cmFkaW9ncm91cCcgdmFsdWU9U085MjIgICAgID5kZAIBDw8WAh8CBTbkurrkuI7njq/looMgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICBkZAICDw8WAh8CBQpTTzkyMiAgICAgZGQCAw8PFgIfAgUG6YCa6K+GZGQCBA8PFgIfAgUDMy4wZGQCBQ8PFgIfAgUCNTFkZAIHDw8WAh8CBQExZGQCFQ8PFgIeB0VuYWJsZWRoZGQCJQ9kFgQCAQ8WAh8DaGQCAw8WAh4JaW5uZXJodG1sBeM5PHRhYmxlIHdpZHRoPTEwMCUgYm9yZGVyPTAgYWxpZ249Y2VudGVyIGNlbGxwYWRkaW5nPTAgY2VsbHNwYWNpbmc9MD4gPHRyPiA8dGQ+IDx0YWJsZSB3aWR0aD0nMTAwJScgYm9yZGVyPScxJyBjZWxsc3BhY2luZz0nMCcgY2VsbHBhZGRpbmc9JzEnIGFsaWduPSdjZW50ZXInIGNsYXNzPSdhbGx0YWInPiA8dHI+ICAgPHRkIHdpZHRoPSc1MCcgYWxpZ249J2NlbnRlcicgY2xhc3M9J2NsYXNzdGl0JyA+6IqCXOaYn+acnzwvdGQ+ICAgPHRkIGFsaWduPSdjZW50ZXInIGNsYXNzPSdjbGFzc3RpdCc+5pif5pyf5LiAPC90ZD4gICA8dGQgYWxpZ249J2NlbnRlcicgY2xhc3M9J2NsYXNzdGl0Jz7mmJ/mnJ/kuow8L3RkPiAgIDx0ZCBhbGlnbj0nY2VudGVyJyBjbGFzcz0nY2xhc3N0aXQnPuaYn+acn+S4iTwvdGQ+ICAgPHRkIGFsaWduPSdjZW50ZXInIGNsYXNzPSdjbGFzc3RpdCc+5pif5pyf5ZubPC90ZD4gICA8dGQgYWxpZ249J2NlbnRlcicgY2xhc3M9J2NsYXNzdGl0Jz7mmJ/mnJ/kupQ8L3RkPiAgIDx0ZCBhbGlnbj0nY2VudGVyJyBjbGFzcz0nY2xhc3N0aXQnPuaYn+acn+WFrTwvdGQ+ICAgPHRkIGFsaWduPSdjZW50ZXInIGNsYXNzPSdjbGFzc3RpdCc+5pif5pyf5pelPC90ZD4gICA8L3RyPiA8dHI+IDx0ZCBhbGlnbj0nY2VudGVyJyBjbGFzcz0nY2xhc3N0aXQyJz4xIDwvdGQ+PHRkIGFsaWduPSdjZW50ZXInIGNsYXNzPSdjbGFzc21haW4nIHJvd3NwYW49Mj48YSBocmVmPScuLi8uLi9sZXNzb24vdmlld0xlc3NvbkFycmFuZ2VEZXRhaWwyLmFzcHg/YnNpZD0zNTYyMzgnIHRhcmdldD1fYmxhbms+5Lq65bel5pm66IO977yIQuexu++8ie+8iDktMTblkajvvIlb5Lic5LiK6ZmiMTA1XTwvYT48YnI+IDwvdGQ+PHRkIGFsaWduPSdjZW50ZXInIGNsYXNzPSdjbGFzc21haW4nIHJvd3NwYW49Mj48YSBocmVmPScuLi8uLi9sZXNzb24vdmlld0xlc3NvbkFycmFuZ2VEZXRhaWwyLmFzcHg/YnNpZD0zNTYyMDYnIHRhcmdldD1fYmxhbms+5pWw5o2u5bqT5Y6f55CG77yIMS0xNuWRqO+8iVvkuJzkuIrpmaIyMDNdPC9hPuWPjOWRqDxicj48YSBocmVmPScuLi8uLi9sZXNzb24vdmlld0xlc3NvbkFycmFuZ2VEZXRhaWwyLmFzcHg/YnNpZD0zNTYzMTAnIHRhcmdldD1fYmxhbms+TGludXjlhoXmoLjvvIgxLTE25ZGo77yJW+S4nOS4iumZojEwNV08L2E+5Y2V5ZGoPGJyPiA8L3RkPjx0ZCBhbGlnbj0nY2VudGVyJyBjbGFzcz0nY2xhc3NtYWluJyByb3dzcGFuPTI+PGEgaHJlZj0nLi4vLi4vbGVzc29uL3ZpZXdMZXNzb25BcnJhbmdlRGV0YWlsMi5hc3B4P2JzaWQ9MzU2Mjk4JyB0YXJnZXQ9X2JsYW5rPue7j+a1juS/oeaBr+Wtpu+8iEHnsbvvvInigJTigJTkvIHkuJrotYTmupDop4TliJLljp/nkIbvvIgxLTjlkajvvIlb5Lic5LiK6ZmiMTA1XTwvYT48YnI+PGEgaHJlZj0nLi4vLi4vbGVzc29uL3ZpZXdMZXNzb25BcnJhbmdlRGV0YWlsMi5hc3B4P2JzaWQ9MzU2MjM4JyB0YXJnZXQ9X2JsYW5rPuS6uuW3peaZuuiDve+8iELnsbvvvInvvIg5LTE25ZGo77yJW+S4nOS4iumZojEwNV08L2E+PGJyPiA8L3RkPjx0ZCBhbGlnbj0nY2VudGVyJyBjbGFzcz0nY2xhc3NtYWluJyByb3dzcGFuPTI+PGEgaHJlZj0nLi4vLi4vbGVzc29uL3ZpZXdMZXNzb25BcnJhbmdlRGV0YWlsMi5hc3B4P2JzaWQ9MzU2MjA2JyB0YXJnZXQ9X2JsYW5rPuaVsOaNruW6k+WOn+eQhu+8iDEtMTblkajvvIlb5Lic5LiK6ZmiMjAzXTwvYT48YnI+IDwvdGQ+PHRkIGFsaWduPSdjZW50ZXInIGNsYXNzPSdjbGFzc21haW4nIHJvd3NwYW49Mj48YSBocmVmPScuLi8uLi9sZXNzb24vdmlld0xlc3NvbkFycmFuZ2VEZXRhaWwyLmFzcHg/YnNpZD0zNTYzMTAnIHRhcmdldD1fYmxhbms+TGludXjlhoXmoLjvvIgxLTE25ZGo77yJW+S4nOS4iumZojEwNV08L2E+PGJyPiA8L3RkPjx0ZCBhbGlnbj0nY2VudGVyJyBjbGFzcz0nY2xhc3NtYWluJyA+Jm5ic3A7PC90ZD48dGQgYWxpZ249J2NlbnRlcicgY2xhc3M9J2NsYXNzbWFpbicgPiZuYnNwOzwvdGQ+IDwvdHI+IDx0cj4gPHRkIGFsaWduPSdjZW50ZXInIGNsYXNzPSdjbGFzc3RpdDInPjIgPC90ZD48dGQgYWxpZ249J2NlbnRlcicgY2xhc3M9J2NsYXNzbWFpbicgPiZuYnNwOzwvdGQ+PHRkIGFsaWduPSdjZW50ZXInIGNsYXNzPSdjbGFzc21haW4nID4mbmJzcDs8L3RkPiA8L3RyPiA8dHI+IDx0ZCBhbGlnbj0nY2VudGVyJyBjbGFzcz0nY2xhc3N0aXQyJz4zIDwvdGQ+PHRkIGFsaWduPSdjZW50ZXInIGNsYXNzPSdjbGFzc21haW4nIHJvd3NwYW49Mj48YSBocmVmPScuLi8uLi9sZXNzb24vdmlld0xlc3NvbkFycmFuZ2VEZXRhaWwyLmFzcHg/YnNpZD0zNTYyOTgnIHRhcmdldD1fYmxhbms+57uP5rWO5L+h5oGv5a2m77yIQeexu++8ieKAlOKAlOS8geS4mui1hOa6kOinhOWIkuWOn+eQhu+8iDEtOOWRqO+8iVvkuJzkuIrpmaIxMDVdPC9hPjxicj4gPC90ZD48dGQgYWxpZ249J2NlbnRlcicgY2xhc3M9J2NsYXNzbWFpbicgPiZuYnNwOzwvdGQ+PHRkIGFsaWduPSdjZW50ZXInIGNsYXNzPSdjbGFzc21haW4nID4mbmJzcDs8L3RkPjx0ZCBhbGlnbj0nY2VudGVyJyBjbGFzcz0nY2xhc3NtYWluJyByb3dzcGFuPTI+PGEgaHJlZj0nLi4vLi4vbGVzc29uL3ZpZXdMZXNzb25BcnJhbmdlRGV0YWlsMi5hc3B4P2JzaWQ9MzU2MjM4JyB0YXJnZXQ9X2JsYW5rPuS6uuW3peaZuuiDve+8iELnsbvvvInvvIg5LTE25ZGo77yJW+S4nOS4iumZojEwNV08L2E+PGJyPiA8L3RkPjx0ZCBhbGlnbj0nY2VudGVyJyBjbGFzcz0nY2xhc3NtYWluJyByb3dzcGFuPTM+PGEgaHJlZj0nLi4vLi4vbGVzc29uL3ZpZXdMZXNzb25BcnJhbmdlRGV0YWlsMi5hc3B4P2JzaWQ9MzU2MjAxJyB0YXJnZXQ9X2JsYW5rPuiuoeeul+acuue9kee7nO+8iETnsbvvvInvvIgxLTE25ZGo77yJW+S4nOS4iumZojEwNV08L2E+PGJyPiA8L3RkPjx0ZCBhbGlnbj0nY2VudGVyJyBjbGFzcz0nY2xhc3NtYWluJyA+Jm5ic3A7PC90ZD48dGQgYWxpZ249J2NlbnRlcicgY2xhc3M9J2NsYXNzbWFpbicgPiZuYnNwOzwvdGQ+IDwvdHI+IDx0cj4gPHRkIGFsaWduPSdjZW50ZXInIGNsYXNzPSdjbGFzc3RpdDInPjQgPC90ZD48dGQgYWxpZ249J2NlbnRlcicgY2xhc3M9J2NsYXNzbWFpbicgPiZuYnNwOzwvdGQ+PHRkIGFsaWduPSdjZW50ZXInIGNsYXNzPSdjbGFzc21haW4nID4mbmJzcDs8L3RkPjx0ZCBhbGlnbj0nY2VudGVyJyBjbGFzcz0nY2xhc3NtYWluJyA+Jm5ic3A7PC90ZD48dGQgYWxpZ249J2NlbnRlcicgY2xhc3M9J2NsYXNzbWFpbicgPiZuYnNwOzwvdGQ+IDwvdHI+IDx0cj4gPHRkIGFsaWduPSdjZW50ZXInIGNsYXNzPSdjbGFzc3RpdDInPjUgPC90ZD48dGQgYWxpZ249J2NlbnRlcicgY2xhc3M9J2NsYXNzbWFpbicgPiZuYnNwOzwvdGQ+PHRkIGFsaWduPSdjZW50ZXInIGNsYXNzPSdjbGFzc21haW4nID4mbmJzcDs8L3RkPjx0ZCBhbGlnbj0nY2VudGVyJyBjbGFzcz0nY2xhc3NtYWluJyA+Jm5ic3A7PC90ZD48dGQgYWxpZ249J2NlbnRlcicgY2xhc3M9J2NsYXNzbWFpbicgPiZuYnNwOzwvdGQ+PHRkIGFsaWduPSdjZW50ZXInIGNsYXNzPSdjbGFzc21haW4nID4mbmJzcDs8L3RkPjx0ZCBhbGlnbj0nY2VudGVyJyBjbGFzcz0nY2xhc3NtYWluJyA+Jm5ic3A7PC90ZD4gPC90cj4gPHRyPiA8dGQgYWxpZ249J2NlbnRlcicgY2xhc3M9J2NsYXNzdGl0Mic+NiA8L3RkPjx0ZCBhbGlnbj0nY2VudGVyJyBjbGFzcz0nY2xhc3NtYWluJyByb3dzcGFuPTM+PGEgaHJlZj0nLi4vLi4vbGVzc29uL3ZpZXdMZXNzb25BcnJhbmdlRGV0YWlsMi5hc3B4P2JzaWQ9MzU2MjY2JyB0YXJnZXQ9X2JsYW5rPuWPr+iuoeeul+eQhuiuuu+8iDEtMTblkajvvIlb5Lic5LiK6ZmiMjAzXTwvYT48YnI+IDwvdGQ+PHRkIGFsaWduPSdjZW50ZXInIGNsYXNzPSdjbGFzc21haW4nIHJvd3NwYW49Mz48YSBocmVmPScuLi8uLi9sZXNzb24vdmlld0xlc3NvbkFycmFuZ2VEZXRhaWwyLmFzcHg/YnNpZD0zNTYyNzgnIHRhcmdldD1fYmxhbms+5rW36YeP5pWw5o2u5aSE55CG5oqA5pyv77yIMS045ZGo77yJW+S4nOS4iumZojIwNV08L2E+PGJyPiA8L3RkPjx0ZCBhbGlnbj0nY2VudGVyJyBjbGFzcz0nY2xhc3NtYWluJyA+Jm5ic3A7PC90ZD48dGQgYWxpZ249J2NlbnRlcicgY2xhc3M9J2NsYXNzbWFpbicgcm93c3Bhbj0zPjxhIGhyZWY9Jy4uLy4uL2xlc3Nvbi92aWV3TGVzc29uQXJyYW5nZURldGFpbDIuYXNweD9ic2lkPTM1NjI3OCcgdGFyZ2V0PV9ibGFuaz7mtbfph4/mlbDmja7lpITnkIbmioDmnK/vvIgxLTjlkajvvIlb5Lic5LiK6ZmiMjA1XTwvYT48YnI+IDwvdGQ+PHRkIGFsaWduPSdjZW50ZXInIGNsYXNzPSdjbGFzc21haW4nID4mbmJzcDs8L3RkPjx0ZCBhbGlnbj0nY2VudGVyJyBjbGFzcz0nY2xhc3NtYWluJyA+Jm5ic3A7PC90ZD48dGQgYWxpZ249J2NlbnRlcicgY2xhc3M9J2NsYXNzbWFpbicgPiZuYnNwOzwvdGQ+IDwvdHI+IDx0cj4gPHRkIGFsaWduPSdjZW50ZXInIGNsYXNzPSdjbGFzc3RpdDInPjcgPC90ZD48dGQgYWxpZ249J2NlbnRlcicgY2xhc3M9J2NsYXNzbWFpbicgPiZuYnNwOzwvdGQ+PHRkIGFsaWduPSdjZW50ZXInIGNsYXNzPSdjbGFzc21haW4nID4mbmJzcDs8L3RkPjx0ZCBhbGlnbj0nY2VudGVyJyBjbGFzcz0nY2xhc3NtYWluJyA+Jm5ic3A7PC90ZD48dGQgYWxpZ249J2NlbnRlcicgY2xhc3M9J2NsYXNzbWFpbicgPiZuYnNwOzwvdGQ+IDwvdHI+IDx0cj4gPHRkIGFsaWduPSdjZW50ZXInIGNsYXNzPSdjbGFzc3RpdDInPjggPC90ZD48dGQgYWxpZ249J2NlbnRlcicgY2xhc3M9J2NsYXNzbWFpbicgPiZuYnNwOzwvdGQ+PHRkIGFsaWduPSdjZW50ZXInIGNsYXNzPSdjbGFzc21haW4nID4mbmJzcDs8L3RkPjx0ZCBhbGlnbj0nY2VudGVyJyBjbGFzcz0nY2xhc3NtYWluJyA+Jm5ic3A7PC90ZD48dGQgYWxpZ249J2NlbnRlcicgY2xhc3M9J2NsYXNzbWFpbicgPiZuYnNwOzwvdGQ+IDwvdHI+IDx0cj4gPHRkIGFsaWduPSdjZW50ZXInIGNsYXNzPSdjbGFzc3RpdDInPjkgPC90ZD48dGQgYWxpZ249J2NlbnRlcicgY2xhc3M9J2NsYXNzbWFpbicgPiZuYnNwOzwvdGQ+PHRkIGFsaWduPSdjZW50ZXInIGNsYXNzPSdjbGFzc21haW4nID4mbmJzcDs8L3RkPjx0ZCBhbGlnbj0nY2VudGVyJyBjbGFzcz0nY2xhc3NtYWluJyA+Jm5ic3A7PC90ZD48dGQgYWxpZ249J2NlbnRlcicgY2xhc3M9J2NsYXNzbWFpbicgPiZuYnNwOzwvdGQ+PHRkIGFsaWduPSdjZW50ZXInIGNsYXNzPSdjbGFzc21haW4nID4mbmJzcDs8L3RkPjx0ZCBhbGlnbj0nY2VudGVyJyBjbGFzcz0nY2xhc3NtYWluJyA+Jm5ic3A7PC90ZD48dGQgYWxpZ249J2NlbnRlcicgY2xhc3M9J2NsYXNzbWFpbicgPiZuYnNwOzwvdGQ+IDwvdHI+IDx0cj4gPHRkIGFsaWduPSdjZW50ZXInIGNsYXNzPSdjbGFzc3RpdDInPjEwIDwvdGQ+PHRkIGFsaWduPSdjZW50ZXInIGNsYXNzPSdjbGFzc21haW4nID4mbmJzcDs8L3RkPjx0ZCBhbGlnbj0nY2VudGVyJyBjbGFzcz0nY2xhc3NtYWluJyA+Jm5ic3A7PC90ZD48dGQgYWxpZ249J2NlbnRlcicgY2xhc3M9J2NsYXNzbWFpbicgPiZuYnNwOzwvdGQ+PHRkIGFsaWduPSdjZW50ZXInIGNsYXNzPSdjbGFzc21haW4nID4mbmJzcDs8L3RkPjx0ZCBhbGlnbj0nY2VudGVyJyBjbGFzcz0nY2xhc3NtYWluJyA+Jm5ic3A7PC90ZD48dGQgYWxpZ249J2NlbnRlcicgY2xhc3M9J2NsYXNzbWFpbicgPiZuYnNwOzwvdGQ+PHRkIGFsaWduPSdjZW50ZXInIGNsYXNzPSdjbGFzc21haW4nID4mbmJzcDs8L3RkPiA8L3RyPiA8dHI+IDx0ZCBhbGlnbj0nY2VudGVyJyBjbGFzcz0nY2xhc3N0aXQyJz4xMSA8L3RkPjx0ZCBhbGlnbj0nY2VudGVyJyBjbGFzcz0nY2xhc3NtYWluJyA+Jm5ic3A7PC90ZD48dGQgYWxpZ249J2NlbnRlcicgY2xhc3M9J2NsYXNzbWFpbicgcm93c3Bhbj0zPjxhIGhyZWY9Jy4uLy4uL2xlc3Nvbi92aWV3TGVzc29uQXJyYW5nZURldGFpbDIuYXNweD9ic2lkPTM1NDUwNScgdGFyZ2V0PV9ibGFuaz7mtbfmtIvlrablr7zorrrvvIgxLTEx5ZGo77yJW+S4nOS4remZojItNDAzXTwvYT48YnI+IDwvdGQ+PHRkIGFsaWduPSdjZW50ZXInIGNsYXNzPSdjbGFzc21haW4nID4mbmJzcDs8L3RkPjx0ZCBhbGlnbj0nY2VudGVyJyBjbGFzcz0nY2xhc3NtYWluJyA+Jm5ic3A7PC90ZD48dGQgYWxpZ249J2NlbnRlcicgY2xhc3M9J2NsYXNzbWFpbicgPiZuYnNwOzwvdGQ+PHRkIGFsaWduPSdjZW50ZXInIGNsYXNzPSdjbGFzc21haW4nID4mbmJzcDs8L3RkPjx0ZCBhbGlnbj0nY2VudGVyJyBjbGFzcz0nY2xhc3NtYWluJyA+Jm5ic3A7PC90ZD4gPC90cj4gPHRyPiA8dGQgYWxpZ249J2NlbnRlcicgY2xhc3M9J2NsYXNzdGl0Mic+MTIgPC90ZD48dGQgYWxpZ249J2NlbnRlcicgY2xhc3M9J2NsYXNzbWFpbicgPiZuYnNwOzwvdGQ+PHRkIGFsaWduPSdjZW50ZXInIGNsYXNzPSdjbGFzc21haW4nID4mbmJzcDs8L3RkPjx0ZCBhbGlnbj0nY2VudGVyJyBjbGFzcz0nY2xhc3NtYWluJyA+Jm5ic3A7PC90ZD48dGQgYWxpZ249J2NlbnRlcicgY2xhc3M9J2NsYXNzbWFpbicgPiZuYnNwOzwvdGQ+PHRkIGFsaWduPSdjZW50ZXInIGNsYXNzPSdjbGFzc21haW4nID4mbmJzcDs8L3RkPjx0ZCBhbGlnbj0nY2VudGVyJyBjbGFzcz0nY2xhc3NtYWluJyA+Jm5ic3A7PC90ZD4gPC90cj4gPHRyPiA8dGQgYWxpZ249J2NlbnRlcicgY2xhc3M9J2NsYXNzdGl0Mic+MTMgPC90ZD48dGQgYWxpZ249J2NlbnRlcicgY2xhc3M9J2NsYXNzbWFpbicgPiZuYnNwOzwvdGQ+PHRkIGFsaWduPSdjZW50ZXInIGNsYXNzPSdjbGFzc21haW4nID4mbmJzcDs8L3RkPjx0ZCBhbGlnbj0nY2VudGVyJyBjbGFzcz0nY2xhc3NtYWluJyA+Jm5ic3A7PC90ZD48dGQgYWxpZ249J2NlbnRlcicgY2xhc3M9J2NsYXNzbWFpbicgPiZuYnNwOzwvdGQ+PHRkIGFsaWduPSdjZW50ZXInIGNsYXNzPSdjbGFzc21haW4nID4mbmJzcDs8L3RkPjx0ZCBhbGlnbj0nY2VudGVyJyBjbGFzcz0nY2xhc3NtYWluJyA+Jm5ic3A7PC90ZD4gPC90cj4gPHRyPiA8dGQgYWxpZ249J2NlbnRlcicgY2xhc3M9J2NsYXNzdGl0Mic+MTQgPC90ZD48dGQgYWxpZ249J2NlbnRlcicgY2xhc3M9J2NsYXNzbWFpbicgPiZuYnNwOzwvdGQ+PHRkIGFsaWduPSdjZW50ZXInIGNsYXNzPSdjbGFzc21haW4nID4mbmJzcDs8L3RkPjx0ZCBhbGlnbj0nY2VudGVyJyBjbGFzcz0nY2xhc3NtYWluJyA+Jm5ic3A7PC90ZD48dGQgYWxpZ249J2NlbnRlcicgY2xhc3M9J2NsYXNzbWFpbicgPiZuYnNwOzwvdGQ+PHRkIGFsaWduPSdjZW50ZXInIGNsYXNzPSdjbGFzc21haW4nID4mbmJzcDs8L3RkPjx0ZCBhbGlnbj0nY2VudGVyJyBjbGFzcz0nY2xhc3NtYWluJyA+Jm5ic3A7PC90ZD48dGQgYWxpZ249J2NlbnRlcicgY2xhc3M9J2NsYXNzbWFpbicgPiZuYnNwOzwvdGQ+IDwvdHI+IDwvdGFibGU+IDwvdGQ+IDwvdHI+IDwvdGFibGU+ZAInDzwrAAsAZAIpDzwrAAsAZBgBBR5fX0NvbnRyb2xzUmVxdWlyZVBvc3RCYWNrS2V5X18WBwUdZ3JpZEdNb2R1bGUkY3RsMDIkcmFkaW9CdXR0b24FHWdyaWRHTW9kdWxlJGN0bDAyJHJhZGlvQnV0dG9uBR1ncmlkR01vZHVsZSRjdGwwMyRyYWRpb0J1dHRvbgUdZ3JpZEdNb2R1bGUkY3RsMDMkcmFkaW9CdXR0b24FHWdyaWRHTW9kdWxlJGN0bDA0JHJhZGlvQnV0dG9uBR1ncmlkR01vZHVsZSRjdGwwNSRyYWRpb0J1dHRvbgUdZ3JpZEdNb2R1bGUkY3RsMDUkcmFkaW9CdXR0b24oCksrvR53aF+fpTSQvCSIXv5Q/w==" type="hidden">
+</div><div>
+
+	<input name="__EVENTVALIDATION" id="__EVENTVALIDATION" value="/wEWDwLP19bGCALc6pTCDQL59JLCDQKmuL/CDQLLxLzCDQKIxK6NAgKDqOrpBwLwkrn8BgLwksG+CQLs9POaDwL8kq1jAuyE+oUBAorb5P4MAp3rlJIJAsKL2t4Di3lU9PzoO4vj8Uu4PoQ12Kj64CU=" type="hidden">
+</div><table id="Table1" align="center" border="0" cellpadding="0" cellspacing="0" width="98%">
+			<form name="subjectSet" method="post" action="speltyCommonCourse.aspx" id="subjectSet"></form>
+
+
+<script type="text/javascript">
+//<![CDATA[
+var theForm = document.forms['subjectSet'];
+if (!theForm) {
+    theForm = document.subjectSet;
+}
+function __doPostBack(eventTarget, eventArgument) {
+    if (!theForm.onsubmit || (theForm.onsubmit() != false)) {
+        theForm.__EVENTTARGET.value = eventTarget;
+        theForm.__EVENTARGUMENT.value = eventArgument;
+        theForm.submit();
+    }
+}
+//]]>
+</script>
+
+
+
+				<tbody>
+					<tr>
+						<td>
+							<table align="center" border="0" cellpadding="0" cellspacing="0" width="100%">
+								<tbody><tr>
+									<td class="tit" width="80">通识课</td>
+									<td width="878"><img src="newsinside_data/arrowdown.gif" height="18" width="18"></td>
+								</tr>
+								<tr>
+									<td colspan="2" bgcolor="#cecfce" height="1"></td>
+								</tr>
+								<tr>
+									<td colspan="2" height="5"></td>
+								</tr>
+							</tbody></table>
+						</td>
+					</tr>
+					<tr>
+						<td bgcolor="#fffb9c" height="20">
+<table id="Table1" border="0" cellpadding="0" cellspacing="0" width="100%">
+	<tbody><tr>
+		<td>
+			<span id="ElectTips1_lblTips">人文学科：最低学分要求为：8,社会科学：最低学分要求为：4,自然科学与工程技术：最低学分要求为：9,</span></td>
+	</tr>
+</tbody></table>
+</td>
+					</tr>
+					<tr>
+						<td height="20">
+<table id="Table1" border="0" cellpadding="0" cellspacing="0" width="590">
+	<tbody><tr>
+		<td><b>已选学分</b>:
+			<span id="ScoreInfo1_lblCurrentS" style="color:Red;">23</span></td>
+		<td><b>本学期最高学分</b>:
+			<span id="ScoreInfo1_lblTargetS">45</span></td>
+		<td><b>最低学分</b>:
+			<span id="ScoreInfo1_lblLowestS">5</span></td>
+		<td>
+			<span id="ScoreInfo1_lblRxkNum" style="font-weight:bold;"> 任选课最多能选：5门</span></td>
+		<td><span id="ScoreInfo1_lblTxkNum" style="font-weight:bold;"> 通识课最多能选：1门</span></td>
+		<td><span id="ScoreInfo1_lblXsytk" style="font-weight:bold;"></span></td>
+		<td><span id="ScoreInfo1_lblCtxf" style="font-weight:bold;"></span></td>
+		<td><span id="ScoreInfo1_lblCtkNum" style="font-weight:bold;"></span></td>
+		
+	</tr>
+	<tr>
+	    <td>
+	        <b></b>
+			<span id="ScoreInfo1_lblCurrentSShort" style="color:Red;"></span>
+	    </td>
+	    <td>
+	        <b></b>
+			<span id="ScoreInfo1_lblTargetSShort"></span>
+	    </td>
+	    <td>
+	        <b></b>
+			<span id="ScoreInfo1_lblLowestSShort"></span>
+	    </td>
+	    <td></td>
+	    <td></td>
+	    <td></td>
+	    <td></td>
+	    <td></td>
+	    
+	</tr>
+</tbody></table>
+</td>
+					</tr>
+					<tr>
+						<td>
+							<table class="alltab" border="0" cellpadding="0" cellspacing="0" width="100%">
+								<tbody><tr>
+									<td><table rules="all" id="gridGModule" style="border-width:0px;width:100%;" border="0" cellspacing="1">
+	<tbody><tr class="tdtit">
+		<td class="tdtit" style="width:33px;">选择</td><td style="width:200px;">名称</td>
+	</tr><tr class="tdcolour1">
+		<td style="border-width:1px;border-style:solid;width:6%;" align="center">
+														<input id="gridGModule_ctl02_radioButton" name="gridGModule$ctl02$radioButton" value="radioButton" onclick="javascript:setTimeout('__doPostBack(\'gridGModule$ctl02$radioButton\',\'\')', 0)" type="radio">
+													</td><td style="border-width:1px;border-style:solid;">人文学科</td>
+	</tr><tr class="tdcolour2">
+		<td style="border-width:1px;border-style:solid;width:6%;" align="center">
+														<input id="gridGModule_ctl03_radioButton" name="gridGModule$ctl03$radioButton" value="radioButton" onclick="javascript:setTimeout('__doPostBack(\'gridGModule$ctl03$radioButton\',\'\')', 0)" tabindex="1" type="radio">
+													</td><td style="border-width:1px;border-style:solid;">社会科学</td>
+	</tr><tr class="tdcolour1">
+		<td style="border-width:1px;border-style:solid;width:6%;" align="center">
+														<input id="gridGModule_ctl04_radioButton" name="gridGModule$ctl04$radioButton" value="radioButton" checked="checked" tabindex="2" type="radio">
+													</td><td style="border-width:1px;border-style:solid;">自然科学与工程技术</td>
+	</tr><tr class="tdcolour2">
+		<td style="border-width:1px;border-style:solid;width:6%;" align="center">
+														<input id="gridGModule_ctl05_radioButton" name="gridGModule$ctl05$radioButton" value="radioButton" onclick="javascript:setTimeout('__doPostBack(\'gridGModule$ctl05$radioButton\',\'\')', 0)" tabindex="3" type="radio">
+													</td><td style="border-width:1px;border-style:solid;">数学或逻辑学</td>
+	</tr>
+</tbody></table></td>
+								</tr>
+							</tbody></table>
+						</td>
+					</tr>
+					<tr>
+						<td>&nbsp;</td>
+					</tr>
+					<tr>
+						<td align="right" height="20">共有课程数：<span id="lblTotal">36</span></td>
+					</tr>
+					<tr>
+						<td>
+							<table class="alltab" align="center" border="0" cellpadding="0" cellspacing="0" width="100%">
+								<tbody><tr>
+									<td><table rules="all" id="gridMain" style="border-width:0px;width:100%;" border="0" cellspacing="1">
+	<tbody><tr class="tdtit">
+		<td class="tdtit" style="width:33px;">选择</td><td>课程名称</td><td style="width:80px;">课程代码</td><td style="width:60px;">课程性质</td><td style="width:40px;">学分</td><td style="width:40px;">学时</td><td style="width:100px;">是否已选课程</td>
+	</tr><tr class="tdcolour1">
+		<td style="border-width:1px;border-style:solid;width:6%;" align="center">
+														<span id="gridMain_ctl02_Label2"><input name="myradiogroup" value="AB901" type="radio"></span>
+													</td><td style="border-width:1px;border-style:solid;">现代农业与生态文明                                </td><td class="en" style="border-width:1px;border-style:solid;">AB901     </td><td style="border-width:1px;border-style:solid;">通识</td><td class="en" style="border-width:1px;border-style:solid;">2.0</td><td class="en" style="border-width:1px;border-style:solid;">32</td><td style="border-width:1px;border-style:solid;" align="center">
+														<span id="gridMain_ctl02_lblChk" style="color:Red;font-weight:bold;">×</span>
+													</td>
+	</tr><tr class="tdcolour2">
+		<td style="border-width:1px;border-style:solid;width:6%;" align="center">
+														<span id="gridMain_ctl03_Label2"><input name="myradiogroup" value="AM904" type="radio"></span>
+													</td><td style="border-width:1px;border-style:solid;">工程可持续发展                                    </td><td class="en" style="border-width:1px;border-style:solid;">AM904     </td><td style="border-width:1px;border-style:solid;">通识</td><td class="en" style="border-width:1px;border-style:solid;">2.0</td><td class="en" style="border-width:1px;border-style:solid;">32</td><td style="border-width:1px;border-style:solid;" align="center">
+														<span id="gridMain_ctl03_lblChk" style="color:Red;font-weight:bold;">×</span>
+													</td>
+	</tr><tr class="tdcolour1">
+		<td style="border-width:1px;border-style:solid;width:6%;" align="center">
+														<span id="gridMain_ctl04_Label2"><input name="myradiogroup" value="BI001" type="radio"></span>
+													</td><td style="border-width:1px;border-style:solid;">生命科学导论                                      </td><td class="en" style="border-width:1px;border-style:solid;">BI001     </td><td style="border-width:1px;border-style:solid;">通识</td><td class="en" style="border-width:1px;border-style:solid;">2.0</td><td class="en" style="border-width:1px;border-style:solid;">32</td><td style="border-width:1px;border-style:solid;" align="center">
+														<span id="gridMain_ctl04_lblChk" style="color:Red;font-weight:bold;">×</span>
+													</td>
+	</tr><tr class="tdcolour2">
+		<td style="border-width:1px;border-style:solid;width:6%;" align="center">
+														<span id="gridMain_ctl05_Label2"><input name="myradiogroup" value="BI001" type="radio"></span>
+													</td><td style="border-width:1px;border-style:solid;">生命科学导论                                      </td><td class="en" style="border-width:1px;border-style:solid;">BI001     </td><td style="border-width:1px;border-style:solid;">通识</td><td class="en" style="border-width:1px;border-style:solid;">2.0</td><td class="en" style="border-width:1px;border-style:solid;">33</td><td style="border-width:1px;border-style:solid;" align="center">
+														<span id="gridMain_ctl05_lblChk" style="color:Red;font-weight:bold;">×</span>
+													</td>
+	</tr><tr class="tdcolour1">
+		<td style="border-width:1px;border-style:solid;width:6%;" align="center">
+														<span id="gridMain_ctl06_Label2"><input name="myradiogroup" value="BI903" type="radio"></span>
+													</td><td style="border-width:1px;border-style:solid;">生命科学实验探索                                  </td><td class="en" style="border-width:1px;border-style:solid;">BI903     </td><td style="border-width:1px;border-style:solid;">通识</td><td class="en" style="border-width:1px;border-style:solid;">2.0</td><td class="en" style="border-width:1px;border-style:solid;">32</td><td style="border-width:1px;border-style:solid;" align="center">
+														<span id="gridMain_ctl06_lblChk" style="color:Red;font-weight:bold;">×</span>
+													</td>
+	</tr><tr class="tdcolour2">
+		<td style="border-width:1px;border-style:solid;width:6%;" align="center">
+														<span id="gridMain_ctl07_Label2"><input name="myradiogroup" value="BI904" type="radio"></span>
+													</td><td style="border-width:1px;border-style:solid;">海洋世界探秘                                      </td><td class="en" style="border-width:1px;border-style:solid;">BI904     </td><td style="border-width:1px;border-style:solid;">通识</td><td class="en" style="border-width:1px;border-style:solid;">2.0</td><td class="en" style="border-width:1px;border-style:solid;">32</td><td style="border-width:1px;border-style:solid;" align="center">
+														<span id="gridMain_ctl07_lblChk" style="color:Red;font-weight:bold;">×</span>
+													</td>
+	</tr><tr class="tdcolour1">
+		<td style="border-width:1px;border-style:solid;width:6%;" align="center">
+														<span id="gridMain_ctl08_Label2"><input name="myradiogroup" value="BI907" type="radio"></span>
+													</td><td style="border-width:1px;border-style:solid;">基因与人                                          </td><td class="en" style="border-width:1px;border-style:solid;">BI907     </td><td style="border-width:1px;border-style:solid;">通识</td><td class="en" style="border-width:1px;border-style:solid;">2.0</td><td class="en" style="border-width:1px;border-style:solid;">32</td><td style="border-width:1px;border-style:solid;" align="center">
+														<span id="gridMain_ctl08_lblChk" style="color:Red;font-weight:bold;">×</span>
+													</td>
+	</tr><tr class="tdcolour2">
+		<td style="border-width:1px;border-style:solid;width:6%;" align="center">
+														<span id="gridMain_ctl09_Label2"><input name="myradiogroup" value="BI912" type="radio"></span>
+													</td><td style="border-width:1px;border-style:solid;">遗传与社会                                        </td><td class="en" style="border-width:1px;border-style:solid;">BI912     </td><td style="border-width:1px;border-style:solid;">通识</td><td class="en" style="border-width:1px;border-style:solid;">2.0</td><td class="en" style="border-width:1px;border-style:solid;">33</td><td style="border-width:1px;border-style:solid;" align="center">
+														<span id="gridMain_ctl09_lblChk" style="color:Red;font-weight:bold;">×</span>
+													</td>
+	</tr><tr class="tdcolour1">
+		<td style="border-width:1px;border-style:solid;width:6%;" align="center">
+														<span id="gridMain_ctl10_Label2"><input name="myradiogroup" value="BI913" type="radio"></span>
+													</td><td style="border-width:1px;border-style:solid;">生物技术与人类                                    </td><td class="en" style="border-width:1px;border-style:solid;">BI913     </td><td style="border-width:1px;border-style:solid;">通识</td><td class="en" style="border-width:1px;border-style:solid;">3.0</td><td class="en" style="border-width:1px;border-style:solid;">48</td><td style="border-width:1px;border-style:solid;" align="center">
+														<span id="gridMain_ctl10_lblChk" style="color:Red;font-weight:bold;">×</span>
+													</td>
+	</tr><tr class="tdcolour2">
+		<td style="border-width:1px;border-style:solid;width:6%;" align="center">
+														<span id="gridMain_ctl11_Label2"><input name="myradiogroup" value="BI915" type="radio"></span>
+													</td><td style="border-width:1px;border-style:solid;">微生物的世界                                      </td><td class="en" style="border-width:1px;border-style:solid;">BI915     </td><td style="border-width:1px;border-style:solid;">通识</td><td class="en" style="border-width:1px;border-style:solid;">2.0</td><td class="en" style="border-width:1px;border-style:solid;">32</td><td style="border-width:1px;border-style:solid;" align="center">
+														<span id="gridMain_ctl11_lblChk" style="color:Red;font-weight:bold;">×</span>
+													</td>
+	</tr><tr class="tdcolour1">
+		<td style="border-width:1px;border-style:solid;width:6%;" align="center">
+														<span id="gridMain_ctl12_Label2"><input name="myradiogroup" value="BM902" type="radio"></span>
+													</td><td style="border-width:1px;border-style:solid;">药物发展——延续生命的奥秘                        </td><td class="en" style="border-width:1px;border-style:solid;">BM902     </td><td style="border-width:1px;border-style:solid;">通识</td><td class="en" style="border-width:1px;border-style:solid;">2.0</td><td class="en" style="border-width:1px;border-style:solid;">32</td><td style="border-width:1px;border-style:solid;" align="center">
+														<span id="gridMain_ctl12_lblChk" style="color:Red;font-weight:bold;">×</span>
+													</td>
+	</tr><tr class="tdcolour2">
+		<td style="border-width:1px;border-style:solid;width:6%;" align="center">
+														<span id="gridMain_ctl13_Label2"><input name="myradiogroup" value="BM907" type="radio"></span>
+													</td><td style="border-width:1px;border-style:solid;">传统医学与人类健康                                </td><td class="en" style="border-width:1px;border-style:solid;">BM907     </td><td style="border-width:1px;border-style:solid;">通识</td><td class="en" style="border-width:1px;border-style:solid;">2.0</td><td class="en" style="border-width:1px;border-style:solid;">32</td><td style="border-width:1px;border-style:solid;" align="center">
+														<span id="gridMain_ctl13_lblChk" style="color:Red;font-weight:bold;">×</span>
+													</td>
+	</tr><tr class="tdcolour1">
+		<td style="border-width:1px;border-style:solid;width:6%;" align="center">
+														<span id="gridMain_ctl14_Label2"><input name="myradiogroup" value="CA901" type="radio"></span>
+													</td><td style="border-width:1px;border-style:solid;">大学化学                                          </td><td class="en" style="border-width:1px;border-style:solid;">CA901     </td><td style="border-width:1px;border-style:solid;">通识</td><td class="en" style="border-width:1px;border-style:solid;">2.0</td><td class="en" style="border-width:1px;border-style:solid;">32</td><td style="border-width:1px;border-style:solid;" align="center">
+														<span id="gridMain_ctl14_lblChk" style="color:Red;font-weight:bold;">×</span>
+													</td>
+	</tr><tr class="tdcolour2">
+		<td style="border-width:1px;border-style:solid;width:6%;" align="center">
+														<span id="gridMain_ctl15_Label2"><input name="myradiogroup" value="CA902" type="radio"></span>
+													</td><td style="border-width:1px;border-style:solid;">在实验中探究化学                                  </td><td class="en" style="border-width:1px;border-style:solid;">CA902     </td><td style="border-width:1px;border-style:solid;">通识</td><td class="en" style="border-width:1px;border-style:solid;">2.0</td><td class="en" style="border-width:1px;border-style:solid;">32</td><td style="border-width:1px;border-style:solid;" align="center">
+														<span id="gridMain_ctl15_lblChk" style="color:Red;font-weight:bold;">×</span>
+													</td>
+	</tr><tr class="tdcolour1">
+		<td style="border-width:1px;border-style:solid;width:6%;" align="center">
+														<span id="gridMain_ctl16_Label2"><input name="myradiogroup" value="CA903" type="radio"></span>
+													</td><td style="border-width:1px;border-style:solid;">化学问题的实验研究                                </td><td class="en" style="border-width:1px;border-style:solid;">CA903     </td><td style="border-width:1px;border-style:solid;">通识</td><td class="en" style="border-width:1px;border-style:solid;">2.0</td><td class="en" style="border-width:1px;border-style:solid;">36</td><td style="border-width:1px;border-style:solid;" align="center">
+														<span id="gridMain_ctl16_lblChk" style="color:Red;font-weight:bold;">×</span>
+													</td>
+	</tr><tr class="tdcolour2">
+		<td style="border-width:1px;border-style:solid;width:6%;" align="center">
+														<span id="gridMain_ctl17_Label2"><input name="myradiogroup" value="CS902" type="radio"></span>
+													</td><td style="border-width:1px;border-style:solid;">程序设计思想与方法                                </td><td class="en" style="border-width:1px;border-style:solid;">CS902     </td><td style="border-width:1px;border-style:solid;">通识</td><td class="en" style="border-width:1px;border-style:solid;">3.0</td><td class="en" style="border-width:1px;border-style:solid;">48</td><td style="border-width:1px;border-style:solid;" align="center">
+														<span id="gridMain_ctl17_lblChk" style="color:Red;font-weight:bold;">×</span>
+													</td>
+	</tr><tr class="tdcolour1">
+		<td style="border-width:1px;border-style:solid;width:6%;" align="center">
+														<span id="gridMain_ctl18_Label2"><input name="myradiogroup" value="EI901" type="radio"></span>
+													</td><td style="border-width:1px;border-style:solid;">工程实践与科技创新I                               </td><td class="en" style="border-width:1px;border-style:solid;">EI901     </td><td style="border-width:1px;border-style:solid;">通识</td><td class="en" style="border-width:1px;border-style:solid;">2.0</td><td class="en" style="border-width:1px;border-style:solid;">32</td><td style="border-width:1px;border-style:solid;" align="center">
+														<span id="gridMain_ctl18_lblChk" style="color:Red;font-weight:bold;">×</span>
+													</td>
+	</tr><tr class="tdcolour2">
+		<td style="border-width:1px;border-style:solid;width:6%;" align="center">
+														<span id="gridMain_ctl19_Label2"><input name="myradiogroup" value="IN901" type="radio"></span>
+													</td><td style="border-width:1px;border-style:solid;">信息素养与实践                                    </td><td class="en" style="border-width:1px;border-style:solid;">IN901     </td><td style="border-width:1px;border-style:solid;">通识</td><td class="en" style="border-width:1px;border-style:solid;">2.0</td><td class="en" style="border-width:1px;border-style:solid;">32</td><td style="border-width:1px;border-style:solid;" align="center">
+														<span id="gridMain_ctl19_lblChk" style="color:Red;font-weight:bold;">×</span>
+													</td>
+	</tr><tr class="tdcolour1">
+		<td style="border-width:1px;border-style:solid;width:6%;" align="center">
+														<span id="gridMain_ctl20_Label2"><input name="myradiogroup" value="ME901" type="radio"></span>
+													</td><td style="border-width:1px;border-style:solid;">工程技术探究                                      </td><td class="en" style="border-width:1px;border-style:solid;">ME901     </td><td style="border-width:1px;border-style:solid;">通识</td><td class="en" style="border-width:1px;border-style:solid;">2.0</td><td class="en" style="border-width:1px;border-style:solid;">32</td><td style="border-width:1px;border-style:solid;" align="center">
+														<span id="gridMain_ctl20_lblChk" style="color:Red;font-weight:bold;">×</span>
+													</td>
+	</tr><tr class="tdcolour2">
+		<td style="border-width:1px;border-style:solid;width:6%;" align="center">
+														<span id="gridMain_ctl21_Label2"><input name="myradiogroup" value="ME903" type="radio"></span>
+													</td><td style="border-width:1px;border-style:solid;">创新思维与现代设计                                </td><td class="en" style="border-width:1px;border-style:solid;">ME903     </td><td style="border-width:1px;border-style:solid;">通识</td><td class="en" style="border-width:1px;border-style:solid;">2.0</td><td class="en" style="border-width:1px;border-style:solid;">32</td><td style="border-width:1px;border-style:solid;" align="center">
+														<span id="gridMain_ctl21_lblChk" style="color:Red;font-weight:bold;">×</span>
+													</td>
+	</tr><tr class="tdcolour1">
+		<td style="border-width:1px;border-style:solid;width:6%;" align="center">
+														<span id="gridMain_ctl22_Label2"><input name="myradiogroup" value="ME903" type="radio"></span>
+													</td><td style="border-width:1px;border-style:solid;">创新思维与现代设计                                </td><td class="en" style="border-width:1px;border-style:solid;">ME903     </td><td style="border-width:1px;border-style:solid;">通识</td><td class="en" style="border-width:1px;border-style:solid;">2.0</td><td class="en" style="border-width:1px;border-style:solid;">34</td><td style="border-width:1px;border-style:solid;" align="center">
+														<span id="gridMain_ctl22_lblChk" style="color:Red;font-weight:bold;">×</span>
+													</td>
+	</tr><tr class="tdcolour2">
+		<td style="border-width:1px;border-style:solid;width:6%;" align="center">
+														<span id="gridMain_ctl23_Label2"><input name="myradiogroup" value="ME904" type="radio"></span>
+													</td><td style="border-width:1px;border-style:solid;">形象思维与工程语言                                </td><td class="en" style="border-width:1px;border-style:solid;">ME904     </td><td style="border-width:1px;border-style:solid;">通识</td><td class="en" style="border-width:1px;border-style:solid;">2.0</td><td class="en" style="border-width:1px;border-style:solid;">34</td><td style="border-width:1px;border-style:solid;" align="center">
+														<span id="gridMain_ctl23_lblChk" style="color:Red;font-weight:bold;">×</span>
+													</td>
+	</tr><tr class="tdcolour1">
+		<td style="border-width:1px;border-style:solid;width:6%;" align="center">
+														<span id="gridMain_ctl24_Label2"><input name="myradiogroup" value="ME905" type="radio"></span>
+													</td><td style="border-width:1px;border-style:solid;">力学仿生－启示与探索                              </td><td class="en" style="border-width:1px;border-style:solid;">ME905     </td><td style="border-width:1px;border-style:solid;">通识</td><td class="en" style="border-width:1px;border-style:solid;">2.0</td><td class="en" style="border-width:1px;border-style:solid;">34</td><td style="border-width:1px;border-style:solid;" align="center">
+														<span id="gridMain_ctl24_lblChk" style="color:Red;font-weight:bold;">×</span>
+													</td>
+	</tr><tr class="tdcolour2">
+		<td style="border-width:1px;border-style:solid;width:6%;" align="center">
+														<span id="gridMain_ctl25_Label2"><input name="myradiogroup" value="ME907" type="radio"></span>
+													</td><td style="border-width:1px;border-style:solid;">工程心理学                                        </td><td class="en" style="border-width:1px;border-style:solid;">ME907     </td><td style="border-width:1px;border-style:solid;">通识</td><td class="en" style="border-width:1px;border-style:solid;">2.0</td><td class="en" style="border-width:1px;border-style:solid;">32</td><td style="border-width:1px;border-style:solid;" align="center">
+														<span id="gridMain_ctl25_lblChk" style="color:Red;font-weight:bold;">×</span>
+													</td>
+	</tr><tr class="tdcolour1">
+		<td style="border-width:1px;border-style:solid;width:6%;" align="center">
+														<span id="gridMain_ctl26_Label2"><input name="myradiogroup" value="ME908" type="radio"></span>
+													</td><td style="border-width:1px;border-style:solid;">机器的征途：空天科技                              </td><td class="en" style="border-width:1px;border-style:solid;">ME908     </td><td style="border-width:1px;border-style:solid;">通识</td><td class="en" style="border-width:1px;border-style:solid;">2.0</td><td class="en" style="border-width:1px;border-style:solid;">32</td><td style="border-width:1px;border-style:solid;" align="center">
+														<span id="gridMain_ctl26_lblChk" style="color:Red;font-weight:bold;">×</span>
+													</td>
+	</tr><tr class="tdcolour2">
+		<td style="border-width:1px;border-style:solid;width:6%;" align="center">
+														<span id="gridMain_ctl27_Label2"><input name="myradiogroup" value="MI901" type="radio"></span>
+													</td><td style="border-width:1px;border-style:solid;">信息与感知                                        </td><td class="en" style="border-width:1px;border-style:solid;">MI901     </td><td style="border-width:1px;border-style:solid;">通识</td><td class="en" style="border-width:1px;border-style:solid;">2.0</td><td class="en" style="border-width:1px;border-style:solid;">32</td><td style="border-width:1px;border-style:solid;" align="center">
+														<span id="gridMain_ctl27_lblChk" style="color:Red;font-weight:bold;">×</span>
+													</td>
+	</tr><tr class="tdcolour1">
+		<td style="border-width:1px;border-style:solid;width:6%;" align="center">
+														<span id="gridMain_ctl28_Label2"><input name="myradiogroup" value="MT902" type="radio"></span>
+													</td><td style="border-width:1px;border-style:solid;">材料与生态                                        </td><td class="en" style="border-width:1px;border-style:solid;">MT902     </td><td style="border-width:1px;border-style:solid;">通识</td><td class="en" style="border-width:1px;border-style:solid;">2.0</td><td class="en" style="border-width:1px;border-style:solid;">34</td><td style="border-width:1px;border-style:solid;" align="center">
+														<span id="gridMain_ctl28_lblChk" style="color:Red;font-weight:bold;">×</span>
+													</td>
+	</tr><tr class="tdcolour2">
+		<td style="border-width:1px;border-style:solid;width:6%;" align="center">
+														<span id="gridMain_ctl29_Label2"><input name="myradiogroup" value="MT903" type="radio"></span>
+													</td><td style="border-width:1px;border-style:solid;">材料美学                                          </td><td class="en" style="border-width:1px;border-style:solid;">MT903     </td><td style="border-width:1px;border-style:solid;">通识</td><td class="en" style="border-width:1px;border-style:solid;">2.0</td><td class="en" style="border-width:1px;border-style:solid;">32</td><td style="border-width:1px;border-style:solid;" align="center">
+														<span id="gridMain_ctl29_lblChk" style="color:Red;font-weight:bold;">×</span>
+													</td>
+	</tr><tr class="tdcolour1">
+		<td style="border-width:1px;border-style:solid;width:6%;" align="center">
+														<span id="gridMain_ctl30_Label2"><input name="myradiogroup" value="MT904" type="radio"></span>
+													</td><td style="border-width:1px;border-style:solid;">科学与艺术-材料科学与设计艺术                     </td><td class="en" style="border-width:1px;border-style:solid;">MT904     </td><td style="border-width:1px;border-style:solid;">通识</td><td class="en" style="border-width:1px;border-style:solid;">2.0</td><td class="en" style="border-width:1px;border-style:solid;">32</td><td style="border-width:1px;border-style:solid;" align="center">
+														<span id="gridMain_ctl30_lblChk" style="color:Red;font-weight:bold;">×</span>
+													</td>
+	</tr><tr class="tdcolour2">
+		<td style="border-width:1px;border-style:solid;width:6%;" align="center">
+														<span id="gridMain_ctl31_Label2"><input name="myradiogroup" value="OC901" type="radio"></span>
+													</td><td style="border-width:1px;border-style:solid;">海洋学导论                                        </td><td class="en" style="border-width:1px;border-style:solid;">OC901     </td><td style="border-width:1px;border-style:solid;">通识</td><td class="en" style="border-width:1px;border-style:solid;">2.0</td><td class="en" style="border-width:1px;border-style:solid;">32</td><td style="color:Blue;border-width:1px;border-style:solid;font-weight:bold;" align="center">√</td>
+	</tr><tr class="tdcolour1">
+		<td style="border-width:1px;border-style:solid;width:6%;" align="center">
+														<span id="gridMain_ctl32_Label2"><input name="myradiogroup" value="PH902" type="radio"></span>
+													</td><td style="border-width:1px;border-style:solid;">宇宙与人类                                        </td><td class="en" style="border-width:1px;border-style:solid;">PH902     </td><td style="border-width:1px;border-style:solid;">通识</td><td class="en" style="border-width:1px;border-style:solid;">2.0</td><td class="en" style="border-width:1px;border-style:solid;">32</td><td style="border-width:1px;border-style:solid;" align="center">
+														<span id="gridMain_ctl32_lblChk" style="color:Red;font-weight:bold;">×</span>
+													</td>
+	</tr><tr class="tdcolour2">
+		<td style="border-width:1px;border-style:solid;width:6%;" align="center">
+														<span id="gridMain_ctl33_Label2"><input name="myradiogroup" value="PH903" type="radio"></span>
+													</td><td style="border-width:1px;border-style:solid;">量子波澜：历史与概念                              </td><td class="en" style="border-width:1px;border-style:solid;">PH903     </td><td style="border-width:1px;border-style:solid;">通识</td><td class="en" style="border-width:1px;border-style:solid;">2.0</td><td class="en" style="border-width:1px;border-style:solid;">32</td><td style="border-width:1px;border-style:solid;" align="center">
+														<span id="gridMain_ctl33_lblChk" style="color:Red;font-weight:bold;">×</span>
+													</td>
+	</tr><tr class="tdcolour1">
+		<td style="border-width:1px;border-style:solid;width:6%;" align="center">
+														<span id="gridMain_ctl34_Label2"><input name="myradiogroup" value="PH905" type="radio"></span>
+													</td><td style="border-width:1px;border-style:solid;">从物理实验看世界                                  </td><td class="en" style="border-width:1px;border-style:solid;">PH905     </td><td style="border-width:1px;border-style:solid;">通识</td><td class="en" style="border-width:1px;border-style:solid;">2.0</td><td class="en" style="border-width:1px;border-style:solid;">32</td><td style="border-width:1px;border-style:solid;" align="center">
+														<span id="gridMain_ctl34_lblChk" style="color:Red;font-weight:bold;">×</span>
+													</td>
+	</tr><tr class="tdcolour2">
+		<td style="border-width:1px;border-style:solid;width:6%;" align="center">
+														<span id="gridMain_ctl35_Label2"><input name="myradiogroup" value="PH906" type="radio"></span>
+													</td><td style="border-width:1px;border-style:solid;">量子力学                                          </td><td class="en" style="border-width:1px;border-style:solid;">PH906     </td><td style="border-width:1px;border-style:solid;">通识</td><td class="en" style="border-width:1px;border-style:solid;">3.0</td><td class="en" style="border-width:1px;border-style:solid;">48</td><td style="border-width:1px;border-style:solid;" align="center">
+														<span id="gridMain_ctl35_lblChk" style="color:Red;font-weight:bold;">×</span>
+													</td>
+	</tr><tr class="tdcolour1">
+		<td style="border-width:1px;border-style:solid;width:6%;" align="center">
+														<span id="gridMain_ctl36_Label2"><input name="myradiogroup" value="PO901" type="radio"></span>
+													</td><td style="border-width:1px;border-style:solid;">低碳能源                                          </td><td class="en" style="border-width:1px;border-style:solid;">PO901     </td><td style="border-width:1px;border-style:solid;">通识</td><td class="en" style="border-width:1px;border-style:solid;">2.0</td><td class="en" style="border-width:1px;border-style:solid;">34</td><td style="border-width:1px;border-style:solid;" align="center">
+														<span id="gridMain_ctl36_lblChk" style="color:Red;font-weight:bold;">×</span>
+													</td>
+	</tr><tr class="tdcolour2">
+		<td style="border-width:1px;border-style:solid;width:6%;" align="center">
+														<span id="gridMain_ctl37_Label2"><input name="myradiogroup" value="SO922" type="radio"></span>
+													</td><td style="border-width:1px;border-style:solid;">人与环境                                          </td><td class="en" style="border-width:1px;border-style:solid;">SO922     </td><td style="border-width:1px;border-style:solid;">通识</td><td class="en" style="border-width:1px;border-style:solid;">3.0</td><td class="en" style="border-width:1px;border-style:solid;">51</td><td style="border-width:1px;border-style:solid;" align="center">
+														<span id="gridMain_ctl37_lblChk" style="color:Red;font-weight:bold;">×</span>
+													</td>
+	</tr>
+</tbody></table></td>
+								</tr>
+							</tbody></table>
+						</td>
+					</tr>
+					<tr>
+						<td class="tdline2" align="center" height="40">
+							<table border="0" cellpadding="0" cellspacing="3">
+								<tbody><tr>
+									<td><input name="lessonArrange" value="课程安排" id="lessonArrange" class="button" style="width:55px;" type="submit"></td>
+									<td><input name="btnLessonInfo" value="课程介绍" id="btnLessonInfo" class="button" style="width:55px;" type="submit"></td>
+									<td><input name="btnBxk" value="必修课" id="btnBxk" class="button" style="width:50px;" type="submit"></td>
+									<td><input name="btnXxk" value="限选课" id="btnXxk" class="button" style="width:50px;" type="submit"></td>
+									<td><input name="btnXuanXk" value="任选课" id="btnXuanXk" class="button" style="width:50px;" type="submit"></td>
+									<td><input name="btnYtk" value="新生研讨课" id="btnYtk" disabled="disabled" class="button" style="width:70px;" type="submit"></td>
+									<td></td>
+									<td><input name="btnRecommandTbl" value="推荐课表" id="btnRecommandTbl" class="button" style="width:55px;" type="submit"></td>
+									<td><input name="btnResult" value="选课结果" id="btnResult" class="button2" style="width:55px;" type="submit"></td>
+									<td width="0"><input onclick="javascript:window.open('printLessonTbl.aspx?fromDatabase=1'  ,'打印课表','scrollbars=yes, resizable=yes,height=600, width=700')" value="打印课表" style="VISIBILITY:hidden; WIDTH:0px" type="button"></td>
+									<td></td>
+									<td><input name="btnFastCancel" value="快速退课" id="btnFastCancel" class="button2" style="width:55px;" type="submit"></td>
+									<td width="3"></td>
+									<td><input name="btnSubmit" value="选课提交" id="btnSubmit" class="button3" style="width:55px;" type="submit"></td>
+									<td></td>
+								</tr>
+							</tbody></table>
+						</td>
+					</tr>
+					<tr>
+						<td>&nbsp;</td>
+					</tr>
+					<tr>
+						<td>
+<p></p>
+<p><span id="LessonTbl1_spanContent"><table align="center" border="0" cellpadding="0" cellspacing="0" width="100%"> <tbody><tr> <td> <table class="alltab" align="center" border="1" cellpadding="1" cellspacing="0" width="100%"> <tbody><tr>   <td class="classtit" align="center" width="50">节\星期</td>   <td class="classtit" align="center">星期一</td>   <td class="classtit" align="center">星期二</td>   <td class="classtit" align="center">星期三</td>   <td class="classtit" align="center">星期四</td>   <td class="classtit" align="center">星期五</td>   <td class="classtit" align="center">星期六</td>   <td class="classtit" align="center">星期日</td>   </tr> <tr> <td class="classtit2" align="center">1 </td><td class="classmain" rowspan="2" align="center"><a href="http://electsys.sjtu.edu.cn/edu/lesson/viewLessonArrangeDetail2.aspx?bsid=356238" target="_blank">人工智能（B类）（9-16周）[东上院105]</a><br> </td><td class="classmain" rowspan="2" align="center"><a href="http://electsys.sjtu.edu.cn/edu/lesson/viewLessonArrangeDetail2.aspx?bsid=356206" target="_blank">数据库原理（1-16周）[东上院203]</a>双周<br><a href="http://electsys.sjtu.edu.cn/edu/lesson/viewLessonArrangeDetail2.aspx?bsid=356310" target="_blank">Linux内核（1-16周）[东上院105]</a>单周<br> </td><td class="classmain" rowspan="2" align="center"><a href="http://electsys.sjtu.edu.cn/edu/lesson/viewLessonArrangeDetail2.aspx?bsid=356298" target="_blank">经济信息学（A类）——企业资源规划原理（1-8周）[东上院105]</a><br><a href="http://electsys.sjtu.edu.cn/edu/lesson/viewLessonArrangeDetail2.aspx?bsid=356238" target="_blank">人工智能（B类）（9-16周）[东上院105]</a><br> </td><td class="classmain" rowspan="2" align="center"><a href="http://electsys.sjtu.edu.cn/edu/lesson/viewLessonArrangeDetail2.aspx?bsid=356206" target="_blank">数据库原理（1-16周）[东上院203]</a><br> </td><td class="classmain" rowspan="2" align="center"><a href="http://electsys.sjtu.edu.cn/edu/lesson/viewLessonArrangeDetail2.aspx?bsid=356310" target="_blank">Linux内核（1-16周）[东上院105]</a><br> </td><td class="classmain" align="center">&nbsp;</td><td class="classmain" align="center">&nbsp;</td> </tr> <tr> <td class="classtit2" align="center">2 </td><td class="classmain" align="center">&nbsp;</td><td class="classmain" align="center">&nbsp;</td> </tr> <tr> <td class="classtit2" align="center">3 </td><td class="classmain" rowspan="2" align="center"><a href="http://electsys.sjtu.edu.cn/edu/lesson/viewLessonArrangeDetail2.aspx?bsid=356298" target="_blank">经济信息学（A类）——企业资源规划原理（1-8周）[东上院105]</a><br> </td><td class="classmain" align="center">&nbsp;</td><td class="classmain" align="center">&nbsp;</td><td class="classmain" rowspan="2" align="center"><a href="http://electsys.sjtu.edu.cn/edu/lesson/viewLessonArrangeDetail2.aspx?bsid=356238" target="_blank">人工智能（B类）（9-16周）[东上院105]</a><br> </td><td class="classmain" rowspan="3" align="center"><a href="http://electsys.sjtu.edu.cn/edu/lesson/viewLessonArrangeDetail2.aspx?bsid=356201" target="_blank">计算机网络（D类）（1-16周）[东上院105]</a><br> </td><td class="classmain" align="center">&nbsp;</td><td class="classmain" align="center">&nbsp;</td> </tr> <tr> <td class="classtit2" align="center">4 </td><td class="classmain" align="center">&nbsp;</td><td class="classmain" align="center">&nbsp;</td><td class="classmain" align="center">&nbsp;</td><td class="classmain" align="center">&nbsp;</td> </tr> <tr> <td class="classtit2" align="center">5 </td><td class="classmain" align="center">&nbsp;</td><td class="classmain" align="center">&nbsp;</td><td class="classmain" align="center">&nbsp;</td><td class="classmain" align="center">&nbsp;</td><td class="classmain" align="center">&nbsp;</td><td class="classmain" align="center">&nbsp;</td> </tr> <tr> <td class="classtit2" align="center">6 </td><td class="classmain" rowspan="3" align="center"><a href="http://electsys.sjtu.edu.cn/edu/lesson/viewLessonArrangeDetail2.aspx?bsid=356266" target="_blank">可计算理论（1-16周）[东上院203]</a><br> </td><td class="classmain" rowspan="3" align="center"><a href="http://electsys.sjtu.edu.cn/edu/lesson/viewLessonArrangeDetail2.aspx?bsid=356278" target="_blank">海量数据处理技术（1-8周）[东上院205]</a><br> </td><td class="classmain" align="center">&nbsp;</td><td class="classmain" rowspan="3" align="center"><a href="http://electsys.sjtu.edu.cn/edu/lesson/viewLessonArrangeDetail2.aspx?bsid=356278" target="_blank">海量数据处理技术（1-8周）[东上院205]</a><br> </td><td class="classmain" align="center">&nbsp;</td><td class="classmain" align="center">&nbsp;</td><td class="classmain" align="center">&nbsp;</td> </tr> <tr> <td class="classtit2" align="center">7 </td><td class="classmain" align="center">&nbsp;</td><td class="classmain" align="center">&nbsp;</td><td class="classmain" align="center">&nbsp;</td><td class="classmain" align="center">&nbsp;</td> </tr> <tr> <td class="classtit2" align="center">8 </td><td class="classmain" align="center">&nbsp;</td><td class="classmain" align="center">&nbsp;</td><td class="classmain" align="center">&nbsp;</td><td class="classmain" align="center">&nbsp;</td> </tr> <tr> <td class="classtit2" align="center">9 </td><td class="classmain" align="center">&nbsp;</td><td class="classmain" align="center">&nbsp;</td><td class="classmain" align="center">&nbsp;</td><td class="classmain" align="center">&nbsp;</td><td class="classmain" align="center">&nbsp;</td><td class="classmain" align="center">&nbsp;</td><td class="classmain" align="center">&nbsp;</td> </tr> <tr> <td class="classtit2" align="center">10 </td><td class="classmain" align="center">&nbsp;</td><td class="classmain" align="center">&nbsp;</td><td class="classmain" align="center">&nbsp;</td><td class="classmain" align="center">&nbsp;</td><td class="classmain" align="center">&nbsp;</td><td class="classmain" align="center">&nbsp;</td><td class="classmain" align="center">&nbsp;</td> </tr> <tr> <td class="classtit2" align="center">11 </td><td class="classmain" align="center">&nbsp;</td><td class="classmain" rowspan="3" align="center"><a href="http://electsys.sjtu.edu.cn/edu/lesson/viewLessonArrangeDetail2.aspx?bsid=354505" target="_blank">海洋学导论（1-11周）[东中院2-403]</a><br> </td><td class="classmain" align="center">&nbsp;</td><td class="classmain" align="center">&nbsp;</td><td class="classmain" align="center">&nbsp;</td><td class="classmain" align="center">&nbsp;</td><td class="classmain" align="center">&nbsp;</td> </tr> <tr> <td class="classtit2" align="center">12 </td><td class="classmain" align="center">&nbsp;</td><td class="classmain" align="center">&nbsp;</td><td class="classmain" align="center">&nbsp;</td><td class="classmain" align="center">&nbsp;</td><td class="classmain" align="center">&nbsp;</td><td class="classmain" align="center">&nbsp;</td> </tr> <tr> <td class="classtit2" align="center">13 </td><td class="classmain" align="center">&nbsp;</td><td class="classmain" align="center">&nbsp;</td><td class="classmain" align="center">&nbsp;</td><td class="classmain" align="center">&nbsp;</td><td class="classmain" align="center">&nbsp;</td><td class="classmain" align="center">&nbsp;</td> </tr> <tr> <td class="classtit2" align="center">14 </td><td class="classmain" align="center">&nbsp;</td><td class="classmain" align="center">&nbsp;</td><td class="classmain" align="center">&nbsp;</td><td class="classmain" align="center">&nbsp;</td><td class="classmain" align="center">&nbsp;</td><td class="classmain" align="center">&nbsp;</td><td class="classmain" align="center">&nbsp;</td> </tr> </tbody></table> </td> </tr> </tbody></table></span></p>
+</td>
+					</tr>
+					<tr>
+						<td>&nbsp;</td>
+					</tr>
+					<tr>
+						<td></td>
+					</tr>
+					<tr>
+						<td></td>
+					</tr>
+			
+			</tbody></table>
+	
+
+</body></html>

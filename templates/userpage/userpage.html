@@ -1,0 +1,521 @@
+{% load staticfiles %}
+{% load login_extras %}
+<!DOCTYPE html>
+<html lang="zh" xmlns:wb="http://open.weibo.com/wb">
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<meta name="description" content="SJTU Course————最真实可靠的交大课程信息交流平台！">
+    <meta name="author" content="lyw">
+    <link href="{% static 'img/icon2.jpg' %}" rel="icon">
+
+		<title>课程点评网</title>
+
+		<!-- Bootstrap core CSS -->
+    <link href="{% static 'css/bootstrap.min.css' %}" type="text/css" rel="stylesheet">
+    <link href="{% static 'css/bootstrap-theme.min.css' %}" rel="stylesheet">
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+    <script src="//oss.maxcdn.com/libs/html5shiv/3.6.2/html5shiv.js"></script>
+    <script src="../../docs-assets/js/respond.min.js"></script>
+    <![endif]-->
+	</head>
+
+	<body>
+    {% csrf_token %}
+    <div class="container">
+      <nav class="navbar navbar-inverse navbar-fixed-top" style="max-width:1140px;MARGIN-RIGHT: auto;MARGIN-LEFT: auto;TEXT-ALIGN: center;">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navcol">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="/" style=" margin-top:-3px;">
+            <img src="{% static 'img/logo_small.png' %}" border="0" width="78" height="30" style="margin-top:-3px;">
+              课程点评网
+          </a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <div class="collapse navbar-collapse" id="navcol">
+          <ul class="nav navbar-nav">
+            <li><a href="/lecture/courselist/">通识课</a></li>
+            <li><a href="/gossip/">吐槽墙</a></li>
+            <!-- <li><a href="#">课程排行</a></li>
+            <li><a href="#">课程交易</a></li>
+            <li class="dropdown">
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown">课程分类 <b class="caret"></b></a>
+              <ul class="dropdown-menu">
+                <li><a href="#">人文通识</a></li>
+                <li><a href="#">社科通识</a></li>
+                <li><a href="#">自然通识</a></li>
+                <li class="divider"></li>
+                <li><a href="#">必修课</a></li>
+                <li class="divider"></li>
+                <li><a href="#">任选课</a></li>
+              </ul>
+            </li> -->
+          </ul>
+          <!-- <form class="navbar-form navbar-left">
+            <div class="form-group dropdown" style="width:400px;">
+              <input type="text" class="form-control" id="search" autocomplete="off" placeholder="来这里找课！">
+              <ul class="dropdown-menu" id="complete" style="width:100%;margin-top:-1px;text-align:left;"></ul>
+            </div>
+            <button type="submit" id="submit" class="btn btn-default">搜索</button>
+          </form> -->
+          <ul class="nav navbar-nav navbar-right">
+            <li class="dropdown">
+              <a href={% if u.messageofcommentsuper_set.all.count %}"#" class="dropdown-toggle" data-toggle="dropdown"{% else %}"/"{% endif %} style="white-space:pre;"><span class="glyphicon glyphicon-user"></span>  {{ u.name }} <span class="badge" style="background-color:#FF7744 ;">{% if u.messageofcommentsuper_set.all.count %}{{ u.messageofcommentsuper_set.all.count }}{% endif %}</span></a>
+              {% if u.messageofcommentsuper_set.all.count %}
+              <ul class="dropdown-menu" style="width:350px;margin-top:4px;max-height:400px;overflow:auto;overflow-x:hidden;">
+                {% for message in u.messageofcommentsuper_set.all reversed %}
+                <li class="dropdown-header" style="text-align:left;">
+                  {{ message.lecture_comment.lecture.professor.name|truncatechars:10 }} 《{{ message.lecture_comment.lecture.course.name|truncatechars:12 }}》<p style="text-align:right;margin-top:-1.5em"><span class="badge" style="background-color:#00DD00;">有用 +{{ message.super_added }}</span></p>
+                </li>
+                <li>
+                  <a href="/userpage/checksupermessage/{{ message.id }}/"><blockquote style="margin-bottom:-12px;margin-top:-12px;"><p style="text-align:left;font-size:small;">{{ message.lecture_comment.content|truncatechars:20 }}</p><small style="text-align:right;">{{ message.lecture_comment.time|formatTime }}</small></blockquote></a>
+                </li>
+                <li class="divider"></li>
+                {% endfor %}
+                <li>共 {{u.messageofcommentsuper_set.all.count}} 条</li>
+              </ul>
+              {% endif %}
+            </li>
+            <li><a href="javascript:void(0);" onclick="$('#sName').modal('show');">修改昵称</a></li>
+            <li><a href="/setpassword/">修改密码</a></li>
+            <li><a href="/logout/">退出</a></li>
+          </ul>
+        </div><!-- /.navbar-collapse -->
+      </nav>
+
+      <ol class="breadcrumb" style="margin-top:70px;">
+        <li>{{ sys_achievement }}次帮助大家了解课程</li>
+        <li>我的影响因子：{{ user_influence_factor }}</li>
+        <li>我击败了{{ user_rank }}%的用户</li>
+        <li class="dropdown">
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown">风云人物 <small><span class="glyphicon glyphicon-chevron-down"></span></small></a>
+          <ul class="dropdown-menu" style="padding-left:10px;padding-right:10px;">
+            {% for u in top_users %}
+            <li><p style="white-space:pre;">{{ forloop.counter }}    <a href="/{{ u.id }}/">{{ u.name }}</a><p style="text-align:right;margin-top:-2.15em;">{{ u.influence_factor }}</p></p></li>
+            {% endfor %}
+          </ul>
+        </li>
+        <p style="text-align:right;margin-top:-1.4em;margin-right:40px;margin-bottom:0;"><strong>分享到</strong></p>
+        <p style="text-align:right;margin-top:-1.35em;margin-right:20px;margin-bottom:0;"><a name="xn_share" onclick="shareClick()" type="icon" href="javascript:void(0);"></a></p>
+        <p style="text-align:right;margin-top:-1.75em;margin-right:-3px;margin-bottom:-0.5em;"><wb:share-button addition="simple" type="icon" default_text="选课还看教评？你OUT啦！sjtucourse.duapp.com——交大人专属的课程信息交流平台。在这里你可以快速查找大家对课程的评价，在这里你可以随意赞美吐槽曾经的课程！就在这个选课季，与所有交大人分享最真实可靠的课程信息！" pic="http%3A%2F%2Fsjtucourse.duapp.com%2Fstatic%2Fimg%2Flogo_big.png"></wb:share-button></p>
+      </ol>
+
+      <div class="row">
+        <div class="col-sm-8 col-sm-offset-2">
+          <div class="panel panel-info">
+            <div class="panel-heading">
+              <h3 class="panel-title"><span class="glyphicon glyphicon-search"></span> 搜课神器</h3>
+            </div>
+            <div class="panel-body col-sm-offset-1">
+              <form style="padding-top:15px;padding-bottom:15px">
+                <div class="form-group dropdown col-xs-10">
+                  <input type="text" class="form-control" id="search" autocomplete="off" placeholder="来这里找课！">
+                  <ul class="dropdown-menu" id="complete" style="width:94.5%;margin-top:-1px;margin-left:15px"></ul>
+                </div>
+                <button type="submit" id="submit" class="btn btn-default">搜索</button>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-sm-6">
+          <div class="panel panel-danger">
+            <div class="panel-heading">
+              <h3 class="panel-title"><span class="glyphicon glyphicon-fire"></span> 热门点评</h3>
+            </div>
+            <div class="panel-body" style="overflow:auto;max-height:550px;">
+              <ul class="list-group" id="float_comment" style="position:relative;">
+                <li class="list-group-item" style="border-color:#AAAAAA" id="comment1">
+                  <div class="row"> 
+                    <div class="col-xs-3">
+                      <h5><a href="#" id="course_name1"><strong></strong></a></h5>
+                      <p id="professor_name1"></p>
+                      <p class="text-warning" id="course_level1"></p>
+                    </div>
+                    <div class="col-xs-9">
+                      <h5 style="height:80px;text-indent:2em;line-height:20pt;border:solid 1px #DDDDDD;border-radius:10px;padding:10px;word-break:break-all;overflow:auto;" id="comment_content1"></h5>
+                      <h4 style="text-align:right;white-space:pre;overflow:auto;"><small id="comment_info1"></small></h4>
+                    </div>
+                  </div>
+                </li>
+                <li class="list-group-item" style="border-color:#AAAAAA" id="comment2">
+                  <div class="row">
+                    <div class="col-xs-3">
+                      <h5><a href="#" id="course_name2"><strong></strong></a></h5>
+                      <p id="professor_name2"></p>
+                      <p class="text-warning" id="course_level2"></p>
+                    </div>
+                    <div class="col-xs-9">
+                      <h5 style="height:80px;text-indent:2em;line-height:20pt;border:solid 1px #DDDDDD;border-radius:10px;padding:10px;word-break:break-all;overflow:auto;" id="comment_content2"></h5>
+                      <h4 style="text-align:right;white-space:pre;overflow:auto;"><small id="comment_info2"></small></h4>
+                    </div>
+                  </div>
+                </li>
+                <li class="list-group-item" style="border-color:#AAAAAA" id="comment3">
+                  <div class="row">
+                    <div class="col-xs-3">
+                      <h5><a href="#" id="course_name3"><strong></strong></a></h5>
+                      <p id="professor_name3"></p>
+                      <p class="text-warning" id="course_level3"></p>
+                    </div>
+                    <div class="col-xs-9">
+                      <h5 style="height:80px;text-indent:2em;line-height:20pt;border:solid 1px #DDDDDD;border-radius:10px;padding:10px;word-break:break-all;overflow:auto;" id="comment_content3"></h5>
+                      <h4 style="text-align:right;white-space:pre;overflow:auto;"><small id="comment_info3"></small></h4>
+                    </div>
+                  </div>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-sm-6">
+          <div class="panel panel-warning">
+            <div class="panel-heading">
+              <h3 class="panel-title" id="collection_title" data-number="{{ u.userlecturecollection_set.all.count }}"><span class="glyphicon glyphicon-bookmark"></span> 收藏的课{% if u.userlecturecollection_set.all.count > 0 %}（{{ u.userlecturecollection_set.all.count }}）{% endif %}</h3>
+            </div>
+            <div class="panel-body" id="panel_collect" style="overflow:auto;max-height:550px;">
+              {% if u.userlecturecollection_set.all.count > 0 %}
+              <ul class="list-group">
+                {% for collectionrecord in u.userlecturecollection_set.all|slice:":3" %}
+                <li class="list-group-item" style="border-color:#AAAAAA">
+                  <div class="row">
+                    <div class="col-xs-3">
+                      <h5><a href="/lecture/{{ collectionrecord.lecture.id }}/"><strong>{{ collectionrecord.lecture.course.name }}</strong></a></h5>
+                      <p>{{ collectionrecord.lecture.professor.name }}</p>
+                      <p><a href="#" data-lid="{{ collectionrecord.lecture.id }}" class="decollect">取消收藏</a></p>
+                    </div>
+                    <div class="col-xs-9">
+                      {% for c in collectionrecord.lecture.lecturecomment_set.all|slice:":1" %}
+                      <h5 style="text-indent:2em;line-height:20pt;border:solid 1px #DDDDDD;border-radius:10px;padding:10px;word-break:break-all;overflow:auto;">{{ c.content|truncatechars:30 }}</h5>
+                      <h4 style="text-align:right;white-space:pre;overflow:auto;"><small><a href="/{{ c.user.id }}/">{{ c.user.name }}</a>      {{ c.time|formatTime }}      有用 ({{ c.super_number }})</small></h4>
+                      {% empty %}
+                      <p>还没有点评。快来抢沙发！</p>
+                      {% endfor %}
+                    </div>
+                  </div>
+                </li>
+                {% endfor %}
+              </ul>
+              {% else %}
+              <p>还没有收藏的课程。</p>
+              <p>快去课程页面收藏喜欢的课吧！</p>
+              {% endif %}
+              {% if u.userlecturecollection_set.all.count > 3 %}
+              <p style="text-align:right;"><a href="#" id="all_collection">显示全部</a></p>
+              {% endif %}
+            </div> 
+          </div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-xs-2" style="text-align:right;"> 
+          <ul class="nav nav-pills nav-stacked" style="max-width: 150px;">
+            <li class="active success" style="background-color:#F2F2F2;border: 0px solid #DCDCFA;border-radius: 6px;">
+              <a data-toggle="tab" href="#user_comment" data-placement="right"><h4><span class="badge" style="background-color:#5555FF;" id='cnumber1'>{{ u.lecturecomment_set.all.count }}</span><strong> 点评</strong></h4></a>
+            </li>
+            <li style="background-color:#F2F2F2;border: 0px solid #DCDCFA;border-radius: 6px;">
+              <a data-toggle="tab" href="#user_gossip" data-placement="right"><h4><span class="badge" style="background-color:#5555FF;" id='gnumber1'>{{ u.gossip_set.all.count }}</span><strong> 吐槽</strong></h4></a>
+            </li>
+          </ul>
+        </div>
+
+        <div class="col-xs-10">
+          <div class="tab-content">
+            <div class="tab-pane fade in active" id="user_comment">
+              <div class="panel panel-primary">
+                <div class="panel-heading">
+                  <h3 class="panel-title"><span class="glyphicon glyphicon-edit"></span> 我的点评{% if u.lecturecomment_set.all.count > 0 %}（<span id='cnumber2'>{{ u.lecturecomment_set.all.count }}</span>条）{% endif %}</h3>
+                </div>
+                <div class="panel-body">
+                  {% if u.lecturecomment_set.all.count > 0 %}
+                  <ul class="list-group">
+                    {% for comment in u.lecturecomment_set.all|dictsortreversed:"time" %}
+                    <li class="list-group-item" style="border-color:#AAAAAA" id="c{{ comment.id }}">
+                      <button type="button" class="close deletec" data-id="{{ comment.id }}" title='删除'>&times;</button>
+                      <div class="row">
+                        <div class="col-xs-3">
+                          <h5><a href="/lecture/{{ comment.lecture.id }}"><strong>{{ comment.lecture.course.name }}</strong></a></h5>
+                          <p>{{ comment.lecture.professor.name }}</p>
+                          <p class="text-warning">{{ comment.lecture.level|floatformat:2 }}</p>
+                        </div>
+                        <div class="col-xs-9">
+                          <h5 style="text-indent:2em;line-height:20pt;border:solid 1px #DDDDDD;border-radius:10px;padding:10px;word-break:break-all;">{{ comment.content }}</h5>
+                          <h4 style="text-align:right;white-space:pre;"><small>{{ comment.time|formatTime }}      有用 ({{ comment.super_number }})</small></h4>
+                        </div>
+                      </div>
+                    </li>
+                    {% endfor %}
+                  </ul>
+                  {% else %}
+                  <p>你还没有留下过点评～</p>
+                  {% endif %}
+                </div>
+              </div>
+            </div>
+            <div class="tab-pane fade in" id="user_gossip">
+              <div class="panel panel-primary">
+                <div class="panel-heading">
+                  <h3 class="panel-title"><span class="glyphicon glyphicon-edit"></span> 我的吐槽{% if u.gossip_set.all.count > 0 %}（<span id='gnumber2'>{{ u.gossip_set.all.count }}</span>条）{% endif %}</h3>
+                </div>
+                <div class="panel-body">
+                  {% if u.gossip_set.all.count > 0 %}
+                  <ul class="list-group">
+                    {% for comment in u.gossip_set.all|dictsortreversed:"time" %}
+                    <li class="list-group-item" style="border-color:#AAAAAA" id="g{{ comment.id }}">
+                      <button type="button" class="close deleteg" data-id="{{ comment.id }}" title='删除'>&times;</button>
+                      <div class="row">
+                        <div class="col-xs-3">
+                          <h5><a href="/lecture/{{ comment.lecture.id }}"><strong>{{ comment.lecture.course.name }}</strong></a></h5>
+                          <p>{{ comment.lecture.professor.name }}</p>
+                          <p class="text-warning">{{ comment.lecture.level|floatformat:2 }}</p>
+                        </div>
+                        <div class="col-xs-9">
+                          <h5 style="text-indent:2em;line-height:20pt;border:solid 1px #DDDDDD;border-radius:10px;padding:10px;word-break:break-all;">{{ comment.content }}</h5>
+                          <h4 style="text-align:right;white-space:pre;"><small>{{ comment.time|formatTime }}      赞 ({{ comment.super_number }})</small></h4>
+                        </div>
+                      </div>
+                    </li>
+                    {% endfor %}
+                  </ul>
+                  {% else %}
+                  <p>你还没有留下过吐槽～</p>
+                  {% endif %}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ranking
+      <div class="row">
+        <div class="col-xs-5">
+          <div class="panel panel-primary">
+            <div class="panel-heading" style="text-align:center;">评分TOP10</div>
+            <table class="table">
+              <thead>
+                <tr>
+                  <th>排名</th> <th>课程名</th> <th>老师</th> <th>评分</th>
+                </tr>
+              </thead>
+              <tbody id="rank1">
+                {% for l in llevel %}
+                <tr>
+                  <td></td>
+                  <td><a href="/lecture/{{ l.id }}/">{{ l.course.name }}</a></td>
+                  <td>{{ l.professor.name }}</td>
+                  <td>{{ l.level }}</td>
+                </tr>
+                {% endfor %}
+              </tbody>
+            </table>
+          </div>
+        </div>
+        <div class="col-xs-5 col-xs-offset-2">
+          <div class="panel panel-primary">
+            <div class="panel-heading" style="text-align:center;">得分TOP10</div>
+            <table class="table">
+              <thead>
+                <tr>
+                  <th>排名</th> <th>课程名</th> <th>老师</th> <th>评分</th>
+                </tr>
+              </thead>
+              <tbody id="rank2">
+                {% for l in lstudentscore %}
+                <tr>
+                  <td></td>
+                  <td><a href="/lecture/{{ l.id }}/">{{ l.course.name }}</a></td>
+                  <td>{{ l.professor.name }}</td>
+                  <td>{{ l.student_score }}</td>
+                </tr>
+                {% endfor %}
+              </tbody>
+          </table>
+          </div>
+        </div>
+      </div>-->
+
+      <!-- change_lecture
+      <div class="col-xs-6 col-xs-offset-1">
+        <div class="panel panel-default">
+          <div class="panel-heading">
+            <h3 class="panel-title" style="margin-left:10px;">猜你喜欢
+            <p style="margin-top:-1.2em;text-align:right;margin-bottom:0;">
+            <button type="button" class="btn btn-default btn-xs" id="cPrevious">
+              <span class="glyphicon glyphicon-chevron-left" style="color:#DDDDDD;"></span>
+            </button>
+            <button type="button" class="btn btn-default btn-xs" onclick="change_course_get()">
+              <span class="glyphicon glyphicon-chevron-right"></span>
+            </button>
+            </p>
+            </h3>
+          </div>
+          <div class="panel-body" id="panel_change">
+            {% for l in lectures %}
+            <div class="panel panel-info">
+              <div class="panel-heading">
+                <h3 class="panel-title"><a href="/lecture/{{ l.id }}/">{{ l.course.name }}</a><p style="margin-top:-1.1em;margin-bottom:0;text-align:right;">{{ l.professor.name }}</p></h3>
+              </div>
+              <div class="panel-body">
+                {% for c in l.lecturecomment_set.all|slice:":1" %}
+                <p>{{ c.content }}</p>
+                <p style="text-align:right;white-space:pre;">{{ c.user.name }}       {{ c.time|date:"Y-m-d H:i" }}       有用 ({{ c.super_number }})</p>
+                {% empty %}
+                <p>还没有点评。快来抢沙发！</p>
+                <p style="text-align:right;white-space:pre;"></p>
+                {% endfor %}
+              </div>
+            </div>
+            {% endfor %}
+          </div>
+        </div>
+      </div> -->
+
+      <!-- extra search -->
+      <div class="modal fade" id="eSearch" tabindex="-1">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h4 class="modal-title"></h4>
+            </div>
+            <div class="modal-body"></div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-primary" data-dismiss="modal">确定</button>
+            </div>
+          </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+      </div><!-- /.modal -->
+
+      <!-- encouragement -->
+      <div class="modal fade" id="encourage" tabindex="-1">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h4 class="modal-title">
+                {% if u.lecturecomment_set.all.count < 3 %}
+                  欢迎
+                {% endif %}
+              </h4>
+            </div>
+            <div class="modal-body">
+              {% if u.lecturecomment_set.all.count < 3 %}
+                {% if u.lecturecomment_set.all.count < 1 %}
+                SJTU Course是交大人互帮互助的平台。<br/>
+                大家都期待着你对课程的独到见解。<br/>
+                <br/>
+                <strong>一两句话就可以在SJTU留下你专属的印记哦～</strong><br/>
+                赶快去分享你的第一条点评吧！～～
+                {% else %}
+                SJTU Course是交大人互帮互助的平台。<br/>
+                大家都期待着你对课程的独到见解。<br/>
+                <br/>
+                你已点评了<strong>{{ u.lecturecomment_set.all.count }}</strong>门课程，再想想还有什么印象深刻的课吗？<br/>
+                大家都点评了3条，你怎么能示弱呢！>_<
+                {% endif %}
+              {% endif %}
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-primary" data-dismiss="modal">去写点评</button>
+            </div>
+          </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+      </div><!-- /.modal -->
+
+      <!-- set name -->
+      <div class="modal fade" id="sName" tabindex="-1">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+              <h4 class="modal-title">修改昵称</h4>
+            </div>
+            <div class="modal-body">
+              <form class="form-horizontal" role="form">
+                <div class="form-group">
+                  <label class="col-xs-2 control-label">旧昵称</label>
+                  <div class="col-xs-10">
+                    <p class="form-control-static">{{ u.name }}</p>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label for="newname" class="col-xs-2 control-label">新昵称<span id="helpname" class="help-block"></span></label>
+                  <div class="col-xs-10 enter">
+                    <input type="text" class="form-control" id="newname" placeholder="新昵称" autocomplete="off">
+                    <label for="name" id="nm_prompt"></label>
+                  </div>
+                </div>
+              </form>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-primary" onclick="setname_post()">确定</button>
+              <button type="button" class="btn btn-primary" data-dismiss="modal">取消</button>
+            </div>
+          </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+      </div><!-- /.modal -->
+
+      <!-- confirm delete -->
+      <div class="modal fade" id="delete_modal" tabindex="-1">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+              <h4 class="modal-title text-danger">确认删除</h4>
+            </div>
+            <div class="modal-body">
+              <p>删除后，您的影响因子可能将相应减少。</p>
+              <p id='delete_content'></p>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-danger" id="delete_confirm">确定</button>
+              <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+            </div>
+          </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+      </div><!-- /.modal -->
+
+      <div class="row" style="background-color:#FFFFFF;color:black">
+        <div class="col-xs-12">
+          <p style="color:#AAAAAA;text-align:center;margin-top:40px;">&#169; 2013 CourseComment Group<br/>联系我们：coursecomment@groups.163.com</p>
+        </div>
+      </div>
+    </div><!-- container -->
+
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="{% static 'js/jquery-1.10.2.min.js' %}"></script>
+    <script src="{% static 'js/jquery-migrate-1.2.1.min.js' %}"></script>
+    <script src="{% static 'js/bootstrap.min.js' %}"></script>
+    <script src="{% static 'js/myjquery.js' %}"></script>
+    <script src="{% static 'js/userpage.js' %}"></script>
+    <script src="{% static 'js/search.js' %}"></script>
+    {% if u.lecturecomment_set.all.count < 3 %}<script>$("#encourage").modal("show");</script>{% endif %}
+    <script type="text/javascript" src="http://widget.renren.com/js/rrshare.js"></script>
+    <script src="http://tjs.sjs.sinajs.cn/open/api/js/wb.js" type="text/javascript" charset="utf-8"></script>
+    <script type="text/javascript">
+      function shareClick() {
+        var rrShareParam = {
+          resourceUrl : 'http://sjtucourse.duapp.com',
+          srcUrl : 'http://sjtucourse.duapp.com',
+          pic : 'http://sjtucourse.duapp.com/static/img/logo_big.png',
+          title : '选课还看教评，你神经病啊？！！！！',
+          description : '选课还看教评？你OUT啦！sjtucourse.duapp.com——交大人专属的课程信息交流平台。在这里你可以快速查找大家对课程的评价，在这里你可以随意赞美吐槽曾经的课程！就在这个选课季，与所有交大人分享最真实可靠的课程信息！'
+        };
+        rrShareOnclick(rrShareParam);
+      }
+    </script>
+	</body>
+</html>

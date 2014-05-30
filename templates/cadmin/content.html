@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+{% extends "cadmin/cadmin.html" %}
+
+{% block content %}
+<legend>{{ title }}</legend>
+
+	<div class="row">
+        <div class="col-sm-10 col-sm-offset-1">
+          <div class="panel panel-primary">
+            <div class="panel-heading">
+              <h3 class="panel-title">{{ title }}: {{ contents|length }}条</h3>
+            </div>
+            <div class="panel-body">
+              <ul class="list-group">
+                {% for content in contents %}
+                <li class="list-group-item" style="border-color:#AAAAAA">
+                  <div class="row">
+                    <div class="col-sm-3">
+                      <h5><a href="/lecture/{{ content.lecture.id }}"><strong>{{ content.lecture.course.name }}</strong></a></h5>
+                      <p>{{ content.lecture.professor.name }}</p>
+                      <p><a href="/{{ content.user.id }}/">{{ content.user.name }}</a></p>
+                    </div>
+                    <div class="col-sm-9">
+                      <h5 style="text-indent:2em;line-height:20pt;border:solid 1px #DDDDDD;border-radius:10px;padding:10px;word-break:break-all;">{{ content.content }}</h5>
+                      <input class="r_id" type="hidden" value="{{ content.id }}"><input class="r_type" type="hidden" value="{{ title }}">
+                      <h4 style="text-align:right;white-space:pre;">
+                      	<small>{{ content.time|date:"Y-m-d  H:i" }}    有用 ({{ content.super_number }})  </small><button id="{{ content.id }}" type="button" class="btn  btn-defautl wall_delete">删除</button></h4>
+                    </div>
+                  </div>
+                </li>
+                {% empty %}
+                  <p>一条记录也没有！</p>
+                {% endfor %}
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+<script>
+$(document).ready(function(){
+  $.csrftoken();
+});
+</script>
+<script>	
+	$(".wall_delete").click(function(){
+		var r_id = $(this).parent().parent().children("input.r_id");
+		var r_type = $(this).parent().parent().children("input.r_type");
+		console.log(123);
+		console.log(r_id.val());
+		console.log(r_type.val());
+		  $.post("/cadmin/delete/",
+		  {
+		    id:r_id.val(),
+		    type:r_type.val()
+		  },
+		  function(status){	
+		  	console.log(status);
+		  	var x = parseInt(status);
+	  		alert("delete record sucessfully");
+	  		$("#"+status).html("已删除");
+		  });
+	});
+</script>	
+{% endblock content %}

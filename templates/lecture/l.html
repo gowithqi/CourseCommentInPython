@@ -1,0 +1,583 @@
+<!DOCTYPE html>
+{% load staticfiles %}
+<html lang="en-CN">
+<head>
+	<meta charset="utf-8">
+	<meta name="author" content="jt">	
+
+	<title>课程点评网</title>
+
+	<script type="text/javascript" src="{% static 'js/jquery-1.10.2.min.js' %}"></script>
+
+	<link href="{% static 'css/bootstrap.css' %}" rel="stylesheet">
+	<link href="{% static 'css/bootstrap-theme.css' %}" rel="stylesheet">
+	  
+	<script type="text/javascript" src="{% static 'js/bootstrap.min.js' %}"></script>
+
+	<style type="text/css">
+			.shop-rating {
+			    height: 25px;
+			    overflow: hidden;
+			    zoom: 1;
+			    padding: 2px 0px;
+			    position: relative;
+			    z-index: 999;
+			}
+
+			.shop-rating span {
+			    height: 23px;
+			    display: block;
+			    line-height: 23px;
+			    float: left;
+			}
+
+			.shop-rating span.title {
+			    width: 125px;
+			    text-align: right;
+			    margin-right: 5px;
+			}
+
+			.shop-rating ul {
+			    float: left;
+				margin:0;padding:0
+			}
+
+			.shop-rating .result {
+			    margin-left: 20px;
+			    padding-top: 2px;
+			}
+
+			.shop-rating .result span {
+				color: #ff6d02;
+			}
+			.shop-rating .result em {
+			    color: #f60;
+			    font-family: arial;
+			    font-weight: bold;
+			}
+			.shop-rating .result strong {
+				color: #666666;
+				font-weight: normal;
+			}
+			.rating-level,
+			.rating-level a {
+			    background: url("{% static 'img/star.png' %}") no-repeat scroll 1000px 1000px;
+			}
+			.rating-level {
+			    background-position: 0px 0px;
+			    width: 120px;
+			    height: 23px;
+			    position: relative;
+			    z-index: 1000;
+			}
+			.rating-level li {
+			    display: inline;
+			}
+
+			.rating-level a {
+			    line-height: 23px;
+			    height: 23px;
+			    position: absolute;
+			    top: 0px;
+			    left: 0px;
+			    text-indent: -999em;
+			    *zoom: 1;
+			    outline: none;
+			}
+
+
+			.rating-level a.one-star {
+			    width: 20%;
+			    z-index: 6;
+			}
+
+			.rating-level a.two-stars {
+			width: 40%;
+			z-index: 5;
+			}
+
+			.rating-level a.three-stars {
+			    width: 60%;
+			    z-index: 4;
+			}
+
+			.rating-level a.four-stars {
+			    width: 80%;
+			    z-index: 3;
+			}
+
+			.rating-level a.five-stars {
+			    width: 100%;
+			    z-index: 2;
+			}
+
+			.rating-level .current-rating,.rating-level a:hover{background-position:0 -28px;}
+			.rating-level a.one-star:hover,.rating-level a.two-stars:hover,.rating-level a.one-star.current-rating,.rating-level a.two-stars.current-rating{background-position:0 -116px;}
+			.rating-level .three-stars .current-rating,.rating-level .four-stars .current-rating,.rating-level .five-stars .current-rating{background-position:0 -28px;}
+	</style>
+
+</head>
+
+<body>
+{% csrf_token %}
+<div class="container">
+	<div class="row-fluid">
+		<div class="span12">
+
+			<!--顶部导航-->
+			<ul class="breadcrumb" style="background-color:black">
+				<li  style="margin-right:77%;">
+					<a id="home" href="/" style="cursor:pointer">Home</a> 
+				</li>
+				<li> <!--用户设置放到右边，用margin实现-->
+					<a id="User" style="cursor:pointer">{{ u.name }}</a> 
+			    </li>
+				</li>
+                <li>
+					<a id="logout" href="/logout/" style="cursor:pointer">LogOut</a> 
+				</li>
+			</ul>
+
+			<!--课程介绍与搜索，分列实现-->
+			<div class="row">
+				<div class="col-sm-8"> <!--课程介绍部分，占分列的8/12 -->
+					<div>
+						<h1>
+							{{ course.name }}&nbsp;&nbsp;&nbsp;&nbsp;
+							<!--<button class="btn btn-primary btn-sm" href="#">Study method</button>-->
+							<!--No StudyMethod Button now.-->
+						</h1>
+						<p>
+							&nbsp;&nbsp;&nbsp;&nbsp;Number:&nbsp;{{ course.number }}<br />
+							&nbsp;&nbsp;&nbsp;&nbsp;School:&nbsp;{{ course.school }}<br />
+							&nbsp;&nbsp;&nbsp;&nbsp;Credit:&nbsp;{{ course.credit }}<br />
+						</p>
+						<p>
+							<br />
+						</p>
+					</div>
+				</div>
+				<div class="col-md-4"> <!--搜索部分，占分列的4/12 -->
+					<form class="form-search form-inline" id="search">
+						<div class='row'>
+							<div class="col-sm-8" style="text-align:right">
+								<input class="form-control" type="text" placeholder="search" id="search_content">
+								<!--待添加搜索补全功能 -->
+							</div>
+							<div class="col-sm-4">
+								<button type="button" class="btn btn-primary" id="search_submit">Search</button>
+							</div>
+						</div>
+					</form>
+				</div>
+			</div>
+
+			<!--教师部分,用tab实现,每个教师占一个tab -->
+			<div>
+				<!--tab列表的顶端当行部分,active为当前显示的tab -->
+				<ul class="nav nav-tabs" id="tabs">
+					{% for l in lectures %}
+							<li class="{% ifequal l.id focus_lecture_id %} active {% endifequal %}">
+								<a data-toggle="tab" href="#{{ l.professor.id }}">{{ l.professor.name }}</a>
+							</li>
+					{% endfor %}
+				</ul>
+				<!--每个tab的具体内容 -->
+				<div class="tab-content">
+					{% for l in lectures %}
+				  	<div class="tab-pane fade {% ifequal l.id focus_lecture_id %}in active{% endifequal %}" id="{{ l.professor.id }}">
+				  		<div class="container">
+				  			<!--老师的得分和用户的评分 -->
+							<div  class="container">
+								<div class="row">
+									<div class="col-sm-3">	
+										&nbsp;&nbsp;&nbsp;&nbsp;average score of the final:&nbsp;{{ l.student_score }} &nbsp;&nbsp;
+									</div>
+									<div class="col-sm-6">
+										<form>
+											<input class="form-inline rs_content" type="text" style="width:10%" placeholder="score"> 
+											<input class="l_id" type="hidden" value="{{ l.id }}">
+											<button type="button" class="btn btn-primary btn-sm rs_submit">Submit</button>
+										</form>
+									</div>
+									<div class="col-sm-3"></div>
+								</div>
+							</div>
+							<div  class="container">
+								<div class="row">
+									<div class="col-sm-3">	
+										&nbsp;&nbsp;&nbsp;&nbsp;average score of {{ l.professor.name }}:&nbsp;{{ l.level }} &nbsp;&nbsp;
+										<!-- <input class="form-inline rl_content" type="text" style="width:5%" placeholder="score"> 
+										<button type="button" class="btn btn-primary btn-sm rl_submit">Submit</button><br/> -->
+									</div>
+									<div class="col-sm-6">
+										<div class="shop-rating">
+											<ul class="rating-level" id="stars1">
+												<li><a class="one-star" star:value="1" href="#">1</a></li>
+												<li><a class="two-stars" star:value="2" href="#">2</a></li>
+												<li><a class="three-stars" star:value="3" href="#">3</a></li>
+												<li><a class="four-stars" star:value="4" href="#">4</a></li>
+												<li><a class="five-stars" star:value="5" href="#">5</a></li>
+											</ul>
+											<span class="result" class="stars-tips"></span>
+											<input type="hidden" class="stars-input" name="a" value="{{ l.id }}" size="2" />
+										</div>
+									</div>
+									<div class="col-sm-3"></div>
+								</div>
+							</div>
+							<br/>
+							<!--评论列表 -->
+							<legend>Comment</legend>
+							<div class="container">
+								<div class="row">
+									<div class="col-sm-9">
+										<table class="table table-striped">
+											<thead></thead>
+											<tbody>
+												{% with comments=l.lecturecomment_set.all %}
+												{% for comment in comments %}
+												<tr>
+													<th>
+														{{ comment.user.name }}
+													</th>
+													<th>
+														<p>{{ comment.content }}</p>
+														<ul class="breadcrumb">
+															<li style="margin-right:50%;">
+																{{ comment.time|date:"Y-m-d H:i:s" }}
+															</li>
+															<li>
+																{{ comment.super_number }} SUPERs
+															</li>
+															<li>
+																<input class="comment_id" type="hidden" value="{{ comment.id }}">
+																<a onclick="good(this)" style="text-decoration:underline; cursor:pointer; color:blue; text-align:right" class="good">Good</a>
+															</li>
+														</ul>
+														<p><br/></p>
+													</th>
+												</tr>
+												{% empty %}
+												<p>there are no comments temporarily</p>
+												{% endfor %}
+												{% endwith %}
+											</tbody>
+										</table>
+									</div>
+									<div class="col-sm-3"></div>
+								</div>
+							</div>
+							<legend></legend>
+							<!--提交评论 -->
+							<form>
+								<fieldset>
+									  <label>Add Your Comment</label> <br/> 
+									  <textarea class="form-control comment_content" rows="3" style="width:60%"></textarea>
+									  <input class="l_id" type="hidden" value="{{ l.id }}">
+									  <div class="row">
+										<div class="col-sm-6">Within 300 words</div>
+										<div class="col-sm-6">
+									  		<button type="button" class="btn btn-primary btn-sm comment_submit">Submit</button>
+									  	</div>
+									  </div>
+								</fieldset>
+							</form>
+						</div>
+				  	</div>
+				{% endfor %}
+				</div>
+			</div>
+
+			<!--网页末尾显示访问时间-->
+			<script>
+				document.write(Date());
+			</script>
+
+			<!--RecordScore信息确认的弹出对话框-->
+			<div class="modal fade" id="confirm" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+			  <div class="modal-dialog">
+			    <div class="modal-content">
+			      <div class="modal-header">
+			        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+			        <h4 class="modal-title" id="myModalLabel">Message</h4>
+			      </div>
+			      <div class="modal-body" id="confirm_content">
+			        ...
+			      </div>
+			      <div class="modal-footer">
+			        <!-- <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button> -->
+			        <button type="button" class="btn btn-primary" id="confirm_ok" data-dismiss="modal">OK</button>
+			      </div>
+			    </div><!-- /.modal-content -->
+			  </div><!-- /.modal-dialog -->
+			</div><!-- /.modal -->
+
+
+<!-- ---------------------------以下为js代码------------------------------------------------ -->
+
+			<script src="{% static 'js/myjquery.js' %}"></script>
+		    <script>
+		      $(document).ready(function(){
+		        $.csrftoken();
+		      });
+		    </script>
+
+			<script type="text/javascript">
+				var Class = {
+					create: function() {
+						return function() { this.initialize.apply(this, arguments); }
+					}
+				}
+				var Extend = function(destination, source) {
+					for (var property in source) {
+						destination[property] = source[property];
+					}
+				}
+				function stopDefault( e ) {
+					 if ( e && e.preventDefault ){
+						e.preventDefault();
+					}else{
+						window.event.returnValue = false;
+					}
+					return false;
+				} 
+				function submit_rl(value,address)
+				  {
+				  	value = value+1;
+				  	if ((0<=value)&&(value<=100))
+					    {
+							  $.post("/lecture/recordlevel/(lecture_id)/",
+							  {
+							    level:String(value)
+							  },
+							  function(status){
+							  	if (status=="yes")
+							  	{
+							  		$('#confirm_content').html("Your recordscore " + String(value) + " is received.");
+							  		$('#myModalLabel').html("Success");
+							  		$("#myModalLabel").css("color","blue");
+					    	  		$("#confirm_ok").attr("class","btn btn-primary");
+							  		$('#confirm').modal('toggle');
+							  	}
+							  });
+							  //test
+							  $('#confirm_content').html("Your recordscore " + String(value) + " is received.");
+							  $('#myModalLabel').html("Success");
+							  $("#myModalLabel").css("color","blue");
+					    	  $("#confirm_ok").attr("class","btn btn-primary");
+							  $('#confirm').modal('toggle');
+					    }
+					    else {
+					    	  $('#confirm_content').html("Please submit a number between 0 and 100");
+					    	  $('#myModalLabel').html("Error");
+					    	  $("#myModalLabel").css("color","red");
+					    	  $("#confirm_ok").attr("class","btn btn-danger");
+					          $('#confirm').modal('toggle');
+					    }
+				  }
+
+				var Stars = Class.create();
+				Stars.prototype = {
+					initialize: function(star,options) {
+						this.SetOptions(options); 
+						var flag = 999; 
+						var isIE = (document.all) ? true : false; 
+						var starlist = document.getElementById(star).getElementsByTagName('a'); 
+						var input = document.getElementById(this.options.Input) || document.getElementById(star+"-input"); 
+						var tips = document.getElementById(this.options.Tips) || document.getElementById(star+"-tips");
+						var nowClass = " " + this.options.nowClass; 
+						var tipsTxt = this.options.tipsTxt; 
+						var len = starlist.length; 
+						
+
+						for(i=0;i<len;i++){
+							starlist[i].value = i;
+							starlist[i].onclick = function(e){
+								stopDefault(e);
+								var address = document.getElementsByTagName('a').val();
+								this.className = this.className + nowClass;
+								flag = this.value;
+								input.value = this.getAttribute("star:value");
+								tips.innerHTML = tipsTxt[this.value];
+								submit_rl(this.value,address);
+							}
+							starlist[i].onmouseover = function(){
+								if (flag< 999){
+									var reg = RegExp(nowClass,"g");
+									starlist[flag].className = starlist[flag].className.replace(reg,"")
+								}
+							}
+							starlist[i].onmouseout = function(){
+								if (flag< 999){
+									starlist[flag].className = starlist[flag].className + nowClass;
+								}
+							}
+						};
+						if (isIE){
+							var li = document.getElementById(star).getElementsByTagName('li');
+							for (var i = 0, len = li.length; i < len; i++) {
+								var c = li[i];
+								if (c) {
+									c.className = c.getElementsByTagName('a')[0].className;
+								}
+							}
+						}
+					},
+
+					SetOptions: function(options) {
+						this.options = {
+							Input:			"",
+							Tips:			"",
+							nowClass:		"current-rating",
+							tipsTxt:		["1.0-Bad","2.0-Soso","3.0-Ok","4.0-Good","5.0-Perfect"]
+						};
+						Extend(this.options, options || {});
+					}
+				}
+
+				var Stars1 = new Stars("stars1");
+				var Stars2 = new Stars("stars2");
+			</script>
+
+			<script>	//控制tab的js
+				//当tab列表中某个<a>被点击时执行
+				// $("#tabs a").click(function(e){
+				//      e.preventDefault();
+				//      var x=$(this).parent().parent().next().children(),
+				//       y=$(this).parent().index();
+				//      //x记录tab-panel的集合
+				//      //y记录tab中<li>的集合
+				//      //通过修改某个tab的属性为active来选中这个tab
+				//      //当前只支持有两个tab
+				//      $(this).parent().attr("class","active");
+				//      $(this).parent().parent().children().eq(1-y).attr("class","");
+				//      x.eq(y).attr("class","tab-pane fade in active");
+				//      x.eq(1-y).attr("class","tab-pane fade in");
+				//     });
+			</script>
+
+			<script>	//ajax-post-search_submit
+				$("#search_submit").click(function(){
+				  $.post("/search/lecture/",
+				  {
+				    content:$("#search_content").val()
+				  },
+				  function(status){
+				  });
+				});
+			</script>
+
+			<script>	//test
+			function display_alert()
+			  {
+			  alert("I am an alert box!!")
+			  }
+			</script>
+
+
+			<script>	//ajax-post-recordscore_submit
+				$(".rs_submit").click(function(){
+					  var x = $(this).parent().children("input.rs_content");
+					  var y = $(this).parent().children("input.l_id");
+					  var tmp = parseInt(x.val());
+					  if ((0<=tmp)&&(tmp<=100))
+					    {
+							  $.post("/lecture/recordscore/"+y.val()+"/",
+							  {
+							    score:x.val()
+							  },
+							  function(status){
+							  	if (status=="yes")
+							  	{
+							  		$('#confirm_content').html("Your recordscore " + x.val() + " is received.");
+							  		$('#myModalLabel').html("Success");
+							  		$("#myModalLabel").css("color","blue");
+					    	  		$("#confirm_ok").attr("class","btn btn-primary");
+							  		$('#confirm').modal('toggle');
+							  	}
+							  	else {
+							  		alert(status);
+							  	}
+							  });
+							  //test
+							  // $('#confirm_content').html("Your recordscore " + x.val() + " is received.");
+							  // $('#myModalLabel').html("Success");
+							  // $("#myModalLabel").css("color","blue");
+					    // 	  $("#confirm_ok").attr("class","btn btn-primary");
+							  // $('#confirm').modal('toggle');
+					    }
+					    else {
+					    	  $('#confirm_content').html("Please submit a number between 0 and 100");
+					    	  $('#myModalLabel').html("Error");
+					    	  $("#myModalLabel").css("color","red");
+					    	  $("#confirm_ok").attr("class","btn btn-danger");
+					          $('#confirm').modal('toggle');
+					    }
+				});
+			</script>
+
+			<script>	//点赞部分的js，包括ajax-get和good-cancel转换
+				function good(id)
+				{
+					var x = id.innerHTML;	//检测当前是否已经赞过
+					var y = $(id).parent().children("input.comment_id");
+					if (x == "Good")
+					{
+						$.get("/comment/super/"+y.val()+"/",function(status){
+							obj = JSON.parse(status);
+							console.log(obj.result);
+							console.log(obj.comment[1]);
+							alert(status);
+							if (status == "yes")
+							{
+								x = "Cancel";
+								id.innerHTML = x;
+							}
+						});
+
+					}
+					else
+					{
+						$.get("/comment/desuper/"+y.val()+"/",function(status){
+							alert(status);
+							if (status == "yes")
+							{
+								x = "Good";
+								id.innerHTML = x;
+							}
+						});
+					}
+				}
+			</script>
+
+			<script>	//ajax-post-comment_submit
+				$(".comment_submit").click(function(){
+				  var x = $(this).parent().parent().parent().children("textarea.comment_content");
+				  var y = $(this).parent().parent().parent().children("input.l_id");
+				  if (x.val().length<300)
+				  {
+					  $.post("/comment/lecture/"+y.val()+"/",
+					  {
+					    content:x.val()
+					  },
+					  function(status){
+					  	alert(status);
+					  });
+				  }
+				  else {
+		  			  $('#confirm_content').html("Within 300 words");
+			    	  $('#myModalLabel').html("Error");
+			    	  $("#myModalLabel").css("color","red");
+			    	  $("#confirm_ok").attr("class","btn btn-danger");
+			          $('#confirm').modal('toggle');
+				  }
+				});
+			</script>		
+
+
+		</div>
+	</div>
+</div>
+</body>
+</html>

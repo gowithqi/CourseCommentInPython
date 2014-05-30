@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+{% load staticfiles %}
+<html lang="en-CN">
+<head>
+	<meta charset="utf-8">
+	<meta name="author" content="jt">	
+
+	<title>课程点评网</title>
+
+	<script type="text/javascript" src="{% static 'js/jquery-1.10.2.min.js' %}"></script>
+
+	<link href="{% static 'css/bootstrap.css' %}" rel="stylesheet">
+	<link href="{% static 'css/bootstrap-theme.css' %}" rel="stylesheet">
+	  
+	<script type="text/javascript" src="{% static 'js/bootstrap.min.js' %}"></script>
+</head>
+
+<body>
+<legend>Comments</legend>
+	<div class="container">
+		<div class="row">
+			<div class="col-sm-9">
+				<table class="table table-striped">
+					<thead></thead>
+					<tbody>
+						{% for comment in comments %}
+						<tr>
+							<th>
+								{{ comment.user.name }}<br/>
+								{{ comment.lecture.course.name }}<br/>
+								{{ comment.lecture.professor.name }}
+							</th>
+							<th>
+								<p>{{ comment.content }}</p>
+								<ul class="breadcrumb">
+									<li style="margin-right:40%;">
+										{{ comment.time|date:"Y-m-d H:i:s" }}
+									</li>
+									<li>
+										{{ comment.super_number }} SUPERs
+									</li>
+									<li>
+										rank_score: {{ comment.rank_score }}
+									</li>
+								</ul>
+								<p><br/></p>
+							</th>
+						</tr>
+						{% empty %}
+						<p>there are no comments today</p>
+						{% endfor %}
+					</tbody>
+				</table>
+			</div>
+			<div class="col-sm-3"></div>
+		</div>
+	</div>
+</body>

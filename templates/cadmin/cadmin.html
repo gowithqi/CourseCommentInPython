@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+{% load staticfiles %}
+<html lang="zh">
+<head>
+  <meta charset="utf-8">
+  <meta name="author" content="jt"> 
+
+  <title>课程点评网</title>
+
+  <script type="text/javascript" src="{% static 'js/jquery-1.10.2.min.js' %}"></script>
+  <link href="{% static 'img/icon.png' %}" rel="icon">
+  <link href="{% static 'css/bootstrap.css' %}" rel="stylesheet">
+  <link href="{% static 'css/bootstrap-theme.css' %}" rel="stylesheet">
+    
+  <script type="text/javascript" src="{% static 'js/bootstrap.min.js' %}"></script>
+  <script src="{% static 'js/myjquery.js' %}"></script>
+</head>
+
+<body>
+  <h3 style="text-align:center;">共有用户：{{ formal_user_number }} / {{ user_number }}</h3>
+  <h3 style="text-align:center;">共有评论：{{ comment_number }}</h3>
+  <h3 style="text-align:center;">共有吐槽：{{ gossip_number }}</h3>
+  <div class="container">
+    <form class="form-horizontal" role="form" method="GET" action="/cadmin/contents/">
+      <div id="legend" class="">
+        <legend class="">查询</legend>
+      </div>
+      <label class="control-label">选择评论还是吐槽</label>
+      <div class="radio">
+        <label>
+          <input value="comment" name="group" checked="checked" type="radio">
+          评论
+        </label>
+      </div>
+      <div class="radio">
+        <label>
+          <input value="gossip" name="group" checked="checked" type="radio">
+          吐槽
+        </label>
+      </div>
+
+    <div class="form-group">
+          <label class="control-label" for="input01">开始时间</label>
+          <input class="form-control" name="start_date" placeholder="格式：20130101, 什么也不填，自动设为今天00:00">
+    </div>
+
+    <div class="form-group">
+          <label class="control-label" for="input01">结束时间</label>
+          <input class="form-control" name="end_date" placeholder="格式：20130101, 什么也不填，自动设为现在">
+    </div>
+
+    <button type="submit" class="btn btn-defautl">查询</button> 
+  </form>
+</div>
+{% block content %}
+{% endblock content %}
+</body>
+</html>

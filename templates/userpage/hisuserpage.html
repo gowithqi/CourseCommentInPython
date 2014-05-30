@@ -1,0 +1,182 @@
+{% load staticfiles %}
+{% load login_extras %}
+<!DOCTYPE html>
+<html lang="zh">
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<meta name="description" content="login">
+    <meta name="author" content="lyw">
+    <link href="{% static 'img/icon2.jpg' %}" rel="icon">
+
+		<title>课程点评网</title>
+
+		<!-- Bootstrap core CSS -->
+    <link href="{% static 'css/bootstrap.min.css' %}" type="text/css" rel="stylesheet">
+    <link href="{% static 'css/bootstrap-theme.css' %}" rel="stylesheet">
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+    <script src="//oss.maxcdn.com/libs/html5shiv/3.6.2/html5shiv.js"></script>
+    <script src="../../docs-assets/js/respond.min.js"></script>
+    <![endif]-->
+	</head>
+
+	<body>
+    {% csrf_token %}
+    <div class="container">
+      <nav class="navbar navbar-inverse navbar-fixed-top" style="max-width:1140px;MARGIN-RIGHT: auto;MARGIN-LEFT: auto;TEXT-ALIGN: center;">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navcol">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="/" style=" margin-top:-3px;">
+            <img src="{% static 'img/logo_small.png' %}" border="0" width="78" height="30" style="margin-top:-3px;">
+              课程点评网
+          </a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <div class="collapse navbar-collapse" id="navcol">
+          <form class="navbar-form navbar-left" style="padding-left:100px;">
+            <div class="form-group dropdown" style="width:400px;">
+              <input type="text" class="form-control" id="search" autocomplete="off" placeholder="来这里找课！">
+              <ul class="dropdown-menu" id="complete" style="width:100%;margin-top:-1px;text-align:left;"></ul>
+            </div>
+            <button type="submit" id="submit" class="btn btn-default">搜索</button>
+          </form>
+          <ul class="nav navbar-nav navbar-right">
+            <li>
+              <a href="/{{ u.id }}/" style="white-space:pre;"><span class="glyphicon glyphicon-user"></span>  {{ u.name }}</a>
+            </li>
+            <li><a href="/{{ me.id }}/">我的主页</a></li>
+          </ul>
+        </div><!-- /.navbar-collapse -->
+      </nav>
+
+      <!-- extra search -->
+      <div class="modal fade" id="eSearch" tabindex="-1">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h4 class="modal-title"></h4>
+            </div>
+            <div class="modal-body"></div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-primary" data-dismiss="modal">确定</button>
+            </div>
+          </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+      </div><!-- /.modal -->
+
+      <ol class="breadcrumb" style="margin-top:70px;">
+        <li>{{ u.name }}的影响因子：{{ user_influence_factor }}</li>
+        <li>{{ u.name }}击败了{{ user_rank }}%的用户</li>
+      </ol>
+
+      <div class="row">
+        <div class="col-sm-6">
+          <div class="panel panel-primary">
+            <div class="panel-heading">
+              <h3 class="panel-title"><span class="glyphicon glyphicon-edit"></span> {{ u.name }}的点评{% if u.lecturecomment_set.all.count > 0 %}（{{ u.lecturecomment_set.all.count }}条）{% endif %}</h3>
+            </div>
+            <div class="panel-body">
+              {% if u.lecturecomment_set.all.count > 0 %}
+              <ul class="list-group">
+                {% for comment in u.lecturecomment_set.all|dictsortreversed:"time" %}
+                <li class="list-group-item" style="border-color:#AAAAAA">
+                  <div class="row">
+                    <div class="col-xs-3">
+                      <h5><a href="/lecture/{{ comment.lecture.id }}"><strong>{{ comment.lecture.course.name }}</strong></a></h5>
+                      <p>{{ comment.lecture.professor.name }}</p>
+                      <p class="text-warning">{{ comment.lecture.level|floatformat:2 }}</p>
+                    </div>
+                    <div class="col-xs-9">
+                      <h5 style="text-indent:2em;line-height:20pt;border:solid 1px #DDDDDD;border-radius:10px;padding:10px;word-break:break-all;">{{ comment.content }}</h5>
+                      <h4 style="text-align:right;white-space:pre;overflow:auto;"><small>{{ comment.time|formatTime }}      <a href="#" data-num="{{ forloop.counter }}" data-comid="{{ comment.id }}" class="comm" data-super="{% if comment.id in comment_super_records %}1{% else %}0{% endif %}">{% if comment.id in comment_super_records %}取消{% else %}有用{% endif %}</a> (<span id="number{{ forloop.counter }}">{{ comment.super_number }}</span>)</small></h4>
+                    </div>
+                  </div>
+                </li>
+                {% endfor %}
+              </ul>
+              {% else %}
+              <p>他/她还没有留下过点评～</p>
+              {% endif %}
+            </div>
+          </div>
+        </div>
+
+        <div class="col-sm-6">
+          <div class="panel panel-warning">
+            <div class="panel-heading">
+              <h3 class="panel-title" id="collection_title" data-number="{{ u.userlecturecollection_set.all.count }}"><span class="glyphicon glyphicon-bookmark"></span> {{ u.name }}的收藏{% if u.userlecturecollection_set.all.count > 0 %}（{{ u.userlecturecollection_set.all.count }}）{% endif %}</h3>
+            </div>
+            <div class="panel-body" id="panel_collect">
+              {% if u.userlecturecollection_set.all.count > 0 %}
+              <ul class="list-group">
+                {% for collectionrecord in u.userlecturecollection_set.all %}
+                <li class="list-group-item" style="border-color:#AAAAAA">
+                  <div class="row">
+                    <div class="col-xs-3">
+                      <h5><a href="/lecture/{{ collectionrecord.lecture.id }}/"><strong>{{ collectionrecord.lecture.course.name }}</strong></a></h5>
+                      <p>{{ collectionrecord.lecture.professor.name }}</p>
+                    </div>
+                    <div class="col-xs-9">
+                      {% for c in collectionrecord.lecture.lecturecomment_set.all|slice:":1" %}
+                      <h5 style="text-indent:2em;line-height:20pt;border:solid 1px #DDDDDD;border-radius:10px;padding:10px;word-break:break-all;">{{ c.content|truncatechars:30 }}</h5>
+                      <h4 style="text-align:right;white-space:pre;overflow:auto;"><small><a href="/{{ c.user.id }}/">{{ c.user.name }}</a>      {{ c.time|formatTime }}      有用 ({{ c.super_number }})</small></h4>
+                      {% empty %}
+                      <p>还没有点评。快来抢沙发！</p>
+                      {% endfor %}
+                    </div>
+                  </div>
+                </li>
+                {% endfor %}
+              </ul>
+              {% else %}
+              <p>他/她还没有收藏的课程。。。</p>
+              {% endif %}
+            </div> 
+          </div>
+        </div>
+      </div>
+
+      <div class="row" style="background-color:#FFFFFF;color:black">
+        <div class="col-xs-12">
+          <p style="color:#AAAAAA;text-align:center;margin-top:40px;">&#169; 2013 CourseComment Group<br/>联系我们：coursecomment@groups.163.com</p>
+        </div>
+      </div>
+    </div><!-- container -->
+
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="{% static 'js/jquery-1.10.2.min.js' %}"></script>
+    <script src="{% static 'js/jquery-migrate-1.2.1.min.js' %}"></script>
+    <script src="{% static 'js/bootstrap.min.js' %}"></script>
+    <script src="{% static 'js/myjquery.js' %}"></script>
+    <script src="{% static 'js/search.js' %}"></script>
+    <script>
+      $(".comm").click(function(e){
+        e.preventDefault();
+        var nu=Number($("#number"+$(this).attr("data-num")).html());
+        if ($(this).attr("data-super")==1){
+          $.get("/comment/desuper/"+$(this).attr("data-comid")+"/");
+          nu-=1;
+          $(this).attr("data-super","0");
+          $(this).html("有用");
+        }
+        else{
+          $.get("/comment/super/"+$(this).attr("data-comid")+"/");
+          nu+=1;
+          $(this).attr("data-super","1");
+          $(this).html("取消");
+        }
+        $("#number"+$(this).attr("data-num")).html(nu);
+      });
+    </script>
+	</body>
+</html>

@@ -1,0 +1,221 @@
+{% load staticfiles %}
+<!DOCTYPE html>
+<html lang="zh" xmlns:wb="http://open.weibo.com/wb">
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<meta name="description" content="login">
+    <meta name="author" content="lyw">
+    <meta property="wb:webmaster" content="f0afb9d389e7abc1" />
+		<link href="{% static 'img/icon2.jpg' %}" rel="icon">
+
+		<title>课程点评网</title>
+
+		<!-- Bootstrap core CSS -->
+		<link href="{% static 'css/bootstrap.min.css' %}" type="text/css" rel="stylesheet">
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+    <script src="//oss.maxcdn.com/libs/html5shiv/3.6.2/html5shiv.js"></script>
+    <script src="../../docs-assets/js/respond.min.js"></script>
+    <![endif]-->
+	</head>
+
+	<body style="background-color:#FFFFFF;">
+    {% csrf_token %}
+    <div class="row" style="background-color:#FFFFFF;color:black">
+      <div class="visible-xs col-xs-1"></div>
+      <div class="col-xs-5 col-sm-offset-1" style="text-align:left;">
+        <div class="col-md-3 col-xs-12 col-sm-4" style="margin-left:-15px;">
+          <div class="visible-xs col-xs-3"></div>
+          <img  src="{% static 'img/logo_small.png' %}" class="img-responsive" alt="Responsive image" border="0" width="104" style="margin-top:20px; margin-left:-10px;">
+          <p style="margin-top:10px;margin-bottom:0"><strong>分享到</strong></p>
+          <p style="text-align:right;margin-top:-1.35em;margin-right:40px;margin-bottom:0"><a name="xn_share" onclick="shareClick()" type="icon" href="javascript:void(0);"></a></p>
+          <!-- <p style="text-align:right;margin-top:-1.7em;margin-right:17px;margin-bottom:0"><wb:share-button addition="simple" type="icon"></wb:share-button></p> -->
+          <p style="text-align:right;margin-top:-1.7em;margin-right:17px;margin-bottom:0"><wb:share-button addition="simple" type="icon" default_text="选课还看教评？你OUT啦！sjtucourse.duapp.com——交大人专属的课程信息交流平台。在这里你可以快速查找大家对课程的评价，在这里你可以随意赞美吐槽曾经的课程！就在这个选课季，与所有交大人分享最真实可靠的课程信息！" pic="http%3A%2F%2Fsjtucourse.duapp.com%2Fstatic%2Fimg%2Flogo_big.png"></wb:share-button></p>
+        </div>
+        <div class="col-md-9 col-xs-12 col-sm-8">
+          <h1 style="padding-left:0px;"><div class="visible-xs col-xs-1"></div>课程点评网</h1>
+        </div>
+      </div>
+      <form class="col-xs-6" style="margin-top:20px;">
+        <div class="col-md-4 col-md-offset-2 col-xs-9 col-sm-5">
+          <div class="form-group">
+            <div class="enterl">
+              <input type="text" autocomplete="off" class="form-control input-sm" id="username" placeholder="昵称/邮箱">
+            </div>
+            <strong><p id="un_prompt"></p></strong>
+          </div>
+        </div>
+        <div class="col-md-4 col-xs-9 col-sm-5">
+          <div class="form-group">
+            <div class="enterl">
+              <input type="password" class="form-control input-sm" id="passwordl" placeholder="密码">
+            </div>
+            <strong><p id="psw_prompt"></p></strong>
+            <p style="text-align:right;"><small><a href="/setpassword/">忘记密码？</a></small></p>
+          </div>
+        </div>
+        <div class="col-xs-2 col-sm-2">
+          <button id="login" class="btn btn-primary btn-sm">登录</button>
+        </div>
+      </form>
+    </div><!-- first row -->
+
+    <div class="row" style="background-color:#CCEEEE; color:black;">
+      <div class="visible-xs col-xs-1"></div>
+      <div class="col-sm-offset-1 col-sm-6 col-xs-10" style="background-color:#668077; padding:0px;">
+        <h1 style="padding-top:20px; padding-bottom:15px; text-align:center; color:white; white-space:pre;">还在用教评？那你out啦！</h1>
+        <ul class="list-group" id="float_comment" style="position:relative; margin-bottom:0px; background-color:#668077; width:100%;">
+          <li class="list-group-item" style="background-color:#708380; color:white; border-color:#779088;padding:0px;" id="comment1">
+            <div class="row" style="color:white; margin:0px;">
+              <div class="col-xs-3">
+                <h5><strong id="course_name1"></strong></h5>
+                <p id="professor_name1"></p>
+                <p id="course_level1"></p>
+              </div>
+              <div class="col-xs-9">
+                <h5 style="text-indent:2em;line-height:20pt;border:solid 1px #DDDDDD;border-radius:10px;padding:10px;word-break:break-all;height:70px;overflow:auto;" id="comment_content1"></h5>
+                <h4 style="text-align:right;white-space:pre;"><small id="comment_info1"  style="color:white;"></small></h4>
+              </div>
+            </div>
+          </li>
+          <li class="list-group-item" style="background-color:#88A099; color:white; border-color:#779088;padding:0px;" id="comment2">
+            <div class="row" style="color:white; margin:0px;">
+              <div class="col-xs-3">
+                <h5><strong id="course_name2"></strong></h5>
+                <p id="professor_name2"></p>
+                <p id="course_level2"></p>
+              </div>
+              <div class="col-xs-9">
+                <h5 style="text-indent:2em;line-height:20pt;border:solid 1px #DDDDDD;border-radius:10px;padding:10px;word-break:break-all;height:70px;overflow:auto;" id="comment_content2"></h5>
+                <h4 style="text-align:right;white-space:pre;"><small id="comment_info2" style="color:white;"></small></h4>
+              </div>
+            </div>
+          </li>
+          <li class="list-group-item" style="background-color:#AAC0BB; color:white; border-color:#779088;padding:0px;" id="comment3">
+            <div class="row" style="color:white; margin:0px;">
+              <div class="col-xs-3">
+                <h5><strong id="course_name3"></strong></h5>
+                <p id="professor_name3"></p>
+                <p id="course_level3"></p>
+              </div>
+              <div class="col-xs-9">
+                <h5 style="text-indent:2em;line-height:20pt;border:solid 1px #DDDDDD;border-radius:10px;padding:10px;word-break:break-all;height:70px;overflow:auto;" id="comment_content3"></h5>
+                <h4 style="text-align:right;white-space:pre;"><small id="comment_info3" style="color:white;"></small></h4>
+              </div>
+            </div>
+          </li>
+        </ul>
+      </div><!-- first column -->
+
+      <div class="visible-xs col-xs-2"></div>
+      <div class="col-sm-offset-1 col-sm-4 col-xs-10">
+        <form class="form-horizontal" style="padding-top:80px;">
+          <div class="form-group">
+            <div class="col-xs-10">
+              <div class="input-group input-group-lg enter">
+                <input type="text" autocomplete="off" class="form-control enter" id="account" placeholder="邮箱">
+                <span class="input-group-addon">@sjtu.edu.cn</span>
+              </div>
+              <p id="ac_prompt"></p>
+            </div>
+            <div class="col-xs-2">
+              <span id="account_ok" class="" style="color:#00AA00;padding-top:12px;"></span>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <div class="enter col-xs-10">
+              <input type="text" autocomplete="off" class="form-control input-lg" id="name" placeholder="昵称">
+              <p id="nm_prompt"></p>
+            </div>              
+            <div class="col-xs-2">
+              <span id="name_ok" class="" style="color:#00AA00;padding-top:12px;"></span>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <div class="col-xs-10 enter">
+              <input type="password" class="form-control input-lg" id="password" placeholder="新密码">
+              <p id="pw_prompt"></p>
+            </div>
+            <div class="col-xs-2">
+              <span id="password_ok" class="" style="color:#00AA00;padding-top:12px;"></span>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <div class="col-xs-10 enter">
+              <input type="password" class="form-control input-lg" id="cpassword" placeholder="确认密码">
+              <p id="cpw_prompt"></p>
+            </div>
+            <div class="col-xs-2">
+              <span id="cpassword_ok" class="" style="color:#00AA00;padding-top:12px;"></span>
+            </div>
+          </div>
+
+          <button id="register" class="btn btn-success btn-lg" style="white-space:pre;">           注册           </button>
+        </form>
+
+        <div class="modal" id="regInfo">
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h4 class="modal-title">确认信息</h4>
+              </div>
+              <div class="modal-body"></div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-primary" id="confirm">确定</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div><!-- second column -->
+
+      <div class="visible-xs col-xs-2" style="margin-bottom:50px;"></div>
+    </div><!-- second row -->
+
+    <div class="row" style="background-color:#FFFFFF;color:black">
+      <div class="col-xs-12" style="text-align:center; padding-top:20px;">
+          <h2>专为交大同学打造真实可靠的课程点评平台</h2>
+          <p style="margin-top:50px;">在这里你可以分享你的课程经历，<strong style="color:#332222;font-size:20px;">提升校园影响力</strong>；</p>
+          <p>在这里你可以查看各类课程信息，<strong style="color:#332222; font-size:20px;">全面了解课程</strong>。</p>
+          <p>最快捷的课程搜索！   最人性化的点评方式！</p>
+          <p>只为你！</p>
+          <p>加入我们，给SJTU留下点儿我们<strong style="color:#332222;font-size:20px;">专属的印记</strong>！</p>
+        </div><!-- first column -->
+    </div><!-- third row -->
+
+    <div class="row" style="background-color:#FFFFFF;color:black">
+      <div class="col-xs-12">
+          <p style="color:#AAAAAA;text-align:center;margin-top:40px;">&#169; 2013 CourseComment Group<br/>联系我们：coursecomment@groups.163.com</p>
+      </div>
+    </div><!-- fourth row -->
+
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="{% static 'js/jquery-1.10.2.min.js' %}"></script>
+    <script src="{% static 'js/jquery-migrate-1.2.1.min.js' %}"></script>
+    <script src="{% static 'js/bootstrap.min.js' %}"></script>
+    <script src="{% static 'js/myjquery.js' %}"></script>
+    <script src="{% static 'js/register.js' %}"></script>
+    <script src="{% static 'js/login.js' %}"></script>
+    <script type="text/javascript" src="http://widget.renren.com/js/rrshare.js"></script>
+    <script src="http://tjs.sjs.sinajs.cn/open/api/js/wb.js" type="text/javascript" charset="utf-8"></script>
+    <script type="text/javascript">
+      function shareClick() {
+        var rrShareParam = {
+          resourceUrl : 'http://sjtucourse.duapp.com',
+          srcUrl : 'http://sjtucourse.duapp.com',
+          pic : 'http://sjtucourse.duapp.com/static/img/logo_big.png',
+          title : '选课还看教评，你神经病啊？！！！！',
+          description : '选课还看教评？你OUT啦！sjtucourse.duapp.com——交大人专属的课程信息交流平台。在这里你可以快速查找大家对课程的评价，在这里你可以随意赞美吐槽曾经的课程！就在这个选课季，与所有交大人分享最真实可靠的课程信息！'
+        };
+        rrShareOnclick(rrShareParam);
+      }
+    </script>
+	</body>
+</html>

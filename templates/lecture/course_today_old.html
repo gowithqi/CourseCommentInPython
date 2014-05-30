@@ -1,0 +1,813 @@
+<!DOCTYPE html>
+{% load staticfiles %}
+{% load lecture_extras %}
+<html lang="en-CN">
+<head>
+	<meta charset="utf-8">
+	<meta name="author" content="jt">	
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>课程点评网</title>
+
+	<script src="{% static 'js/jquery-1.10.2.min.js' %}"></script>
+
+	<link href="{% static 'css/bootstrap.css' %}" rel="stylesheet">
+	<link href="{% static 'css/bootstrap-theme.css' %}" rel="stylesheet">
+	<link href="{% static 'img/icon.png' %}" rel="icon">
+    
+    <script src="{% static 'js/jquery-migrate-1.2.1.min.js' %}"></script>
+    <script src="{% static 'js/bootstrap.min.js' %}"></script>
+	<script src="{% static 'js/myjquery.js' %}"></script>
+
+
+	<style type="text/css">
+			#GoToTop{ 
+				position:fixed; 
+				bottom:230px; 
+				_position:absolute; 
+				_bottom:230px;
+				_top:expression(eval(document.documentElement.scrollTop+document.documentElement.clientHeight-this.offsetHeight-(parseInt(this.currentStyle.marginBottom,10)||230)));
+				width:100%; 
+				height:30px; 
+				line-height:30px; 
+			}
+			#GoToBottom{ 
+				position:fixed; 
+				bottom:200px; 
+				_position:absolute; 
+				_bottom:200px;
+				_top:expression(eval(document.documentElement.scrollTop+document.documentElement.clientHeight-this.offsetHeight-(parseInt(this.currentStyle.marginBottom,10)||200)));
+				width:100%; 
+				height:30px; 
+				line-height:30px; 
+			}
+
+
+			.shop-rating {
+			    height: 25px;
+			    overflow: hidden;
+			    zoom: 1;
+			    padding: 2px 0px;
+			    position: relative;
+			    z-index: 999;
+			}
+
+			.shop-rating span {
+			    height: 23px;
+			    display: block;
+			    line-height: 23px;
+			    float: left;
+			}
+
+			.shop-rating span.title {
+			    width: 125px;
+			    text-align: right;
+			    margin-right: 5px;
+			}
+
+			.shop-rating ul {
+			    float: left;
+				margin:0;padding:0
+			}
+
+			.shop-rating .result {
+			    margin-left: 20px;
+			    padding-top: 2px;
+			}
+
+			.shop-rating .result span {
+				color: #ff6d02;
+			}
+			.shop-rating .result em {
+			    color: #f60;
+			    font-family: arial;
+			    font-weight: bold;
+			}
+			.shop-rating .result strong {
+				color: #666666;
+				font-weight: normal;
+			}
+			.rating-level,
+			.rating-level a {
+			    background: url("{% static 'img/star.png' %}") no-repeat scroll 1000px 1000px;
+			}
+			.rating-level {
+			    background-position: 0px 0px;
+			    width: 120px;
+			    height: 23px;
+			    position: relative;
+			    z-index: 1000;
+			}
+			.rating-level li {
+			    display: inline;
+			}
+
+			.rating-level a {
+			    line-height: 23px;
+			    height: 23px;
+			    position: absolute;
+			    top: 0px;
+			    left: 0px;
+			    text-indent: -999em;
+			    *zoom: 1;
+			    outline: none;
+			}
+
+
+			.rating-level a.one-star {
+			    width: 20%;
+			    z-index: 6;
+			}
+
+			.rating-level a.two-stars {
+			width: 40%;
+			z-index: 5;
+			}
+
+			.rating-level a.three-stars {
+			    width: 60%;
+			    z-index: 4;
+			}
+
+			.rating-level a.four-stars {
+			    width: 80%;
+			    z-index: 3;
+			}
+
+			.rating-level a.five-stars {
+			    width: 100%;
+			    z-index: 2;
+			}
+
+			.rating-level .current-rating,.rating-level a:hover{background-position:0 -28px;}
+			.rating-level a.one-star:hover,.rating-level a.two-stars:hover,.rating-level a.one-star.current-rating,.rating-level a.two-stars.current-rating{background-position:0 -116px;}
+			.rating-level .three-stars .current-rating,.rating-level .four-stars .current-rating,.rating-level .five-stars .current-rating{background-position:0 -28px;}
+	</style>
+</head>
+
+<body>
+{% csrf_token %}
+<div  id="top"></div>
+<div id="GoToTop"><div style="text-align:right;margin-right:40px;"><a href="#top"><span class="badge" style="background-color:#B8B8B8">返回顶部</span></a></div></div>
+<div id="GoToBottom"><div style="text-align:right;margin-right:40px;"><a href="#bottom"><span class="badge" style="background-color:#B8B8B8">添加点评</span></a></div></div>
+
+<div class="container">
+	<div class="row-fluid">
+		<div class="span12">
+
+			<!--顶部导航-->
+		    <nav class="navbar navbar-default navbar-fixed-top" style="width:84.5%;MARGIN-RIGHT: auto;MARGIN-LEFT: auto;TEXT-ALIGN: center;">
+		        <!-- Brand and toggle get grouped for better mobile display -->
+		        <div class="navbar-header">
+		          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navcol">
+		            <span class="icon-bar"></span>
+		            <span class="icon-bar"></span>
+		            <span class="icon-bar"></span>
+		          </button>
+		          <a class="navbar-brand" href="/">课程点评网</a>
+		        </div>
+		        <!-- Collect the nav links, forms, and other content for toggling -->
+		        <div class="collapse navbar-collapse" id="navcol">
+		          <form class="navbar-form navbar-left">
+		            <div class="form-group dropdown" style="width:400px;">
+		              <input type="text" class="form-control" id="search" autocomplete="off" placeholder="来这里找课！">
+		              <ul class="dropdown-menu" id="complete" style="width:100%;margin-top:-1px;text-align:left;"></ul>
+		            </div>
+		            <button type="submit" id="submit" class="btn btn-default">搜索</button>
+		          </form>
+		          <ul class="nav navbar-nav navbar-right">
+		            <li class="dropdown">
+		              <a href={% if u.messageofcommentsuper_set.all.count %}"#" class="dropdown-toggle" data-toggle="dropdown"{% else %}"/"{% endif %} style="white-space:pre;"><span class="glyphicon glyphicon-user"></span>  {{ u.name }} <span class="badge" style="background-color:#FF7744 ;">{% if u.messageofcommentsuper_set.all.count %}{{ u.messageofcommentsuper_set.all.count }}{% endif %}</span></a>
+		              {% if u.messageofcommentsuper_set.all.count %}
+		              <ul class="dropdown-menu">
+		                {% for message in u.messageofcommentsuper_set.all %}
+		                <li style="white-space:pre;"><a href="/userpage/checksupermessage/{{ message.id }}/">{{ message.lecture_comment.lecture.course.name }}  {{ message.lecture_comment.lecture.professor.name }}<br/>
+		                {{ message.lecture_comment.content|truncatechars:30 }}
+		                <p style="text-align:right;">有用 + ({{ message.super_added }})</p></a></li>
+		                <li class="divider"></li>
+		                {% endfor %}
+		                <li style="text-align:center;">共 {{u.messageofcommentsuper_set.all.count}} 条</li>
+		              </ul>
+		              {% endif %}
+		            </li>
+		            <li><a href="/setpassword/">修改密码</a></li>
+		            <li><a href="/logout/">退出</a></li>
+		          </ul>
+		        </div>
+		    </nav>
+
+		      <!-- extra search -->
+		    <div class="modal fade" id="eSearch" tabindex="-1">
+		        <div class="modal-dialog">
+		          <div class="modal-content">
+		            <div class="modal-header">
+		              <h4 class="modal-title"></h4>
+		            </div>
+		            <div class="modal-body"></div>
+		            <div class="modal-footer">
+		              <button type="button" class="btn btn-primary" data-dismiss="modal">确定</button>
+		            </div>
+		          </div><!-- /.modal-content -->
+		        </div><!-- /.modal-dialog -->
+		    </div><!-- /.modal -->
+
+ 			<br/><br/><br/>
+			<div style="background-color:#F5F5F5;border: 1px solid #F5F5F5;border-radius: 6px;">
+				<h1 style="font-weight:bold;">&nbsp;&nbsp;{{ course.name }}</h1>
+				<dl class="dl-horizontal">
+					<dt style="font-weight:normal;">课号</dt><dd style="font-weight:bold;">{{ course.number }}</dd>
+					<dt style="font-weight:normal;">开设学院</dt><dd style="font-weight:bold;">{{ course.school }}</dd>
+					<dt style="font-weight:normal;">学分</dt><dd style="font-weight:bold;">{{ course.credit }}</dd>
+				</dl>
+			</div>
+			<br/>
+
+			<div>
+				<!--tab列表的顶端当行部分,active为当前显示的tab -->
+				<ul class="nav nav-tabs" id="tabs">
+					{% for l in lectures %}
+						<li class="{% ifequal l.id focus_lecture_id %} active {% endifequal %}">
+							<a data-toggle="tab" href="#{{ l.professor.id }}">{{ l.professor.name }} <span class="badge" style="background-color:#5599FF">{{ l.level|floatformat:1 }}</span></a>
+						</li>
+					{% endfor %}
+				</ul>
+				<!--每个tab的具体内容 -->
+				<div class="tab-content">
+					{% for l in lectures %}
+				  	<div class="tab-pane fade {% ifequal l.id focus_lecture_id %}in active{% endifequal %}" id="{{ l.professor.id }}">
+				  		<div class="container">
+				  			<br/>
+				  			<!--老师的得分和用户的评分 -->
+							<div  class="container">
+								<div class="row" style="background-color:#F5F5F5;border: 1px solid #F5F5F5;border-radius: 6px;">
+									<div class="col-lg-2">	
+										<p style="text-align:right;"><br/>课程基本信息</p>
+										<p style="text-align:right; font-weight:bold;">平均期末总评:&nbsp;{{ l.student_score|floatformat:2 }}</p>
+										<p style="text-align:right; font-weight:bold;">评价:&nbsp;{{ l.level|floatformat:1 }}</p>
+										<p><br/></p>
+										<p style="text-align:right;">已有{{ l.level_number }}人评价</p>
+									</div>
+									<div class="col-lg-4">
+										<p><br/>分享您的得分和评分</p>
+										<form>
+											<input class="form-inline rs_content" type="text" style="width:70px" placeholder="期末总评"> 
+											<input class="l_id" type="hidden" value="{{ l.id }}">
+											<button type="button" class="btn btn-primary btn-sm rs_submit">提交</button>
+										</form>
+										<div class="shop-rating">
+											<ul class="rating-level" id="stars{{ l.id }}">
+												<li><a class="one-star" star:value="1" address="{{ l.id }}" href="#">1</a></li>
+												<li><a class="two-stars" star:value="2" address="{{ l.id }}" href="#">2</a></li>
+												<li><a class="three-stars" star:value="3" address="{{ l.id }}" href="#">3</a></li>
+												<li><a class="four-stars" star:value="4" address="{{ l.id }}" href="#">4</a></li>
+												<li><a class="five-stars" star:value="5" address="{{ l.id }}" href="#">5</a></li>
+											</ul>
+											<span class="result" id="stars{{ l.id }}-tips"></span>
+											<input type="hidden" id="stars{{ l.id }}-input" name="a" value="" size="2" />
+										</div>
+										<div class="progress" style="width: 120px">
+										  <div class="progress-bar progress-bar-danger" style="width: 20%;"></div>
+										  <div class="progress-bar progress-bar-warning" style="width: 20%;"></div>
+										  <div class="progress-bar progress-bar-info" style="width: 20%;"></div>
+										  <div class="progress-bar " style="width: 20%;"></div>
+										  <div class="progress-bar progress-bar-success" style="width: 20%;"></div>
+										</div>
+										<div class="progress">
+										  <div class="progress-bar progress-bar-danger" style="width: {{ l.level_1_number|div:l.level_number }}%;"></div>
+										  <div class="progress-bar progress-bar-warning" style="width: {{ l.level_2_number|div:l.level_number }}%;"></div>
+										  <div class="progress-bar progress-bar-info" style="width: {{ l.level_3_number|div:l.level_number }}%;"></div>
+										  <div class="progress-bar " style="width: {{ l.level_4_number|div:l.level_number }}%;"></div>
+										  <div class="progress-bar progress-bar-success" style="width: {{ l.level_5_number|div:l.level_number }}%;"></div>
+										</div>
+									</div>
+									<div class="col-lg-6" style="text-align:left;">
+										<p><br/>想持续关注这门课,可以把它加入您的收藏栏</p>
+										<input class="l_id" type="hidden" value="{{ l.id }}">
+										<button type="button" class="btn btn-success btn-lg" onclick="collect(this)">{% if l.id in lecture_collection %}取消收藏{% else %}收藏{% endif %}</button>
+									</div>
+								</div>
+							</div>
+				 			
+							<br/>
+							<!-- 点评和吐槽墙 -->
+							<div class="row">
+								<div class="col-lg-2" style="text-align:right;"> 
+									<ul class="nav nav-pills nav-stacked" style="max-width: 150px;">
+										<!--如果觉得底色太深可把以下两个li标签中的全部颜色代码都换成#F5F5F5-->
+										<li class="active success" style="background-color:#DCDCFA;border: 0px solid #DCDCFA;border-radius: 6px;">
+											<a data-toggle="tab" data-toggle="tooltip" href="#{{ l.professor.id }}_Comment_Page"  data-placement="right" title="这里都是正儿八经的课评哦~"><h4><strong>点评</strong></h4><p>这儿得是有节操的</p></a>
+										</li>
+										<li style="background-color:#DCDCFA;border: 0px solid #DCDCFA;border-radius: 6px;">
+											<a data-toggle="tab" data-toggle="tooltip" href="#{{ l.professor.id }}_Wall_Page" data-placement="right" title="听说吐槽也是一门学问= ="><h4><strong>吐槽</strong></h4><p>没节操的在这儿</p></a>
+										</li>
+									</ul>
+								</div>
+								<!--每个tab的具体内容 -->
+								<div class="col-lg-10"> 
+								   <div class="tab-content">
+
+								  	<div class="tab-pane fade in active" id="{{ l.professor.id }}_Comment_Page">
+								  		<legend>点评</legend>
+										<div class="container">
+											<div class="row">
+												<div class="col-lg-9">
+													<table class="table table-striped">
+														<thead></thead>
+														<tbody>
+															{% with comments=l.lecturecomment_set.all %}
+															{% for comment in comments %}
+															<tr>
+																<th>
+																	<p>{{ comment.user.name }}</p>
+																	<br/>
+																	<span class="badge" style="background-color:#DEB887">{{ comment.user.influence_factor }}</span>
+																</th>
+																<th>
+																	<p style="word-break:break-all;">{{ comment.content }}</p>
+																	<p style="text-align:right;">{{ comment.time|formatTime }}</p>
+																</th>
+																<th style="width:50px">
+																	<p style="text-align:right;"><span class="badge" style="background-color:#0066FF;" id="comment_{{ comment.id }}">{{ comment.super_number }}</span></p>
+																	<input class="comment_id" type="hidden" value="{{ comment.id }}">
+																	<p onclick="comment_good(this)" style="text-decoration:underline; cursor:pointer; color:#0066FF;text-align:right" class="good">{% if comment.id in comment_super_list %}取消{% else %}有用{% endif %}</p>
+																</th>
+															</tr>
+															{% empty %}
+															<p>暂时还没有点评</p>
+															{% endfor %}
+															{% endwith %}
+														</tbody>
+													</table>
+												</div>
+												<div class="col-lg-3"></div>
+											</div>
+										</div>
+										<legend></legend>
+										<!--提交点评 -->
+										<form>
+											<fieldset>
+												  <label>添加点评</label> <br/> 
+												  <textarea class="form-control comment_content" rows="3" style="width:60%" placeholder="您正在给{{ l.professor.name }}老师的课添加点评"></textarea>
+												  <input class="l_id" type="hidden" value="{{ l.id }}">
+												  <div class="row">
+													<div class="col-lg-6">
+														请不要超过300字
+													</div>
+													<div class="col-lg-6">
+														<br/>
+												  		<button type="button" class="btn btn-primary btn-sm comment_submit">提交点评</button>
+												  	</div>
+												  </div>
+											</fieldset>
+										</form>
+								  	</div>
+
+								  	<div class="tab-pane fade" id="{{ l.professor.id }}_Wall_Page">
+								  		<legend>槽= =</legend>
+										<div class="container">
+											<div class="row">
+												<div class="col-lg-9">
+													<table class="table table-striped">
+														<thead></thead>
+														<tbody>
+															{% with gossips=l.gossip_set.all %}
+															{% for g in gossips %}
+															<tr>
+																<th style="width:80px">
+																	<p>有人说：</p>
+																</th>
+																<th style="width:500px">
+																	<p style="word-break:break-all;">{{ g.content }}</p>
+																	<p style="text-align:right;">{{ g.time|formatTime }}</p>
+																</th>
+																<th style="width:100px">
+																	<p style="text-align:right;"><span class="badge" style="background-color:#0066FF;" id="gossip_{{ g.id }}">{{ g.super_number }}</span></p>
+																	<input class="gossip_id" type="hidden" value="{{ g.id }}">
+																	<p onclick="gossip_good(this)" style="text-decoration:underline; cursor:pointer; color:#0066FF; margin-left:20px; text-align:right;" class="good">{% if g.id in gossip_super_list %}取消{% else %}点赞{% endif %}</p>
+																</th>
+															</tr>
+															{% empty %}
+															<p>暂时还没有吐槽</p>
+															{% endfor %}
+															{% endwith %}
+														</tbody>
+													</table>
+												</div>
+												<div class="col-lg-3"></div>
+											</div>
+										</div>
+										<legend></legend>
+										<!--提交吐槽 -->
+										<form>
+											<fieldset>
+												  <label>吐多一个槽</label> <br/> 
+												  <textarea class="form-control wall_content" rows="3" style="width:60%" placeholder="您正在吐槽{{ l.professor.name }}老师的课"></textarea>
+												  <input class="l_id" type="hidden" value="{{ l.id }}">
+												  <div class="row">
+													<div class="col-lg-6">
+														请不要超过300字
+													</div>
+													<div class="col-lg-6">
+														<br/>
+												  		<button type="button" class="btn btn-primary btn-sm wall_submit">提交吐槽</button>
+												  	</div>
+												  </div>
+											</fieldset>
+										</form>
+								  	</div>
+
+								   </div>
+								</div>
+							</div>
+						</div>
+					</div>
+					{% endfor %}
+				</div>
+			</div>
+
+			<!--CopyRight-->
+			<div>
+				<br/><br/>
+				<p style="width:84.5%;MARGIN-RIGHT: auto;MARGIN-LEFT: auto;TEXT-ALIGN: center;color:#AAAAAA">&#169;2013 CourseComment Group  联系我们:coursecomment@groups.163.com</p>
+			</div>
+
+			<div id="bottom">
+				<input type="hidden" value="bottom">
+			</div>
+
+			<!--信息确认的弹出对话框-->
+			<div class="modal fade" id="confirm" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+			  <div class="modal-dialog">
+			    <div class="modal-content">
+			      <div class="modal-header">
+			        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+			        <h4 class="modal-title" id="myModalLabel" style="color:#0066FF">成功</h4>
+			      </div>
+			      <div class="modal-body" id="confirm_content">
+			        ...
+			      </div>
+			      <div class="modal-footer">
+			        <button type="button" class="btn btn-primary" id="confirm_ok" data-dismiss="modal" address="no_jump">OK</button>
+			      </div>
+			    </div><!-- /.modal-content -->
+			  </div><!-- /.modal-dialog -->
+			</div><!-- /.modal -->
+
+			<!--信息出错的弹出对话框-->
+			<div class="modal fade" id="failed" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+			  <div class="modal-dialog">
+			    <div class="modal-content">
+			      <div class="modal-header">
+			        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+			        <h4 class="modal-title" id="FailedLabel" style="color:red">出错了</h4>
+			      </div>
+			      <div class="modal-body" id="failed_content">
+			        ...
+			      </div>
+			      <div class="modal-footer">
+			        <button type="button" class="btn btn-danger" id="failed_ok" data-dismiss="modal">OK</button>
+			      </div>
+			    </div><!-- /.modal-content -->
+			  </div><!-- /.modal-dialog -->
+			</div><!-- /.modal -->
+
+
+
+<!-- ---------------------------以下为js代码------------------------------------------------ -->
+			<script src="{% static 'js/search.js' %}"></script>
+
+			<script>	//test
+				function display_alert()
+				  {
+				  alert("I am an alert box!!")
+				  }
+			</script>
+
+			<script>
+				$("#confirm_ok").click(function(){
+					if (this.getAttribute("address")!="no_jump")
+					{
+						window.location.replace(this.getAttribute("address"));
+					}
+				});
+			</script>
+
+			<script type="text/javascript">
+				var Class = {
+					create: function() {
+						return function() { this.initialize.apply(this, arguments); }
+					}
+				}
+				var Extend = function(destination, source) {
+					for (var property in source) {
+						destination[property] = source[property];
+					}
+				}
+				function stopDefault( e ) {
+					 if ( e && e.preventDefault ){
+						e.preventDefault();
+					}else{
+						window.event.returnValue = false;
+					}
+					return false;
+				} 
+				function submit_rl(value, address)
+				  {
+				  	value = value+1;
+				  	if ((0<=value)&&(value<=5))
+					    {
+							  $.post("/lecture/recordlevel/" + address + "/",
+							  {
+							    level:String(value)
+							  },
+							  function(status){
+							  	if (status=="yes")
+							  	{
+							  		$('#confirm_content').html("您的评分为" + String(value) + "分，我们已经记录。谢谢！");
+							  		$('#confirm').modal('toggle');
+							  		$('#confirm_ok').attr('address','http://sjtucourse.duapp.com/lecture/'+address+'/');
+							  	}
+							  	else{
+									  $('#failed_content').html(status);
+									  $('#failed').modal('toggle');
+								}
+							  });
+					    }
+				  }
+
+				var Stars = Class.create();
+				Stars.prototype = {
+					initialize: function(star,options) {
+						this.SetOptions(options); 
+						var flag = 999; 
+						var isIE = (document.all) ? true : false; 
+						var starlist = document.getElementById(star).getElementsByTagName('a'); 
+						var input = document.getElementById(this.options.Input) || document.getElementById(star+"-input"); 
+						var tips = document.getElementById(this.options.Tips) || document.getElementById(star+"-tips");
+						var nowClass = " " + this.options.nowClass; 
+						var tipsTxt = this.options.tipsTxt; 
+						var len = starlist.length; 
+						
+
+						for(i=0;i<len;i++){
+							starlist[i].value = i;
+							starlist[i].onclick = function(e){
+								stopDefault(e);
+								this.className = this.className + nowClass;
+								flag = this.value;
+								input.value = this.getAttribute("star:value");
+								tips.innerHTML = tipsTxt[this.value];
+								submit_rl(this.value,this.getAttribute("address"));
+							}
+							starlist[i].onmouseover = function(){
+								if (flag< 999){
+									var reg = RegExp(nowClass,"g");
+									starlist[flag].className = starlist[flag].className.replace(reg,"")
+								}
+								tips.innerHTML = tipsTxt[this.value];
+							}
+							starlist[i].onmouseout = function(){
+								if (flag< 999){
+									starlist[flag].className = starlist[flag].className + nowClass;
+								}
+								else{
+									tips.innerHTML = "";
+								}
+							}
+						};
+						if (isIE){
+							var li = document.getElementById(star).getElementsByTagName('li');
+							for (var i = 0, len = li.length; i < len; i++) {
+								var c = li[i];
+								if (c) {
+									c.className = c.getElementsByTagName('a')[0].className;
+								}
+							}
+						}
+					},
+
+					SetOptions: function(options) {
+						this.options = {
+							Input:			"",
+							Tips:			"",
+							nowClass:		"current-rating",
+							tipsTxt:		["很差","一般","还行","推荐","力荐"]
+						};
+						Extend(this.options, options || {});
+					}
+				}
+				{% for l in lectures %}
+					var Stars{{ l.id }} = new Stars("stars{{ l.id }}");
+				{% endfor %}
+			</script>
+
+			<script>	//ajax-post-recordscore_submit
+				$(".rs_submit").click(function(){
+					  var x = $(this).parent().children("input.rs_content");
+					  var y = $(this).parent().children("input.l_id");
+					  var tmp = parseInt(x.val());
+					  if ((0<=tmp)&&(tmp<=100))
+					    {
+							  $.post("/lecture/recordscore/"+y.val()+"/",
+							  {
+							    score:x.val()
+							  },
+							  function(status){
+							  	if (status=="yes")
+							  	{
+							  		$('#confirm_content').html("您的期末得分为" + x.val() + "分，我们已经记录。谢谢！");
+							  		$('#confirm').modal('toggle');
+							  		$('#confirm_ok').attr('address','http://sjtucourse.duapp.com/lecture/'+ y.val() +'/');
+							  	}
+							  });
+					    }
+					    else {
+					    	  $('#failed_content').html("抱歉，请输入一个0-100之间的数字");
+					          $('#failed').modal('toggle');
+					    }
+				});
+			</script>
+
+			<script>	//收藏按钮
+				function collect(id){
+					  var y = $(id).parent().children("input.l_id");
+					  var tmp = id.innerHTML;
+					  if (tmp == "收藏")
+					    {
+					    	  id.innerHTML = "取消收藏";
+							  $.get("/userpage/collect/lecture/"+y.val()+"/",function(status){
+								if (status == "yes"){
+								  $('#confirm_content').html("收藏成功！");
+						  		  $('#confirm').modal('toggle');
+						  		  $('#confirm_ok').attr('address','no_jump');
+								}
+								else{
+								  $('#failed_content').html(status);
+						  		  $('#failed').modal('toggle');
+								}
+							  }); 
+					    }
+					    else {
+					    	  id.innerHTML = "收藏";
+					    	  $.get("/userpage/decollect/lecture/"+y.val()+"/",function(status){
+								if (status == "yes"){
+								  $('#confirm_content').html("取消成功！");
+						  		  $('#confirm').modal('toggle');
+						  		  $('#confirm_ok').attr('address','no_jump');
+								}
+								else{
+								  $('#failed_content').html(status);
+						  		  $('#failed').modal('toggle');
+								}
+							  }); 
+					    };
+				}
+			</script>
+
+			<script>	//点评点有用部分的js
+				function comment_good(id)
+				{
+					var x = id.innerHTML;	//检测当前是否已经点过有用
+					var y = $(id).parent().children("input.comment_id");
+					var ss = "comment_"+y.val();
+					var z = document.getElementById(ss);
+					var num = parseInt(z.innerHTML);
+					if (x == "有用")
+					{
+						x = "取消";
+						id.innerHTML = x;
+						num = num + 1;
+						z.innerHTML = String(num);
+						$.get("/comment/super/"+y.val()+"/",function(status){
+							if (status!="yes") alert(status);
+						});
+
+					}
+					else
+					{
+						x = "有用";
+						id.innerHTML = x;
+						num = num - 1;
+						z.innerHTML = String(num);
+						$.get("/comment/desuper/"+y.val()+"/",function(status){
+							if (status!="yes") alert(status);
+						});
+					}
+				}
+			</script>
+
+			<script>	//吐槽点赞部分的js
+				function gossip_good(id)
+				{
+					var x = id.innerHTML;	//检测当前是否已经赞过
+					var y = $(id).parent().children("input.gossip_id");
+					var ss = "gossip_"+y.val();
+					var z = document.getElementById(ss);
+					var num = parseInt(z.innerHTML);
+					if (x == "点赞")
+					{
+						x = "取消";
+						id.innerHTML = x;
+						num = num + 1;
+						z.innerHTML = String(num);
+						$.get("/gossip/super/"+y.val()+"/",function(status){
+							if (status!="yes") alert(status);
+						});
+
+					}
+					else
+					{
+						x = "点赞";
+						id.innerHTML = x;
+						num = num - 1;
+						z.innerHTML = String(num);
+						$.get("/gossip/desuper/"+y.val()+"/",function(status){
+							if (status!="yes") alert(status);
+						});
+					}
+				}
+			</script>
+
+			<script>	//点评submit
+				$(".comment_submit").click(function(){
+				  var x = $(this).parent().parent().parent().children("textarea.comment_content");
+				  var y = $(this).parent().parent().parent().children("input.l_id");
+				  if ((x.val().length<300) && (x.val().length>0))
+				  {
+					  $.post("/comment/lecture/"+y.val()+"/",
+					  {
+					    content:x.val()
+					  },
+					  function(status){
+					  	if (status=="yes")
+					  	{
+					  		$('#confirm_content').html("您的点评已经提交成功，查看请刷新页面。");
+					  		$('#confirm').modal('toggle');
+					  		$('#confirm_ok').attr('address','http://sjtucourse.duapp.com/lecture/'+ y.val() +'/');
+					  	}
+					  	else
+					  	{
+					  		$('#failed_content').html(status);
+					  		$('#failed').modal('toggle');
+					  	}
+					  });
+				  }
+				  else {
+		  			  if (x.val().length>300)
+		  			  	{
+		  			  		$('#failed_content').html("请不要超过300字");
+		  			  	}
+		  			  else
+		  			    {
+		  			    	$('#failed_content').html("请填写点评");
+		  			    }
+			          $('#failed').modal('toggle');
+				  }
+				});
+			</script>
+
+			<script>	//吐槽submit
+				$(".wall_submit").click(function(){
+				  var x = $(this).parent().parent().parent().children("textarea.wall_content");
+				  var y = $(this).parent().parent().parent().children("input.l_id");
+				  if ((x.val().length<300) && (x.val().length>0))
+				  {
+					  $.post("/gossip/record/",
+					  {
+					    content:x.val(),
+					    lecture_id:y.val()
+					  },
+					  function(status){
+					  	if (status=="yes")
+					  	{
+					  		$('#confirm_content').html("您的吐槽已经提交成功，查看请刷新页面。");
+					  		$('#confirm').modal('toggle');
+					  		$('#confirm_ok').attr('address','http://sjtucourse.duapp.com/lecture/'+ y.val() +'/');
+					  	}
+					  	else
+					  	{
+					  		$('#failed_content').html(status);
+					  		$('#failed').modal('toggle');
+					  	}
+					  });
+				  }
+				  else {
+		  			  if (x.val().length>300)
+		  			  	{
+		  			  		$('#failed_content').html("请不要超过300字");
+		  			  	}
+		  			  else
+		  			    {
+		  			    	$('#failed_content').html("请填写吐槽");
+		  			    }
+			          $('#failed').modal('toggle');
+				  }
+				});
+			</script>	
+<!-- ---------------------------以上为js代码------------------------------------------------ -->
+
+
+		</div>
+	</div>
+</div>
+</body>
+</html>

@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+{% load staticfiles %}
+<html lang="en-CN">
+<head>
+	 <meta charset="utf-8">
+	 <meta name="author" content="jt">	
+
+	 <title>课程点评网</title>
+		
+	<link href="{% static 'css/bootstrap.css' %}" rel="stylesheet">
+	<link href="{% static 'css/bootstrap-theme.css' %}" rel="stylesheet">
+	  
+	<script type="text/javascript" src="{% static 'js/bootstrap.js' %}"></script>
+	<script type="text/javascript" src="{% static 'js/bootstrap.min.js' %}"></script>
+	<script type="text/javascript" src="{% static 'js/jquery-1.10.2.min.js' %}"></script>
+</head>
+
+<body>
+{% csrf_token %}
+<div class="container">
+	<div class="row-fluid">
+		<div class="span12">
+
+			<!--顶部导航-->
+			<ul class="breadcrumb">
+				<li>
+					<a id="home" style="cursor:pointer">Home</a> 
+				</li>
+				<li  style="margin-right:77%;"> <!--用户设置放到右边，用margin实现-->
+					<a id="wall" style="cursor:pointer">Wall</a> 
+			    </li>
+                <li>
+					<a id="mysetting" style="cursor:pointer">MySetting</a> 
+				</li>
+                <li>
+					<a id="logout" style="cursor:pointer">LogOut</a> 
+				</li>
+			</ul>
+
+			<!--课程介绍与搜索，分列实现-->
+			<div class="row">
+				<div class="col-sm-8"> <!--课程介绍部分，占分列的8/12 -->
+					<div>
+						<h1>
+							Course Name&nbsp;&nbsp;&nbsp;&nbsp;
+							<a class="btn btn-primary btn-sm" href="#">Study method</a>
+						</h1>
+						<p>
+							&nbsp;&nbsp;&nbsp;&nbsp;Course ID<br />
+							&nbsp;&nbsp;&nbsp;&nbsp;School<br />
+							&nbsp;&nbsp;&nbsp;&nbsp;Common Course Y/N
+						</p>
+						<p>
+							<br />
+						</p>
+					</div>
+				</div>
+				<div class="col-md-4"> <!--搜索部分，占分列的4/12 -->
+					<form class="form-search form-inline" id="search">
+						<div class='row'>
+							<div class="col-sm-8" style="text-align:right">
+								<input class="form-control" type="text" placeholder="search" id="search_content">
+								<!--待添加搜索补全功能 -->
+							</div>
+							<div class="col-sm-4">
+								<button type="button" class="btn btn-primary" id="search_submit">Search</button>
+							</div>
+						</div>
+					</form>
+				</div>
+			</div>
+
+			<!--教师部分,用tab实现,每个教师占一个tab -->
+			<div>
+				<!--tab列表的顶端当行部分,active为当前显示的tab -->
+				<ul class="nav nav-tabs" id="tabs">
+					<li class="active">
+						<a data-toggle="tab" href="#">Teacher-A</a>
+					</li>
+					<li>
+						<a data-toggle="tab" href="#">Teacher-B</a>
+					</li>
+				</ul>
+				<!--每个tab的具体内容 -->
+				<div class="tab-content">
+
+				  	<div class="tab-pane active">
+				  		<div class="container">
+				  			<!--老师的得分和用户的评分 -->
+							<form>
+								&nbsp;&nbsp;&nbsp;&nbsp;average score of teach-A:&nbsp;90 &nbsp;&nbsp;
+								<input class="form-inline" type="text" style="width:5%" placeholder="score" id="rs_content"> 
+								<button type="button" class="btn btn-primary btn-sm" id="rs_submit">Submit</button>
+								<br/><br/>
+							</form>
+							<form>	
+								&nbsp;&nbsp;&nbsp;&nbsp;average score of the final:&nbsp;83 &nbsp;&nbsp;
+								<input class="form-inline" type="text" style="width:5%" placeholder="score" id="rl_content"> 
+								<button type="button" class="btn btn-primary btn-sm" id="rl_submit">Submit</button><br/>
+							</form>
+							<br/>
+							<!--评论列表 -->
+							<legend>Comment</legend>
+							<div class="container">
+								<div class="media-body">
+									<h4 class="media-heading">
+										JiangTong
+									</h4>
+									<p> &nbsp;&nbsp;I don't think that teach-A is very good. He failed me though I had tried my best. </p>
+									<!--点赞 -->
+									<p onclick="good(this)" style="text-decoration:underline; cursor:pointer; color:blue" class="good">Good</p>
+									<p><br/></p>
+								</div>
+								<div class="media-body">
+									<h4 class="media-heading">
+										JiangXiaoTong
+									</h4>
+									<p> &nbsp;&nbsp;I think that teach-A is very good. He did not fail me though I never finished my homework. </p>
+									<p onclick="good(this)" style="text-decoration:underline; cursor:pointer; color:blue" class="good">Good</p>
+									<br/>
+								</div>
+							</div>
+							<legend></legend>
+							<!--提交评论 -->
+							<form id="comment">
+								<fieldset>
+									  <label>Add Your Comment</label> <br/> 
+									  <textarea class="form-control" rows="3" style="width:60%" id="comment_content"></textarea>
+									  <div class="row">
+										<div class="col-sm-6"></div>
+										<div class="col-sm-6">
+									  		<button type="button" class="btn btn-primary btn-sm" id="comment_submit">Submit</button>
+									  	</div>
+									  </div>
+								</fieldset>
+							</form>
+						</div>
+				  	</div>
+
+				  	<div class="tab-pane">
+				  		<div class="container">
+							<form>
+								&nbsp;&nbsp;&nbsp;&nbsp;average score of teach-B:&nbsp;60 &nbsp;&nbsp;
+								<input class="form-inline" type="text" style="width:5%" placeholder="score" id="rs_content"> 
+								<button type="button" class="btn btn-primary btn-sm" id="rs_submit">Submit</button>
+								<br/><br/>
+							</form>
+							<form>	
+								&nbsp;&nbsp;&nbsp;&nbsp;average score of the final:&nbsp;73 &nbsp;&nbsp;
+								<input class="form-inline" type="text" style="width:5%" placeholder="score" id="rl_content"> 
+								<button type="button" class="btn btn-primary btn-sm" id="rl_submit">Submit</button><br/>
+							</form>
+							<br/>
+							<legend>Comment</legend>
+							<div class="container">
+								<div class="media-body">
+									<h4 class="media-heading">
+										JiangDaTong
+									</h4>
+									<p> &nbsp;&nbsp;I don't think that teach-A is very good. He failed me though I had tried my best. </p>
+									<p onclick="good(this)" style="text-decoration:underline; cursor:pointer; color:blue" class="good">Good</p>
+									<p><br/></p>
+								</div>
+								<div class="media-body">
+									<h4 class="media-heading">
+										JiangMidTong
+									</h4>
+									<p> &nbsp;&nbsp;I think that teach-A is very good. He did not fail me though I never finished my homework. </p>
+									<p onclick="good(this)" style="text-decoration:underline; cursor:pointer; color:blue" class="good">Good</p>
+									<br/>
+								</div>
+							</div>
+							<legend></legend>
+							<form id="comment">
+								<fieldset>
+									  <label>Add Your Comment</label> <br/> 
+									  <textarea class="form-control" rows="3" style="width:60%" id="comment_content"></textarea>
+									  <div class="row">
+										<div class="col-sm-6"></div>
+										<div class="col-sm-6">
+									  		<button type="button" class="btn btn-primary btn-sm" id="comment_submit">Submit</button>
+									  	</div>
+									  </div>
+								</fieldset>
+							</form>
+						</div>
+				  	</div>
+
+				</div>
+			</div>
+
+			<!--网页末尾显示访问时间-->
+			<script>
+				document.write(Date());
+			</script>
+
+
+<!-- ---------------------------以下为js代码------------------------------------------------ -->
+			<script src="{% static 'js/csrftoken.js' %}"></script>
+		    <script>
+		      $(document).ready(function(){
+		        $.csrftoken();
+		      });
+		    </script>
+
+			<script>	//控制tab的js
+				//当tab列表中某个<a>被点击时执行
+				$("#tabs a").click(function(e){
+				     e.preventDefault();
+				     var x=$(this).parent().parent().next().children(),
+				      y=$(this).parent().index();
+				     //x记录tab-panel的集合
+				     //y记录tab中<li>的集合
+				     //通过修改某个tab的属性为active来选中这个tab
+				     //当前只支持有两个tab
+				     $(this).parent().attr("class","active");
+				     $(this).parent().parent().children().eq(1-y).attr("class","");
+				     x.eq(y).attr("class","tab-pane fade in active");
+				     x.eq(1-y).attr("class","tab-pane fade in");
+				    });
+			</script>
+
+			<script>	//ajax-get-logout
+			$(document).ready(function(){			  
+			  $("#logout").click(function(){
+			    $.get("/logout/",function(){
+			    });
+			  });
+			});
+			</script>
+
+			<script>	//ajax-get-home
+			$(document).ready(function(){			  
+			  $("#home").click(function(){
+			    $.get("/",function(){
+			    });
+			  });
+			});
+			</script>
+
+			<script>	//ajax-post-search_submit
+				$("#search_submit").click(function(){
+				  $.post("/search/lecture/",
+				  {
+				    content:$("#search_content").val()
+				  },
+				  function(data,status){
+				  });
+				});
+			</script>
+
+			<script>	//ajax-post-recordscore_submit
+				$("#rs_submit").click(function(){
+				  $.post("/lecture/recordscore/1/",
+				  {
+				    score:$("#rs_content").val()
+				  },
+				  function(data,status){
+				  });
+				});
+			</script>
+
+			<script>	//ajax-post-recordlevel_submit
+				$("#rl_submit").click(function(){
+				  $.post("/lecture/recordlevel/1/",
+				  {
+				    level:$("#rl_content").val()
+				  },
+				  function(data,status){
+				  });
+				});
+			</script>
+
+			<script>	//点赞部分的js，包括ajax-get和good-cancel转换
+				function good(id)
+				{
+					var x = id.innerHTML;	//检测当前是否已经赞过
+					if (x == "Good")
+					{
+						x = "Cancel";
+						id.innerHTML = x;
+						$.get("/comment/super/3/",function(){});
+
+					}
+					else
+					{
+						x = "Good";
+						id.innerHTML = x;
+						$.get("/comment/desuper/3/",function(){});
+					}
+				}
+			</script>
+
+			<script>	//ajax-post-comment_submit
+				$("#comment_submit").click(function(){
+				  $.post("/comment/lecture/1/",
+				  {
+				    content:$("#comment_content").val()
+				  },
+				  function(data,status){
+				  });
+				});
+			</script>		
+
+
+		</div>
+	</div>
+</div>
+</body>
+</html>
